@@ -5,20 +5,25 @@ final class AdminMenu
 {
     public function topLevelMenu()
     {
-        $this->appMenuItem();
+        $this->mainMenuItem();
     }
 
-    private function appMenuItem()
+    public function mainMenuItem()
     {
         add_menu_page(
-            __( 'Custom Menu Title', 'textdomain' ),
-            'custom menu',
+            'Metagauss',
+            'Metagauss',
             'manage_options',
-            'myplugin/myplugin-admin.php',
-            '',
-            plugins_url( 'myplugin/images/icon.png' ),
+            'metagauss-slug',
+            array($this, 'appMenuPage'),
+            'dashicons-superhero',
             6
         );
+    }
+
+    public function appMenuPage()
+    {
+        include_once(plugin_dir_path(__FILE__) . 'pages/app.php');
     }
 
     public function __construct()
