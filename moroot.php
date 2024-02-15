@@ -4,19 +4,19 @@ namespace MetagaussOpenAI;
 
 class MoRoot
 {
-    protected $config;
+    public $config;
 
     protected function setConfig()
     {
-        $this->config = \MetagaussOpenAI\Config::getInstance();
+        $this->config = MoConfig::getInstance();
     }
 
     protected function setAll()
     {
         foreach ($this as $prop => $value) {
-            $method = str_replace('-', '', $prop);
+            $method = 'set' . str_replace('_', '', $prop);
             if (method_exists($this, $method)) {
-                $this->$method($value);
+                $this->$method();
             }
         }
     }
@@ -24,5 +24,6 @@ class MoRoot
     public function __construct()
     {
         $this->setAll();
+        
     }
 }

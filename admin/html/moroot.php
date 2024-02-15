@@ -4,5 +4,8 @@ namespace MetagaussOpenAI\Admin\Html;
 
 class MoRoot extends \MetagaussOpenAI\Admin\MoRoot
 {
-    
+    public function getHtml()
+    {
+        
+    }
 }

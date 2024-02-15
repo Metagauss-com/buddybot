@@ -1,7 +1,7 @@
 <?php
 namespace MetagaussOpenAI\Admin;
 
-final class AdminMenu
+final class AdminMenu extends \MetagaussOpenAI\Admin\MoRoot
 {
     public function topLevelMenu()
     {
@@ -14,7 +14,7 @@ final class AdminMenu
             'Metagauss',
             'Metagauss',
             'manage_options',
-            'metagauss-slug',
+            'metagaussopenai-chatbot',
             array($this, 'appMenuPage'),
             'dashicons-superhero',
             6
@@ -23,7 +23,7 @@ final class AdminMenu
 
     public function appMenuPage()
     {
-        include_once(plugin_dir_path(__FILE__) . 'pages/app.php');
+        include_once(plugin_dir_path(__FILE__) . 'pages/chatbot.php');
     }
 
     public function __construct()
