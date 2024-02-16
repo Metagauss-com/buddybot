@@ -20,10 +20,12 @@ final class StyleSheets extends \MetagaussOpenAI\Admin\MoRoot
     {
         $bootstrap_css = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css';
         $bootstrap_js = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js';
+        $jquery_js = 'https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js';
         
         if ($this->isInternalPage()) {
             wp_enqueue_style($this->config::PREFIX . '-bootstrap-css', $bootstrap_css);
             wp_enqueue_script($this->config::PREFIX . '-bootstrap-js', $bootstrap_js);
+            wp_enqueue_script($this->config::PREFIX . '-jquery-js', $jquery_js);
         }
     }
 

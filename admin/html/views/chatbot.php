@@ -17,7 +17,9 @@ class ChatBot extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
        echo '</div>';
 
        echo '<div class="text-end">';
-       echo '<button type="button" class="btn btn-primary me-0">Primary</button>';
+       echo '<button type="button" class="btn btn-primary me-0">';
+       esc_html_e( 'Send', 'metagaussopenai');
+       echo '</button>';
        echo '</div>';
 
        echo '</div>';
