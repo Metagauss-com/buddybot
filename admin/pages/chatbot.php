@@ -1,4 +1,4 @@
-<div class="bg-light p-5">
+<div class="p-5">
 
 <?php
 $mo_chatbot_page = new \MetagaussOpenAI\Admin\Html\Views\ChatBot();
