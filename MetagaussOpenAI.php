@@ -41,6 +41,8 @@ if (is_admin()) {
     $admin_menu = new Admin\AdminMenu();
     $admin_stylesheets = new Admin\StyleSheets();
     $admin_responses = new Admin\Responses\ChatBot();
+    $admin_responses = new Admin\Responses\OrgFiles();
+    $admin_responses = new Admin\Responses\AddFile();
 }
 
 //----------Public Code--------//

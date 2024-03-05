@@ -18,6 +18,14 @@ final class MoConfig
         }
     }
 
+    public function getRootUrl() {
+        return  plugin_dir_url(__FILE__);
+    }    
+    
+    public function getRootPath() {
+        return  plugin_dir_path(__FILE__);
+    }
+
     public static function getInstance()
     {
         if (self::$instance == null)
