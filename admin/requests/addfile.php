@@ -18,16 +18,21 @@ class AddFile extends \MetagaussOpenAI\Admin\Requests\MoRoot
 
         function addFile() {
 
-            let userFile = $("#metagauss-openai-file-upload").prop("files")[0];
+            let fileId = $("#metagauss-openai-file-selected").val();
 
             const data = {
                 "action": "addFile",
-                "file": userFile,
+                "file_id": fileId,
                 "nonce": "' . $nonce . '"
             };
   
             $.post(ajaxurl, data, function(response) {
                 alert(response);
+                response = JSON.parse(response);
+
+                if (response.success) {
+                    $("#metagauss-openai-file-output").html(response.html);
+                }
             });
         }
         ';

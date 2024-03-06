@@ -14,7 +14,13 @@ final class AddFile extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
     private function uploadArea()
     {
         wp_enqueue_media();
+
         echo '<div class="p-4 border border bg-light rounded-3 w-50">';
+
+        echo '<div id="metagauss-openai-file-output" class="small mb-3">';
+        echo '</div>';
+
+        echo '<input type="hidden" id="metagauss-openai-file-selected" class="form-control mb-2">';
 
         echo '<button class="btn btn-outline-dark btn-sm me-1" type="button" id="metagauss-openai-file-select-btn">';
         echo esc_html(__('Select File', 'metagauss-openai'));
@@ -46,6 +52,13 @@ final class AddFile extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
         $("#metagauss-openai-file-select-btn").click(function(e) {
 
             e.preventDefault();
+
+            let file_frame;
+
+            if(file_frame){
+                file_frame.open();
+                return;
+            }
             
             file_frame = wp.media({
                 title: "Select a File to Upload",
@@ -57,19 +70,13 @@ final class AddFile extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
 
             file_frame.open();
 
+            file_frame.on("select",function() {
+                let selection =  file_frame.state().get("selection").first();
+                $("#metagauss-openai-file-selected").val(selection.id);
+                $("#metagauss-openai-file-output").html("You selected file ID " + selection.id);
+             });
+
         });
         ';
     }
-
-    public function mediaFiles()
-    {
-        wp_enqueue_media();
-    }
-
-    public function __construct()
-    {
-        $this->setAll();
-        add_action('admin_enqueue_scripts', array($this, 'mediaFiles'));
-    }
-    
 }

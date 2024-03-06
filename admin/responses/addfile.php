@@ -13,8 +13,13 @@ class AddFile extends \MetagaussOpenAI\Admin\Responses\MoRoot
             wp_die();
         }
 
-        $file = $_POST['file'];
-        $cfile = curl_file_create($file, mime_content_type($file), 'ewfwef');
+        $file_id = $_POST['file_id'];
+
+        $cfile = curl_file_create(
+            wp_get_attachment_url($file_id),
+            get_post_mime_type($file_id),
+            get_the_title($file_id)
+        );
 
         $url = 'https://api.openai.com/v1/files';
         $ch = curl_init($url);
@@ -33,11 +38,28 @@ class AddFile extends \MetagaussOpenAI\Admin\Responses\MoRoot
 
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 
-        $output = json_decode(curl_exec($ch));
-        print_r($output);
+        $output = curl_exec($ch);
+
+        if ($output != false) {
+            $response['success'] = true;
+            $output = json_decode($output);
+            $response['html'] = $this->printFileOutput($output);
+        } else {
+            $response['success'] = false;
+        }
+
+        echo json_encode($response);
         curl_close($ch);
 
         wp_die();
+    }
+
+    private function printFileOutput($output)
+    {
+        $html = '<span>';
+        $html .= __(sprintf('Your file has been uploaded successfully with id <b>%s</b>', $output->id), 'metagauss-openai');
+        $html .= '</span>';
+        return $html;
     }
 
     public function __construct()
