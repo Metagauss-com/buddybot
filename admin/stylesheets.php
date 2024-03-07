@@ -21,8 +21,10 @@ final class StyleSheets extends \MetagaussOpenAI\Admin\MoRoot
         $bootstrap_css = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css';
         $bootstrap_js = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js';
         $jquery_js = 'https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js';
+        $material_symbols = 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0';
         
         if ($this->isInternalPage()) {
+            wp_enqueue_style($this->config::PREFIX . '-material-symbols-css', $material_symbols);
             wp_enqueue_style($this->config::PREFIX . '-bootstrap-css', $bootstrap_css);
             wp_enqueue_script($this->config::PREFIX . '-bootstrap-js', $bootstrap_js);
             wp_enqueue_script($this->config::PREFIX . '-jquery-js', $jquery_js);

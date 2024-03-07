@@ -43,6 +43,7 @@ if (is_admin()) {
     $admin_responses = new Admin\Responses\ChatBot();
     $admin_responses = new Admin\Responses\OrgFiles();
     $admin_responses = new Admin\Responses\AddFile();
+    $admin_responses = new Admin\Responses\DataSync();
 }
 
 //----------Public Code--------//

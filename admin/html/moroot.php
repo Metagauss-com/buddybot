@@ -12,6 +12,14 @@ class MoRoot extends \MetagaussOpenAI\Admin\MoRoot
         echo '</h3>';
         echo '</div>';
     }
+
+    protected function moIcon($icon)
+    {
+        echo '<span class="material-symbols-outlined" style="font-size:20px;vertical-align:sub;">';
+        echo esc_html($icon);
+        echo '</span>';
+    }
+
     public function getHtml()
     {
         
