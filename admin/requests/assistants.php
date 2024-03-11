@@ -2,23 +2,23 @@
 
 namespace MetagaussOpenAI\Admin\Requests;
 
-final class OrgFiles extends \MetagaussOpenAI\Admin\Requests\MoRoot
+final class Assistants extends \MetagaussOpenAI\Admin\Requests\MoRoot
 {
     public function requestJs()
     {
-        $this->getOrgFilesJs();
-        $this->deleteFileJs();
+        $this->getAssistantsJs();
+        $this->deleteAssistantJs();
     }
 
-    private function getOrgFilesJs()
+    private function getAssistantsJs()
     {
-        $nonce = wp_create_nonce('get_org_files');
+        $nonce = wp_create_nonce('get_assistants');
         echo '
-        getOrgFiles();
-        function getOrgFiles() {
+        getAssistants();
+        function getAssistants() {
 
             const data = {
-                "action": "getOrgFiles",
+                "action": "getAssistants",
                 "nonce": "' . $nonce . '"
             };
   
@@ -29,11 +29,11 @@ final class OrgFiles extends \MetagaussOpenAI\Admin\Requests\MoRoot
         ';
     }
 
-    private function deleteFileJs()
+    private function deleteAssistantJs()
     {
-        $nonce = wp_create_nonce('delete_org_file');
+        $nonce = wp_create_nonce('delete_assistant');
         echo '
-        $(".mo-org-files-table").on("click", ".mo-listbtn-file-delete", function(){
+        $(".mo-org-assistants-table").on("click", ".mo-listbtn-assistant-delete", function(){
             
             let row = $(this).parents("tr");
             let fileId = row.attr("data-mo-itemid");

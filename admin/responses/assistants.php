@@ -2,12 +2,12 @@
 
 namespace MetagaussOpenAI\Admin\Responses;
 
-class OrgFiles extends \MetagaussOpenAI\Admin\Responses\MoRoot
+class Assistants extends \MetagaussOpenAI\Admin\Responses\MoRoot
 {
     
-    public function deleteOrgFile()
+    public function deleteAssistant()
     {
-        $this->checkNonce('delete_org_file');
+        $this->checkNonce('delete_assistant');
         $file_id = $_POST['file_id'];
 
         $url = 'https://api.openai.com/v1/files/' . $file_id;
@@ -33,50 +33,52 @@ class OrgFiles extends \MetagaussOpenAI\Admin\Responses\MoRoot
         wp_die();
     }
 
-    public function getOrgFiles()
+    public function getAssistants()
     {
-        $nonce_status = wp_verify_nonce($_POST['nonce'], 'get_org_files');
+        $this->checkNonce('get_assistants');
 
-        if ($nonce_status === false) {
-            wp_die();
-        }
-
-        $url = 'https://api.openai.com/v1/files';
+        $url = 'https://api.openai.com/v1/assistants';
 
         $ch = curl_init($url);
         
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'OpenAI-Beta: assistants=v1',
+            'Content-Type: application/json',
             'Authorization: Bearer ' . $this->api_key
             )
         );
 
-        $output = json_decode(curl_exec($ch));
-        $files = $output->data;
-        $this->filesTableHtml($files);
+        $this->response['result'] = json_decode(curl_exec($ch));
+        if ($this->response['result']->object === 'list') {
+            $this->response['success'] = true;
+            $this->assistantsTableHtml();
+        } else {
+            $this->response['success'] = false;
+        }
+        
         curl_close($ch);
 
         echo wp_kses_post($this->response['html']);
         wp_die();
     }
 
-    private function filesTableHtml($files)
+    private function assistantsTableHtml()
     {
-        if (!is_array($files)) {
+        if (!is_array($this->response['result']->data)) {
             return;
         }
 
         $html = '';
 
-        foreach ($files as $index => $file) {
-            $html .= '<tr class="small" data-mo-itemid="' . esc_attr($file->id) . '">';
+        foreach ($this->response['result']->data as $index => $assistant) {
+            $html .= '<tr class="small" data-mo-itemid="' . esc_attr($assistant->id) . '">';
             $html .= '<th scope="row">' . absint($index) + 1 . '</th>';
-            $html .= '<td>' . $this->fileIcon($file->filename) . '</td>';
-            $html .= '<td>' . esc_html($file->filename) . '</td>';
-            $html .= '<td>' . esc_html($file->purpose) . '</td>';
-            $html .= '<td>' . esc_html($this->fileSize($file->bytes)) . '</td>';
-            $html .= '<td><code>' . esc_html($file->id) . '</code></td>';
-            $html .= '<td>' . $this->listBtns('file') . '</td>';
+            $html .= '<td>' . esc_html($assistant->name) . '</td>';
+            $html .= '<td>' . esc_html($assistant->description) . '</td>';
+            $html .= '<td>' . esc_html($assistant->model) . '</td>';
+            $html .= '<td><code>' . esc_html($assistant->id) . '</code></td>';
+            $html .= '<td>' . $this->listBtns('assistant') . '</td>';
             $html .= '</tr>';
         }
 
@@ -103,7 +105,7 @@ class OrgFiles extends \MetagaussOpenAI\Admin\Responses\MoRoot
     public function __construct()
     {
         $this->setAll();
-        add_action('wp_ajax_deleteOrgFile', array($this, 'deleteOrgFile'));
-        add_action('wp_ajax_getOrgFiles', array($this, 'getOrgFiles'));
+        add_action('wp_ajax_deleteAssistant', array($this, 'deleteAssistant'));
+        add_action('wp_ajax_getAssistants', array($this, 'getAssistants'));
     }
 }

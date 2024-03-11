@@ -2,31 +2,31 @@
 
 namespace MetagaussOpenAI\Admin\Html\Views;
 
-final class OrgFiles extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
+final class Assistants extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
 {
     public function getHtml()
     {
-        $heading = __('Files', 'megaform-openai');
+        $heading = __('Assistants', 'megaform-openai');
         $this->pageHeading($heading);
         $this->pageBtns();
-        $this->filesTable();
+        $this->assistantsTable();
     }
 
     public function pageBtns()
     {
-        $addfile_page = get_admin_url() . 'admin.php?page=metagaussopenai-addfile';
+        $add_assistant_page = get_admin_url() . 'admin.php?page=metagaussopenai-addassistant';
         echo '<div class="mb-3">';
         echo '<a class="btn btn-dark btn-sm" role="button"';
-        echo 'href="' . $addfile_page . '"';
+        echo 'href="' . $add_assistant_page . '"';
         echo '>';
-        echo esc_html(__('Add File', 'metagauss-openai'));
+        echo esc_html(__('Create New Assistant', 'metagauss-openai'));
         echo '</a>';
         echo '</div>';
     }
 
-    private function filesTable()
+    private function assistantsTable()
     {
-        echo '<table class="mo-org-files-table table table-sm">';
+        echo '<table class="mo-org-assistants-table table table-sm">';
         $this->tableHeader();
         $this->tableBody();
         echo '</table>';
@@ -37,10 +37,9 @@ final class OrgFiles extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
         echo '<thead>';
         echo '<tr>';
         echo '<th scope="col">' . esc_html(__('No.', 'metagauss-openai')) . '</th>';
-        echo '<th scope="col"></th>';
-        echo '<th scope="col">' . esc_html(__('File Name', 'metagauss-openai')) . '</th>';
-        echo '<th scope="col">' . esc_html(__('Purpose', 'metagauss-openai')) . '</th>';
-        echo '<th scope="col">' . esc_html(__('Size', 'metagauss-openai')) . '</th>';
+        echo '<th scope="col">' . esc_html(__('Name', 'metagauss-openai')) . '</th>';
+        echo '<th scope="col">' . esc_html(__('Description', 'metagauss-openai')) . '</th>';
+        echo '<th scope="col">' . esc_html(__('Model', 'metagauss-openai')) . '</th>';
         echo '<th scope="col">' . esc_html(__('ID', 'metagauss-openai')) . '</th>';
         echo '<th scope="col"></th>';
         echo '</tr>';
@@ -52,9 +51,9 @@ final class OrgFiles extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
         echo '<tbody>';
         echo '<tr>';
         echo '<td colspan="6" class="p-5">';
-        echo '<div class="spinner-border text-dark d-flex justify-content-center mx-auto" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>';
+        echo '<div class="spinner-border text-dark d-flex justify-content-center mx-auto" role="status">';
+        echo '<span class="visually-hidden">Loading...</span>';
+        echo '</div>';
         echo '</td>';
         echo '</tbody>';
     }

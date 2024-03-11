@@ -7,6 +7,7 @@ final class AdminMenu extends \MetagaussOpenAI\Admin\MoRoot
     {
         $this->mainMenuItem();
         $this->orgFilesSubmenuItem();
+        $this->assistantsSubmenuItem();
         $this->addFileSubmenuItem();
         $this->dataSyncSubmenuItem();
     }
@@ -63,6 +64,19 @@ final class AdminMenu extends \MetagaussOpenAI\Admin\MoRoot
         );
     }
 
+    public function assistantsSubmenuItem()
+    {
+        add_submenu_page(
+            'metagaussopenai-chatbot',
+            __('Assistants', 'metgauss-openai'),
+            __('Assistants', 'metgauss-openai'),
+            'manage_options',
+            'metagaussopenai-assistants',
+            array($this, 'assistantsMenuPage'),
+            1
+        );
+    }
+
     public function appMenuPage()
     {
         include_once(plugin_dir_path(__FILE__) . 'pages/chatbot.php');
@@ -81,6 +95,11 @@ final class AdminMenu extends \MetagaussOpenAI\Admin\MoRoot
     public function dataSyncMenuPage()
     {
         include_once(plugin_dir_path(__FILE__) . 'pages/datasync.php');
+    }
+
+    public function assistantsMenuPage()
+    {
+        include_once(plugin_dir_path(__FILE__) . 'pages/assistants.php');
     }
 
     public function __construct()
