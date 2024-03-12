@@ -14,7 +14,7 @@ final class Assistants extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
 
     public function pageBtns()
     {
-        $add_assistant_page = get_admin_url() . 'admin.php?page=metagaussopenai-addassistant';
+        $add_assistant_page = get_admin_url() . 'admin.php?page=metagaussopenai-assistant';
         echo '<div class="mb-3">';
         echo '<a class="btn btn-dark btn-sm" role="button"';
         echo 'href="' . $add_assistant_page . '"';

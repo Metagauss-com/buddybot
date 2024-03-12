@@ -45,6 +45,7 @@ if (is_admin()) {
     $admin_responses = new Admin\Responses\AddFile();
     $admin_responses = new Admin\Responses\DataSync();
     $admin_responses = new Admin\Responses\Assistants();
+    $admin_responses = new Admin\Responses\EditAssistant();
 }
 
 //----------Public Code--------//

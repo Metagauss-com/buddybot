@@ -12,6 +12,11 @@ final class AdminMenu extends \MetagaussOpenAI\Admin\MoRoot
         $this->dataSyncSubmenuItem();
     }
 
+    public function hiddenMenu()
+    {
+        $this->editAssistantSubmenuItem();
+    }
+
     public function mainMenuItem()
     {
         add_menu_page(
@@ -77,6 +82,19 @@ final class AdminMenu extends \MetagaussOpenAI\Admin\MoRoot
         );
     }
 
+    public function editAssistantSubmenuItem()
+    {
+        add_submenu_page(
+            '',
+            __('Edit Assistant', 'metgauss-openai'),
+            __('Edit Assistant', 'metgauss-openai'),
+            'manage_options',
+            'metagaussopenai-assistant',
+            array($this, 'EditAssistantMenuPage'),
+            1
+        );
+    }
+
     public function appMenuPage()
     {
         include_once(plugin_dir_path(__FILE__) . 'pages/chatbot.php');
@@ -102,8 +120,14 @@ final class AdminMenu extends \MetagaussOpenAI\Admin\MoRoot
         include_once(plugin_dir_path(__FILE__) . 'pages/assistants.php');
     }
 
+    public function editAssistantMenuPage()
+    {
+        include_once(plugin_dir_path(__FILE__) . 'pages/editassistant.php');
+    }
+
     public function __construct()
     {
         add_action( 'admin_menu', array($this, 'topLevelMenu'));
+        add_action( 'admin_menu', array($this, 'hiddenMenu'));
     }
 }

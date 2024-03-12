@@ -19,6 +19,43 @@ class MoRoot extends \MetagaussOpenAI\Admin\MoRoot
         }
     }
 
+    protected function checkCapabilities()
+    {
+        if (!(current_user_can('manage_options'))) {
+            $this->response['success'] = false;
+            $this->response['message'] = __('You do not have permission to do this.', 'metagauss-openai');
+            echo json_encode($this->response);
+            wp_die();
+        }
+    }
+
+    protected function curlOutput($ch)
+    {
+        $output = curl_exec($ch);
+        $this->response['result'] = $output;
+        $output = json_decode($output);
+        curl_close($ch);
+        return $output;
+    }
+
+    protected function checkError($output)
+    {
+        if (!is_object($output)) {
+            $this->response['success'] = false;
+            $this->response['message'] = __('Output is not an object. ', 'metagauss-openai');
+            echo wp_json_encode($this->response);
+            wp_die();
+        } elseif (!empty($output->error)) {
+            $this->response['success'] = false;
+            $this->response['message'] = __('There was an error. ', 'metagauss-openai');
+            $this->response['message'] .= $output->error->message;
+            echo wp_json_encode($this->response);
+            wp_die();
+        } else {
+            $this->response['success'] = true;
+        }
+    }
+
     protected function fileSize($bytes)
     {
 
