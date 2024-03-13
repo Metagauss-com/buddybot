@@ -64,7 +64,13 @@ class EditAssistant extends \MetagaussOpenAI\Admin\Responses\MoRoot
         $this->checkNonce('create_assistant');
         $this->checkCapabilities();
 
-        $url = 'https://api.openai.com/v1/assistants';
+        $assistant_id = '';
+
+        if (!empty($_POST['assistant_id'])) {
+            $assistant_id = '/' . $_POST['assistant_id'];
+        }
+
+        $url = 'https://api.openai.com/v1/assistants' . $assistant_id;
 
         $ch = curl_init($url);
         
@@ -147,11 +153,12 @@ class EditAssistant extends \MetagaussOpenAI\Admin\Responses\MoRoot
 
         foreach ($list as $file) {
 
-            if ($file->purpose === 'assistants') {
+            if ($file->purpose === 'assistants' and absint($file->bytes) <= 536870912) {
                 $html .= '<div class="mb-2 text-muted">';
                 $html .= '<label for="' . $file->id . '">';
-                $html .= '<input type="checkbox" id="' . $file->id . '" value="' . $file->id . '">';
+                $html .= '<input type="checkbox" class="me-2" id="' . $file->id . '" value="' . $file->id . '">';
                 $html .= $file->filename;
+                $html .= '<span class="badge text-bg-secondary rounded-pill ms-1">' . $this->fileSize($file->bytes) . '</span>';
                 $html .= '</label>';
                 $html .= '</div>';
             }
@@ -160,11 +167,37 @@ class EditAssistant extends \MetagaussOpenAI\Admin\Responses\MoRoot
         return $html;
     }
 
+    public function getAssistantData()
+    {
+        $this->checkNonce('get_assistant_data');
+
+        $assistant_id = sanitize_text_field($_POST['assistant_id']);
+
+        $url = 'https://api.openai.com/v1/assistants/' . $assistant_id;
+        $ch = curl_init($url);
+        
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'Authorization: Bearer ' . $this->api_key,
+            'OpenAI-Beta: assistants=v1'
+            )
+        );
+
+        $output = $this->curlOutput($ch);
+        $this->checkError($output);
+
+        echo wp_json_encode($this->response);
+        wp_die();
+    }
+
     public function __construct()
     {
         $this->setAll();
         add_action('wp_ajax_getModels', array($this, 'getModels'));
         add_action('wp_ajax_getFiles', array($this, 'getFiles'));
         add_action('wp_ajax_createAssistant', array($this, 'createAssistant'));
+        add_action('wp_ajax_getAssistantData', array($this, 'getAssistantData'));
     }
 }

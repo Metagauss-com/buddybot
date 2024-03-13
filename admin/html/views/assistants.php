@@ -9,6 +9,7 @@ final class Assistants extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
         $heading = __('Assistants', 'megaform-openai');
         $this->pageHeading($heading);
         $this->pageBtns();
+        $this->alertContainer();
         $this->assistantsTable();
     }
 

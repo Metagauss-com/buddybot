@@ -19,7 +19,7 @@ class EditAssistant extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
         if ($this->assistant_id !== null) {
             $this->heading = __('Edit Assistant');
         } else {
-            $this->heading = __('Add Assistant');
+            $this->heading = __('New Assistant');
         }
     }
 
@@ -42,11 +42,11 @@ class EditAssistant extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
         $this->assistantTools();
         echo '</div>';
 
-        echo '<div class="col-md-4 p-0">';
+        echo '<div class="col-md-4 p-0 flex-column">';
         $this->orgFiles();
         echo '</div>';
         
-        echo '<div class="col-md-12 p-3 border-top bg-light">';
+        echo '<div class="col-md-12 p-3 border-top">';
         $this->submitBtn();
         echo '</div>';
         
@@ -59,8 +59,9 @@ class EditAssistant extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
         $placeholder = __('Example, Math Tutor', 'metagauss-openai');
         $label = __('Name', 'metagauss-openai');
         echo '<div class="mb-4">';
-        echo '<label for="' . esc_attr($id) . '" class="form-label">' . esc_html($label) . '</label>';
+        echo '<label for="' . esc_attr($id) . '" class="form-label fw-bold">' . esc_html($label) . '</label>';
         echo '<input type="text" class="w-100" id="' . esc_attr($id) . '" placeholder="' . esc_attr($placeholder) . '" size="256">';
+        echo '<p class="description">' . esc_html__('Optional. Maximum 256 characters.', 'metagauss-openai') . '</p>';
         echo '</div>';
     }
 
@@ -70,8 +71,9 @@ class EditAssistant extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
         $placeholder = __('Description of your assistant', 'metagauss-openai');
         $label = __('Description', 'metagauss-openai');
         echo '<div class="mb-4">';
-        echo '<label for="' . esc_attr($id) . '" class="form-label">' . esc_html($label) . '</label>';
+        echo '<label for="' . esc_attr($id) . '" class="form-label fw-bold">' . esc_html($label) . '</label>';
         echo '<textarea class="w-100" id="' . esc_attr($id) . '" placeholder="' . esc_attr($placeholder) . '" rows="5" maxlength="512"></textarea>';
+        echo '<p class="description">' . esc_html__('Optional. Maximum 512 characters.', 'metagauss-openai') . '</p>';
         echo '</div>';
     }
 
@@ -80,12 +82,13 @@ class EditAssistant extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
         $id = 'mo-editassistant-assistantmodel';
         $label = __('Assistant Model', 'metagauss-openai');
         echo '<div class="mb-4">';
-        echo '<label for="' . esc_attr($id) . '" class="form-label">' . esc_html($label) . '</label>';
+        echo '<label for="' . esc_attr($id) . '" class="form-label fw-bold">' . esc_html($label) . '</label>';
         echo '<div><select id="' . esc_attr($id) . '" class="me-2">';
         echo '<option value="" selected>' . esc_html__('Loading...', 'metagauss-openai') . '</option>';
         echo '</select>';
         $this->moSpinner();
         echo '</div>';
+        echo '<p class="description">' . esc_html__('Required. AI Model for this Assistant.', 'metagauss-openai') . '</p>';
         echo '</div>';
     }
 
@@ -95,8 +98,9 @@ class EditAssistant extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
         $placeholder = __('Example, You are a personal math tutor. When asked a question, write and run Python code to answer the question.', 'metagauss-openai');
         $label = __('Instructions', 'metagauss-openai');
         echo '<div class="mb-4">';
-        echo '<label for="' . esc_attr($id) . '" class="form-label">' . esc_html($label) . '</label>';
+        echo '<label for="' . esc_attr($id) . '" class="form-label fw-bold">' . esc_html($label) . '</label>';
         echo '<textarea class="w-100" id="' . esc_attr($id) . '" placeholder="' . esc_attr($placeholder) . '" rows="5" maxlength="32768"></textarea>';
+        echo '<p class="description">' . esc_html__('Optional. Maximum 32768 characters.', 'metagauss-openai') . '</p>';
         echo '</div>';
     }
 
@@ -105,7 +109,7 @@ class EditAssistant extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
         $id = 'mo-editassistant-assistanttools';
         $label = __('Tools', 'metagauss-openai');
         echo '<div id="' . esc_attr($id) . '" class="mb-4">';
-        echo '<div class="form-label">' . esc_html($label) . '</div>';
+        echo '<div class="form-label fw-bold">' . esc_html($label) . '</div>';
         
         echo '<div><label for="' . esc_attr($id . '-code') . '">';
         echo '<input type="checkbox" id="' . esc_attr($id . '-code') . '" value="code_interpreter">';
@@ -117,16 +121,27 @@ class EditAssistant extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
         echo esc_html__('Retrieval', 'metagauss-openai');
         echo '</label></div>';
         
+        echo '<p class="description">' . esc_html__('Optional. The tools enabled on the assistant.', 'metagauss-openai') . '</p>';
         echo '</div>';
     }
 
     private function orgFiles()
     {
         $id = 'mo-editassistant-assistantfiles';
-        echo '<div class="p-3 border-bottom fw-bold">';
-        echo esc_html__('Attach Files', 'metagauss-openai');
+        
+        echo '<div class="p-3 border-bottom">';
+        
+        echo '<div class="fw-bold">';
+        echo esc_html__('Attached Files', 'metagauss-openai');
+        echo '<span class="text-success ms-1 fw-normal" id="' . esc_attr($id . '-filescount') . '">';
+        echo '</span>';
         echo '</div>';
-        echo '<div id="' . esc_attr($id) . '" class="p-3" style="height:100%;overflow:auto;">';
+        
+        echo '<p class="description">' . esc_html__('Optional. Select files to be attached to this Assistant. Maximum 20 files (not more than 512MB each) allowed.', 'metagauss-openai') . '</p>';
+        
+        echo '</div>';
+        
+        echo '<div id="' . esc_attr($id) . '" class="p-3 small" style="height:100%;overflow:auto;">';
         echo '<div class="mt-5 text-center">';
         $this->moSpinner();
         echo '</div>';
@@ -143,7 +158,7 @@ class EditAssistant extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
 
         $id = 'mo-editassistant-editassistant-submit';
         echo '<div>';
-        echo '<button id="' . esc_attr($id) . '" class="btn btn-success btn-sm">';
+        echo '<button id="' . esc_attr($id) . '" class="btn btn-success">';
         echo esc_html($btn_label);
         echo '</button>';
         echo '</div>';

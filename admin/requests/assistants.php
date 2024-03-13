@@ -23,7 +23,13 @@ final class Assistants extends \MetagaussOpenAI\Admin\Requests\MoRoot
             };
   
             $.post(ajaxurl, data, function(response) {
-                $("tbody").html(response);
+                alert(response);
+                response = JSON.parse(response);
+                if (response.success) {
+                    $("tbody").html(response.html);
+                } else {
+                    showAlert(response.message);
+                }
             });
         }
         ';

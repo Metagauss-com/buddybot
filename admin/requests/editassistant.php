@@ -4,7 +4,7 @@ namespace MetagaussOpenAI\Admin\Requests;
 
 final class EditAssistant extends \MetagaussOpenAI\Admin\Requests\MoRoot
 {
-    protected $assistant_id = null;
+    protected $assistant_id = '';
 
     protected function setAssistantId()
     {
@@ -15,10 +15,28 @@ final class EditAssistant extends \MetagaussOpenAI\Admin\Requests\MoRoot
 
     public function requestJs()
     {
+        $this->setVarsJs();
         $this->getModelsJs();
         $this->getFilesJs();
+        $this->filesCountJs();
+        $this->updateFilesCountJs();
+        $this->toggleCheckboxesJs();
         $this->assistantDataJs();
         $this->createAssistantJs();
+        $this->loadAssistantValuesJs();
+    }
+
+    private function setVarsJs()
+    {
+        $context = 'create';
+
+        if ($this->assistant_id !== '') {
+            $context = 'update';
+        }
+
+        echo '
+        const context = "' . $context . '";
+        ';
     }
 
     private function getModelsJs()
@@ -38,6 +56,11 @@ final class EditAssistant extends \MetagaussOpenAI\Admin\Requests\MoRoot
                 if (response.success) {
                     select.html(response.html);
                     select.siblings(".mo-dataload-spinner").hide();
+                    if (context === "update") {
+                        getAssistantData();
+                    }
+                } else {
+                    showAlert(response.message);
                 }
             });
         };
@@ -59,6 +82,7 @@ final class EditAssistant extends \MetagaussOpenAI\Admin\Requests\MoRoot
                 response = JSON.parse(response);
                 if (response.success) {
                     $("#mo-editassistant-assistantfiles").html(response.html);
+                    filesCount();
                 } else {
                     showAlert(response.message);
                 }
@@ -67,11 +91,61 @@ final class EditAssistant extends \MetagaussOpenAI\Admin\Requests\MoRoot
         ';
     }
 
+    private function filesCountJs()
+    {
+        echo '
+        function filesCount() {
+            let count = 0;
+
+            $("#mo-editassistant-assistantfiles").find("input[type=checkbox]").each(function(){
+                if ($(this).is(":checked")) {
+                    count++;
+                }
+            });
+
+            $("#mo-editassistant-assistantfiles-filescount").text(count);
+            return count;
+        }
+        ';
+    }
+
+    private function updateFilesCountJs()
+    {
+        echo '
+        $("#mo-editassistant-assistantfiles").click(function(){
+            let count = filesCount();
+            if (count >= 20) {
+                disableCheckBoxes();
+            } else {
+                enableCheckBoxes();
+            }
+        });
+        ';
+    }
+
+    private function toggleCheckboxesJs()
+    {
+        echo '
+        function disableCheckBoxes() {
+            $("#mo-editassistant-assistantfiles").find("input[type=checkbox]").each(function(){
+                if (!$(this).is(":checked")) {
+                    $(this).prop("disabled", true);
+                }
+            });
+        }
+
+        function enableCheckBoxes() {
+            $("#mo-editassistant-assistantfiles").find("input[type=checkbox]").each(function(){
+                $(this).prop("disabled", false);
+            });
+        }
+        ';
+    }
+
     private function assistantDataJs()
     {
         echo '
-        function assistantData()
-        {
+        function assistantData() {
             let assistantData = {};
             assistantData["name"] = $("#mo-editassistant-assistantname").val();
             assistantData["description"] = $("#mo-editassistant-assistantdescription").val();
@@ -113,10 +187,6 @@ final class EditAssistant extends \MetagaussOpenAI\Admin\Requests\MoRoot
 
     private function createAssistantJs()
     {
-        if ($this->assistant_id !== null) {
-            return;
-        }
-
         $nonce = wp_create_nonce('create_assistant');
         echo '
         $("#mo-editassistant-editassistant-submit").click(createAssistant);
@@ -124,10 +194,10 @@ final class EditAssistant extends \MetagaussOpenAI\Admin\Requests\MoRoot
         function createAssistant(){
             hideAlert();
             let aData = assistantData();
-            alert(JSON.stringify(aData));
 
             const data = {
                 "action": "createAssistant",
+                "assistant_id": "' . $this->assistant_id . '",
                 "assistant_data": JSON.stringify(aData),
                 "nonce": "' . $nonce . '"
             };
@@ -141,6 +211,88 @@ final class EditAssistant extends \MetagaussOpenAI\Admin\Requests\MoRoot
                 }
             });
         };
+        ';
+    }
+
+    private function loadAssistantValuesJs()
+    {
+        if ($this->assistant_id === null or $this->assistant_id === '') {
+            return;
+        }
+
+        $nonce = wp_create_nonce('get_assistant_data');
+        echo '
+
+        getAssistantData();
+        function getAssistantData(){
+
+            const data = {
+                "action": "getAssistantData",
+                "assistant_id": "' . $this->assistant_id . '",
+                "nonce": "' . $nonce . '"
+            };
+      
+            $.post(ajaxurl, data, function(response) {
+                response = JSON.parse(response);
+                if (response.success) {
+                    fillAssistantValues(response.result);
+                } else {
+                    showAlert(response.message);
+                }
+            });
+        };
+
+        function fillAssistantValues(assistant) {
+            assistant = JSON.parse(assistant);
+            $("#mo-editassistant-assistantname").val(assistant.name);
+            $("#mo-editassistant-assistantdescription").val(assistant.description);
+            $("#mo-editassistant-assistantmodel").val(assistant.model);
+            $("#mo-editassistant-assistantinstructions").val(assistant.instructions);
+            checkEnabledTools(assistant.tools);
+            selectAttachedFiles(assistant.file_ids);
+        }
+
+        function checkEnabledTools(tools) {
+            
+            let cbValues = [];
+            
+            $.each(tools, function(index, tool) {
+                cbValues.push(tool.type);
+            });
+
+            if (cbValues.length === 0) {
+                return;
+            }
+
+            $("#mo-editassistant-assistanttools").find("input[type=checkbox]").each(function(){
+                
+                let cbValue = $(this).val();
+
+                if ($.inArray(cbValue, cbValues) > -1) {
+                    $(this).prop("checked", true);
+                }
+            
+            });
+        }
+
+        function selectAttachedFiles(fileIds) {
+
+            if (fileIds.length === 0 || !$.isArray(fileIds)) {
+                return;
+            }
+
+            $("#mo-editassistant-assistantfiles").find("input[type=checkbox]").each(function(){
+                
+                let fileId = $(this).val();
+                
+                if ($.inArray(fileId, fileIds) > -1) {
+                    $(this).prop("checked", true);
+                }
+
+                filesCount();
+
+            });
+        }
         ';
     }
 }
