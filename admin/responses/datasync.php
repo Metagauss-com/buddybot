@@ -157,7 +157,7 @@ class DataSync extends \MetagaussOpenAI\Admin\Responses\MoRoot
 
     private function updateRemoteFileOption($data_type, $output)
     {
-        $update = update_option('mo-' . $data_type . '-remote-file-id', $output->id, false);
+        $update = update_option($this->core_files->getWpOptionName($data_type), $output->id, false);
 
         if ($update) {
             $this->response['success'] = true;
