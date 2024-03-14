@@ -32,7 +32,7 @@ class EditAssistant extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
 
     private function assistantFields()
     {
-        echo '<div class="row w-75 rounded border small">';
+        echo '<div class="mgoa-container row w-75 rounded border small">';
         
         echo '<div class="col-md-8 border-end p-5">';
         $this->assistantName();
@@ -60,7 +60,7 @@ class EditAssistant extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
         $label = __('Name', 'metagauss-openai');
         echo '<div class="mb-4">';
         echo '<label for="' . esc_attr($id) . '" class="form-label fw-bold">' . esc_html($label) . '</label>';
-        echo '<input type="text" class="w-100" id="' . esc_attr($id) . '" placeholder="' . esc_attr($placeholder) . '" size="256">';
+        echo '<input type="text" class="w-100 mo-item-field" id="' . esc_attr($id) . '" placeholder="' . esc_attr($placeholder) . '" size="256">';
         echo '<p class="description">' . esc_html__('Optional. Maximum 256 characters.', 'metagauss-openai') . '</p>';
         echo '</div>';
     }
@@ -72,7 +72,7 @@ class EditAssistant extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
         $label = __('Description', 'metagauss-openai');
         echo '<div class="mb-4">';
         echo '<label for="' . esc_attr($id) . '" class="form-label fw-bold">' . esc_html($label) . '</label>';
-        echo '<textarea class="w-100" id="' . esc_attr($id) . '" placeholder="' . esc_attr($placeholder) . '" rows="5" maxlength="512"></textarea>';
+        echo '<textarea class="w-100 mo-item-field" id="' . esc_attr($id) . '" placeholder="' . esc_attr($placeholder) . '" rows="5" maxlength="512"></textarea>';
         echo '<p class="description">' . esc_html__('Optional. Maximum 512 characters.', 'metagauss-openai') . '</p>';
         echo '</div>';
     }
@@ -83,7 +83,7 @@ class EditAssistant extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
         $label = __('Assistant Model', 'metagauss-openai');
         echo '<div class="mb-4">';
         echo '<label for="' . esc_attr($id) . '" class="form-label fw-bold">' . esc_html($label) . '</label>';
-        echo '<div><select id="' . esc_attr($id) . '" class="me-2">';
+        echo '<div><select id="' . esc_attr($id) . '" class="me-2 mo-item-field">';
         echo '<option value="" selected>' . esc_html__('Loading...', 'metagauss-openai') . '</option>';
         echo '</select>';
         $this->moSpinner();
@@ -99,7 +99,7 @@ class EditAssistant extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
         $label = __('Instructions', 'metagauss-openai');
         echo '<div class="mb-4">';
         echo '<label for="' . esc_attr($id) . '" class="form-label fw-bold">' . esc_html($label) . '</label>';
-        echo '<textarea class="w-100" id="' . esc_attr($id) . '" placeholder="' . esc_attr($placeholder) . '" rows="5" maxlength="32768"></textarea>';
+        echo '<textarea class="w-100 mo-item-field" id="' . esc_attr($id) . '" placeholder="' . esc_attr($placeholder) . '" rows="5" maxlength="32768"></textarea>';
         echo '<p class="description">' . esc_html__('Optional. Maximum 32768 characters.', 'metagauss-openai') . '</p>';
         echo '</div>';
     }
@@ -112,12 +112,12 @@ class EditAssistant extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
         echo '<div class="form-label fw-bold">' . esc_html($label) . '</div>';
         
         echo '<div><label for="' . esc_attr($id . '-code') . '">';
-        echo '<input type="checkbox" id="' . esc_attr($id . '-code') . '" value="code_interpreter">';
+        echo '<input type="checkbox" id="' . esc_attr($id . '-code') . '" value="code_interpreter" class="mo-item-field">';
         echo esc_html__('Code Interpreter', 'metagauss-openai');
         echo '</label></div>';
 
         echo '<div><label for="' . esc_attr($id . '-retrieval') . '">';
-        echo '<input type="checkbox" id="' . esc_attr($id . '-retrieval') . '" value="retrieval">';
+        echo '<input type="checkbox" id="' . esc_attr($id . '-retrieval') . '" value="retrieval" class="mo-item-field">';
         echo esc_html__('Retrieval', 'metagauss-openai');
         echo '</label></div>';
         

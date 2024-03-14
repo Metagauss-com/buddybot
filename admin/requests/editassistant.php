@@ -59,6 +59,7 @@ final class EditAssistant extends \MetagaussOpenAI\Admin\Requests\MoRoot
                     if (context === "update") {
                         getAssistantData();
                     }
+
                 } else {
                     showAlert(response.message);
                 }
@@ -82,7 +83,7 @@ final class EditAssistant extends \MetagaussOpenAI\Admin\Requests\MoRoot
                 response = JSON.parse(response);
                 if (response.success) {
                     $("#mo-editassistant-assistantfiles").html(response.html);
-                    filesCount();
+                    recountFiles();
                 } else {
                     showAlert(response.message);
                 }
@@ -112,14 +113,16 @@ final class EditAssistant extends \MetagaussOpenAI\Admin\Requests\MoRoot
     private function updateFilesCountJs()
     {
         echo '
-        $("#mo-editassistant-assistantfiles").click(function(){
+        $("#mo-editassistant-assistantfiles").click(recountFiles);
+
+        function recountFiles() {
             let count = filesCount();
             if (count >= 20) {
                 disableCheckBoxes();
             } else {
                 enableCheckBoxes();
             }
-        });
+        };
         ';
     }
 
@@ -193,6 +196,7 @@ final class EditAssistant extends \MetagaussOpenAI\Admin\Requests\MoRoot
 
         function createAssistant(){
             hideAlert();
+            disableFields(true);
             showBtnLoader("#mo-editassistant-editassistant-submit");
             let aData = assistantData();
 
@@ -211,6 +215,7 @@ final class EditAssistant extends \MetagaussOpenAI\Admin\Requests\MoRoot
                 } else {
                     showAlert(response.message);
                 }
+                disableFields(false);
             });
         };
         ';
@@ -226,8 +231,9 @@ final class EditAssistant extends \MetagaussOpenAI\Admin\Requests\MoRoot
         echo '
 
         getAssistantData();
-        function getAssistantData(){
 
+        function getAssistantData(){
+            disableFields(true);
             const data = {
                 "action": "getAssistantData",
                 "assistant_id": "' . $this->assistant_id . '",
@@ -236,11 +242,15 @@ final class EditAssistant extends \MetagaussOpenAI\Admin\Requests\MoRoot
       
             $.post(ajaxurl, data, function(response) {
                 response = JSON.parse(response);
+                
                 if (response.success) {
                     fillAssistantValues(response.result);
                 } else {
                     showAlert(response.message);
                 }
+
+                disableFields(false);
+                recountFiles();
             });
         };
 

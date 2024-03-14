@@ -5,17 +5,11 @@ namespace MetagaussOpenAI\Admin\Responses;
 class DataSync extends \MetagaussOpenAI\Admin\Responses\MoRoot
 {
     protected $file_data = '';
-    protected $data_files = array();
-
-    protected function setDataFiles()
-    {
-        $this->data_files['posts'] = $this->config->getRootPath() . 'data/posts.txt';
-        $this->data_files['comments'] = $this->config->getRootPath() . 'data/comments.txt';
-    }
 
     public function checkFileStatus()
     {
         $this->checkNonce('check_file_status');
+        
         $file_id = $_POST['file_id'];
 
         $url = 'https://api.openai.com/v1/files/' . $file_id;
@@ -28,20 +22,13 @@ class DataSync extends \MetagaussOpenAI\Admin\Responses\MoRoot
             )
         );
 
-        $output = curl_exec($ch);
-        curl_close($ch);
+        $output = $this->curlOutput($ch);
+        $this->checkError($output);
+        
+        $this->response['success'] = true;
+        $this->response['message'] = __('File syncronized!', 'metagauss-openai');
 
-        $output = json_decode($output);
-
-        if (!property_exists($output, 'error')) {
-            $this->response['success'] = true;
-            $this->response['message'] = __('File syncronized!', 'metagauss-openai');
-        } else {
-            $this->response['success'] = false;
-            $this->response['message'] = __('Remote file not found.', 'metagauss-openai');
-        }
-
-        echo json_encode($this->response);
+        echo wp_json_encode($this->response);
         wp_die();
     }
 
@@ -49,7 +36,7 @@ class DataSync extends \MetagaussOpenAI\Admin\Responses\MoRoot
     {
         $this->checkNonce('is_file_writable');
         $data_type = $_POST['data_type'];
-        $file = $this->data_files[$data_type];
+        $file = $this->core_files->getLocalPath($data_type);
 
         if (is_writable($file)) {
             $this->response['success'] = true;
@@ -59,13 +46,14 @@ class DataSync extends \MetagaussOpenAI\Admin\Responses\MoRoot
             $this->response['message'] = __('The file is not writable.', 'metagauss-openai');
         }
 
-        echo json_encode($this->response);
+        echo wp_json_encode($this->response);
         wp_die();
     }
 
     public function addDataToFile()
     {
         $this->checkNonce('add_data_to_file');
+        $this->checkCapabilities();
         
         $data_type = $_POST['data_type'];
 
@@ -74,8 +62,9 @@ class DataSync extends \MetagaussOpenAI\Admin\Responses\MoRoot
         if (method_exists($this, $method)) {
             $this->$method();
         } else {
-            $this->response['success'] = true;
-            $this->response['message'] = '<div>' . __('Data compile method undefined.', 'metagauss-openai') . '</div>';
+            $this->response['success'] = false;
+            $this->response['message'] = '<div>' . __('Data compile method undefined. Operation aborted.', 'metagauss-openai') . '</div>';
+            echo json_encode($this->response);
             wp_die();
         }
 
@@ -103,26 +92,43 @@ class DataSync extends \MetagaussOpenAI\Admin\Responses\MoRoot
                 $this->file_data .= strip_tags(get_the_content());
             }
         }
+
         wp_reset_postdata();
+    }
+
+    function compileComments()
+    {
+        $args = array(
+            'status' => 'approve' // Fetch only approved comments
+        );
+
+        $comments = get_comments($args);
+
+        foreach ($comments as $comment) {
+            $this->file_data .= strip_tags($comment->comment_content);
+        }
+    
     }
 
     private function writeData($data_type)
     {
-        $data_file = fopen($this->data_files[$data_type], "w");
-        fwrite($data_file, str_replace('&nbsp;',' ', $this->file_data));
-        fclose($data_file);
+        $file = fopen($this->core_files->getLocalPath($data_type), "w");
+        fwrite($file, str_replace('&nbsp;',' ', $this->file_data));
+        fclose($file);
         $this->file_data = '';
     }
 
     public function transferDataFile()
     {
         $this->checkNonce('transfer_data_file');
+        $this->checkCapabilities();
+
         $data_type = $_POST['data_type'];
 
         $cfile = curl_file_create(
-            $this->data_files[$data_type],
-            'text/plain',
-            $data_type
+            realpath($this->core_files->getLocalPath($data_type)),
+            'application/octet-stream',
+            basename($this->core_files->getRemoteName($data_type))
         );
 
         $url = 'https://api.openai.com/v1/files';
@@ -142,17 +148,9 @@ class DataSync extends \MetagaussOpenAI\Admin\Responses\MoRoot
 
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 
-        $output = curl_exec($ch);
-        curl_close($ch);
-
-        if ($output != false) {
-            $output = json_decode($output);
-            $this->updateRemoteFileOption($data_type, $output);
-        } else {
-            $this->response['success'] = false;
-            $this->response['message'] = '<div>' . __('Unable to transfer file.', 'metagauss-openai') . '</div>';
-            echo json_encode($response);
-        }
+        $output = $this->curlOutput($ch);
+        $this->checkError($output);
+        $this->updateRemoteFileOption($data_type, $output);
 
         wp_die();
     }

@@ -13,6 +13,7 @@ class MoRoot extends \MetagaussOpenAI\Admin\MoRoot
         $this->showAlertJs();
         $this->hideAlertJs();
         $this->loaderBtnJs();
+        $this->disableFieldsJs();
         $this->requestJs();
         
         echo 
@@ -53,6 +54,17 @@ class MoRoot extends \MetagaussOpenAI\Admin\MoRoot
             $(btnId).prop("disabled", false);
             $(btnId).children(".mo-loaderbtn-label").removeClass("visually-hidden");
             $(btnId).children(".mo-loaderbtn-spinner").addClass("visually-hidden");
+        }
+        ';
+    }
+
+    protected function disableFieldsJs()
+    {
+        echo '
+        function disableFields(isDisabled) {
+            $(".mo-item-field").each(function(){
+                $(this).prop("disabled", isDisabled);
+            });
         }
         ';
     }

@@ -6,6 +6,12 @@ class MoRoot extends \MetagaussOpenAI\Admin\MoRoot
 {
     protected $response = array();
     protected $api_key = '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';
+    protected $core_files;
+
+    protected function setCoreFiles()
+    {
+        $this->core_files = \MetagaussOpenAI\Admin\CoreFiles::getInstance();
+    }
 
     protected function checkNonce($nonce)
     {

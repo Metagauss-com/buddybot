@@ -90,9 +90,11 @@ class DataSync extends \MetagaussOpenAI\Admin\Requests\MoRoot
   
             $.post(ajaxurl, data, function(response) {
                 response = JSON.parse(response);
+
                 if (response.success) {
                     transferDataFile(dataType);
                 }
+
                 $(".mo-msgs").append(response.message);
             });
         }

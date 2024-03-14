@@ -88,7 +88,7 @@ class EditAssistant extends \MetagaussOpenAI\Admin\Responses\MoRoot
         $data = array(
             'model' => $assistant_data->model,
             'name' => $assistant_data->name,
-            'description' => $assistant_data->name,
+            'description' => $assistant_data->description,
         );
 
         $data['tools'] = $this->assistantTools($assistant_data->tools);
@@ -161,7 +161,7 @@ class EditAssistant extends \MetagaussOpenAI\Admin\Responses\MoRoot
             if ($file->purpose === 'assistants' and absint($file->bytes) <= 536870912) {
                 $html .= '<div class="mb-2 text-muted">';
                 $html .= '<label for="' . $file->id . '">';
-                $html .= '<input type="checkbox" class="me-2" id="' . $file->id . '" value="' . $file->id . '">';
+                $html .= '<input type="checkbox" class="me-2 mo-item-field" id="' . $file->id . '" value="' . $file->id . '">';
                 $html .= $file->filename;
                 $html .= '<span class="badge text-bg-secondary rounded-pill ms-1">' . $this->fileSize($file->bytes) . '</span>';
                 $html .= '</label>';
