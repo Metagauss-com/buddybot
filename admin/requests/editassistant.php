@@ -193,6 +193,7 @@ final class EditAssistant extends \MetagaussOpenAI\Admin\Requests\MoRoot
 
         function createAssistant(){
             hideAlert();
+            showBtnLoader("#mo-editassistant-editassistant-submit");
             let aData = assistantData();
 
             const data = {
@@ -203,6 +204,7 @@ final class EditAssistant extends \MetagaussOpenAI\Admin\Requests\MoRoot
             };
       
             $.post(ajaxurl, data, function(response) {
+                hideBtnLoader("#mo-editassistant-editassistant-submit");
                 response = JSON.parse(response);
                 if (response.success) {
                     location.replace("' . get_admin_url() . 'admin.php?page=metagaussopenai-assistant&assistant_id=' . '" + response.result.id);

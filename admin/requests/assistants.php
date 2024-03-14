@@ -23,7 +23,6 @@ final class Assistants extends \MetagaussOpenAI\Admin\Requests\MoRoot
             };
   
             $.post(ajaxurl, data, function(response) {
-                alert(response);
                 response = JSON.parse(response);
                 if (response.success) {
                     $("tbody").html(response.html);

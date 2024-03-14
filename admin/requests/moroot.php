@@ -10,8 +10,9 @@ class MoRoot extends \MetagaussOpenAI\Admin\MoRoot
         <script>
         $(document).ready(function(){' . PHP_EOL;
 
-        $this->showAlert();
-        $this->hideAlert();
+        $this->showAlertJs();
+        $this->hideAlertJs();
+        $this->loaderBtnJs();
         $this->requestJs();
         
         echo 
@@ -19,7 +20,7 @@ class MoRoot extends \MetagaussOpenAI\Admin\MoRoot
         </script>';
     }
 
-    protected function showAlert()
+    protected function showAlertJs()
     {
         echo '
         function showAlert(message = "") {
@@ -29,12 +30,29 @@ class MoRoot extends \MetagaussOpenAI\Admin\MoRoot
         ';
     }
 
-    protected function hideAlert()
+    protected function hideAlertJs()
     {
         echo '
         function hideAlert(message = "") {
             $("#mo-alert-container").html("");
             $("#mo-alert-container").hide();
+        }
+        ';
+    }
+
+    protected function loaderBtnJs()
+    {
+        echo '
+        function showBtnLoader(btnId) {
+            $(btnId).prop("disabled", true);
+            $(btnId).children(".mo-loaderbtn-label").addClass("visually-hidden");
+            $(btnId).children(".mo-loaderbtn-spinner").removeClass("visually-hidden");
+        }
+
+        function hideBtnLoader(btnId) {
+            $(btnId).prop("disabled", false);
+            $(btnId).children(".mo-loaderbtn-label").removeClass("visually-hidden");
+            $(btnId).children(".mo-loaderbtn-spinner").addClass("visually-hidden");
         }
         ';
     }

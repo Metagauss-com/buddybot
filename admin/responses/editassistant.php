@@ -128,6 +128,8 @@ class EditAssistant extends \MetagaussOpenAI\Admin\Responses\MoRoot
 
     private function modelsListHtml($list)
     {
+        $unsupported_models = $this->config->getProp('unsupported_models');
+
         $html = '';
 
         if (!is_array($list) or empty($list)) {
@@ -135,9 +137,12 @@ class EditAssistant extends \MetagaussOpenAI\Admin\Responses\MoRoot
         }
 
         foreach ($list as $model) {
-            $html .= '<option value="' . esc_attr($model->id) . '">';
-            $html .= esc_html($model->id);
-            $html .= '</option>';
+
+            if (!in_array($model->id, $unsupported_models)) {
+                $html .= '<option value="' . esc_attr($model->id) . '">';
+                $html .= esc_html(strtoupper(str_replace('-', ' ', $model->id)));
+                $html .= '</option>';
+            }
         }
 
         return $html;

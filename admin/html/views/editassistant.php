@@ -158,9 +158,9 @@ class EditAssistant extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
 
         $id = 'mo-editassistant-editassistant-submit';
         echo '<div>';
-        echo '<button id="' . esc_attr($id) . '" class="btn btn-success">';
-        echo esc_html($btn_label);
-        echo '</button>';
+        
+        $this->loaderBtn('success', $id, $btn_label);
+
         echo '</div>';
     }
     
