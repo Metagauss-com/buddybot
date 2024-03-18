@@ -4,10 +4,10 @@ namespace MetagaussOpenAI;
 
 final class MoConfig
 {
+    public const PREFIX = "metagauss-openai"; 
     protected static $instance;
+    protected $db_tables;
     protected $unsupported_models = array();
-
-    const PREFIX = "MetagaussOpenAI";
     
     public function isCurlSet()
     {
@@ -15,6 +15,24 @@ final class MoConfig
             return true;
         }
         else {
+            return false;
+        }
+    }
+
+    private function setDbTables()
+    {
+        global $wpdb;
+        $prefix = $wpdb->prefix . 'mgoa_';
+        $this->db_tables = array(
+            'threads' => $prefix . 'threads'
+        );
+    }
+
+    public function getDbTable($for = '')
+    {
+        if (array_key_exists($for, $this->db_tables)) {
+            return $this->db_tables[$for];
+        } else {
             return false;
         }
     }
@@ -70,6 +88,7 @@ final class MoConfig
 
     private function __construct()
     {
+        $this->setDbTables();
         $this->setUnsupportedModels();
     }
 

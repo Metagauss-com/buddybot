@@ -46,6 +46,7 @@ if (is_admin()) {
     $admin_responses = new Admin\Responses\DataSync();
     $admin_responses = new Admin\Responses\Assistants();
     $admin_responses = new Admin\Responses\EditAssistant();
+    $admin_responses = new Admin\Responses\Playground();
 }
 
 //----------Public Code--------//
@@ -53,5 +54,5 @@ if (is_admin()) {
 if (!is_admin()) {
 }
 
-//$mo_db = new MoDb();
-//register_activation_hook(__FILE__, array($mfdb, 'installMetagaussOpenAI'));
+$mgoa_db = new MoDb();
+register_activation_hook(__FILE__, array($mgoa_db, 'installPlugin'));

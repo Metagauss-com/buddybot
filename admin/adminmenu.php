@@ -6,6 +6,7 @@ final class AdminMenu extends \MetagaussOpenAI\Admin\MoRoot
     public function topLevelMenu()
     {
         $this->mainMenuItem();
+        $this->playgroundSubmenuItem();
         $this->orgFilesSubmenuItem();
         $this->assistantsSubmenuItem();
         $this->addFileSubmenuItem();
@@ -27,6 +28,19 @@ final class AdminMenu extends \MetagaussOpenAI\Admin\MoRoot
             array($this, 'appMenuPage'),
             'dashicons-superhero',
             6
+        );
+    }
+
+    public function playgroundSubmenuItem()
+    {
+        add_submenu_page(
+            'metagaussopenai-chatbot',
+            __('Playground', 'metgauss-openai'),
+            __('Playground', 'metgauss-openai'),
+            'manage_options',
+            'metagaussopenai-playground',
+            array($this, 'playgroundMenuPage'),
+            1
         );
     }
 
@@ -103,6 +117,11 @@ final class AdminMenu extends \MetagaussOpenAI\Admin\MoRoot
     public function filesMenuPage()
     {
         include_once(plugin_dir_path(__FILE__) . 'pages/orgfiles.php');
+    }
+
+    public function playgroundMenuPage()
+    {
+        include_once(plugin_dir_path(__FILE__) . 'pages/playground.php');
     }
 
     public function addFileMenuPage()

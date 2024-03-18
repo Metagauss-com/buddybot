@@ -4,6 +4,19 @@ namespace MetagaussOpenAI\Admin\Html\Views;
 
 class MoRoot extends \MetagaussOpenAI\Admin\Html\MoRoot
 {
+    protected $sql;
+
+    protected function setSql()
+    {
+        $class_name = (new \ReflectionClass($this))->getShortName();
+        $file_path = $this->config->getRootPath() . 'admin/sql/' . strtolower($class_name) . '.php';
+
+        if (file_exists($file_path)) {
+            $class_name = '\MetagaussOpenAI\Admin\Sql\\' . $class_name;
+            $this->sql = $class_name::getInstance(); 
+        }
+    }
+
     protected function alertContainer()
     {
         echo '<div id="mo-alert-container" class="alert alert-danger small w-50" role="alert" style="display:none;">';
