@@ -19,7 +19,7 @@ class MoDb
         $table_name = $this->config->getDbTable('threads');
         $sql = "CREATE TABLE $table_name (
         id mediumint(9) NOT NULL AUTO_INCREMENT,
-        thread_id varchar(40),
+        thread_id varchar(100),
         user_id mediumint(9),
         PRIMARY KEY  (id)
         )  $this->charset;";

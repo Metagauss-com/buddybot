@@ -54,8 +54,11 @@ class Playground extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
         echo '<div id="mgoa-playground-threads-header" class="fs-6 p-3">';
         esc_html_e('Conversations', 'metagauss-openai');
         echo '</div>';
+
+        $this->threatIdInput();
+        $this->runIdInput();
         
-        echo '<div id="mgoa-playground-threads-list" class="p-3">';
+        echo '<div id="mgoa-playground-threads-list" class="p-3" style="height: 700px; overflow-y: auto;">';
         $this->threadList();
         echo '</div>';
         
@@ -73,7 +76,7 @@ class Playground extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
 
     private function messagesListContainer()
     {
-        echo '<div class="d-flex" style="min-height:500px;">';
+        echo '<div id="mgoa-playground-messages-list" class="p-3" style="height:700px; overflow-y: auto;">';
         echo '</div>';
     }
 
@@ -81,14 +84,17 @@ class Playground extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
     {
         echo '<div class="">';
 
-        echo '<div id="mgoa-playground-message-status" class="text-center">';
-        echo '</div>';
-
-        echo '<div class="progress" role="progressbar" style="height: 5px">';
-        echo '<div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 0%"></div>';
+        echo '<div id="mgoa-playground-message-status" class="text-center small">';
+        $this->statusBarMessage('creating-thread', __('Starting new conversation', 'metagauss-openai'));
         echo '</div>';
 
         echo '</div>';
+    }
+
+    private function statusBarMessage($attr, $text) {
+        echo '<span data-mo-message="' . esc_attr($attr) . '">';
+        echo esc_html($text);
+        echo '</span>';
     }
 
     private function newMessageContainer()
@@ -113,7 +119,7 @@ class Playground extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
     private function messageTextArea()
     {
         echo '<div class="p-2 flex-fill">';
-        echo '<textarea id="mo-playground-new-message-text" data-mo-threadid="" class="w-100" rows="5">';
+        echo '<textarea id="mgao-playground-new-message-text" data-mo-threadid="" class="w-100 form-control" rows="5">';
         echo '</textarea>';
         echo '</div>';
     }
@@ -121,7 +127,7 @@ class Playground extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
     private function sendMessageBtn()
     {
         echo '<div class="p-2">';
-        echo '<button type="button"';
+        echo '<button id="mgao-playground-send-message-btn" type="button"';
         echo 'class="btn btn-dark">';
         esc_html_e('Send', 'metagauss-openai');
         echo '</button>';
@@ -144,6 +150,24 @@ class Playground extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
         }
     }
 
+    private function threatIdInput()
+    {
+        $thread_id = '';
+
+        if (!empty($_GET['thread_id'])) {
+            $thread_id = $_GET['thread_id'];
+        }
+
+        echo '<input id="mgao-playground-thread-id-input" ';
+        echo 'type="hidden" value="' . $thread_id . '">';
+    }
+
+    private function runIdInput()
+    {
+        echo '<input id="mgao-playground-run-id-input" ';
+        echo 'type="hidden" value="">';
+    }
+
     private function threadList()
     {
         $response = $this->sql->getThreadsByUserId();
@@ -163,8 +187,8 @@ class Playground extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
         }
 
         foreach ($response['result'] as $thread) {
-            echo '<div>';
-            echo $thread->id;
+            echo '<div class="mb-2 p-2 text-truncate small">';
+            echo esc_html($thread->thread_id);
             echo '</div>';
         }
     }

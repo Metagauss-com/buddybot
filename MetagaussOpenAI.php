@@ -40,7 +40,7 @@ if (is_admin()) {
     // include_once(plugin_dir_path(__FILE__) . '/Admin/adminmenu.php');
     $admin_menu = new Admin\AdminMenu();
     $admin_stylesheets = new Admin\StyleSheets();
-    $admin_responses = new Admin\Responses\ChatBot();
+    // $admin_responses = new Admin\Responses\ChatBot();
     $admin_responses = new Admin\Responses\OrgFiles();
     $admin_responses = new Admin\Responses\AddFile();
     $admin_responses = new Admin\Responses\DataSync();

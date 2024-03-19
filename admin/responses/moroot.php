@@ -8,9 +8,22 @@ class MoRoot extends \MetagaussOpenAI\Admin\MoRoot
     protected $api_key = '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';
     protected $core_files;
 
+    protected $sql;
+
     protected function setCoreFiles()
     {
         $this->core_files = \MetagaussOpenAI\Admin\CoreFiles::getInstance();
+    }
+
+    protected function setSql()
+    {
+        $class_name = (new \ReflectionClass($this))->getShortName();
+        $file_path = $this->config->getRootPath() . 'admin/sql/' . strtolower($class_name) . '.php';
+
+        if (file_exists($file_path)) {
+            $class_name = '\MetagaussOpenAI\Admin\Sql\\' . $class_name;
+            $this->sql = $class_name::getInstance(); 
+        }
     }
 
     protected function checkNonce($nonce)
@@ -38,8 +51,8 @@ class MoRoot extends \MetagaussOpenAI\Admin\MoRoot
     protected function curlOutput($ch)
     {
         $output = curl_exec($ch);
-        $this->response['result'] = $output;
         $output = json_decode($output);
+        $this->response['result'] = $output;
         curl_close($ch);
         return $output;
     }

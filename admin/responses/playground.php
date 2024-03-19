@@ -26,7 +26,7 @@ class Playground extends \MetagaussOpenAI\Admin\Responses\MoRoot
 
         if ($output->object === 'list') {
             $this->response['success'] = true;
-            $this->assistantOptions($output);
+            $this->assistantOptionsHtml($output);
         } else {
             $this->response['success'] = false;
             $this->response['message'] = __('Unable to fetch assistants list.', 'metagauss-openai');
@@ -36,7 +36,7 @@ class Playground extends \MetagaussOpenAI\Admin\Responses\MoRoot
         wp_die();
     }
 
-    protected function assistantOptions($assistants)
+    protected function assistantOptionsHtml($assistants)
     {
         $this->response['html'] = '';
 
@@ -56,9 +56,229 @@ class Playground extends \MetagaussOpenAI\Admin\Responses\MoRoot
         }
     }
 
+    public function createThread()
+    {
+        $this->checkNonce('create_thread');
+        
+        $url = 'https://api.openai.com/v1/threads';
+
+        $ch = curl_init($url);
+        
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'OpenAI-Beta: assistants=v1',
+            'Content-Type: application/json',
+            'Authorization: Bearer ' . $this->api_key
+            )
+        );
+
+        $data = array(
+            'metadata' => array(
+                'wp_user_id' => get_current_user_id(),
+                'wp_source' => 'wp_admin'
+            )
+        );
+
+        curl_setopt($ch, CURLOPT_POSTFIELDS, wp_json_encode($data));
+
+        $output = $this->curlOutput($ch);
+        $this->checkError($output);
+
+        if ($this->response['success']) {
+            $insert = $this->sql->saveThreadId($output->id);
+            if ($insert === false) {
+                $this->response['success'] = false;
+                $this->response['message'] = __('Unable to save thread in the database', 'metagauss-openai');
+            }
+        }
+
+        echo wp_json_encode($this->response);
+        wp_die();
+    }
+
+    public function createMessage()
+    {
+        $this->checkNonce('create_message');
+
+        $thread_id = $_POST['thread_id'];
+        $message = $_POST['message'];
+        
+        $url = 'https://api.openai.com/v1/threads/' . $thread_id . '/messages';
+
+        $ch = curl_init($url);
+        
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'OpenAI-Beta: assistants=v1',
+            'Content-Type: application/json',
+            'Authorization: Bearer ' . $this->api_key
+            )
+        );
+
+        $data = array(
+            'role' => 'user',
+            'content' => $message,
+            'metadata' => array(
+                'wp_user_id' => get_current_user_id(),
+                'wp_source' => 'wp_admin'
+            )
+        );
+
+        curl_setopt($ch, CURLOPT_POSTFIELDS, wp_json_encode($data));
+
+        $output = $this->curlOutput($ch);
+        $this->checkError($output);
+
+        $this->response['html'] = $this->userMessageHtml($output);
+
+        echo wp_json_encode($this->response);
+        wp_die();
+    }
+
+    public function createRun()
+    {
+        $this->checkNonce('create_run');
+
+        $thread_id = $_POST['thread_id'];
+        $assistant_id = $_POST['assistant_id'];
+        
+        $url = 'https://api.openai.com/v1/threads/' . $thread_id . '/runs';
+
+        $ch = curl_init($url);
+        
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'OpenAI-Beta: assistants=v1',
+            'Content-Type: application/json',
+            'Authorization: Bearer ' . $this->api_key
+            )
+        );
+
+        $data = array(
+            'assistant_id' => $assistant_id,
+            'metadata' => array(
+                'wp_user_id' => get_current_user_id(),
+                'wp_source' => 'wp_admin'
+            )
+        );
+
+        curl_setopt($ch, CURLOPT_POSTFIELDS, wp_json_encode($data));
+
+        $output = $this->curlOutput($ch);
+        $this->checkError($output);
+
+        echo wp_json_encode($this->response);
+        wp_die();
+    }
+
+    public function retrieveRun()
+    {
+        $this->checkNonce('retrieve_run');
+
+        $thread_id = $_POST['thread_id'];
+        $run_id = $_POST['run_id'];
+        
+        $url = 'https://api.openai.com/v1/threads/' . $thread_id . '/runs/' . $run_id;
+
+        $ch = curl_init($url);
+        
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'OpenAI-Beta: assistants=v1',
+            'Content-Type: application/json',
+            'Authorization: Bearer ' . $this->api_key
+            )
+        );
+
+        $output = $this->curlOutput($ch);
+        $this->checkError($output);
+
+        echo wp_json_encode($this->response);
+        wp_die();
+    }
+
+    public function listMessages()
+    {
+        $this->checkNonce('list_messages');
+
+        $thread_id = $_POST['thread_id'];
+        $limit = $_POST['limit'];
+        
+        $url = 'https://api.openai.com/v1/threads/' . $thread_id . '/messages?limit=' . $limit;
+
+        $ch = curl_init($url);
+        
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'OpenAI-Beta: assistants=v1',
+            'Content-Type: application/json',
+            'Authorization: Bearer ' . $this->api_key
+            )
+        );
+
+        $output = $this->curlOutput($ch);
+        $this->checkError($output);
+
+        $this->messagesHtml($output->data);
+
+        echo wp_json_encode($this->response);
+        wp_die();
+    }
+
+    private function messagesHtml($messages)
+    {
+        $html = '<div class="d-flex justify-content-start my-2">';
+
+        foreach ($messages as $message) {
+            $html .= '<div class="p-3 border rounded-4" style="max-width: 400px;">';
+            
+            foreach ($message->content as $content) {
+                $html .= $content->text->value;
+            }
+
+            $html .= '</div>';
+        }
+
+        $html .= '</div>';
+
+        $this->response['html'] = $html;
+    }
+
+    private function userMessageHtml($message)
+    {
+        $html = '<div class="d-flex justify-content-end my-2">';
+
+        $html .= '<div class="rounded-circle me-2">';
+        $html .= get_avatar(get_current_user_id(), 24);
+        $html .= '</div>';
+
+        $html .= '<div class="p-3 bg-primary text-white rounded-4" style="max-width: 400px;">';
+        
+        foreach ($message->content as $content) {
+            $html .= $content->text->value;
+        }
+        
+        $html .= '</div>';
+        $html .= '</div>';
+        return $html;
+    }
+
     public function __construct()
     {
         $this->setAll();
         add_action('wp_ajax_getAssistantOptions', array($this, 'getAssistantOptions'));
+        add_action('wp_ajax_createThread', array($this, 'createThread'));
+        add_action('wp_ajax_createMessage', array($this, 'createMessage'));
+        add_action('wp_ajax_createRun', array($this, 'createRun'));
+        add_action('wp_ajax_retrieveRun', array($this, 'retrieveRun'));
+        add_action('wp_ajax_listMessages', array($this, 'listMessages'));
     }
 }
