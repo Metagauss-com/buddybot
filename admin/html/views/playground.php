@@ -51,14 +51,14 @@ class Playground extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
     {
         echo '<div id="mgoa-playground-threads-container" class="col-md-2 flex-column border-end bg-light">';
         
-        echo '<div id="mgoa-playground-threads-header" class="fs-6 p-3">';
-        esc_html_e('Conversations', 'metagauss-openai');
+        echo '<div id="mgoa-playground-threads-header" class="fs-6 p-4">';
+        esc_html_e('History', 'metagauss-openai');
         echo '</div>';
 
         $this->threatIdInput();
         $this->runIdInput();
         
-        echo '<div id="mgoa-playground-threads-list" class="p-3" style="height: 700px; overflow-y: auto;">';
+        echo '<div id="mgoa-playground-threads-list" class="p-3" style="height: 600px; overflow-y: auto;">';
         $this->threadList();
         echo '</div>';
         
@@ -76,18 +76,25 @@ class Playground extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
 
     private function messagesListContainer()
     {
-        echo '<div id="mgoa-playground-messages-list" class="p-3" style="height:700px; overflow-y: auto;">';
+        echo '<div id="mgoa-playground-messages-list" class="p-3" style="height:600px; overflow-y: auto;">';
+        echo '</div>';
+    }
+
+    private function openAiBadge()
+    {
+        $badge_url = $this->config->getRootUrl() . 'admin/html/images/third-party/openai/openai-dark-badge.svg';
+        echo '<div class="text-center my-2">';
+        echo '<img width="150" src="' . esc_url($badge_url) . '">';
         echo '</div>';
     }
 
     private function messagesStatusBar()
     {
         echo '<div class="">';
-
         echo '<div id="mgoa-playground-message-status" class="text-center small">';
         $this->statusBarMessage('creating-thread', __('Starting new conversation', 'metagauss-openai'));
         echo '</div>';
-
+        $this->openAiBadge();
         echo '</div>';
     }
 
@@ -187,8 +194,15 @@ class Playground extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
         }
 
         foreach ($response['result'] as $thread) {
+            
+            $label = $thread->thread_name;
+
+            if (empty($label)) {
+                $label = $thread->thread_id;
+            }
+
             echo '<div class="mb-2 p-2 text-truncate small">';
-            echo esc_html($thread->thread_id);
+            echo esc_html($label);
             echo '</div>';
         }
     }

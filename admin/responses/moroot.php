@@ -66,8 +66,8 @@ class MoRoot extends \MetagaussOpenAI\Admin\MoRoot
             wp_die();
         } elseif (!empty($output->error)) {
             $this->response['success'] = false;
-            $this->response['message'] = __('There was an error. ', 'metagauss-openai');
-            $this->response['message'] .= $output->error->message;
+            $this->response['message'] = '<span class="text-danger">' . __('There was an error. ', 'metagauss-openai');
+            $this->response['message'] .= $output->error->message . '</span>';
             echo wp_json_encode($this->response);
             wp_die();
         } else {

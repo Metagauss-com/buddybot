@@ -47,7 +47,22 @@ class Playground extends \MetagaussOpenAI\Admin\Sql\MoRoot
         global $wpdb;
         $insert = $wpdb->insert($table, $data, $format);
         return $insert;
+    }
 
+    public function updateThreadName($thread_id, $thread_name)
+    {
+        $table = $this->config->getDbTable('threads');
+        
+        if (strlen($thread_name) > 100) {
+            $thread_name = substr($thread_name, 100);
+        }
 
+        $data = array('thread_name' => $thread_name);
+        $where = array('thread_id' => $thread_id);
+        $format = array('%s');
+        $where_format = array('%s');
+
+        global $wpdb;
+        $wpdb->update($table, $data, $where, $format, $where_format);
     }
 }

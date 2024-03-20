@@ -133,7 +133,9 @@ class Playground extends \MetagaussOpenAI\Admin\Responses\MoRoot
         $output = $this->curlOutput($ch);
         $this->checkError($output);
 
-        $this->response['html'] = $this->userMessageHtml($output);
+        $this->sql->updateThreadName($thread_id, $message);
+
+        $this->response['html'] = $this->chatBubbleHtml($output);
 
         echo wp_json_encode($this->response);
         wp_die();
@@ -235,40 +237,19 @@ class Playground extends \MetagaussOpenAI\Admin\Responses\MoRoot
 
     private function messagesHtml($messages)
     {
-        $html = '<div class="d-flex justify-content-start my-2">';
-
+        $html = '';
         foreach ($messages as $message) {
-            $html .= '<div class="p-3 border rounded-4" style="max-width: 400px;">';
-            
-            foreach ($message->content as $content) {
-                $html .= $content->text->value;
-            }
-
-            $html .= '</div>';
+            $html .= $this->chatBubbleHtml($message);
         }
-
-        $html .= '</div>';
 
         $this->response['html'] = $html;
     }
 
-    private function userMessageHtml($message)
+    private function chatBubbleHtml($message)
     {
-        $html = '<div class="d-flex justify-content-end my-2">';
-
-        $html .= '<div class="rounded-circle me-2">';
-        $html .= get_avatar(get_current_user_id(), 24);
-        $html .= '</div>';
-
-        $html .= '<div class="p-3 bg-primary text-white rounded-4" style="max-width: 400px;">';
-        
-        foreach ($message->content as $content) {
-            $html .= $content->text->value;
-        }
-        
-        $html .= '</div>';
-        $html .= '</div>';
-        return $html;
+        $chat_bubble = new \MetagaussOpenAI\Admin\Html\Elements\Playground\ChatBubble();
+        $chat_bubble->setMessage($message);
+        return $chat_bubble->getHtml();
     }
 
     public function __construct()

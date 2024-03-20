@@ -21,6 +21,7 @@ class MoDb
         id mediumint(9) NOT NULL AUTO_INCREMENT,
         thread_id varchar(100),
         user_id mediumint(9),
+        thread_name varchar(100),
         PRIMARY KEY  (id)
         )  $this->charset;";
         
