@@ -20,7 +20,7 @@ class Playground extends \MetagaussOpenAI\Admin\Sql\MoRoot
         global $wpdb;
         $this->response['result'] = $wpdb->get_results(
             $wpdb->prepare(
-                'SELECT * FROM %i WHERE user_id=%d',
+                'SELECT * FROM %i WHERE user_id=%d ORDER BY id DESC',
                 $table,
                 $user_id
             )

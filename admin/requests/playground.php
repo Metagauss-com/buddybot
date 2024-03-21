@@ -16,6 +16,7 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
         $this->createRunJs();
         $this->retrieveRunJs();
         $this->listMessagesJs();
+        $this->scrollToMessageJs();
     }
 
     private function setVarsJs()
@@ -155,6 +156,7 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
                     updateStatus(messageSent);
                     $("#mgao-playground-new-message-text").val("");
                     $("#mgoa-playground-messages-list").append(response.html);
+                    scrollToMessage(response.result.id);
                     createRun();
                 } else {
                     disableMessage(false);
@@ -257,12 +259,24 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
                 if (response.success) {
                     updateStatus(responseUpdated);
                     $("#mgoa-playground-messages-list").append(response.html);
+                    scrollToMessage(response.result.data[0].id);
                     disableMessage(false);
                 } else {
                     disableMessage(false);
                     updateStatus(response.message);
                 }
             });
+        }
+        ';
+    }
+
+    private function scrollToMessageJs()
+    {
+        echo '
+        function scrollToMessage(messageId) {
+            $("#mgoa-playground-messages-list").animate({
+                scrollTop: $("#" + messageId).offset().top
+            }, 1000);
         }
         ';
     }

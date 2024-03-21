@@ -41,7 +41,7 @@ class ChatBubble extends \MetagaussOpenAI\Admin\Html\Elements\Playground\MoRoot
         $args = array('default' => 'retro');
         $img_url = get_avatar_url(get_current_user_id(), $args);
         
-        $html = '<div class="d-flex justify-content-end my-2">';
+        $html = '<div class="d-flex justify-content-end my-2" id="' . esc_attr($this->message->id) . '">';
 
         $html .= $this->messageImage($img_url);
 
@@ -68,7 +68,7 @@ class ChatBubble extends \MetagaussOpenAI\Admin\Html\Elements\Playground\MoRoot
     {
         $img_url = $this->config->getRootUrl() . 'admin/html/images/third-party/openai/openai-logomark.svg';
         
-        $html = '<div class="d-flex justify-content-start my-2">';
+        $html = '<div class="d-flex justify-content-start my-2" id="' . esc_attr($this->message->id) . '">';
 
         $html .= $this->messageImage($img_url);
 
@@ -77,7 +77,7 @@ class ChatBubble extends \MetagaussOpenAI\Admin\Html\Elements\Playground\MoRoot
         $html .= '<div class="p-3 bg-light rounded-4" style="max-width: 500px;">';
         
         foreach ($this->message->content as $content) {
-            $html .= wp_unslash($content->text->value);
+            $html .= $content->text->value;
         }
         
         $html .= '</div>';
@@ -93,7 +93,7 @@ class ChatBubble extends \MetagaussOpenAI\Admin\Html\Elements\Playground\MoRoot
     private function messageImage($img_url)
     {
         $html = '<div class="me-2">';
-        $html .= '<img width="28" class="rounded-circle border p-1 border" src="' . esc_url($img_url) . '">';
+        $html .= '<img width="28" class="rounded-circle border" src="' . esc_url($img_url) . '">';
         $html .= '</div>';
         return $html;
     }
