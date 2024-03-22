@@ -201,7 +201,7 @@ class Playground extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
                 $label = $thread->thread_id;
             }
 
-            echo '<div class="mb-2 p-2 text-truncate small">';
+            echo '<div class="mgoa-playground-threads-list-item mb-2 p-2 text-truncate small" data-mgoa-threadid="' . esc_attr($thread->thread_id) . '" role="button">';
             echo esc_html($label);
             echo '</div>';
         }

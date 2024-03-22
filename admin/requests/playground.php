@@ -16,7 +16,10 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
         $this->createRunJs();
         $this->retrieveRunJs();
         $this->listMessagesJs();
+        $this->storeThreadInfoJs();
         $this->scrollToMessageJs();
+        $this->selectThreadJs();
+        $this->pastMessagesJs();
     }
 
     private function setVarsJs()
@@ -34,6 +37,8 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
         const retrievingRun = "' . esc_html('Assistant is writing response to your message.', 'metagauss-openai') . '";
         const gettingResponse = "' . esc_html("Fetching Assistant response.", 'metagauss-openai') . '";
         const responseUpdated = "' . esc_html("Assistant response received.", 'metagauss-openai') . '";
+        const gettingPastMessages = "' . esc_html("Loading previous messages.", 'metagauss-openai') . '";
+        const pastMessagesUpdated = "' . esc_html("Loaded previous messages.", 'metagauss-openai') . '";
         ';
     }
 
@@ -240,7 +245,7 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
     {
         $nonce = wp_create_nonce('list_messages');
         echo '
-        function listMessages(limit = 1) {
+        function listMessages(limit = 1, order = "desc") {
 
             disableMessage();
             updateStatus(gettingResponse);
@@ -251,6 +256,7 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
                 "action": "listMessages",
                 "thread_id": threadId,
                 "limit": limit,
+                "order": order,
                 "nonce": "' . $nonce . '"
             };
   
@@ -259,6 +265,7 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
                 if (response.success) {
                     updateStatus(responseUpdated);
                     $("#mgoa-playground-messages-list").append(response.html);
+                    storeThreadInfo(response.result);
                     scrollToMessage(response.result.data[0].id);
                     disableMessage(false);
                 } else {
@@ -270,14 +277,94 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
         ';
     }
 
+    private function storeThreadInfoJs()
+    {
+        echo '
+        function storeThreadInfo(thread)
+        {
+            const threadData = {
+                "firstId": thread.first_id,
+                "lastId": thread.last_id,
+                "hasMore": thread.has_more
+            }
+
+            $("#mgoa-playground-messages-list").data("mgoa-thread-info", threadData);
+        }
+        ';
+    }
+
     private function scrollToMessageJs()
     {
         echo '
         function scrollToMessage(messageId) {
             $("#mgoa-playground-messages-list").animate({
-                scrollTop: $("#" + messageId).offset().top
-            }, 1000);
+                
+            }, 2000);
         }
+        ';
+    }
+
+    private function selectThreadJs()
+    {
+        echo '
+        $("#mgoa-playground-threads-list").on("click", ".mgoa-playground-threads-list-item", function() {
+            
+            const threadId = $(this).attr("data-mgoa-threadid");
+            const highlightClass = "fw-bold text-primary";
+            
+            $("#mgoa-playground-messages-list").html("");
+            $("#mgao-playground-thread-id-input").val(threadId);
+            $(".mgoa-playground-threads-list-item.fw-bold.text-primary").removeClass(highlightClass);
+            $(this).addClass(highlightClass);
+            
+            listMessages(5, "asc");
+        });
+        ';
+    }
+
+    private function pastMessagesJs()
+    {
+        $nonce = wp_create_nonce('list_messages');
+
+        echo '
+        $("#mgoa-playground-messages-list").scroll(function(){
+            
+            let listPos = $(this).scrollTop();
+            
+            if (listPos === 0) {
+
+                const threadData = $("#mgoa-playground-messages-list").data("mgoa-thread-info");
+                
+                if (threadData.hasMore === false) {
+                    return;
+                }
+
+                updateStatus(gettingPastMessages);
+
+                const threadId = $("#mgao-playground-thread-id-input").val();
+
+                const data = {
+                    "action": "listMessages",
+                    "thread_id": threadId,
+                    "limit": 4,
+                    "order": "asc",
+                    "after": threadData.lastId,
+                    "nonce": "' . $nonce . '"
+                };
+  
+                $.post(ajaxurl, data, function(response) {
+                    response = JSON.parse(response);
+                    if (response.success) {
+                        updateStatus(pastMessagesUpdated);
+                        $("#wpbody-content").prepend(response.html);
+                        alert(JSON.stringify(response.result));
+                    } else {
+                        updateStatus(response.message);
+                    }
+                });
+            }
+
+          });
         ';
     }
 }

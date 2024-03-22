@@ -255,7 +255,6 @@ final class EditAssistant extends \MetagaussOpenAI\Admin\Requests\MoRoot
         };
 
         function fillAssistantValues(assistant) {
-            assistant = JSON.parse(assistant);
             $("#mo-editassistant-assistantname").val(assistant.name);
             $("#mo-editassistant-assistantdescription").val(assistant.description);
             $("#mo-editassistant-assistantmodel").val(assistant.model);

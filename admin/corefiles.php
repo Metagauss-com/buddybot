@@ -29,8 +29,8 @@ final class CoreFiles
     {
         $this->comments = array(
             'local_path' => $this->config->getRootPath() . 'data/posts.txt',
-            'remote_name' => 'WP Posts',
-            'wp_option_name' => 'mo-posts-remote-file-id'
+            'remote_name' => 'WP Comments',
+            'wp_option_name' => 'mo-comments-remote-file-id'
         );
     }
 

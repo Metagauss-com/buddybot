@@ -9,6 +9,7 @@ final class MoConfig
     protected $db_tables;
     protected $unsupported_models = array();
     protected $date_format;
+    protected $time_format;
     
     public function isCurlSet()
     {
@@ -62,9 +63,12 @@ final class MoConfig
 
     protected function setDateFormat()
     {
-        $date_format = get_option('date_format');
-        $time_format = get_option('time_format');
-        $this->date_format = $date_format . ' ' . $time_format;
+        $this->date_format = get_option('date_format');
+    }
+
+    protected function setTimeFormat()
+    {
+        $this->time_format = get_option('time_format');
     }
 
     public function getProp(string $prop_name)
@@ -97,6 +101,7 @@ final class MoConfig
     private function __construct()
     {
         $this->setDateFormat();
+        $this->setTimeFormat();
         $this->setDbTables();
         $this->setUnsupportedModels();
     }
