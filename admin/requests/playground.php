@@ -230,7 +230,8 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
                 if (response.success) {
                     if (response.result.status == "completed") {
                         clearInterval(checkRun);
-                        listMessages();
+                        listMessages(1);
+                        scrollToMessage(response.result.last_id);
                     }
                 } else {
                     disableMessage(false);
@@ -261,12 +262,13 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
             };
   
             $.post(ajaxurl, data, function(response) {
+                
                 response = JSON.parse(response);
+
                 if (response.success) {
                     updateStatus(responseUpdated);
                     $("#mgoa-playground-messages-list").append(response.html);
                     storeThreadInfo(response.result);
-                    scrollToMessage(response.result.data[0].id);
                     disableMessage(false);
                 } else {
                     disableMessage(false);
@@ -282,13 +284,15 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
         echo '
         function storeThreadInfo(thread)
         {
-            const threadData = {
-                "firstId": thread.first_id,
-                "lastId": thread.last_id,
-                "hasMore": thread.has_more
-            }
+            $("#mgoa-playground-first-message-id").val(thread.first_id);
+            $("#mgoa-playground-last-message-id").val(thread.last_id);
+            $("#mgoa-playground-has-more-messages").val(thread.has_more);
 
-            $("#mgoa-playground-messages-list").data("mgoa-thread-info", threadData);
+            if (thread.has_more) {
+                $("#mgoa-playground-past-messages-btn").css("opacity", 100);
+            } else {
+                $("#mgoa-playground-past-messages-btn").css("opacity", 0);
+            }
         }
         ';
     }
@@ -298,8 +302,8 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
         echo '
         function scrollToMessage(messageId) {
             $("#mgoa-playground-messages-list").animate({
-                
-            }, 2000);
+                scrollTop: $("#" + messageId).offset().top
+            }, 1000);
         }
         ';
     }
@@ -317,7 +321,7 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
             $(".mgoa-playground-threads-list-item.fw-bold.text-primary").removeClass(highlightClass);
             $(this).addClass(highlightClass);
             
-            listMessages(5, "asc");
+            listMessages(5);
         });
         ';
     }
@@ -327,43 +331,39 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
         $nonce = wp_create_nonce('list_messages');
 
         echo '
-        $("#mgoa-playground-messages-list").scroll(function(){
-            
-            let listPos = $(this).scrollTop();
-            
-            if (listPos === 0) {
+        $("#mgoa-playground-past-messages-btn").click(function(){
 
-                const threadData = $("#mgoa-playground-messages-list").data("mgoa-thread-info");
-                
-                if (threadData.hasMore === false) {
-                    return;
-                }
+            updateStatus(gettingPastMessages);
 
-                updateStatus(gettingPastMessages);
+            const hasMore = $("#mgoa-playground-has-more-messages").val();
 
-                const threadId = $("#mgao-playground-thread-id-input").val();
-
-                const data = {
-                    "action": "listMessages",
-                    "thread_id": threadId,
-                    "limit": 4,
-                    "order": "asc",
-                    "after": threadData.lastId,
-                    "nonce": "' . $nonce . '"
-                };
-  
-                $.post(ajaxurl, data, function(response) {
-                    response = JSON.parse(response);
-                    if (response.success) {
-                        updateStatus(pastMessagesUpdated);
-                        $("#wpbody-content").prepend(response.html);
-                        alert(JSON.stringify(response.result));
-                    } else {
-                        updateStatus(response.message);
-                    }
-                });
+            if (hasMore == false) {
+                return;
             }
 
+            const firstId = $("#mgoa-playground-first-message-id").val();
+            const lastId = $("#mgoa-playground-last-message-id").val();
+            const threadId = $("#mgao-playground-thread-id-input").val();
+
+            const data = {
+                "action": "listMessages",
+                "thread_id": threadId,
+                "limit": 50,
+                "after": lastId,
+                "order": "desc",
+                "nonce": "' . $nonce . '"
+            };
+  
+            $.post(ajaxurl, data, function(response) {
+                response = JSON.parse(response);
+                if (response.success) {
+                    updateStatus(pastMessagesUpdated);
+                    $("#mgoa-playground-messages-list").prepend(response.html);
+                    storeThreadInfo(response.result);
+                } else {
+                    updateStatus(response.message);
+                }
+            });
           });
         ';
     }

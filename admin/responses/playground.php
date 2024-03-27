@@ -216,7 +216,7 @@ class Playground extends \MetagaussOpenAI\Admin\Responses\MoRoot
         $after = '';
 
         if (!empty($_POST['before'])) {
-            $after = '&after=' . $_POST['before'];
+            $after = '&after=' . $_POST['after'];
         }
         
         $url = 'https://api.openai.com/v1/threads/' . $thread_id . '/messages?limit=' . $limit . '&order=' . $order . $after;
@@ -244,6 +244,7 @@ class Playground extends \MetagaussOpenAI\Admin\Responses\MoRoot
     private function messagesHtml($messages)
     {
         $html = '';
+        $messages = array_reverse($messages);
         foreach ($messages as $message) {
             $html .= $this->chatBubbleHtml($message);
         }

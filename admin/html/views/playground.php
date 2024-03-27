@@ -68,10 +68,38 @@ class Playground extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
     private function messagesContainer()
     {
         echo '<div class="col-md-10 flex-column">';
+        $this->threadOperations();
         $this->messagesListContainer();
         $this->messagesStatusBar();
         $this->newMessageContainer();
         echo '</div>';
+    }
+
+    private function threadOperations()
+    {
+        echo '<div id="mgoa-playground-thread-operations" class="d-flex justify-content-between p-3">';
+        $this->loadMessagesBtn();
+        echo '<input id="mgoa-playground-first-message-id" type="hidden">';
+        echo '<input id="mgoa-playground-last-message-id" type="hidden">';
+        echo '<input id="mgoa-playground-has-more-messages" type="hidden">';
+        $this->deleteThreadBtn();
+        echo '</div>';
+    }
+
+    private function loadMessagesBtn()
+    {
+        echo '<button id="mgoa-playground-past-messages-btn" type="button" class="btn btn-outline-dark btn-sm" style="opacity:0;">';
+        $this->moIcon('cached');
+        // esc_html_e('Delete Thread', 'metagauss-openai');
+        echo '</button>';
+    }
+
+    private function deleteThreadBtn()
+    {
+        echo '<button type="button" class="btn btn-outline-danger btn-sm">';
+        $this->moIcon('delete');
+        // esc_html_e('Delete Thread', 'metagauss-openai');
+        echo '</button>';
     }
 
     private function messagesListContainer()
