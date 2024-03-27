@@ -215,7 +215,7 @@ class Playground extends \MetagaussOpenAI\Admin\Responses\MoRoot
         $order = $_POST['order'];
         $after = '';
 
-        if (!empty($_POST['before'])) {
+        if (!empty($_POST['after'])) {
             $after = '&after=' . $_POST['after'];
         }
         

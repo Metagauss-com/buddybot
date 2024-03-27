@@ -31,9 +31,19 @@ final class StyleSheets extends \MetagaussOpenAI\Admin\MoRoot
         }
     }
 
+    protected function pageLevelScripts()
+    {
+        if ($this->isInternalPage()) {
+            $file_name = str_replace('metagaussopenai-','', $_GET['page']);
+            $file_url = $this->config->getRootUrl() . 'admin/css/' . $file_name . '.css';
+            wp_enqueue_style($_GET['page'], $file_url);
+        }
+    }
+
     public function adminStyleSheets()
     {
         $this->pluginLevelScripts();
+        $this->pageLevelScripts();
     }
 
     public function __construct()

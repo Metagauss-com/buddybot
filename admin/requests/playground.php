@@ -334,6 +334,7 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
         $("#mgoa-playground-past-messages-btn").click(function(){
 
             updateStatus(gettingPastMessages);
+            $("#mgoa-playground-past-messages-btn").children("span").addClass("mgoa-rotate-icon");
 
             const hasMore = $("#mgoa-playground-has-more-messages").val();
 
@@ -348,7 +349,7 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
             const data = {
                 "action": "listMessages",
                 "thread_id": threadId,
-                "limit": 50,
+                "limit": 5,
                 "after": lastId,
                 "order": "desc",
                 "nonce": "' . $nonce . '"
@@ -363,6 +364,7 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
                 } else {
                     updateStatus(response.message);
                 }
+                $("#mgoa-playground-past-messages-btn").children("span").removeClass("mgoa-rotate-icon");
             });
           });
         ';
