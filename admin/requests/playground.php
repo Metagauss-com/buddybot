@@ -42,6 +42,8 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
         const retrievingRun = "' . esc_html('Assistant is writing response to your message.', 'metagauss-openai') . '";
         const gettingResponse = "' . esc_html("Fetching Assistant response.", 'metagauss-openai') . '";
         const responseUpdated = "' . esc_html("Assistant response received.", 'metagauss-openai') . '";
+        const gettingThreadMessages = "' . esc_html("Fetching conversation data.", 'metagauss-openai') . '";
+        const threadMessagesUpdated = "' . esc_html("Conversation data updated.", 'metagauss-openai') . '";
         const gettingPastMessages = "' . esc_html("Loading previous messages.", 'metagauss-openai') . '";
         const pastMessagesUpdated = "' . esc_html("Loaded previous messages.", 'metagauss-openai') . '";
         const deletingThread = "' . esc_html("Deleting conversation.", 'metagauss-openai') . '";
@@ -293,7 +295,7 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
         function listMessages() {
 
             disableMessage();
-            updateStatus(gettingResponse);
+            updateStatus(gettingThreadMessages);
 
             const threadId = $("#mgao-playground-thread-id-input").val();
 
@@ -310,7 +312,7 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
                 response = JSON.parse(response);
 
                 if (response.success) {
-                    updateStatus(responseUpdated);
+                    updateStatus(threadMessagesUpdated);
                     $("#mgoa-playground-messages-list").append(response.html);
                     storeThreadInfo(response.result);
                 } else {
