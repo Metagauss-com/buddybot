@@ -259,6 +259,42 @@ class Playground extends \MetagaussOpenAI\Admin\Responses\MoRoot
         return $chat_bubble->getHtml();
     }
 
+    public function deleteThread()
+    {
+        $this->checkNonce('delete_thread');
+        $thread_id = $_POST['thread_id'];
+
+        $url = 'https://api.openai.com/v1/threads/' . $thread_id;
+
+        $ch = curl_init($url);
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'Authorization: Bearer ' . $this->api_key,
+            'OpenAI-Beta: assistants=v1'
+            )
+        );
+
+        $output = $this->curlOutput($ch);
+        $this->checkError($output);
+        
+        if ($this->response['result']->deleted) {
+            $this->response['success'] = true;
+        } else {
+            $this->response['success'] = false;
+            $this->response['message'] = __('Unable to delete conversation.', 'metagauss-openai');
+        }
+
+        if ($this->response['success']) {
+            $this->sql->deleteThread($thread_id);
+        }
+
+        echo wp_json_encode($this->response);
+        wp_die();
+    }
+
     public function __construct()
     {
         $this->setAll();
@@ -268,5 +304,6 @@ class Playground extends \MetagaussOpenAI\Admin\Responses\MoRoot
         add_action('wp_ajax_createRun', array($this, 'createRun'));
         add_action('wp_ajax_retrieveRun', array($this, 'retrieveRun'));
         add_action('wp_ajax_listMessages', array($this, 'listMessages'));
+        add_action('wp_ajax_deleteThread', array($this, 'deleteThread'));
     }
 }

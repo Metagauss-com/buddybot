@@ -96,7 +96,7 @@ class Playground extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
 
     private function deleteThreadBtn()
     {
-        echo '<button type="button" class="btn btn-outline-danger btn-sm">';
+        echo '<button id="mgoa-playground-delete-thread-btn" type="button" class="btn btn-outline-danger btn-sm">';
         $this->moIcon('delete');
         // esc_html_e('Delete Thread', 'metagauss-openai');
         echo '</button>';

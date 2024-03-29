@@ -15,11 +15,16 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
         $this->createMessageJs();
         $this->createRunJs();
         $this->retrieveRunJs();
+        $this->getAssistantResponseJs();
         $this->listMessagesJs();
         $this->storeThreadInfoJs();
         $this->scrollToMessageJs();
         $this->selectThreadJs();
         $this->pastMessagesJs();
+        $this->toggleThreadBtnsJs();
+        $this->toggleDeleteThreadBtnJs();
+        $this->togglePastMessagesBtnJs();
+        $this->deleteThreadBtnJs();
     }
 
     private function setVarsJs()
@@ -39,6 +44,8 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
         const responseUpdated = "' . esc_html("Assistant response received.", 'metagauss-openai') . '";
         const gettingPastMessages = "' . esc_html("Loading previous messages.", 'metagauss-openai') . '";
         const pastMessagesUpdated = "' . esc_html("Loaded previous messages.", 'metagauss-openai') . '";
+        const deletingThread = "' . esc_html("Deleting conversation.", 'metagauss-openai') . '";
+        const threadDeleted = "' . esc_html("Conversation deleted successfully!", 'metagauss-openai') . '";
         ';
     }
 
@@ -161,7 +168,7 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
                     updateStatus(messageSent);
                     $("#mgao-playground-new-message-text").val("");
                     $("#mgoa-playground-messages-list").append(response.html);
-                    scrollToMessage(response.result.id);
+                    scrollToBottom();
                     createRun();
                 } else {
                     disableMessage(false);
@@ -230,8 +237,7 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
                 if (response.success) {
                     if (response.result.status == "completed") {
                         clearInterval(checkRun);
-                        listMessages(1);
-                        scrollToMessage(response.result.last_id);
+                        getAssistantResponse();
                     }
                 } else {
                     disableMessage(false);
@@ -242,11 +248,11 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
         ';
     }
 
-    private function listMessagesJs()
+    private function getAssistantResponseJs()
     {
         $nonce = wp_create_nonce('list_messages');
         echo '
-        function listMessages(limit = 1, order = "desc") {
+        function getAssistantResponse() {
 
             disableMessage();
             updateStatus(gettingResponse);
@@ -256,8 +262,46 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
             const data = {
                 "action": "listMessages",
                 "thread_id": threadId,
-                "limit": limit,
-                "order": order,
+                "limit": 1,
+                "order": "desc",
+                "nonce": "' . $nonce . '"
+            };
+  
+            $.post(ajaxurl, data, function(response) {
+                
+                response = JSON.parse(response);
+
+                if (response.success) {
+                    updateStatus(responseUpdated);
+                    $("#mgoa-playground-messages-list").append(response.html);
+                    scrollToBottom();
+                } else {
+                    updateStatus(response.message);
+                }
+
+                disableMessage(false);
+                toggleThreadBtns();
+            });
+        }
+        ';
+    }
+
+    private function listMessagesJs()
+    {
+        $nonce = wp_create_nonce('list_messages');
+        echo '
+        function listMessages() {
+
+            disableMessage();
+            updateStatus(gettingResponse);
+
+            const threadId = $("#mgao-playground-thread-id-input").val();
+
+            const data = {
+                "action": "listMessages",
+                "thread_id": threadId,
+                "limit": 5,
+                "order": "desc",
                 "nonce": "' . $nonce . '"
             };
   
@@ -269,11 +313,12 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
                     updateStatus(responseUpdated);
                     $("#mgoa-playground-messages-list").append(response.html);
                     storeThreadInfo(response.result);
-                    disableMessage(false);
                 } else {
-                    disableMessage(false);
                     updateStatus(response.message);
                 }
+
+                disableMessage(false);
+                toggleThreadBtns();
             });
         }
         ';
@@ -287,12 +332,6 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
             $("#mgoa-playground-first-message-id").val(thread.first_id);
             $("#mgoa-playground-last-message-id").val(thread.last_id);
             $("#mgoa-playground-has-more-messages").val(thread.has_more);
-
-            if (thread.has_more) {
-                $("#mgoa-playground-past-messages-btn").css("opacity", 100);
-            } else {
-                $("#mgoa-playground-past-messages-btn").css("opacity", 0);
-            }
         }
         ';
     }
@@ -300,9 +339,15 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
     private function scrollToMessageJs()
     {
         echo '
-        function scrollToMessage(messageId) {
+        function scrollToBottom() {
             $("#mgoa-playground-messages-list").animate({
-                scrollTop: $("#" + messageId).offset().top
+                scrollTop: $("#mgoa-playground-messages-list")[0].scrollHeight
+            }, 1000);
+        }
+
+        function scrollToTop() {
+            $("#mgoa-playground-messages-list").animate({
+                scrollTop: 0
             }, 1000);
         }
         ';
@@ -321,7 +366,7 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
             $(".mgoa-playground-threads-list-item.fw-bold.text-primary").removeClass(highlightClass);
             $(this).addClass(highlightClass);
             
-            listMessages(5);
+            listMessages();
         });
         ';
     }
@@ -334,6 +379,7 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
         $("#mgoa-playground-past-messages-btn").click(function(){
 
             updateStatus(gettingPastMessages);
+            disableMessage(true);
             $("#mgoa-playground-past-messages-btn").children("span").addClass("mgoa-rotate-icon");
 
             const hasMore = $("#mgoa-playground-has-more-messages").val();
@@ -356,17 +402,105 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
             };
   
             $.post(ajaxurl, data, function(response) {
+                
                 response = JSON.parse(response);
+                
                 if (response.success) {
                     updateStatus(pastMessagesUpdated);
                     $("#mgoa-playground-messages-list").prepend(response.html);
                     storeThreadInfo(response.result);
+                    scrollToTop();
                 } else {
                     updateStatus(response.message);
                 }
+
                 $("#mgoa-playground-past-messages-btn").children("span").removeClass("mgoa-rotate-icon");
+                disableMessage(false);
+                toggleThreadBtns();
             });
           });
+        ';
+    }
+
+    private function toggleThreadBtnsJs()
+    {
+        echo '
+        toggleThreadBtns();
+        function toggleThreadBtns() {
+            toggleDeleteThreadBtn();
+            togglePastMessagesBtn();
+        }
+        ';
+    }
+
+    private function toggleDeleteThreadBtnJs()
+    {
+        echo '
+        function toggleDeleteThreadBtn() {
+            let threadId = $("#mgao-playground-thread-id-input").val();
+            if (threadId === "") {
+                $("#mgoa-playground-delete-thread-btn").css("opacity", 0);
+            } else {
+                $("#mgoa-playground-delete-thread-btn").css("opacity", 100);
+            }
+        }
+        ';
+    }
+
+    private function togglePastMessagesBtnJs()
+    {
+        echo '
+        function togglePastMessagesBtn() {
+            let hasMore = $("#mgoa-playground-has-more-messages").val();
+            if (hasMore === "true") {
+                $("#mgoa-playground-past-messages-btn").css("opacity", 100);
+            } else {
+                $("#mgoa-playground-past-messages-btn").css("opacity", 0);
+            }
+        }
+        ';
+    }
+
+    private function deleteThreadBtnJs()
+    {
+        $nonce = wp_create_nonce('delete_thread');
+        echo '
+        $("#mgoa-playground-delete-thread-btn").click(deleteThreadBtn);
+
+        function deleteThreadBtn() {
+            
+            disableMessage(true);
+            updateStatus(deletingThread);
+            $("#mgoa-playground-messages-list").css("opacity", 0.5);
+            let threadId = $("#mgao-playground-thread-id-input").val();
+            
+            if (threadId === "") {
+                return;
+            }
+
+            const data = {
+                "action": "deleteThread",
+                "thread_id": threadId,
+                "nonce": "' . $nonce . '"
+            };
+
+            $.post(ajaxurl, data, function(response) {
+                response = JSON.parse(response);
+                if (response.success) {
+                    $("#mgao-playground-thread-id-input").val("");
+                    $("#mgoa-playground-messages-list").html("");
+                    $("#mgoa-playground-messages-list").css("opacity", 1);
+                    $("div[data-mgoa-threadid=" + threadId + "]").remove();
+                    updateStatus(threadDeleted);
+                } else {
+                    updateStatus(response.message);
+                }
+
+                disableMessage(false);
+                toggleThreadBtns();
+            });
+
+        }
         ';
     }
 }

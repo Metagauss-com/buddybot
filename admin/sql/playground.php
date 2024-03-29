@@ -65,4 +65,14 @@ class Playground extends \MetagaussOpenAI\Admin\Sql\MoRoot
         global $wpdb;
         $wpdb->update($table, $data, $where, $format, $where_format);
     }
+
+    public function deleteThread($thread_id)
+    {
+        $table = $this->config->getDbTable('threads');
+        $where = array('thread_id' => $thread_id);
+        $format = array('%s');
+
+        global $wpdb;
+        return $wpdb->delete($table, $where, $format);
+    }
 }
