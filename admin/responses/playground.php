@@ -103,7 +103,7 @@ class Playground extends \MetagaussOpenAI\Admin\Responses\MoRoot
         $this->checkNonce('create_message');
 
         $thread_id = $_POST['thread_id'];
-        $message = $_POST['message'];
+        $message = wp_unslash($_POST['message']);
         
         $url = 'https://api.openai.com/v1/threads/' . $thread_id . '/messages';
 
