@@ -34,6 +34,7 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
         let checkRun = "";
         const gettingAssistants = "' . esc_html('Getting list of assistants.', 'metagauss-openai') . '";
         const assistantsUpdated = "' . esc_html('Assistants updated.', 'metagauss-openai') . '";
+        const messageEmpty = "' . esc_html('Cannot send empty message.', 'metagauss-openai') . '";
         const creatingThread = "' . esc_html('Starting new conversation.', 'metagauss-openai') . '";
         const threadCreated = "' . esc_html('Conversation started.', 'metagauss-openai') . '";
         const sendingMessage = "' . esc_html('Sending message to the Assistant.', 'metagauss-openai') . '";
@@ -105,7 +106,23 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
     {
         echo '
         $("#mgao-playground-send-message-btn").click(sendMessage);
+        
+        $("#mgao-playground-new-message-text").keypress(function(e) {
+            let key = e.key;
+            if (key === "Enter") {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
         function sendMessage() {
+            const message = $("#mgao-playground-new-message-text").val();
+
+            if (message === "") {
+                updateStatus(messageEmpty);
+                return;
+            }
+
             disableMessage();
             const threadId = $("#mgao-playground-thread-id-input").val();
             if (threadId === "") {
@@ -172,7 +189,7 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
                     $("#mgao-playground-new-message-text").val("");
                     $("#mgoa-playground-messages-list").append(response.html);
                     updateThreadName(message);
-                    scrollToBottom();
+                    scrollToBottom(response.result.id);
                     createRun();
                 } else {
                     disableMessage(false);
@@ -272,13 +289,13 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
             };
   
             $.post(ajaxurl, data, function(response) {
-                
+            
                 response = JSON.parse(response);
 
                 if (response.success) {
                     updateStatus(responseUpdated);
                     $("#mgoa-playground-messages-list").append(response.html);
-                    scrollToBottom();
+                    scrollToBottom(response.result.data[0].id);
                 } else {
                     updateStatus(response.message);
                 }
@@ -317,7 +334,7 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
                     updateStatus(threadMessagesUpdated);
                     $("#mgoa-playground-messages-list").append(response.html);
                     storeThreadInfo(response.result);
-                    scrollToBottom();
+                    scrollToBottom(response.result.first_id);
                 } else {
                     updateStatus(response.message);
                 }
@@ -344,9 +361,10 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
     private function scrollToMessageJs()
     {
         echo '
-        function scrollToBottom() {
+        function scrollToBottom(id) {
+            let height = $("#" + id).outerHeight();
             $("#mgoa-playground-messages-list").animate({
-                scrollTop: $("#mgoa-playground-messages-list")[0].scrollHeight
+                scrollTop: $("#mgoa-playground-messages-list")[0].scrollHeight - height - 200
             }, 1000);
         }
 
