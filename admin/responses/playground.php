@@ -47,12 +47,13 @@ class Playground extends \MetagaussOpenAI\Admin\Responses\MoRoot
         foreach ($assistants->data as $assistant) {
             $name = $assistant->name;
             $id = $assistant->id;
+            $model = $assistant->model;
 
             if (empty($name)) {
                 $name = $assistant->id;
             }
 
-            $this->response['html'] .= '<option value="' . $id . '">' . $name . '</option>';
+            $this->response['html'] .= '<option value="' . $id . '">' . $name . ' (' . $model . ')</option>';
         }
     }
 
@@ -104,6 +105,14 @@ class Playground extends \MetagaussOpenAI\Admin\Responses\MoRoot
 
         $thread_id = $_POST['thread_id'];
         $message = wp_unslash($_POST['message']);
+        $file_url = $_POST['file_url'];
+        $file_mime = $_POST['file_mime'];
+
+        $file_id = '';
+
+        if (filter_var($file_url, FILTER_VALIDATE_URL)) {
+            $file_id = $this->uploadMessageFile($file_url, $file_mime);
+        }
         
         $url = 'https://api.openai.com/v1/threads/' . $thread_id . '/messages';
 
@@ -128,6 +137,10 @@ class Playground extends \MetagaussOpenAI\Admin\Responses\MoRoot
             )
         );
 
+        if (!empty($file_id)) {
+            $data['file_ids'] = array($file_id);
+        }
+
         curl_setopt($ch, CURLOPT_POSTFIELDS, wp_json_encode($data));
 
         $output = $this->curlOutput($ch);
@@ -139,6 +152,36 @@ class Playground extends \MetagaussOpenAI\Admin\Responses\MoRoot
 
         echo wp_json_encode($this->response);
         wp_die();
+    }
+
+    private function uploadMessageFile($file_url, $file_mime)
+    {
+        $cfile = curl_file_create(
+            $file_url,
+            $file_mime,
+            basename($file_url)
+        );
+
+        $url = 'https://api.openai.com/v1/files';
+        $ch = curl_init($url);
+        
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Authorization: Bearer ' . $this->api_key
+            )
+        );
+
+        $data = array(
+            'purpose' => 'assistants',
+            'file' => $cfile
+        );
+
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+
+        $output = $this->curlOutput($ch);
+        $this->checkError($output);
+        return $output->id;
     }
 
     public function createRun()

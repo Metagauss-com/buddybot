@@ -179,8 +179,12 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
                 "action": "createMessage",
                 "thread_id": threadId,
                 "message": message,
+                "file_url": $("#mgoa-playground-attachment-url").val(),
+                "file_mime": $("#mgoa-playground-attachment-mime").val(),
                 "nonce": "' . $nonce . '"
             };
+
+            alert(JSON.stringify(data));
   
             $.post(ajaxurl, data, function(response) {
                 response = JSON.parse(response);

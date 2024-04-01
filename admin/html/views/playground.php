@@ -143,8 +143,9 @@ class Playground extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
 
     private function attachFileBtn()
     {
+        wp_enqueue_media();
         echo '<div class="p-2">';
-        echo '<button type="button"';
+        echo '<button id="mgao-playground-message-file-btn" type="button"';
         echo 'class="btn btn-light border btn-sm rounded-circle p-2">';
         $this->moIcon('attach_file');
         echo '</button>';
@@ -154,8 +155,24 @@ class Playground extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
     private function messageTextArea()
     {
         echo '<div class="p-2 flex-fill">';
+        
+        echo '<div id="mgoa-playground-attachment-wrapper" class="rounded p-2 mb-2 border small d-flex justify-content-between align-items-center visually-hidden">';
+
+        echo '<div><img id="mgoa-playground-attachment-icon" src="" width="12" class="me-2">';
+        echo '<span id="mgoa-playground-attachment-name"></span></div>';
+
+        echo '<div role="button" id="mgoa-playground-remove-attachment-btn">';
+        $this->moIcon('close');
+        echo '</div>';
+
+        echo '<input id="mgoa-playground-attachment-url" type="text">';
+        echo '<input id="mgoa-playground-attachment-mime" type="text">';
+
+        echo '</div>';
+
         echo '<textarea id="mgao-playground-new-message-text" data-mo-threadid="" class="w-100 form-control" rows="5">';
         echo '</textarea>';
+        
         echo '</div>';
     }
 
@@ -233,5 +250,89 @@ class Playground extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
             echo esc_html($label);
             echo '</div>';
         }
+    }
+
+    public function pageJs()
+    {
+        echo '
+        <script>
+        $(document).ready(function(){' . PHP_EOL;
+
+        $this->openMediaWindowJs();
+        $this->selectAttachmentJs();
+        
+        echo 
+        PHP_EOL . '});
+        </script>';
+    }
+
+    private function openMediaWindowJs()
+    {
+        $title = __('Select a file to attach to your message', 'metagauss-openai');
+        $btn_label = __('Attach To Message', 'metagauss-openai');
+        
+        echo '
+        $("#mgao-playground-message-file-btn").click(function(e) {
+
+            e.preventDefault();
+
+            let file_frame;
+
+            if (file_frame) {
+                file_frame.open();
+                return;
+            }
+            
+            file_frame = wp.media({
+                title: "' . esc_html($title) . '",
+                button: {
+                    text: "' . esc_html($btn_label) . '",
+                },
+                multiple: false 
+            });
+
+            file_frame.open();
+
+            file_frame.on("select",function() {
+                let attachment =  file_frame.state().get("selection").first();
+                selectAttachment(attachment)
+             });
+
+        });
+        ';
+    }
+
+    private function selectAttachmentJs()
+    {   
+        echo '
+        function selectAttachment(attachment) {
+            if (
+                typeof attachment === "object" &&
+                !Array.isArray(attachment) &&
+                attachment !== null
+            ) {
+                $("#mgoa-playground-attachment-wrapper").removeClass("visually-hidden");
+                attachment = JSON.parse(JSON.stringify(attachment));
+                $("#mgao-playground-message-file-btn").attr("data-mgoa-fileid", attachment.id);
+                $("#mgoa-playground-attachment-icon").attr("src", attachment.icon);
+                $("#mgoa-playground-attachment-name").text(attachment.filename);
+                $("#mgoa-playground-attachment-url").val(attachment.url);
+                $("#mgoa-playground-attachment-mime").val(attachment.mime);
+            } else {
+                deselectAttachment();
+            }
+        }
+
+        $("#mgoa-playground-remove-attachment-btn").click(deselectAttachment);
+        
+        function deselectAttachment() {
+            $("#mgoa-playground-attachment-wrapper").addClass("visually-hidden");
+            $("#mgao-playground-message-file-btn").attr("data-mgoa-fileid", "");
+            $("#mgoa-playground-attachment-icon").attr("src", "");
+            $("#mgoa-playground-attachment-name").text("");
+            $("#mgoa-playground-attachment-url").val("");
+            $("#mgoa-playground-attachment-mime").val("");
+        }
+        ';
     }
 }
