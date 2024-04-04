@@ -268,6 +268,7 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
                         case "completed":
                             clearInterval(checkRun);
                             getAssistantResponse();
+                            $("#mgao-playground-tokens-display").html(response.tokens);
                             break;
                         
                         case "failed":
@@ -325,13 +326,14 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
             };
   
             $.post(ajaxurl, data, function(response) {
-            
+
                 response = JSON.parse(response);
 
                 if (response.success) {
                     updateStatus(responseUpdated);
                     $("#mgoa-playground-messages-list").append(response.html);
-                    scrollToBottom(response.result.data[0].id);
+                    $("#mgoa-playground-first-message-id").val(response.result.first_id);
+                    scrollToBottom(response.result.first_id);
                 } else {
                     updateStatus(response.message);
                 }
@@ -420,6 +422,8 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
             const threadId = $(this).attr("data-mgoa-threadid");
             const highlightClass = "fw-bold text-primary";
             
+            
+            $("#mgao-playground-tokens-display").html("");
             $("#mgoa-playground-messages-list").html("");
             $("#mgao-playground-thread-id-input").val(threadId);
             $(".mgoa-playground-threads-list-item.fw-bold.text-primary").removeClass(highlightClass);

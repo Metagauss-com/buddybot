@@ -61,7 +61,7 @@ class MoRoot extends \MetagaussOpenAI\Admin\MoRoot
     {
         if (!is_object($output)) {
             $this->response['success'] = false;
-            $this->response['message'] = __('Output is not an object. ', 'metagauss-openai');
+            $this->response['message'] = __('Output is not an object. ', 'metagauss-openai') . ' ' . maybe_serialize($output);
             echo wp_json_encode($this->response);
             wp_die();
         } elseif (!empty($output->error)) {

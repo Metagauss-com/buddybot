@@ -79,6 +79,7 @@ class Playground extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
     {
         echo '<div id="mgoa-playground-thread-operations" class="d-flex justify-content-between p-3">';
         $this->loadMessagesBtn();
+        $this->tokensDisplay();
         echo '<input id="mgoa-playground-first-message-id" type="hidden">';
         echo '<input id="mgoa-playground-last-message-id" type="hidden">';
         echo '<input id="mgoa-playground-has-more-messages" type="hidden">';
@@ -92,6 +93,12 @@ class Playground extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
         $this->moIcon('cached');
         // esc_html_e('Delete Thread', 'metagauss-openai');
         echo '</button>';
+    }
+
+    private function tokensDisplay()
+    {
+        echo '<span id="mgao-playground-tokens-display" class="small text-muted">';
+        echo '</span>';
     }
 
     private function deleteThreadBtn()

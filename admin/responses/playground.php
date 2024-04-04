@@ -245,8 +245,31 @@ class Playground extends \MetagaussOpenAI\Admin\Responses\MoRoot
         $output = $this->curlOutput($ch);
         $this->checkError($output);
 
+        $this->tokensMessage();
+
         echo wp_json_encode($this->response);
         wp_die();
+    }
+
+    private function tokensMessage()
+    {
+        if ($this->response['result']->status !== "completed") {
+            return;
+        }
+
+        $prompt_tokens = absint($this->response['result']->usage->prompt_tokens);
+        $completion_tokens = absint($this->response['result']->usage->completion_tokens);
+        $total_tokens = absint($this->response['result']->usage->total_tokens);
+
+        $message = __(
+            sprintf(
+                'Tokens Prompt: %1d. Completion: %2d. Total: %3d.',
+                $prompt_tokens, $completion_tokens, $total_tokens
+            ),
+            'metagauss-openai'
+        );
+
+        $this->response['tokens'] = $message;
     }
 
     public function listMessages()
