@@ -40,8 +40,9 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
         const sendingMessage = "' . esc_html('Sending message to the Assistant.', 'metagauss-openai') . '";
         const messageSent = "' . esc_html('Message sent.', 'metagauss-openai') . '";
         const creatingRun = "' . esc_html('Asking assistant to read your message.', 'metagauss-openai') . '";
-        const runCreated = "' . esc_html('Assistant is reading your message.', 'metagauss-openai') . '";
-        const retrievingRun = "' . esc_html('Assistant is writing response to your message.', 'metagauss-openai') . '";
+        const runCreated = "' . esc_html('Assistant is processing your message.', 'metagauss-openai') . '";
+        const retrievingRun = "' . esc_html('Checking response to your message.', 'metagauss-openai') . '";
+        const runCancelled = "' . esc_html('The process was aborted.', 'metagauss-openai') . '";
         const gettingResponse = "' . esc_html("Fetching Assistant response.", 'metagauss-openai') . '";
         const responseUpdated = "' . esc_html("Assistant response received.", 'metagauss-openai') . '";
         const gettingThreadMessages = "' . esc_html("Fetching conversation data.", 'metagauss-openai') . '";
@@ -183,8 +184,6 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
                 "file_mime": $("#mgoa-playground-attachment-mime").val(),
                 "nonce": "' . $nonce . '"
             };
-
-            alert(JSON.stringify(data));
   
             $.post(ajaxurl, data, function(response) {
                 response = JSON.parse(response);
@@ -192,6 +191,7 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
                     updateStatus(messageSent);
                     $("#mgao-playground-new-message-text").val("");
                     $("#mgoa-playground-messages-list").append(response.html);
+                    $("#mgoa-playground-first-message-id").val(response.result.id);
                     updateThreadName(message);
                     scrollToBottom(response.result.id);
                     createRun();
@@ -258,15 +258,46 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
             };
   
             $.post(ajaxurl, data, function(response) {
+
                 response = JSON.parse(response);
+                
                 if (response.success) {
-                    if (response.result.status == "completed") {
-                        clearInterval(checkRun);
-                        getAssistantResponse();
+                    
+                    switch (response.result.status) {
+                        
+                        case "completed":
+                            clearInterval(checkRun);
+                            getAssistantResponse();
+                            break;
+                        
+                        case "failed":
+                            clearInterval(checkRun);
+                            disableMessage(false);
+                            updateStatus(
+                                "<span class=text-danger>" +
+                                response.result.last_error.code + ": " +
+                                response.result.last_error.message +
+                                "</span>"
+                            );
+                            break;
+
+                        case "cancelled":
+                        case "cancelling":
+                            clearInterval(checkRun);
+                            disableMessage(false);
+                            updateStatus(runCancelled);
+                            break;
+                        
+                        case "requires_action":
+                            clearInterval(checkRun);
+                            getAssistantResponse();
+                            break;
                     }
+
                 } else {
                     disableMessage(false);
                     updateStatus(response.message);
+                    clearInterval(checkRun);
                 }
             });
         }
@@ -287,7 +318,8 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
             const data = {
                 "action": "listMessages",
                 "thread_id": threadId,
-                "limit": 1,
+                "before": $("#mgoa-playground-first-message-id").val(),
+                "limit": 20,
                 "order": "desc",
                 "nonce": "' . $nonce . '"
             };

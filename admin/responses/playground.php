@@ -257,12 +257,17 @@ class Playground extends \MetagaussOpenAI\Admin\Responses\MoRoot
         $limit = $_POST['limit'];
         $order = $_POST['order'];
         $after = '';
+        $before = '';
 
         if (!empty($_POST['after'])) {
             $after = '&after=' . $_POST['after'];
         }
+
+        if (!empty($_POST['before'])) {
+            $before = '&before=' . $_POST['before'];
+        }
         
-        $url = 'https://api.openai.com/v1/threads/' . $thread_id . '/messages?limit=' . $limit . '&order=' . $order . $after;
+        $url = 'https://api.openai.com/v1/threads/' . $thread_id . '/messages?limit=' . $limit . '&order=' . $order . $after . $before;
 
         $ch = curl_init($url);
         
