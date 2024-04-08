@@ -29,9 +29,27 @@ class MoDb
         dbDelta($sql);
     }
     
+    private function addChatbotTable()
+    {
+        $table_name = $this->config->getDbTable('chatbot');
+        $sql = "CREATE TABLE $table_name (
+        id mediumint(9) NOT NULL AUTO_INCREMENT,
+        assistant_id varchar(100),
+        author mediumint(9),
+        created_on datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+        last_editor mediumint(9),
+        edited_on datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+        PRIMARY KEY  (id)
+        )  $this->charset;";
+        
+        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+        dbDelta($sql);
+    }
+    
     public function addTables()
     {
         $this->addThreadsTable();
+        $this->addChatbotTable();
     }
     
     public function installPlugin()
