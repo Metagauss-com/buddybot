@@ -33,7 +33,6 @@ class MoRoot extends \MetagaussOpenAI\Admin\MoRoot
         echo esc_html($icon);
         echo '</span>';
     }
-
     public function getHtml()
     {
         

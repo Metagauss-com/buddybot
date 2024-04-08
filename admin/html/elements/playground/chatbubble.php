@@ -50,7 +50,21 @@ class ChatBubble extends \MetagaussOpenAI\Admin\Html\Elements\Playground\MoRoot
         $html .= '<div class="p-3 bg-primary text-white rounded-4 rounded-top-0 rounded-end-4" style="max-width: 500px;">';
         
         foreach ($this->message->content as $content) {
-            $html .= $content->text->value;
+            
+            if ($content->type === 'text') {
+                $html .= $this->parseFormatting($content->text->value);
+            }
+
+            if ($content->type === 'image_file') {
+                $html .= $this->parseImage($content->image_file->file_id);
+            }
+
+        }
+
+        if (!empty($this->message->file_ids)) {
+            foreach ($this->message->file_ids as $file_id) {
+                $html .= $this->parseFile($file_id);
+            }
         }
 
         $html .= '</div>';
@@ -77,7 +91,15 @@ class ChatBubble extends \MetagaussOpenAI\Admin\Html\Elements\Playground\MoRoot
         $html .= '<div class="p-3 bg-light rounded-4 rounded-4 rounded-top-0 rounded-end-4" style="max-width: 500px;">';
         
         foreach ($this->message->content as $content) {
-            $html .= $this->parseFormatting($content->text->value);
+            
+            if ($content->type === 'text') {
+                $html .= $this->parseFormatting($content->text->value);
+            }
+
+            if ($content->type === 'image_file') {
+                $html .= $this->parseImage($content->image_file->file_id);
+            }
+
         }
         
         $html .= '</div>';
@@ -130,5 +152,67 @@ class ChatBubble extends \MetagaussOpenAI\Admin\Html\Elements\Playground\MoRoot
         $text = preg_replace($bold, '<strong>$1</strong>', $text);
         $text = str_replace('**', '', $text);
         return  nl2br($text);
+    }
+
+    protected function parseFile($file_id)
+    {
+        $url = 'https://api.openai.com/v1/files/' . $file_id;
+        
+        $ch = curl_init($url);
+        
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Authorization: Bearer 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'
+            )
+        );
+
+        $output = json_decode(curl_exec($ch));
+
+        $type = pathinfo($output->filename, PATHINFO_EXTENSION);
+        
+        $html = '<div class="mt-2 bg-dark bg-opacity-10 p-3 rounded-3 d-flex align-items-center">';
+        
+        $html .= '<div class="me-2">';
+        $html .= '<img src="' . $this->config->getRootUrl() . 'admin/html/images/fileicons/file.png" height="24">';
+        $html .= '</div>';
+        
+        $html .= '<div class="small">';
+
+        $html .= '<div class="small fw-bold">';
+        $html .= $output->filename;
+        $html .= '</div>';
+
+        $html .= '<div class="small">';
+        $html .= $this->fileSize($output->bytes);
+        $html .= '</div>';
+        
+        $html .= '</div>';
+        
+        $html .= '</div>';
+
+        return $html;
+    }
+
+    protected function parseImage($image_id)
+    {
+        $url = 'https://api.openai.com/v1/files/' . $image_id . '/content';
+
+        $ch = curl_init($url);
+        
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Authorization: Bearer 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'
+            )
+        );
+
+        $output = curl_exec($ch);
+        
+        $html = '<div class="mb-2 bg-secondary bg-opacity-10 p-3 rounded-3">';
+        $html .= '<img src="data:image/png;base64, ' . base64_encode($output) . '" width="96">';
+        $html .= '</div>';
+        
+        return $html;
     }
 }
