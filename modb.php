@@ -34,6 +34,8 @@ class MoDb
         $table_name = $this->config->getDbTable('chatbot');
         $sql = "CREATE TABLE $table_name (
         id mediumint(9) NOT NULL AUTO_INCREMENT,
+        chatbot_name varchar(256),
+        chatbot_description varchar(1024),
         assistant_id varchar(100),
         author mediumint(9),
         created_on datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
