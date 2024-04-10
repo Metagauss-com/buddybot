@@ -41,15 +41,22 @@ final class ChatBot extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
             $location = admin_url() . 'admin.php?page=metagaussopenai-chatbot&chatbot_id=1';
             echo '
             <script>
-            location.replace("' . esc_url($location) . '");
+            location.replace("' . $location . '");
             </script>
             ';
         }
     }
 
+    protected function pageModals()
+    {
+        $select_assistant = new \MetagaussOpenAI\Admin\Html\Modals\SelectAssistant();
+        $select_assistant->getHtml();
+    }
+
     public function getHtml()
     {
         $this->useSingleChatbot();
+        $this->pageModals();
         $this->pageHeading($this->heading);
         $this->chatbotOptions();
     }
@@ -88,9 +95,9 @@ final class ChatBot extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
 
         echo '<tr>';
         echo '<th scope="row">';
-        echo '<label for="mgao-chatbot-name">' . esc_html(__('Description', 'metagauss-openai')) . '</label></th>';
+        echo '<label for="mgao-chatbot-description">' . esc_html(__('Description', 'metagauss-openai')) . '</label></th>';
         echo '<td>';
-        echo '<textarea name="moderation_keys" rows="10" cols="50" id="moderation_keys" class="">';
+        echo '<textarea name="moderation_keys" rows="10" cols="50" id="mgao-chatbot-description" class="">';
         echo esc_textarea($value);
         echo '</textarea>';
         echo '</td>';
@@ -105,7 +112,9 @@ final class ChatBot extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
         echo '<th scope="row">';
         echo '<label for="mgao-chatbot-name">' . esc_html(__('Description', 'metagauss-openai')) . '</label></th>';
         echo '<td>';
-        echo '<button type="button" class="button button-secondary">';
+        echo '<div class="mb-2" id="mgao-chatbot-assistant-name"></div>';
+        echo '<input type="hidden" id="mgao-chatbot-assistant-id">';
+        echo '<button type="button" class="button button-secondary" data-bs-toggle="modal" data-bs-target="#mgoa-select-assistant-modal">';
         echo __('Connect Assistant', 'metagauss-openai');
         echo '</button>';
         echo '</td>';

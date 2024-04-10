@@ -29,4 +29,9 @@ class MoRoot extends \MetagaussOpenAI\Admin\Html\MoRoot
         echo '<span class="visually-hidden">Loading...</span>';
         echo '</div>';
     }
+
+    protected function pageModals()
+    {
+        
+    }
 }
