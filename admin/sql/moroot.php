@@ -43,7 +43,7 @@ class MoRoot extends \MetagaussOpenAI\Admin\MoRoot
         $item = $wpdb->get_row(
             $wpdb->prepare(
                 'SELECT * FROM %i WHERE id=%d',
-                $table, ($id)
+                $table, absint($id)
             ), $output
         );
 

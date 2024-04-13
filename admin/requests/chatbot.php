@@ -6,13 +6,39 @@ class ChatBot extends \MetagaussOpenAI\Admin\Requests\MoRoot
 {
     public function requestJs()
     {
+        $this->pageVarsJs();
         $this->selectAssistantModalJs();
+        $this->saveBtnJs();
+        $this->getChatbotDataJs();
+        $this->toggleErrorsJs();
+    }
+
+    protected function chatbotId() {
+        if (empty($_GET['chatbot_id'])) {
+            return 0;
+        } else {
+            return $_GET['chatbot_id'];
+        }
+    }
+
+    protected function pageVarsJs()
+    {
+        echo '
+        let dataErrors = [];
+        let errorMessage = "";
+        ';
     }
 
     protected function selectAssistantModalJs()
     {
         $this->getAssistantsListJs();
         $this->selectAssistantJs();
+        $this->showLoadMoreBtnJs();
+        $this->updateLastIdJs();
+        $this->loadMoreBtnJs();
+        $this->parseAssistantListDataJs();
+        $this->highlightCurrentAssistantJs();
+        $this->autoScrollJs();
     }
 
     protected function getAssistantsListJs()
@@ -21,6 +47,10 @@ class ChatBot extends \MetagaussOpenAI\Admin\Requests\MoRoot
         const selectAssistantModal = document.getElementById("mgoa-select-assistant-modal");
         if (selectAssistantModal) {
             selectAssistantModal.addEventListener("show.bs.modal", event => {
+
+                $("#mgao-select-assistant-modal-list").html("");
+                $("#mgoa-selectassistant-spinner").removeClass("visually-hidden");
+                
                 
                 const data = {
                     "action": "selectAssistantModal",
@@ -28,10 +58,7 @@ class ChatBot extends \MetagaussOpenAI\Admin\Requests\MoRoot
                 };
   
                 $.post(ajaxurl, data, function(response) {
-                    response = JSON.parse(response);
-                    if (response.success) {
-                        $("#mgao-select-assistant-modal-list").append(response.html);
-                    }
+                    parseAssistantListData(response);
                 });
             });
         }
@@ -46,9 +73,207 @@ class ChatBot extends \MetagaussOpenAI\Admin\Requests\MoRoot
             let assistantId = $(this).attr("data-mgao-id");
             let assistantName = $(this).attr("data-mgao-name");
             
-            $("#mgao-chatbot-assistant-name").html(assistantName);
+            $("#mgao-chatbot-selected-assistant-name").html(assistantName);
+            $("#mgao-chatbot-selected-assistant-id").html(assistantId);
             $("#mgao-chatbot-assistant-id").val(assistantId);
         });
+        ';
+    }
+
+    protected function showLoadMoreBtnJs()
+    {
+        echo '
+        showLoadMoreBtn();
+        function showLoadMoreBtn(hasMore = false) {
+            if (hasMore) {
+                $("#mgoa-selectassistant-load-more-btn").show();
+            } else {
+                $("#mgoa-selectassistant-load-more-btn").hide();
+            }
+        }
+        ';
+    }
+
+    protected function updateLastIdJs()
+    {
+        echo '
+        function updateLastId(lastId) {
+            $("#mgao-selectassistant-last-id").val(lastId);
+        }
+        ';
+    }
+
+    protected function loadMoreBtnJs()
+    {
+        echo '
+        $("#mgoa-selectassistant-load-more-btn").click(loadMoreBtn);
+        function loadMoreBtn() {
+            autoScroll();
+            showBtnLoader("#mgoa-selectassistant-load-more-btn");
+            $("#mgoa-selectassistant-spinner").removeClass("visually-hidden");
+            const data = {
+                "action": "selectAssistantModal",
+                "after": $("#mgao-selectassistant-last-id").val(),
+                "nonce": "' . wp_create_nonce('select_assistant_modal') . '"
+            };
+
+            $.post(ajaxurl, data, function(response) {
+                parseAssistantListData(response);
+                hideBtnLoader("#mgoa-selectassistant-load-more-btn"); 
+            });
+        }
+        ';
+    }
+
+    protected function parseAssistantListDataJs()
+    {
+        echo '
+        function parseAssistantListData(listData) {
+            listData = JSON.parse(listData);
+            if (listData.success) {
+                $("#mgoa-selectassistant-spinner").addClass("visually-hidden");
+                $("#mgao-select-assistant-modal-list").append(listData.html);
+                showLoadMoreBtn(listData.result.has_more);
+                updateLastId(listData.result.last_id);
+                highlightCurrentAssistant();
+            }
+        }
+        ';
+    }
+
+    protected function highlightCurrentAssistantJs()
+    {
+        echo '
+        function highlightCurrentAssistant() {
+            let currentAssistantId = $("#mgao-chatbot-assistant-id").val();
+            if (currentAssistantId !== "") {
+                $("#mgao-select-assistant-modal-list").find("[data-mgao-id=" + currentAssistantId).addClass("bg-success bg-opacity-25");
+            }
+        }
+        ';
+    }
+
+    protected function autoScrollJs()
+    {
+        echo '
+        function autoScroll() {
+            count = $("#mgao-select-assistant-modal-list").length;
+            $("#mgao-select-assistant-modal-list").parent().animate({
+                scrollTop: $("#mgoa-selectassistant-spinner").offset().top
+            }, 1000);
+        }
+        ';
+    }
+
+    protected function saveBtnJs()
+    {
+        echo '
+        $("#mgao-chatbot-save-btn").click(saveChatbot);
+
+        function saveChatbot() {
+            disableFields(true);
+            showBtnLoader("#mgao-chatbot-save-btn");
+            chatbotData = getChatbotData();
+
+            if (dataErrors.length > 0) {
+                displayErrors();
+                disableFields(false);
+                hideBtnLoader("#mgao-chatbot-save-btn");
+                return;
+            }
+            
+            const data = {
+                "action": "saveChatbot",
+                "chatbot_data": chatbotData,
+                "nonce": "' . wp_create_nonce('save_chatbot') . '"
+            };
+
+            $.post(ajaxurl, data, function(response) {
+                response = JSON.parse(response);
+                if (response.success) {
+                    location.replace("' . admin_url() . 'admin.php?page=metagaussopenai-chatbot&chatbot_id=' . '" + response.chatbot_id);
+                } else {
+                    dataErrors = response.errors;
+                    displayErrors();
+                }
+
+                disableFields(false);
+                hideBtnLoader("#mgao-chatbot-save-btn");
+            });
+        }
+        ';
+    }
+
+    protected function getChatbotDataJs()
+    {
+        echo '
+        function getChatbotData()
+        {
+            const chatabotData = {};
+            chatabotData["id"] = ' . absint($this->chatbotId()) . ';
+            chatabotData["name"] = getChatbotName();
+            chatabotData["description"] = getChatbotDescription();
+            chatabotData["assistant_id"] = getChatbotAssistantId();
+            return chatabotData;
+        }
+
+        function getChatbotName() {
+            
+            let name = $("#mgao-chatbot-name").val();
+            
+            if (name === "") {
+                dataErrors.push("' . __('Chatbot name cannot be empty.', 'metagauss-openai') . '"); 
+            }
+
+            if (name.length > 1024) {
+                dataErrors.push("' . __('Chatbot name cannot be more than 1024 characters.', 'metagauss-openai') . '"); 
+            }
+
+            return name;
+        }
+
+        function getChatbotDescription() {
+
+            let description = $("#mgao-chatbot-description").val();
+
+            if (description.length > 2048) {
+                dataErrors.push("' . __('Chatbot description cannot be more than 2048 characters.', 'metagauss-openai') . '"); 
+            }
+
+            return description;
+        }
+
+        function getChatbotAssistantId() {
+            
+            let assistantId = $("#mgao-chatbot-assistant-id").val();
+            
+            if (assistantId === "") {
+                dataErrors.push("' . __('Please select an Assistant for this Chatbot.', 'metagauss-openai') . '"); 
+            }
+
+            return assistantId;
+        }
+
+        ';
+    }
+
+    protected function toggleErrorsJs()
+    {
+        echo '
+        function displayErrors() {
+            let errorsHtml = "";
+
+            if (dataErrors.length === 0) {
+                return;
+            }
+
+            $.each(dataErrors, function(index, value){
+                errorsHtml = errorsHtml + "<li>" + value + "</li>";
+            });
+
+            $("#mgoa-chatbot-errors-list").html(errorsHtml);
+            dataErrors.length = 0;
+        }
         ';
     }
 }
