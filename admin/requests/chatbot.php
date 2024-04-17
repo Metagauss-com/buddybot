@@ -169,6 +169,13 @@ class ChatBot extends \MetagaussOpenAI\Admin\Requests\MoRoot
     {
         echo '
         $("#mgao-chatbot-save-btn").click(saveChatbot);
+        
+        document.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+              event.preventDefault();
+              saveChatbot();
+            }
+          });
 
         function saveChatbot() {
             disableFields(true);
@@ -191,7 +198,7 @@ class ChatBot extends \MetagaussOpenAI\Admin\Requests\MoRoot
             $.post(ajaxurl, data, function(response) {
                 response = JSON.parse(response);
                 if (response.success) {
-                    location.replace("' . admin_url() . 'admin.php?page=metagaussopenai-chatbot&chatbot_id=' . '" + response.chatbot_id);
+                    location.replace("' . admin_url() . 'admin.php?page=metagaussopenai-chatbot&chatbot_id=' . '" + response.chatbot_id + "&success=1");
                 } else {
                     dataErrors = response.errors;
                     displayErrors();
@@ -260,18 +267,22 @@ class ChatBot extends \MetagaussOpenAI\Admin\Requests\MoRoot
     protected function toggleErrorsJs()
     {
         echo '
+        displayErrors();
         function displayErrors() {
             let errorsHtml = "";
 
             if (dataErrors.length === 0) {
+                $("#mgoa-chatbot-errors").hide();
                 return;
             }
 
+            $("#mgoa-chatbot-success").hide();
             $.each(dataErrors, function(index, value){
                 errorsHtml = errorsHtml + "<li>" + value + "</li>";
             });
 
             $("#mgoa-chatbot-errors-list").html(errorsHtml);
+            $("#mgoa-chatbot-errors").show();
             dataErrors.length = 0;
         }
         ';

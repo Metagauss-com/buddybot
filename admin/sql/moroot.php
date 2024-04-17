@@ -7,6 +7,8 @@ use \MetagaussOpenAI\Traits\Singleton;
 class MoRoot extends \MetagaussOpenAI\Admin\MoRoot
 {
     use Singleton;
+    protected $table;
+
     protected $response = array('');
 
     protected function setResponse()

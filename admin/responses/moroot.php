@@ -7,14 +7,8 @@ class MoRoot extends \MetagaussOpenAI\Admin\MoRoot
     protected $response = array();
     protected $api_key = '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';
     protected $core_files;
-
     protected $sql;
-
-    protected function setCoreFiles()
-    {
-        $this->core_files = \MetagaussOpenAI\Admin\CoreFiles::getInstance();
-    }
-
+    
     protected function setSql()
     {
         $class_name = (new \ReflectionClass($this))->getShortName();
@@ -24,6 +18,11 @@ class MoRoot extends \MetagaussOpenAI\Admin\MoRoot
             $class_name = '\MetagaussOpenAI\Admin\Sql\\' . $class_name;
             $this->sql = $class_name::getInstance(); 
         }
+    }
+
+    protected function setCoreFiles()
+    {
+        $this->core_files = \MetagaussOpenAI\Admin\CoreFiles::getInstance();
     }
 
     protected function checkNonce($nonce)

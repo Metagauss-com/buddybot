@@ -8,27 +8,35 @@ final class Chatbot extends \MetagaussOpenAI\Admin\Secure\MoRoot
     {
         $id = absint($_POST['chatbot_data']['id']);
 
-        if ($id > 0) {
-            $this->errors[] = __('Chatbot name cannot be empty.', 'metagauss-openai');
+        if ($id === 0) {
+            return false;
         }
 
-        if (strlen($name) > 1024) {
-            $this->errors[] = __('Chatbot name cannot be more than 1024 characters.', 'metagauss-openai');
+        $chatbot = $this->sql->getItemById('chatbot', $id);
+        if ($chatbot === null) {
+            $id = false;
         }
 
-        return $name;
+        return $id;
     }
 
     public function chatbotName()
     {
         $name = sanitize_text_field($_POST['chatbot_data']['name']);
 
+        if (empty($name) and !empty($_POST['chatbot_data']['name'])) {
+            $this->errors[] = __('Invalid Chatbot name.', 'metagauss-openai');
+            return $name;
+        }
+
         if (empty($name)) {
             $this->errors[] = __('Chatbot name cannot be empty.', 'metagauss-openai');
+            return $name;
         }
 
         if (strlen($name) > 1024) {
             $this->errors[] = __('Chatbot name cannot be more than 1024 characters.', 'metagauss-openai');
+            return $name;
         }
 
         return $name;

@@ -56,18 +56,13 @@ class ChatBot extends \MetagaussOpenAI\Admin\Responses\MoRoot
         $this->checkCapabilities();
 
         $chatbot_data = $this->cleanChatbotData();
-
-        $insert = $this->sql->saveChatbot($chatbot_data);
-
-        if ($insert === false) {
-            global $wpdb;
-            $this->response['success'] = false;
-            $this->response['message'] = $wpdb->last_error;
-        } else {
-            $this->response['success'] = true;
-            $this->response['chatbot_id'] = $insert;
-        }
         
+        if ($chatbot_data['id'] === false) {
+            $this->createChatbot($chatbot_data);
+        } else {
+            $this->updateChatbot($chatbot_data);
+        }
+
         echo wp_json_encode($this->response);
         wp_die();
     }
@@ -92,11 +87,39 @@ class ChatBot extends \MetagaussOpenAI\Admin\Responses\MoRoot
         }
         
         return array(
-            'chatbot_id' => $id,
+            'id' => $id,
             'chatbot_name' => $name,
             'chatbot_description' => $description,
             'assistant_id' => $assistant_id
         );
+    }
+
+    private function createChatbot($chatbot_data)
+    {
+        $insert = $this->sql->createChatbot($chatbot_data);
+
+        if ($insert === false) {
+            global $wpdb;
+            $this->response['success'] = false;
+            $this->response['message'] = $wpdb->last_error;
+        } else {
+            $this->response['success'] = true;
+            $this->response['chatbot_id'] = $insert;
+        }
+    }
+
+    private function updateChatbot($chatbot_data)
+    {
+        $update = $this->sql->updateChatbot($chatbot_data);
+
+        if ($update === false) {
+            global $wpdb;
+            $this->response['success'] = false;
+            $this->response['message'] = $wpdb->last_error;
+        } else {
+            $this->response['success'] = true;
+            $this->response['chatbot_id'] = $chatbot_data['id'];
+        }
     }
    
     public function __construct()
@@ -104,6 +127,5 @@ class ChatBot extends \MetagaussOpenAI\Admin\Responses\MoRoot
         $this->setAll();
         add_action('wp_ajax_selectAssistantModal', array($this, 'selectAssistantModal'));
         add_action('wp_ajax_saveChatbot', array($this, 'saveChatbot'));
-        // add_action('wp_ajax_updateChatbot', array($this, 'updateChatbot'));
     }
 }

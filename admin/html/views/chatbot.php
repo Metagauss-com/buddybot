@@ -37,11 +37,17 @@ final class ChatBot extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
 
     protected function useSingleChatbot()
     {
-        if ($this->chatbot_id != 1) {
-            $location = admin_url() . 'admin.php?page=metagaussopenai-chatbot&chatbot_id=1';
+        $sql = \MetagaussOpenAI\Admin\Sql\Chatbot::getInstance();
+        $first_id = $sql->getFirstChatbotId();
+
+        if (!$first_id) {
+            return;
+        }
+
+        if ($this->chatbot_id != $first_id) {
             echo '
             <script>
-            location.replace("' . $location . '");
+            location.replace("' . admin_url() . 'admin.php?page=metagaussopenai-chatbot&chatbot_id=' . absint($first_id) . '");
             </script>
             ';
         }
@@ -55,12 +61,24 @@ final class ChatBot extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
 
     public function getHtml()
     {
-        // $this->useSingleChatbot();
+        $this->useSingleChatbot();
         $this->pageModals();
+        $this->pageSuccessAlert();
         $this->pageErrors();
         $this->pageHeading($this->heading);
         $this->chatbotOptions();
         $this->saveBtn();
+    }
+
+    private function pageSuccessAlert()
+    {
+        if (empty($_GET['success']) or $_GET['success'] != 1) {
+            return;
+        }
+
+        echo '<div id="mgoa-chatbot-success" class="notice notice-success mb-3 ms-0">';
+        echo '<p id="mgoa-chatbot-success-message" class="fw-bold">' . __('Chatbot updated successfully.', 'metagauss-openai') . '</p>';
+        echo '</div>';
     }
 
     private function pageErrors()
