@@ -28,6 +28,8 @@ final class StyleSheets extends \MetagaussOpenAI\Admin\MoRoot
             wp_enqueue_style($this->config::PREFIX . '-bootstrap-css', $bootstrap_css);
             wp_enqueue_script($this->config::PREFIX . '-bootstrap-js', $bootstrap_js);
             wp_enqueue_script($this->config::PREFIX . '-jquery-js', $jquery_js);
+            wp_enqueue_style($this->config::PREFIX . '-global-css', $this->config->getRootUrl() . 'admin/css/metagauss-openai.css');
+
         }
     }
 

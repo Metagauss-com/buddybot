@@ -113,7 +113,12 @@ final class ChatBot extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
         echo '<tr>';
         echo '<th scope="row">';
         echo '<label for="mgao-chatbot-name">' . esc_html(__('Name', 'metagauss-openai')) . '</label></th>';
-        echo '<td><input type="text" id="mgao-chatbot-name" value="' . esc_html($value) . '" class="mo-item-field regular-text"></td>';
+        echo '<td>';
+        echo '<input type="text" id="mgao-chatbot-name" value="' . esc_html($value) . '" class="mo-item-field regular-text">';
+        echo '<p class="description" id="tagline-description">';
+        esc_html_e('Name of your chatbot. This is not visible to the user.', 'metagauss-openai');
+        echo '</p>';
+        echo '</td>';
         echo '</tr>';
     }
 
@@ -128,6 +133,9 @@ final class ChatBot extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
         echo '<textarea name="moderation_keys" rows="10" cols="50" id="mgao-chatbot-description" class="mo-item-field">';
         echo esc_textarea($value);
         echo '</textarea>';
+        echo '<p class="description" id="tagline-description">';
+        esc_html_e('Description for your chatbot. This is not visible to the user.', 'metagauss-openai');
+        echo '</p>';
         echo '</td>';
         echo '</tr>';
     }

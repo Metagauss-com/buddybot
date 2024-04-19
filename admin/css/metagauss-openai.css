@@ -1,0 +1,7 @@
+body {
+    background: #f0f0f1 !important;
+}
+
+#mgoa-chatbot-errors-list li {
+    list-style: binary;
+}
