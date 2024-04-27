@@ -47,6 +47,7 @@ if (is_admin()) {
     $admin_responses = new Admin\Responses\Assistants();
     $admin_responses = new Admin\Responses\EditAssistant();
     $admin_responses = new Admin\Responses\Playground();
+    $admin_responses = new Admin\Responses\Settings();
 }
 
 //----------Public Code--------//

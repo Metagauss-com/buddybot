@@ -34,4 +34,9 @@ class MoRoot extends \MetagaussOpenAI\Admin\Html\MoRoot
     {
         
     }
+
+    public function pageJs()
+    {
+
+    }
 }
