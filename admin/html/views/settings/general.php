@@ -13,7 +13,7 @@ class General extends \MetagaussOpenAI\Admin\Html\Views\Settings\MoRoot
 
     private function openaiApiKey()
     {
-        $id = 'mgoa-settings-openai-key';
+        $id = 'mgoa-settings-openai-api-key';
         $label = __('OpenAI API Key', 'metagauss-openai');
         $control = '<input type="text" id="' . esc_attr($id) . '" value="" class="regular-text">';
         $description = __('Your OPENAI API key.', 'metagauss-openai');

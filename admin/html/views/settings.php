@@ -16,12 +16,34 @@ final class Settings extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
 
     public function getHtml()
     {
+        $this->pageSuccessAlert();
+        $this->pageErrors();
+
         $heading = __('Settings', 'megaform-openai');
         $this->pageHeading($heading);
         $this->sectionToggle();
         $this->optionsLoader();
         $this->sectionOptions();
         $this->updateOptions();
+    }
+
+    private function pageSuccessAlert()
+    {
+        if (empty($_GET['success']) or $_GET['success'] != 1) {
+            return;
+        }
+
+        echo '<div id="mgoa-settings-success" class="notice notice-success mb-3 ms-0">';
+        echo '<p id="mgoa-settings-success-message" class="fw-bold">' . __('Settings updated successfully.', 'metagauss-openai') . '</p>';
+        echo '</div>';
+    }
+
+    private function pageErrors()
+    {
+        echo '<div id="mgoa-settings-errors" class="notice notice-error settings-error mb-3 ms-0">';
+        echo '<p id="mgoa-settings-error-message" class="fw-bold">' . __('Unable to update settings. Please fix errors.', 'metagauss-openai') . '</p>';
+        echo '<ul id="mgoa-settings-errors-list" class="small"></ul>';
+        echo '</div>';
     }
 
     private function sectionToggle()
