@@ -32,6 +32,7 @@ class MoRoot extends \MetagaussOpenAI\Admin\MoRoot
         if ($nonce_status === false) {
             $this->response['success'] = false;
             $this->response['message'] = '<div>' . __('Nonce error.', 'metagauss-openai') . '</div>';
+            $this->response['errors'] = array(__('Nonce check failed.', 'metagauss-openai'));
             echo json_encode($this->response);
             wp_die();
         }

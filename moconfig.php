@@ -27,7 +27,8 @@ final class MoConfig
         $prefix = $wpdb->prefix . 'mgoa_';
         $this->db_tables = array(
             'threads' => $prefix . 'threads',
-            'chatbot' => $prefix . 'chatbot'
+            'chatbot' => $prefix . 'chatbot',
+            'settings' => $prefix . 'settings'
         );
     }
 

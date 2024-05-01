@@ -55,6 +55,7 @@ final class Settings extends \MetagaussOpenAI\Admin\Requests\MoRoot
 
         function saveOptions() {
 
+            const section = $("#mgao-settings-section-select").val();
             getGeneralOptions();
 
             if (dataErrors.length > 0) {
@@ -66,15 +67,18 @@ final class Settings extends \MetagaussOpenAI\Admin\Requests\MoRoot
 
             const data = {
                 "action": "saveSettings",
-                "chatbot_data": optionsData,
+                "options_data": optionsData,
+                "section": section,
                 "nonce": "' . wp_create_nonce('save_settings') . '"
             };
 
             $.post(ajaxurl, data, function(response) {
+                alert(response);
                 response = JSON.parse(response);
                 if (response.success) {
-                    location.replace("' . admin_url() . 'admin.php?page=metagaussopenai-chatbot&chatbot_id=' . '" + response.chatbot_id + "&success=1");
+                    location.replace("' . admin_url() . 'admin.php?page=metagaussopenai-settings&section=' . '" + section + "&success=1");
                 } else {
+                    $("#mgoa-settings-error-message").html(response.message);
                     dataErrors = response.errors;
                     displayErrors();
                 }

@@ -60,7 +60,13 @@ final class Settings extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
 
         foreach ($this->sections as $name => $label)
         {
-            echo '<option value="' . esc_html($name) . '">';
+            $selected = '';
+
+            if (!empty($_GET['section']) and $_GET['section'] === $name) {
+                $selected = ' selected';
+            }
+
+            echo '<option value="' . esc_attr($name) . '"' . $selected . '>';
             echo esc_html($label);
             echo '</label>';
         }

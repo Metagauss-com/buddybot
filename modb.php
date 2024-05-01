@@ -47,11 +47,28 @@ class MoDb
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
         dbDelta($sql);
     }
+
+    private function addSettingsTable()
+    {
+        $table_name = $this->config->getDbTable('settings');
+        $sql = "CREATE TABLE $table_name (
+        id mediumint(9) NOT NULL AUTO_INCREMENT,
+        option_name varchar(256),
+        option_value text,
+        last_editor mediumint(9),
+        edited_on datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+        PRIMARY KEY  (id)
+        )  $this->charset;";
+        
+        require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+        dbDelta($sql);
+    }
     
     public function addTables()
     {
         $this->addThreadsTable();
         $this->addChatbotTable();
+        $this->addSettingsTable();
     }
     
     public function installPlugin()

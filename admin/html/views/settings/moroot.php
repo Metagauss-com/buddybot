@@ -4,6 +4,11 @@ namespace MetagaussOpenAI\Admin\Html\Views\Settings;
 
 class MoRoot extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
 {
+    protected function setSql()
+    {
+        $this->sql = \MetagaussOpenAI\Admin\Sql\Settings::getInstance(); 
+    }
+    
     public function getHtml()
     {
         return '';

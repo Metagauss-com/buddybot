@@ -17,4 +17,26 @@ class MoRoot extends \MetagaussOpenAI\Admin\MoRoot
             $this->sql = $class_name::getInstance(); 
         }
     }
+
+    public function getErrors()
+    {
+        return $this->errors;
+    }
+
+    public function secureData($data)
+    {
+        $clean_data = array();
+
+        if(!is_array($data)) {
+            $this->errors[] = __('Data should be in array format.', 'metagauss-openai');
+            return;
+        }
+
+        foreach ($data as $name => $value) {
+            $method = 'clean' . str_replace('_','',$name);
+            $clean_data[$name] = $this->$method($value);
+        }
+
+        return $clean_data;
+    }
 }
