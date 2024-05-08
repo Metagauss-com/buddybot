@@ -1,8 +1,8 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Html;
+namespace BuddyBot\Admin\Html;
 
-class MoRoot extends \MetagaussOpenAI\Admin\MoRoot
+class MoRoot extends \BuddyBot\Admin\MoRoot
 {
     protected function pageHeading($heading)
     {

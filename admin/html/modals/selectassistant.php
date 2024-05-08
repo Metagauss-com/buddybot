@@ -1,8 +1,8 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Html\Modals;
+namespace BuddyBot\Admin\Html\Modals;
 
-class SelectAssistant extends \MetagaussOpenAI\Admin\Html\Modals\MoRoot
+class SelectAssistant extends \BuddyBot\Admin\Html\Modals\MoRoot
 {
     protected $modal_id = 'mgoa-select-assistant-modal';
 

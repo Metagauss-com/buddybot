@@ -1,8 +1,8 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Responses;
+namespace BuddyBot\Admin\Responses;
 
-class EditAssistant extends \MetagaussOpenAI\Admin\Responses\MoRoot
+class EditAssistant extends \BuddyBot\Admin\Responses\MoRoot
 {
     public function getModels()
     {

@@ -1,8 +1,8 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Secure;
+namespace BuddyBot\Admin\Secure;
 
-final class Chatbot extends \MetagaussOpenAI\Admin\Secure\MoRoot
+final class Chatbot extends \BuddyBot\Admin\Secure\MoRoot
 {
     public function chatbotId()
     {

@@ -1,15 +1,15 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Responses;
+namespace BuddyBot\Admin\Responses;
 
-class Settings extends \MetagaussOpenAI\Admin\Responses\MoRoot
+class Settings extends \BuddyBot\Admin\Responses\MoRoot
 {
     public function getOptions()
     {
         $this->checkNonce('get_options');
 
         $section = sanitize_text_field($_POST['section']);
-        $section_class = '\MetagaussOpenAI\Admin\Html\Views\Settings\\' . $section;
+        $section_class = '\BuddyBot\Admin\Html\Views\Settings\\' . $section;
         $selection_object = new $section_class();
         $this->response['success'] = true;
         $this->response['html'] = $selection_object->getHtml();
@@ -31,7 +31,7 @@ class Settings extends \MetagaussOpenAI\Admin\Responses\MoRoot
             wp_die();
         }
 
-        $secure_class = '\MetagaussOpenAI\Admin\Secure\Settings\\' . $_POST['section'];
+        $secure_class = '\BuddyBot\Admin\Secure\Settings\\' . $_POST['section'];
         $secure = new $secure_class();
         $options = $secure->secureData($options_data);
         $errors = $secure->getErrors();

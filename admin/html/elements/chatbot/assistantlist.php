@@ -1,8 +1,8 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Html\Elements\Chatbot;
+namespace BuddyBot\Admin\Html\Elements\Chatbot;
 
-class AssistantList extends \MetagaussOpenAI\Admin\Html\Elements\Chatbot\MoRoot
+class AssistantList extends \BuddyBot\Admin\Html\Elements\Chatbot\MoRoot
 {
     protected $item;
 

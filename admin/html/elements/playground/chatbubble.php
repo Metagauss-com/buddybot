@@ -1,8 +1,8 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Html\Elements\Playground;
+namespace BuddyBot\Admin\Html\Elements\Playground;
 
-class ChatBubble extends \MetagaussOpenAI\Admin\Html\Elements\Playground\MoRoot
+class ChatBubble extends \BuddyBot\Admin\Html\Elements\Playground\MoRoot
 {
     private $message;
     protected $roles;

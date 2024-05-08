@@ -1,8 +1,8 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Requests;
+namespace BuddyBot\Admin\Requests;
 
-class AddFile extends \MetagaussOpenAI\Admin\Requests\MoRoot
+class AddFile extends \BuddyBot\Admin\Requests\MoRoot
 {
     public function requestJs()
     {

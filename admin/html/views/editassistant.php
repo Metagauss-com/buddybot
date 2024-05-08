@@ -1,8 +1,8 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Html\Views;
+namespace BuddyBot\Admin\Html\Views;
 
-class EditAssistant extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
+class EditAssistant extends \BuddyBot\Admin\Html\Views\MoRoot
 {
     protected $assistant_id = null;
     protected $heading;

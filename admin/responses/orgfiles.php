@@ -1,8 +1,8 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Responses;
+namespace BuddyBot\Admin\Responses;
 
-class OrgFiles extends \MetagaussOpenAI\Admin\Responses\MoRoot
+class OrgFiles extends \BuddyBot\Admin\Responses\MoRoot
 {
     
     public function deleteOrgFile()

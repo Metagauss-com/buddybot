@@ -1,8 +1,8 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Html\Modals;
+namespace BuddyBot\Admin\Html\Modals;
 
-class MoRoot extends \MetagaussOpenAI\Admin\Html\MoRoot
+class MoRoot extends \BuddyBot\Admin\Html\MoRoot
 {
     protected $modal_id = '';
 

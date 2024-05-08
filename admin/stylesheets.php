@@ -1,9 +1,9 @@
 <?php
-namespace MetagaussOpenAI\Admin;
+namespace BuddyBot\Admin;
 
-use MetagaussOpenAI\Traits\Singleton;
+use BuddyBot\Traits\Singleton;
 
-final class StyleSheets extends \MetagaussOpenAI\Admin\MoRoot
+final class StyleSheets extends \BuddyBot\Admin\MoRoot
 {
     use Singleton;
 

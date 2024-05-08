@@ -1,8 +1,8 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Responses;
+namespace BuddyBot\Admin\Responses;
 
-class AddFile extends \MetagaussOpenAI\Admin\Responses\MoRoot
+class AddFile extends \BuddyBot\Admin\Responses\MoRoot
 {
 
     public function addFile()

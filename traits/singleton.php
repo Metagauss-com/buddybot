@@ -1,6 +1,6 @@
 <?php
 
-namespace MetagaussOpenAI\Traits;
+namespace BuddyBot\Traits;
 
 trait Singleton
 {

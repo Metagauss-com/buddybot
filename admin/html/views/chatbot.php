@@ -1,8 +1,8 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Html\Views;
+namespace BuddyBot\Admin\Html\Views;
 
-final class ChatBot extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
+final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
 {
     protected $chatbot_id = 0;
     protected $is_edit = false;
@@ -37,7 +37,7 @@ final class ChatBot extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
 
     protected function useSingleChatbot()
     {
-        $sql = \MetagaussOpenAI\Admin\Sql\Chatbot::getInstance();
+        $sql = \BuddyBot\Admin\Sql\Chatbot::getInstance();
         $first_id = $sql->getFirstChatbotId();
 
         if (!$first_id) {
@@ -55,7 +55,7 @@ final class ChatBot extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
 
     protected function pageModals()
     {
-        $select_assistant = new \MetagaussOpenAI\Admin\Html\Modals\SelectAssistant();
+        $select_assistant = new \BuddyBot\Admin\Html\Modals\SelectAssistant();
         $select_assistant->getHtml();
     }
 

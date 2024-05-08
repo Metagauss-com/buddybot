@@ -8,12 +8,12 @@
  * Author URI:        https://profiles.wordpress.org/metagauss/
  * License:           GPL v2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       MetagaussOpenAI
+ * Text Domain:       BuddyBot
  * Domain Path:       /languages
  * Network:           False
 */
 
-namespace MetagaussOpenAI;
+namespace BuddyBot;
 
 //exit if the file is accessed directly.
 if (!defined('WPINC')) die;

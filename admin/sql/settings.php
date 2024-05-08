@@ -1,8 +1,8 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Sql;
+namespace BuddyBot\Admin\Sql;
 
-class Settings extends \MetagaussOpenAI\Admin\Sql\MoRoot
+class Settings extends \BuddyBot\Admin\Sql\MoRoot
 {
     protected function setTable()
     {

@@ -1,8 +1,8 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Html\Views;
+namespace BuddyBot\Admin\Html\Views;
 
-final class DataSync extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
+final class DataSync extends \BuddyBot\Admin\Html\Views\MoRoot
 {
     public function getHtml()
     {

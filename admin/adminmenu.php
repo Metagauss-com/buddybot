@@ -1,7 +1,7 @@
 <?php
-namespace MetagaussOpenAI\Admin;
+namespace BuddyBot\Admin;
 
-final class AdminMenu extends \MetagaussOpenAI\Admin\MoRoot
+final class AdminMenu extends \BuddyBot\Admin\MoRoot
 {
     public function topLevelMenu()
     {

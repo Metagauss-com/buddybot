@@ -1,8 +1,8 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Sql;
+namespace BuddyBot\Admin\Sql;
 
-class Playground extends \MetagaussOpenAI\Admin\Sql\MoRoot
+class Playground extends \BuddyBot\Admin\Sql\MoRoot
 {
     public function getThreadsByUserId($user_id = 0)
     {

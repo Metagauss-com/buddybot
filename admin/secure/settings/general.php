@@ -1,8 +1,8 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Secure\Settings;
+namespace BuddyBot\Admin\Secure\Settings;
 
-final class General extends \MetagaussOpenAI\Admin\Secure\MoRoot
+final class General extends \BuddyBot\Admin\Secure\MoRoot
 {
     protected function cleanOpenAiApiKey($key)
     {

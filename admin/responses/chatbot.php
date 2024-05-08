@@ -1,8 +1,8 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Responses;
+namespace BuddyBot\Admin\Responses;
 
-class ChatBot extends \MetagaussOpenAI\Admin\Responses\MoRoot
+class ChatBot extends \BuddyBot\Admin\Responses\MoRoot
 {
     public function selectAssistantModal()
     {
@@ -38,7 +38,7 @@ class ChatBot extends \MetagaussOpenAI\Admin\Responses\MoRoot
 
     private function getAssistantListHtml($list)
     {
-        $assisstant_list = new \MetagaussOpenAI\Admin\Html\Elements\Chatbot\AssistantList();
+        $assisstant_list = new \BuddyBot\Admin\Html\Elements\Chatbot\AssistantList();
 
         $html = '';
 
@@ -69,7 +69,7 @@ class ChatBot extends \MetagaussOpenAI\Admin\Responses\MoRoot
 
     private function cleanChatbotData()
     {
-        $secure = new \MetagaussOpenAI\Admin\Secure\Chatbot();
+        $secure = new \BuddyBot\Admin\Secure\Chatbot();
         
         $id= $secure->chatbotId();
         $name = $secure->chatbotName();

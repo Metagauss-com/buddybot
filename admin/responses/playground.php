@@ -1,8 +1,8 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Responses;
+namespace BuddyBot\Admin\Responses;
 
-class Playground extends \MetagaussOpenAI\Admin\Responses\MoRoot
+class Playground extends \BuddyBot\Admin\Responses\MoRoot
 {
     public function getAssistantOptions()
     {
@@ -325,7 +325,7 @@ class Playground extends \MetagaussOpenAI\Admin\Responses\MoRoot
 
     private function chatBubbleHtml($message)
     {
-        $chat_bubble = new \MetagaussOpenAI\Admin\Html\Elements\Playground\ChatBubble();
+        $chat_bubble = new \BuddyBot\Admin\Html\Elements\Playground\ChatBubble();
         $chat_bubble->setMessage($message);
         return $chat_bubble->getHtml();
     }

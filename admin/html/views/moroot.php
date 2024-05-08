@@ -1,8 +1,8 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Html\Views;
+namespace BuddyBot\Admin\Html\Views;
 
-class MoRoot extends \MetagaussOpenAI\Admin\Html\MoRoot
+class MoRoot extends \BuddyBot\Admin\Html\MoRoot
 {
     protected $sql;
 
@@ -12,7 +12,7 @@ class MoRoot extends \MetagaussOpenAI\Admin\Html\MoRoot
         $file_path = $this->config->getRootPath() . 'admin/sql/' . strtolower($class_name) . '.php';
 
         if (file_exists($file_path)) {
-            $class_name = '\MetagaussOpenAI\Admin\Sql\\' . $class_name;
+            $class_name = '\BuddyBot\Admin\Sql\\' . $class_name;
             $this->sql = $class_name::getInstance(); 
         }
     }

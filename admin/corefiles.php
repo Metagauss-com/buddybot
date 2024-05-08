@@ -1,7 +1,7 @@
 <?php
-namespace MetagaussOpenAI\Admin;
+namespace BuddyBot\Admin;
 
-use MetagaussOpenAI\Traits\Singleton;
+use BuddyBot\Traits\Singleton;
 
 final class CoreFiles
 {
@@ -13,7 +13,7 @@ final class CoreFiles
 
     protected function setConfig()
     {
-        $this->config = \MetagaussOpenAI\MoConfig::getInstance();
+        $this->config = \BuddyBot\MoConfig::getInstance();
     }
 
     protected function setPosts()

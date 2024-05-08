@@ -1,8 +1,8 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Html\Views;
+namespace BuddyBot\Admin\Html\Views;
 
-final class Settings extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
+final class Settings extends \BuddyBot\Admin\Html\Views\MoRoot
 {
     protected $sections;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Html\Views;
+namespace BuddyBot\Admin\Html\Views;
 
-class Playground extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
+class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
 {
     public function getHtml()
     {

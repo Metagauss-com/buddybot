@@ -1,8 +1,8 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Responses;
+namespace BuddyBot\Admin\Responses;
 
-class Assistants extends \MetagaussOpenAI\Admin\Responses\MoRoot
+class Assistants extends \BuddyBot\Admin\Responses\MoRoot
 {
     
     public function deleteAssistant()

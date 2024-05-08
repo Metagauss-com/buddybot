@@ -1,8 +1,8 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Html\Views;
+namespace BuddyBot\Admin\Html\Views;
 
-final class AddFile extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
+final class AddFile extends \BuddyBot\Admin\Html\Views\MoRoot
 {
     public function getHtml()
     {

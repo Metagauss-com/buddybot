@@ -1,6 +1,6 @@
 <?php
-namespace MetagaussOpenAI\Frontend;
+namespace BuddyBot\Frontend;
 
-final class MoRoot extends \MetagaussOpenAI\MoRoot
+final class MoRoot extends \BuddyBot\MoRoot
 {
 }

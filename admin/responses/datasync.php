@@ -1,8 +1,8 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Responses;
+namespace BuddyBot\Admin\Responses;
 
-class DataSync extends \MetagaussOpenAI\Admin\Responses\MoRoot
+class DataSync extends \BuddyBot\Admin\Responses\MoRoot
 {
     protected $file_data = '';
 
