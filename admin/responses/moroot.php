@@ -31,8 +31,8 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
 
         if ($nonce_status === false) {
             $this->response['success'] = false;
-            $this->response['message'] = '<div>' . __('Nonce error.', 'metagauss-openai') . '</div>';
-            $this->response['errors'] = array(__('Nonce check failed.', 'metagauss-openai'));
+            $this->response['message'] = '<div>' . __('Nonce error.', 'buddybot') . '</div>';
+            $this->response['errors'] = array(__('Nonce check failed.', 'buddybot'));
             echo json_encode($this->response);
             wp_die();
         }
@@ -42,7 +42,7 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
     {
         if (!(current_user_can('manage_options'))) {
             $this->response['success'] = false;
-            $this->response['message'] = __('You do not have permission to do this.', 'metagauss-openai');
+            $this->response['message'] = __('You do not have permission to do this.', 'buddybot');
             echo json_encode($this->response);
             wp_die();
         }
@@ -61,12 +61,12 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
     {
         if (!is_object($output)) {
             $this->response['success'] = false;
-            $this->response['message'] = __('Output is not an object. ', 'metagauss-openai') . ' ' . maybe_serialize($output);
+            $this->response['message'] = __('Output is not an object. ', 'buddybot') . ' ' . maybe_serialize($output);
             echo wp_json_encode($this->response);
             wp_die();
         } elseif (!empty($output->error)) {
             $this->response['success'] = false;
-            $this->response['message'] = '<span class="text-danger">' . __('There was an error. ', 'metagauss-openai');
+            $this->response['message'] = '<span class="text-danger">' . __('There was an error. ', 'buddybot');
             $this->response['message'] .= $output->error->message . '</span>';
             echo wp_json_encode($this->response);
             wp_die();
@@ -85,8 +85,8 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
 
     protected function listBtns($item_type)
     {
-        $info_btn_class = 'mo-listbtn-' . $item_type . '-info';
-        $delete_btn_class = 'mo-listbtn-' . $item_type . '-delete';
+        $info_btn_class = 'buddybot-listbtn-' . $item_type . '-info';
+        $delete_btn_class = 'buddybot-listbtn-' . $item_type . '-delete';
         
         $html = '<div class="btn-group btn-group-sm me-2" role="group" aria-label="Basic example">';
         $html .= '<button type="button" class="' . esc_attr($info_btn_class) . ' btn btn-outline-dark">' . $this->moIcon('info') . '</button>';
@@ -100,7 +100,7 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
 
     protected function listSpinner()
     {
-        $html .= '<div class="mo-list-spinner spinner-border spinner-border-sm visually-hidden" role="status">';
+        $html .= '<div class="buddybot-list-spinner spinner-border spinner-border-sm visually-hidden" role="status">';
         $html .= '<span class="visually-hidden">Loading...</span></div>';
         return $html;
     }

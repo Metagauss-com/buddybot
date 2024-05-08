@@ -69,7 +69,7 @@ class OrgFiles extends \BuddyBot\Admin\Responses\MoRoot
         $html = '';
 
         foreach ($files as $index => $file) {
-            $html .= '<tr class="small" data-mo-itemid="' . esc_attr($file->id) . '">';
+            $html .= '<tr class="small" data-buddybot-itemid="' . esc_attr($file->id) . '">';
             $html .= '<th scope="row">' . absint($index) + 1 . '</th>';
             $html .= '<td>' . $this->fileIcon($file->filename) . '</td>';
             $html .= '<td>' . esc_html($file->filename) . '</td>';

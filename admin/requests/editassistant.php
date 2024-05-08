@@ -45,7 +45,7 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
         echo '
         getModels();
         function getModels(){
-            const select = $("#mo-editassistant-assistantmodel");
+            const select = $("#buddybot-editassistant-assistantmodel");
             const data = {
                 "action": "getModels",
                 "nonce": "' . $nonce . '"
@@ -55,7 +55,7 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
                 response = JSON.parse(response);
                 if (response.success) {
                     select.html(response.html);
-                    select.siblings(".mo-dataload-spinner").hide();
+                    select.siblings(".buddybot-dataload-spinner").hide();
                     if (context === "update") {
                         getAssistantData();
                     }
@@ -82,7 +82,7 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
             $.post(ajaxurl, data, function(response) {
                 response = JSON.parse(response);
                 if (response.success) {
-                    $("#mo-editassistant-assistantfiles").html(response.html);
+                    $("#buddybot-editassistant-assistantfiles").html(response.html);
                     recountFiles();
                 } else {
                     showAlert(response.message);
@@ -98,13 +98,13 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
         function filesCount() {
             let count = 0;
 
-            $("#mo-editassistant-assistantfiles").find("input[type=checkbox]").each(function(){
+            $("#buddybot-editassistant-assistantfiles").find("input[type=checkbox]").each(function(){
                 if ($(this).is(":checked")) {
                     count++;
                 }
             });
 
-            $("#mo-editassistant-assistantfiles-filescount").text(count);
+            $("#buddybot-editassistant-assistantfiles-filescount").text(count);
             return count;
         }
         ';
@@ -113,7 +113,7 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
     private function updateFilesCountJs()
     {
         echo '
-        $("#mo-editassistant-assistantfiles").click(recountFiles);
+        $("#buddybot-editassistant-assistantfiles").click(recountFiles);
 
         function recountFiles() {
             let count = filesCount();
@@ -130,7 +130,7 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
     {
         echo '
         function disableCheckBoxes() {
-            $("#mo-editassistant-assistantfiles").find("input[type=checkbox]").each(function(){
+            $("#buddybot-editassistant-assistantfiles").find("input[type=checkbox]").each(function(){
                 if (!$(this).is(":checked")) {
                     $(this).prop("disabled", true);
                 }
@@ -138,7 +138,7 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
         }
 
         function enableCheckBoxes() {
-            $("#mo-editassistant-assistantfiles").find("input[type=checkbox]").each(function(){
+            $("#buddybot-editassistant-assistantfiles").find("input[type=checkbox]").each(function(){
                 $(this).prop("disabled", false);
             });
         }
@@ -150,10 +150,10 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
         echo '
         function assistantData() {
             let assistantData = {};
-            assistantData["name"] = $("#mo-editassistant-assistantname").val();
-            assistantData["description"] = $("#mo-editassistant-assistantdescription").val();
-            assistantData["model"] = $("#mo-editassistant-assistantmodel").val();
-            assistantData["instructions"] = $("#mo-editassistant-assistantinstructions").val();
+            assistantData["name"] = $("#buddybot-editassistant-assistantname").val();
+            assistantData["description"] = $("#buddybot-editassistant-assistantdescription").val();
+            assistantData["model"] = $("#buddybot-editassistant-assistantmodel").val();
+            assistantData["instructions"] = $("#buddybot-editassistant-assistantinstructions").val();
             assistantData["tools"] = assistantTools();
             assistantData["file_ids"] = assistantFiles();
 
@@ -163,7 +163,7 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
         function assistantTools() {
             let assistantTools = [];
 
-            $("#mo-editassistant-assistanttools").find("input[type=checkbox]").each(function(){
+            $("#buddybot-editassistant-assistanttools").find("input[type=checkbox]").each(function(){
                 if ($(this).is(":checked")) {
                     let value = $(this).val();
                     assistantTools.push(value);
@@ -176,7 +176,7 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
         function assistantFiles() {
             let assistantFiles = [];
 
-            $("#mo-editassistant-assistantfiles").find("input[type=checkbox]").each(function(){
+            $("#buddybot-editassistant-assistantfiles").find("input[type=checkbox]").each(function(){
                 if ($(this).is(":checked")) {
                     let value = $(this).val();
                     assistantFiles.push(value);
@@ -192,12 +192,12 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
     {
         $nonce = wp_create_nonce('create_assistant');
         echo '
-        $("#mo-editassistant-editassistant-submit").click(createAssistant);
+        $("#buddybot-editassistant-editassistant-submit").click(createAssistant);
 
         function createAssistant(){
             hideAlert();
             disableFields(true);
-            showBtnLoader("#mo-editassistant-editassistant-submit");
+            showBtnLoader("#buddybot-editassistant-editassistant-submit");
             let aData = assistantData();
 
             const data = {
@@ -208,10 +208,10 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
             };
       
             $.post(ajaxurl, data, function(response) {
-                hideBtnLoader("#mo-editassistant-editassistant-submit");
+                hideBtnLoader("#buddybot-editassistant-editassistant-submit");
                 response = JSON.parse(response);
                 if (response.success) {
-                    location.replace("' . get_admin_url() . 'admin.php?page=metagaussopenai-assistant&assistant_id=' . '" + response.result.id);
+                    location.replace("' . get_admin_url() . 'admin.php?page=buddybot-assistant&assistant_id=' . '" + response.result.id);
                 } else {
                     showAlert(response.message);
                 }
@@ -255,10 +255,10 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
         };
 
         function fillAssistantValues(assistant) {
-            $("#mo-editassistant-assistantname").val(assistant.name);
-            $("#mo-editassistant-assistantdescription").val(assistant.description);
-            $("#mo-editassistant-assistantmodel").val(assistant.model);
-            $("#mo-editassistant-assistantinstructions").val(assistant.instructions);
+            $("#buddybot-editassistant-assistantname").val(assistant.name);
+            $("#buddybot-editassistant-assistantdescription").val(assistant.description);
+            $("#buddybot-editassistant-assistantmodel").val(assistant.model);
+            $("#buddybot-editassistant-assistantinstructions").val(assistant.instructions);
             checkEnabledTools(assistant.tools);
             selectAttachedFiles(assistant.file_ids);
         }
@@ -275,7 +275,7 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
                 return;
             }
 
-            $("#mo-editassistant-assistanttools").find("input[type=checkbox]").each(function(){
+            $("#buddybot-editassistant-assistanttools").find("input[type=checkbox]").each(function(){
                 
                 let cbValue = $(this).val();
 
@@ -292,7 +292,7 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
                 return;
             }
 
-            $("#mo-editassistant-assistantfiles").find("input[type=checkbox]").each(function(){
+            $("#buddybot-editassistant-assistantfiles").find("input[type=checkbox]").each(function(){
                 
                 let fileId = $(this).val();
                 

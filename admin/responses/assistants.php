@@ -35,7 +35,7 @@ class Assistants extends \BuddyBot\Admin\Responses\MoRoot
             $this->assistantsTableHtml($output);
         } else {
             $this->response['success'] = false;
-            $this->response['message'] = __('Unable to fetch assistants list.', 'metagauss-openai');
+            $this->response['message'] = __('Unable to fetch assistants list.', 'buddybot');
         }
 
         echo wp_json_encode($this->response);
@@ -51,7 +51,7 @@ class Assistants extends \BuddyBot\Admin\Responses\MoRoot
         $html = '';
 
         foreach ($output->data as $index => $assistant) {
-            $html .= '<tr class="small" data-mo-itemid="' . esc_attr($assistant->id) . '">';
+            $html .= '<tr class="small" data-buddybot-itemid="' . esc_attr($assistant->id) . '">';
             $html .= '<th scope="row">' . absint($index) + 1 . '</th>';
             $html .= '<td>' . esc_html($assistant->name) . '</td>';
             $html .= '<td>' . esc_html($assistant->description) . '</td>';
@@ -66,10 +66,10 @@ class Assistants extends \BuddyBot\Admin\Responses\MoRoot
 
     protected function assistantBtns($assistant_id)
     {   
-        $assistant_url = get_admin_url() . 'admin.php?page=metagaussopenai-assistant&assistant_id=' . $assistant_id;
+        $assistant_url = get_admin_url() . 'admin.php?page=buddybot-assistant&assistant_id=' . $assistant_id;
         $html = '<div class="btn-group btn-group-sm me-2" role="group" aria-label="Basic example">';
-        $html .= '<a href="' . esc_url($assistant_url) . '" type="button" class="mo-listbtn-assistant-edit btn btn-outline-dark">' . $this->moIcon('edit') . '</a>';
-        $html .= '<button type="button" class="mo-listbtn-assistant-delete btn btn-outline-dark">' . $this->moIcon('delete') . '</button>';
+        $html .= '<a href="' . esc_url($assistant_url) . '" type="button" class="buddybot-listbtn-assistant-edit btn btn-outline-dark">' . $this->moIcon('edit') . '</a>';
+        $html .= '<button type="button" class="buddybot-listbtn-assistant-delete btn btn-outline-dark">' . $this->moIcon('delete') . '</button>';
         $html .= '</div>';
 
         $html .= $this->listSpinner();

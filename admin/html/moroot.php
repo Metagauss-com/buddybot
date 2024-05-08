@@ -18,11 +18,11 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
         $class = 'btn btn-' . $type;
         echo '<button id="' . esc_attr($id) . '" class="' . esc_attr($class) . '" type="button">';
         
-        echo '<span class="mo-loaderbtn-label">';
+        echo '<span class="buddybot-loaderbtn-label">';
         echo esc_html($label);
         echo '</span>';
 
-        echo '<span class="mo-loaderbtn-spinner spinner-border spinner-border-sm visually-hidden" aria-hidden="true"></span>';
+        echo '<span class="buddybot-loaderbtn-spinner spinner-border spinner-border-sm visually-hidden" aria-hidden="true"></span>';
         
         echo '</button>';
     }

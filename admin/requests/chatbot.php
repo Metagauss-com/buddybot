@@ -44,12 +44,12 @@ class ChatBot extends \BuddyBot\Admin\Requests\MoRoot
     protected function getAssistantsListJs()
     {
         echo '
-        const selectAssistantModal = document.getElementById("mgoa-select-assistant-modal");
+        const selectAssistantModal = document.getElementById("buddybot-select-assistant-modal");
         if (selectAssistantModal) {
             selectAssistantModal.addEventListener("show.bs.modal", event => {
 
                 $("#mgao-select-assistant-modal-list").html("");
-                $("#mgoa-selectassistant-spinner").removeClass("visually-hidden");
+                $("#buddybot-selectassistant-spinner").removeClass("visually-hidden");
                 
                 
                 const data = {
@@ -86,9 +86,9 @@ class ChatBot extends \BuddyBot\Admin\Requests\MoRoot
         showLoadMoreBtn();
         function showLoadMoreBtn(hasMore = false) {
             if (hasMore) {
-                $("#mgoa-selectassistant-load-more-btn").show();
+                $("#buddybot-selectassistant-load-more-btn").show();
             } else {
-                $("#mgoa-selectassistant-load-more-btn").hide();
+                $("#buddybot-selectassistant-load-more-btn").hide();
             }
         }
         ';
@@ -106,11 +106,11 @@ class ChatBot extends \BuddyBot\Admin\Requests\MoRoot
     protected function loadMoreBtnJs()
     {
         echo '
-        $("#mgoa-selectassistant-load-more-btn").click(loadMoreBtn);
+        $("#buddybot-selectassistant-load-more-btn").click(loadMoreBtn);
         function loadMoreBtn() {
             autoScroll();
-            showBtnLoader("#mgoa-selectassistant-load-more-btn");
-            $("#mgoa-selectassistant-spinner").removeClass("visually-hidden");
+            showBtnLoader("#buddybot-selectassistant-load-more-btn");
+            $("#buddybot-selectassistant-spinner").removeClass("visually-hidden");
             const data = {
                 "action": "selectAssistantModal",
                 "after": $("#mgao-selectassistant-last-id").val(),
@@ -119,7 +119,7 @@ class ChatBot extends \BuddyBot\Admin\Requests\MoRoot
 
             $.post(ajaxurl, data, function(response) {
                 parseAssistantListData(response);
-                hideBtnLoader("#mgoa-selectassistant-load-more-btn"); 
+                hideBtnLoader("#buddybot-selectassistant-load-more-btn"); 
             });
         }
         ';
@@ -131,7 +131,7 @@ class ChatBot extends \BuddyBot\Admin\Requests\MoRoot
         function parseAssistantListData(listData) {
             listData = JSON.parse(listData);
             if (listData.success) {
-                $("#mgoa-selectassistant-spinner").addClass("visually-hidden");
+                $("#buddybot-selectassistant-spinner").addClass("visually-hidden");
                 $("#mgao-select-assistant-modal-list").append(listData.html);
                 showLoadMoreBtn(listData.result.has_more);
                 updateLastId(listData.result.last_id);
@@ -159,7 +159,7 @@ class ChatBot extends \BuddyBot\Admin\Requests\MoRoot
         function autoScroll() {
             count = $("#mgao-select-assistant-modal-list").length;
             $("#mgao-select-assistant-modal-list").parent().animate({
-                scrollTop: $("#mgoa-selectassistant-spinner").offset().top
+                scrollTop: $("#buddybot-selectassistant-spinner").offset().top
             }, 1000);
         }
         ';
@@ -198,7 +198,7 @@ class ChatBot extends \BuddyBot\Admin\Requests\MoRoot
             $.post(ajaxurl, data, function(response) {
                 response = JSON.parse(response);
                 if (response.success) {
-                    location.replace("' . admin_url() . 'admin.php?page=metagaussopenai-chatbot&chatbot_id=' . '" + response.chatbot_id + "&success=1");
+                    location.replace("' . admin_url() . 'admin.php?page=buddybot-chatbot&chatbot_id=' . '" + response.chatbot_id + "&success=1");
                 } else {
                     dataErrors = response.errors;
                     displayErrors();
@@ -229,11 +229,11 @@ class ChatBot extends \BuddyBot\Admin\Requests\MoRoot
             let name = $("#mgao-chatbot-name").val();
             
             if (name === "") {
-                dataErrors.push("' . __('Chatbot name cannot be empty.', 'metagauss-openai') . '"); 
+                dataErrors.push("' . __('Chatbot name cannot be empty.', 'buddybot') . '"); 
             }
 
             if (name.length > 1024) {
-                dataErrors.push("' . __('Chatbot name cannot be more than 1024 characters.', 'metagauss-openai') . '"); 
+                dataErrors.push("' . __('Chatbot name cannot be more than 1024 characters.', 'buddybot') . '"); 
             }
 
             return name;
@@ -244,7 +244,7 @@ class ChatBot extends \BuddyBot\Admin\Requests\MoRoot
             let description = $("#mgao-chatbot-description").val();
 
             if (description.length > 2048) {
-                dataErrors.push("' . __('Chatbot description cannot be more than 2048 characters.', 'metagauss-openai') . '"); 
+                dataErrors.push("' . __('Chatbot description cannot be more than 2048 characters.', 'buddybot') . '"); 
             }
 
             return description;
@@ -255,7 +255,7 @@ class ChatBot extends \BuddyBot\Admin\Requests\MoRoot
             let assistantId = $("#mgao-chatbot-assistant-id").val();
             
             if (assistantId === "") {
-                dataErrors.push("' . __('Please select an Assistant for this Chatbot.', 'metagauss-openai') . '"); 
+                dataErrors.push("' . __('Please select an Assistant for this Chatbot.', 'buddybot') . '"); 
             }
 
             return assistantId;
@@ -272,17 +272,17 @@ class ChatBot extends \BuddyBot\Admin\Requests\MoRoot
             let errorsHtml = "";
 
             if (dataErrors.length === 0) {
-                $("#mgoa-chatbot-errors").hide();
+                $("#buddybot-chatbot-errors").hide();
                 return;
             }
 
-            $("#mgoa-chatbot-success").hide();
+            $("#buddybot-chatbot-success").hide();
             $.each(dataErrors, function(index, value){
                 errorsHtml = errorsHtml + "<li>" + value + "</li>";
             });
 
-            $("#mgoa-chatbot-errors-list").html(errorsHtml);
-            $("#mgoa-chatbot-errors").show();
+            $("#buddybot-chatbot-errors-list").html(errorsHtml);
+            $("#buddybot-chatbot-errors").show();
             dataErrors.length = 0;
         }
         ';

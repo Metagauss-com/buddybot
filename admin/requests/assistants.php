@@ -38,12 +38,12 @@ final class Assistants extends \BuddyBot\Admin\Requests\MoRoot
     {
         $nonce = wp_create_nonce('delete_assistant');
         echo '
-        $(".mo-org-assistants-table").on("click", ".mo-listbtn-assistant-delete", function(){
+        $(".buddybot-org-assistants-table").on("click", ".buddybot-listbtn-assistant-delete", function(){
             
             let row = $(this).parents("tr");
-            let fileId = row.attr("data-mo-itemid");
+            let fileId = row.attr("data-buddybot-itemid");
 
-            row.find(".mo-list-spinner").removeClass("visually-hidden");
+            row.find(".buddybot-list-spinner").removeClass("visually-hidden");
 
             const data = {
                 "action": "deleteOrgFile",
@@ -58,7 +58,7 @@ final class Assistants extends \BuddyBot\Admin\Requests\MoRoot
                     getOrgFiles();
                 } else {
                     alert("Failed to delete file " + fileId);
-                    row.find(".mo-list-spinner").addClass("visually-hidden");
+                    row.find(".buddybot-list-spinner").addClass("visually-hidden");
                 }
             });
         });

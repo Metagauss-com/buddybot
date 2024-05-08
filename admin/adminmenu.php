@@ -25,7 +25,7 @@ final class AdminMenu extends \BuddyBot\Admin\MoRoot
             'Metagauss',
             'Metagauss',
             'manage_options',
-            'metagaussopenai-chatbot',
+            'buddybot-chatbot',
             array($this, 'appMenuPage'),
             'dashicons-superhero',
             6
@@ -35,11 +35,11 @@ final class AdminMenu extends \BuddyBot\Admin\MoRoot
     public function playgroundSubmenuItem()
     {
         add_submenu_page(
-            'metagaussopenai-chatbot',
+            'buddybot-chatbot',
             __('Playground', 'metgauss-openai'),
             __('Playground', 'metgauss-openai'),
             'manage_options',
-            'metagaussopenai-playground',
+            'buddybot-playground',
             array($this, 'playgroundMenuPage'),
             1
         );
@@ -48,11 +48,11 @@ final class AdminMenu extends \BuddyBot\Admin\MoRoot
     public function orgFilesSubmenuItem()
     {
         add_submenu_page(
-            'metagaussopenai-chatbot',
+            'buddybot-chatbot',
             __('Files', 'metgauss-openai'),
             __('Files', 'metgauss-openai'),
             'manage_options',
-            'metagaussopenai-files',
+            'buddybot-files',
             array($this, 'filesMenuPage'),
             1
         );
@@ -61,11 +61,11 @@ final class AdminMenu extends \BuddyBot\Admin\MoRoot
     public function addFileSubmenuItem()
     {
         add_submenu_page(
-            'metagaussopenai-chatbot',
+            'buddybot-chatbot',
             __('Add File', 'metgauss-openai'),
             __('Add File', 'metgauss-openai'),
             'manage_options',
-            'metagaussopenai-addfile',
+            'buddybot-addfile',
             array($this, 'addFileMenuPage'),
             1
         );
@@ -74,11 +74,11 @@ final class AdminMenu extends \BuddyBot\Admin\MoRoot
     public function dataSyncSubmenuItem()
     {
         add_submenu_page(
-            'metagaussopenai-chatbot',
+            'buddybot-chatbot',
             __('Data Sync', 'metgauss-openai'),
             __('Data Sync', 'metgauss-openai'),
             'manage_options',
-            'metagaussopenai-datasync',
+            'buddybot-datasync',
             array($this, 'dataSyncMenuPage'),
             1
         );
@@ -87,11 +87,11 @@ final class AdminMenu extends \BuddyBot\Admin\MoRoot
     public function assistantsSubmenuItem()
     {
         add_submenu_page(
-            'metagaussopenai-chatbot',
+            'buddybot-chatbot',
             __('Assistants', 'metgauss-openai'),
             __('Assistants', 'metgauss-openai'),
             'manage_options',
-            'metagaussopenai-assistants',
+            'buddybot-assistants',
             array($this, 'assistantsMenuPage'),
             1
         );
@@ -104,7 +104,7 @@ final class AdminMenu extends \BuddyBot\Admin\MoRoot
             __('Edit Assistant', 'metgauss-openai'),
             __('Edit Assistant', 'metgauss-openai'),
             'manage_options',
-            'metagaussopenai-assistant',
+            'buddybot-assistant',
             array($this, 'EditAssistantMenuPage'),
             1
         );
@@ -113,11 +113,11 @@ final class AdminMenu extends \BuddyBot\Admin\MoRoot
     public function settingsSubmenuItem()
     {
         add_submenu_page(
-            'metagaussopenai-chatbot',
+            'buddybot-chatbot',
             __('Settings', 'metgauss-openai'),
             __('Settings', 'metgauss-openai'),
             'manage_options',
-            'metagaussopenai-settings',
+            'buddybot-settings',
             array($this, 'settingsMenuPage'),
             6
         );

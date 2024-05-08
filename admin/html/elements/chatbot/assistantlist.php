@@ -27,7 +27,7 @@ class AssistantList extends \BuddyBot\Admin\Html\Elements\Chatbot\MoRoot
         $name = $this->item->name;
 
         if (empty($name)) {
-            $name = __('Unnamed', 'metagauss-openai');
+            $name = __('Unnamed', 'buddybot');
         }
 
         $html = '<div class="small fw-bold">';
@@ -48,7 +48,7 @@ class AssistantList extends \BuddyBot\Admin\Html\Elements\Chatbot\MoRoot
     {
         $format = get_option('date_format') . ' ' . get_option('time_format');
         $html = '<div class="small text-muted">';
-        $html .= __('Created On', 'metagauss-openai');
+        $html .= __('Created On', 'buddybot');
         $html .= ' ';
         $html .= wp_date($format, $this->item->created_at);
         $html .= '</div>';

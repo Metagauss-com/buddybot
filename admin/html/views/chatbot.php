@@ -29,9 +29,9 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
     protected function setHeading()
     {
         if ($this->is_edit) {
-            $this->heading = __('Edit Chatbot', 'metagauss-openai');
+            $this->heading = __('Edit Chatbot', 'buddybot');
         } else {
-            $this->heading = __('New Chatbot', 'metagauss-openai');
+            $this->heading = __('New Chatbot', 'buddybot');
         }
     }
 
@@ -47,7 +47,7 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
         if ($this->chatbot_id != $first_id) {
             echo '
             <script>
-            location.replace("' . admin_url() . 'admin.php?page=metagaussopenai-chatbot&chatbot_id=' . absint($first_id) . '");
+            location.replace("' . admin_url() . 'admin.php?page=buddybot-chatbot&chatbot_id=' . absint($first_id) . '");
             </script>
             ';
         }
@@ -76,16 +76,16 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
             return;
         }
 
-        echo '<div id="mgoa-chatbot-success" class="notice notice-success mb-3 ms-0">';
-        echo '<p id="mgoa-chatbot-success-message" class="fw-bold">' . __('Chatbot updated successfully.', 'metagauss-openai') . '</p>';
+        echo '<div id="buddybot-chatbot-success" class="notice notice-success mb-3 ms-0">';
+        echo '<p id="buddybot-chatbot-success-message" class="fw-bold">' . __('Chatbot updated successfully.', 'buddybot') . '</p>';
         echo '</div>';
     }
 
     private function pageErrors()
     {
-        echo '<div id="mgoa-chatbot-errors" class="notice notice-error settings-error mb-3 ms-0">';
-        echo '<p id="mgoa-chatbot-error-message" class="fw-bold">' . __('Unable to save Chatbot. Please fix errors.', 'metagauss-openai') . '</p>';
-        echo '<ul id="mgoa-chatbot-errors-list" class="small"></ul>';
+        echo '<div id="buddybot-chatbot-errors" class="notice notice-error settings-error mb-3 ms-0">';
+        echo '<p id="buddybot-chatbot-error-message" class="fw-bold">' . __('Unable to save Chatbot. Please fix errors.', 'buddybot') . '</p>';
+        echo '<ul id="buddybot-chatbot-errors-list" class="small"></ul>';
         echo '</div>';
     }
 
@@ -112,11 +112,11 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
 
         echo '<tr>';
         echo '<th scope="row">';
-        echo '<label for="mgao-chatbot-name">' . esc_html(__('Name', 'metagauss-openai')) . '</label></th>';
+        echo '<label for="mgao-chatbot-name">' . esc_html(__('Name', 'buddybot')) . '</label></th>';
         echo '<td>';
-        echo '<input type="text" id="mgao-chatbot-name" value="' . esc_html($value) . '" class="mo-item-field regular-text">';
+        echo '<input type="text" id="mgao-chatbot-name" value="' . esc_html($value) . '" class="buddybot-item-field regular-text">';
         echo '<p class="description" id="tagline-description">';
-        esc_html_e('Name of your chatbot. This is not visible to the user.', 'metagauss-openai');
+        esc_html_e('Name of your chatbot. This is not visible to the user.', 'buddybot');
         echo '</p>';
         echo '</td>';
         echo '</tr>';
@@ -128,13 +128,13 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
 
         echo '<tr>';
         echo '<th scope="row">';
-        echo '<label for="mgao-chatbot-description">' . esc_html(__('Description', 'metagauss-openai')) . '</label></th>';
+        echo '<label for="mgao-chatbot-description">' . esc_html(__('Description', 'buddybot')) . '</label></th>';
         echo '<td>';
-        echo '<textarea name="moderation_keys" rows="10" cols="50" id="mgao-chatbot-description" class="mo-item-field">';
+        echo '<textarea name="moderation_keys" rows="10" cols="50" id="mgao-chatbot-description" class="buddybot-item-field">';
         echo esc_textarea($value);
         echo '</textarea>';
         echo '<p class="description" id="tagline-description">';
-        esc_html_e('Description for your chatbot. This is not visible to the user.', 'metagauss-openai');
+        esc_html_e('Description for your chatbot. This is not visible to the user.', 'buddybot');
         echo '</p>';
         echo '</td>';
         echo '</tr>';
@@ -146,13 +146,13 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
 
         echo '<tr>';
         echo '<th scope="row">';
-        echo '<label for="mgao-chatbot-name">' . esc_html(__('Connect Assistant', 'metagauss-openai')) . '</label></th>';
+        echo '<label for="mgao-chatbot-name">' . esc_html(__('Connect Assistant', 'buddybot')) . '</label></th>';
         echo '<td>';
         echo '<div class="small fw-bold text-secondary" id="mgao-chatbot-selected-assistant-name"></div>';
         echo '<div class="small mb-2 text-secondary" id="mgao-chatbot-selected-assistant-id">' . esc_html($value) . '</div>';
         echo '<input type="hidden" id="mgao-chatbot-assistant-id" value="' . esc_attr($value) . '">';
-        echo '<button type="button" class="mo-item-field button button-secondary" data-bs-toggle="modal" data-bs-target="#mgoa-select-assistant-modal">';
-        echo __('Select Assistant', 'metagauss-openai');
+        echo '<button type="button" class="buddybot-item-field button button-secondary" data-bs-toggle="modal" data-bs-target="#buddybot-select-assistant-modal">';
+        echo __('Select Assistant', 'buddybot');
         echo '</button>';
         echo '</td>';
         echo '</tr>';
@@ -164,9 +164,9 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
 
 
         if ($this->is_edit) {
-            $label = __('Update Chatbot', 'metagauss-openai');
+            $label = __('Update Chatbot', 'buddybot');
         } else {
-            $label = __('Save Chatbot', 'metagauss-openai');
+            $label = __('Save Chatbot', 'buddybot');
         }
         
         $this->loaderBtn('primary btn-sm', 'mgao-chatbot-save-btn', $label);

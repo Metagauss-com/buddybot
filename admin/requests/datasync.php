@@ -19,11 +19,11 @@ class DataSync extends \BuddyBot\Admin\Requests\MoRoot
         echo '
         $(".list-group-item").each(function(){
             let listItem = $(this);
-            let dataType = listItem.attr("data-mo-type");
-            let fileId = listItem.attr("data-mo-remote_file_id");
+            let dataType = listItem.attr("data-buddybot-type");
+            let fileId = listItem.attr("data-buddybot-remote_file_id");
 
             if (fileId == 0) {
-                listItem.find(".mo-remote-file-status").text("Not syncronized.");
+                listItem.find(".buddybot-remote-file-status").text("Not syncronized.");
             } else {
                 const data = {
                     "action": "checkFileStatus",
@@ -33,7 +33,7 @@ class DataSync extends \BuddyBot\Admin\Requests\MoRoot
       
                 $.post(ajaxurl, data, function(response) {
                     response = JSON.parse(response);
-                    listItem.find(".mo-remote-file-status").text(response.message);   
+                    listItem.find(".buddybot-remote-file-status").text(response.message);   
                 });
             }
 
@@ -44,10 +44,10 @@ class DataSync extends \BuddyBot\Admin\Requests\MoRoot
     private function syncBtnJs()
     {
         echo '
-        $(".mo-sync-btn").click(syncBtn);
+        $(".buddybot-sync-btn").click(syncBtn);
         
         function syncBtn() {
-            let dataType = $(this).attr("data-mo-type");
+            let dataType = $(this).attr("data-buddybot-type");
             isFileWritable(dataType);
         }
         ';
@@ -71,7 +71,7 @@ class DataSync extends \BuddyBot\Admin\Requests\MoRoot
                     addDataToFile(dataType);
                 };
 
-                $(".mo-msgs").append(response.message);
+                $(".buddybot-msgs").append(response.message);
             });
         }
         ';
@@ -95,7 +95,7 @@ class DataSync extends \BuddyBot\Admin\Requests\MoRoot
                     transferDataFile(dataType);
                 }
 
-                $(".mo-msgs").append(response.message);
+                $(".buddybot-msgs").append(response.message);
             });
         }
         ';
@@ -114,7 +114,7 @@ class DataSync extends \BuddyBot\Admin\Requests\MoRoot
   
             $.post(ajaxurl, data, function(response) {
                 response = JSON.parse(response);
-                $(".mo-msgs").append(response.message);
+                $(".buddybot-msgs").append(response.message);
             });
         }
         ';

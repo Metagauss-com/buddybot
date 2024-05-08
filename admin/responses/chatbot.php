@@ -80,7 +80,7 @@ class ChatBot extends \BuddyBot\Admin\Responses\MoRoot
 
         if (!empty($errors)) {
             $this->response['success'] = false;
-            $this->response['message'] = __('There were errors in your data.', 'metagauss-openai');
+            $this->response['message'] = __('There were errors in your data.', 'buddybot');
             $this->response['errors'] = $errors;
             echo wp_json_encode($this->response);
             wp_die();

@@ -9,7 +9,7 @@ final class StyleSheets extends \BuddyBot\Admin\MoRoot
 
     protected function isInternalPage()
     {
-        if (key_exists('page', $_GET) and strpos($_GET['page'], 'metagaussopenai') == 0) {
+        if (key_exists('page', $_GET) and strpos($_GET['page'], 'buddybot') == 0) {
             return true;
         } else {
             return false;
@@ -28,7 +28,7 @@ final class StyleSheets extends \BuddyBot\Admin\MoRoot
             wp_enqueue_style($this->config::PREFIX . '-bootstrap-css', $bootstrap_css);
             wp_enqueue_script($this->config::PREFIX . '-bootstrap-js', $bootstrap_js);
             wp_enqueue_script($this->config::PREFIX . '-jquery-js', $jquery_js);
-            wp_enqueue_style($this->config::PREFIX . '-global-css', $this->config->getRootUrl() . 'admin/css/metagauss-openai.css');
+            wp_enqueue_style($this->config::PREFIX . '-global-css', $this->config->getRootUrl() . 'admin/css/buddybot.css');
 
         }
     }
@@ -36,7 +36,7 @@ final class StyleSheets extends \BuddyBot\Admin\MoRoot
     protected function pageLevelScripts()
     {
         if ($this->isInternalPage()) {
-            $css_file_name = str_replace('metagaussopenai-','', $_GET['page']);
+            $css_file_name = str_replace('buddybot-','', $_GET['page']);
             $css_file_url = $this->config->getRootUrl() . 'admin/css/' . $css_file_name . '.css';
             wp_enqueue_style($_GET['page'], $css_file_url);
         }

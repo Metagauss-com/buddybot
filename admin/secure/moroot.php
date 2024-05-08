@@ -28,7 +28,7 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
         $clean_data = array();
 
         if(!is_array($data)) {
-            $this->errors[] = __('Data should be in array format.', 'metagauss-openai');
+            $this->errors[] = __('Data should be in array format.', 'buddybot');
             return;
         }
 

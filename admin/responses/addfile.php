@@ -57,7 +57,7 @@ class AddFile extends \BuddyBot\Admin\Responses\MoRoot
     private function printFileOutput($output)
     {
         $html = '<span>';
-        $html .= __(sprintf('Your file has been uploaded successfully with id <b>%s</b>', $output->id), 'metagauss-openai');
+        $html .= __(sprintf('Your file has been uploaded successfully with id <b>%s</b>', $output->id), 'buddybot');
         $html .= '</span>';
         return $html;
     }

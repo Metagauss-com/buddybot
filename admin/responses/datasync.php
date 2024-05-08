@@ -26,7 +26,7 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
         $this->checkError($output);
         
         $this->response['success'] = true;
-        $this->response['message'] = __('File syncronized!', 'metagauss-openai');
+        $this->response['message'] = __('File syncronized!', 'buddybot');
 
         echo wp_json_encode($this->response);
         wp_die();
@@ -40,10 +40,10 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
 
         if (is_writable($file)) {
             $this->response['success'] = true;
-            $this->response['message'] = '<div>' . __('The file is writable.', 'metagauss-openai') . '</div>';
+            $this->response['message'] = '<div>' . __('The file is writable.', 'buddybot') . '</div>';
         } else {
             $this->response['success'] = false;
-            $this->response['message'] = __('The file is not writable.', 'metagauss-openai');
+            $this->response['message'] = __('The file is not writable.', 'buddybot');
         }
 
         echo wp_json_encode($this->response);
@@ -63,7 +63,7 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
             $this->$method();
         } else {
             $this->response['success'] = false;
-            $this->response['message'] = '<div>' . __('Data compile method undefined. Operation aborted.', 'metagauss-openai') . '</div>';
+            $this->response['message'] = '<div>' . __('Data compile method undefined. Operation aborted.', 'buddybot') . '</div>';
             echo json_encode($this->response);
             wp_die();
         }
@@ -71,7 +71,7 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
         $this->writeData($data_type);
         
         $this->response['success'] = true;
-        $this->response['message'] = '<div>' . __('Added data to file.', 'metagauss-openai') . '</div>';
+        $this->response['message'] = '<div>' . __('Added data to file.', 'buddybot') . '</div>';
 
         echo json_encode($this->response);
         wp_die();
@@ -161,10 +161,10 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
 
         if ($update) {
             $this->response['success'] = true;
-            $this->response['message'] = '<div>' . __(sprintf('Remote file name updated to %s.', $output->id), 'metagauss-openai') . '</div>';
+            $this->response['message'] = '<div>' . __(sprintf('Remote file name updated to %s.', $output->id), 'buddybot') . '</div>';
         } else {
             $this->response['success'] = false;
-            $this->response['message'] = '<div>' . __('Unable to update remote file name.', 'metagauss-openai') . '</div>';
+            $this->response['message'] = '<div>' . __('Unable to update remote file name.', 'buddybot') . '</div>';
         }
 
         echo json_encode($this->response);

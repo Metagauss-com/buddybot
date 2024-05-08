@@ -25,8 +25,8 @@ class Settings extends \BuddyBot\Admin\Responses\MoRoot
 
         if (!is_array($options_data)) {
             $this->response['success'] = false;
-            $this->response['message'] = array(__('Invalid data.', 'metagauss-openai'));
-            $this->response['errors'] = array(__('Data must be in array format.', 'metagauss-openai'));
+            $this->response['message'] = array(__('Invalid data.', 'buddybot'));
+            $this->response['errors'] = array(__('Data must be in array format.', 'buddybot'));
             echo wp_json_encode($this->response);
             wp_die();
         }
@@ -38,7 +38,7 @@ class Settings extends \BuddyBot\Admin\Responses\MoRoot
 
         if (count($errors) > 0) {
             $this->response['success'] = false;
-            $this->response['message'] = array(__('There was a problem with options data.', 'metagauss-openai'));
+            $this->response['message'] = array(__('There was a problem with options data.', 'buddybot'));
             $this->response['errors'] = $errors;
             echo wp_json_encode($this->response);
             wp_die();

@@ -33,12 +33,12 @@ final class OrgFiles extends \BuddyBot\Admin\Requests\MoRoot
     {
         $nonce = wp_create_nonce('delete_org_file');
         echo '
-        $(".mo-org-files-table").on("click", ".mo-listbtn-file-delete", function(){
+        $(".buddybot-org-files-table").on("click", ".buddybot-listbtn-file-delete", function(){
             
             let row = $(this).parents("tr");
-            let fileId = row.attr("data-mo-itemid");
+            let fileId = row.attr("data-buddybot-itemid");
 
-            row.find(".mo-list-spinner").removeClass("visually-hidden");
+            row.find(".buddybot-list-spinner").removeClass("visually-hidden");
 
             const data = {
                 "action": "deleteOrgFile",
@@ -53,7 +53,7 @@ final class OrgFiles extends \BuddyBot\Admin\Requests\MoRoot
                     getOrgFiles();
                 } else {
                     alert("Failed to delete file " + fileId);
-                    row.find(".mo-list-spinner").addClass("visually-hidden");
+                    row.find(".buddybot-list-spinner").addClass("visually-hidden");
                 }
             });
         });

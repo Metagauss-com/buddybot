@@ -15,19 +15,19 @@ final class Assistants extends \BuddyBot\Admin\Html\Views\MoRoot
 
     public function pageBtns()
     {
-        $add_assistant_page = get_admin_url() . 'admin.php?page=metagaussopenai-assistant';
+        $add_assistant_page = get_admin_url() . 'admin.php?page=buddybot-assistant';
         echo '<div class="mb-3">';
         echo '<a class="btn btn-dark btn-sm" role="button"';
         echo 'href="' . $add_assistant_page . '"';
         echo '>';
-        echo esc_html(__('Create New Assistant', 'metagauss-openai'));
+        echo esc_html(__('Create New Assistant', 'buddybot'));
         echo '</a>';
         echo '</div>';
     }
 
     private function assistantsTable()
     {
-        echo '<table class="mo-org-assistants-table table table-sm">';
+        echo '<table class="buddybot-org-assistants-table table table-sm">';
         $this->tableHeader();
         $this->tableBody();
         echo '</table>';
@@ -37,11 +37,11 @@ final class Assistants extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         echo '<thead>';
         echo '<tr>';
-        echo '<th scope="col">' . esc_html(__('No.', 'metagauss-openai')) . '</th>';
-        echo '<th scope="col">' . esc_html(__('Name', 'metagauss-openai')) . '</th>';
-        echo '<th scope="col">' . esc_html(__('Description', 'metagauss-openai')) . '</th>';
-        echo '<th scope="col">' . esc_html(__('Model', 'metagauss-openai')) . '</th>';
-        echo '<th scope="col">' . esc_html(__('ID', 'metagauss-openai')) . '</th>';
+        echo '<th scope="col">' . esc_html(__('No.', 'buddybot')) . '</th>';
+        echo '<th scope="col">' . esc_html(__('Name', 'buddybot')) . '</th>';
+        echo '<th scope="col">' . esc_html(__('Description', 'buddybot')) . '</th>';
+        echo '<th scope="col">' . esc_html(__('Model', 'buddybot')) . '</th>';
+        echo '<th scope="col">' . esc_html(__('ID', 'buddybot')) . '</th>';
         echo '<th scope="col"></th>';
         echo '</tr>';
         echo '</thead>';

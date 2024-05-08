@@ -29,7 +29,7 @@ class EditAssistant extends \BuddyBot\Admin\Responses\MoRoot
             $this->response['html'] = $this->modelsListHtml($output->data);
         } else {
             $this->response['success'] = false;
-            $this->response['message'] = __('Unable to fetch models list.', 'metagauss-openai');
+            $this->response['message'] = __('Unable to fetch models list.', 'buddybot');
         }
 
         echo wp_json_encode($this->response);
@@ -161,7 +161,7 @@ class EditAssistant extends \BuddyBot\Admin\Responses\MoRoot
             if ($file->purpose === 'assistants' and absint($file->bytes) <= 536870912) {
                 $html .= '<div class="mb-2 text-muted">';
                 $html .= '<label for="' . $file->id . '">';
-                $html .= '<input type="checkbox" class="me-2 mo-item-field" id="' . $file->id . '" value="' . $file->id . '">';
+                $html .= '<input type="checkbox" class="me-2 buddybot-item-field" id="' . $file->id . '" value="' . $file->id . '">';
                 $html .= $file->filename;
                 $html .= '<span class="badge text-bg-secondary rounded-pill ms-1">' . $this->fileSize($file->bytes) . '</span>';
                 $html .= '</label>';

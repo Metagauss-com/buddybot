@@ -41,7 +41,7 @@ class ChatBubble extends \BuddyBot\Admin\Html\Elements\Playground\MoRoot
         $args = array('default' => 'retro');
         $img_url = get_avatar_url(get_current_user_id(), $args);
         
-        $html = '<div class="mgoa-playground-messages-list-item d-flex justify-content-end my-2" id="' . esc_attr($this->message->id) . '">';
+        $html = '<div class="buddybot-playground-messages-list-item d-flex justify-content-end my-2" id="' . esc_attr($this->message->id) . '">';
 
         $html .= $this->messageImage($img_url);
 
@@ -82,7 +82,7 @@ class ChatBubble extends \BuddyBot\Admin\Html\Elements\Playground\MoRoot
     {
         $img_url = $this->config->getRootUrl() . 'admin/html/images/third-party/openai/openai-logomark.svg';
         
-        $html = '<div class="mgoa-playground-messages-list-item d-flex justify-content-start my-2" id="' . esc_attr($this->message->id) . '">';
+        $html = '<div class="buddybot-playground-messages-list-item d-flex justify-content-start my-2" id="' . esc_attr($this->message->id) . '">';
 
         $html .= $this->messageImage($img_url);
 
@@ -132,11 +132,11 @@ class ChatBubble extends \BuddyBot\Admin\Html\Elements\Playground\MoRoot
         $current_day = wp_date('j');
 
         if ($message_day === $current_day) {
-            $message_date = __('Today', 'metagauss-openai');
+            $message_date = __('Today', 'buddybot');
         }
 
         if ((absint($current_day) - absint($message_day)) === 1) {
-            $message_date = __('Yesterday', 'metagauss-openai');
+            $message_date = __('Yesterday', 'buddybot');
         }
 
 

@@ -55,5 +55,5 @@ if (is_admin()) {
 if (!is_admin()) {
 }
 
-$mgoa_db = new MoDb();
-register_activation_hook(__FILE__, array($mgoa_db, 'installPlugin'));
+$buddybot_db = new MoDb();
+register_activation_hook(__FILE__, array($buddybot_db, 'installPlugin'));

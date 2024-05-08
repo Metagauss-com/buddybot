@@ -29,7 +29,7 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
             $this->assistantOptionsHtml($output);
         } else {
             $this->response['success'] = false;
-            $this->response['message'] = __('Unable to fetch assistants list.', 'metagauss-openai');
+            $this->response['message'] = __('Unable to fetch assistants list.', 'buddybot');
         }
 
         echo wp_json_encode($this->response);
@@ -91,7 +91,7 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
             $insert = $this->sql->saveThreadId($output->id);
             if ($insert === false) {
                 $this->response['success'] = false;
-                $this->response['message'] = __('Unable to save thread in the database', 'metagauss-openai');
+                $this->response['message'] = __('Unable to save thread in the database', 'buddybot');
             }
         }
 
@@ -266,7 +266,7 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
                 'Tokens Prompt: %1d. Completion: %2d. Total: %3d.',
                 $prompt_tokens, $completion_tokens, $total_tokens
             ),
-            'metagauss-openai'
+            'buddybot'
         );
 
         $this->response['tokens'] = $message;
@@ -355,7 +355,7 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
             $this->response['success'] = true;
         } else {
             $this->response['success'] = false;
-            $this->response['message'] = __('Unable to delete conversation.', 'metagauss-openai');
+            $this->response['message'] = __('Unable to delete conversation.', 'buddybot');
         }
 
         if ($this->response['success']) {

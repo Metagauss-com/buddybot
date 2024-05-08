@@ -22,11 +22,11 @@ final class DataSync extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function listItem($type, $heading, $text)
     {
-        $file_id = get_option('mo-' . $type . '-remote-file-id', '0');
+        $file_id = get_option('buddybot-' . $type . '-remote-file-id', '0');
 
         echo '<div class="list-group-item list-group-item-action w-50" ';
-        echo 'data-mo-type="' . esc_attr($type) . '" ';
-        echo 'data-mo-remote_file_id="' . esc_attr($file_id) . '" ';
+        echo 'data-buddybot-type="' . esc_attr($type) . '" ';
+        echo 'data-buddybot-remote_file_id="' . esc_attr($file_id) . '" ';
         echo '>';
         
         echo '<div class="d-flex w-100 justify-content-between align-items-center">';
@@ -42,8 +42,8 @@ final class DataSync extends \BuddyBot\Admin\Html\Views\MoRoot
         
         echo '</div>';
 
-        echo '<div class="mo-remote-file-status small text-muted" role="group">';
-        echo esc_html(__('Checking status...', 'metagauss-openai'));
+        echo '<div class="buddybot-remote-file-status small text-muted" role="group">';
+        echo esc_html(__('Checking status...', 'buddybot'));
         echo '</div>';
 
         echo '</div>';   
@@ -51,16 +51,16 @@ final class DataSync extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function msgArea()
     {
-        echo '<div class="mo-msgs small text-muted p-3 bg-light w-50 mt-4 rounded-3" role="group">';
+        echo '<div class="buddybot-msgs small text-muted p-3 bg-light w-50 mt-4 rounded-3" role="group">';
         echo '</div>';
     }
 
     private function syncBtn($type)
     {
-        $btn_id = 'mo-sync-' . $type . '-btn';
+        $btn_id = 'buddybot-sync-' . $type . '-btn';
         echo '<button id="' . esc_attr($btn_id) . '" type="button" ';
-        echo 'class="mo-sync-btn btn btn-outline-dark" ';
-        echo 'data-mo-type="' . $type .  '"';
+        echo 'class="buddybot-sync-btn btn btn-outline-dark" ';
+        echo 'data-buddybot-type="' . $type .  '"';
         echo '>';
         $this->moIcon('directory_sync');
         echo '</button>';
@@ -69,16 +69,16 @@ final class DataSync extends \BuddyBot\Admin\Html\Views\MoRoot
     private function postsItem()
     {
         $type = 'posts';
-        $heading = __('WP Posts', 'metagauss-openai');
-        $text = __('Syncronize WordPress posts with OpenAI.', 'metagauss-openai');
+        $heading = __('WP Posts', 'buddybot');
+        $text = __('Syncronize WordPress posts with OpenAI.', 'buddybot');
         $this->listItem($type, $heading, $text);
     }
 
     private function commentsItem()
     {
         $type = 'comments';
-        $heading = __('Site Comments', 'metagauss-openai');
-        $text = __('Syncronize WordPress comments with OpenAI.', 'metagauss-openai');
+        $heading = __('Site Comments', 'buddybot');
+        $text = __('Syncronize WordPress comments with OpenAI.', 'buddybot');
         $this->listItem($type, $heading, $text);
     }
 

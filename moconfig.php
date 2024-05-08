@@ -4,7 +4,7 @@ namespace BuddyBot;
 
 final class MoConfig
 {
-    public const PREFIX = "metagauss-openai"; 
+    public const PREFIX = "buddybot"; 
     protected static $instance;
     protected $db_tables;
     protected $unsupported_models = array();
@@ -24,7 +24,7 @@ final class MoConfig
     private function setDbTables()
     {
         global $wpdb;
-        $prefix = $wpdb->prefix . 'mgoa_';
+        $prefix = $wpdb->prefix . 'buddybot_';
         $this->db_tables = array(
             'threads' => $prefix . 'threads',
             'chatbot' => $prefix . 'chatbot',
