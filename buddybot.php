@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:       Metagauss OpenAI
+ * Plugin Name:       BuddyBot AI - Custom AI Assistant and Chat Agent for WordPress
  * Description:       Plugin to connect WordPress with OpenAI.
  * Version:           1.0.0
  * Requires at least: 5.2
@@ -37,17 +37,14 @@ spl_autoload_register(array(__NAMESPACE__ . '\Loader', 'loadClass'));
 //----------Admin Code--------//
 
 if (is_admin()) {
-    // include_once(plugin_dir_path(__FILE__) . '/Admin/adminmenu.php');
-    $admin_menu = new Admin\AdminMenu();
-    $admin_stylesheets = new Admin\StyleSheets();
-    $admin_responses = new Admin\Responses\ChatBot();
-    $admin_responses = new Admin\Responses\OrgFiles();
-    $admin_responses = new Admin\Responses\AddFile();
-    $admin_responses = new Admin\Responses\DataSync();
-    $admin_responses = new Admin\Responses\Assistants();
-    $admin_responses = new Admin\Responses\EditAssistant();
-    $admin_responses = new Admin\Responses\Playground();
-    $admin_responses = new Admin\Responses\Settings();
+    $buddybot_admin_menu = new Admin\AdminMenu();
+    $buddybot_admin_stylesheets = new Admin\StyleSheets();
+    $buddybot_chatbot_responses = new Admin\Responses\ChatBot();
+    $buddybot_datasync_responses = new Admin\Responses\DataSync();
+    $buddybot_assistants_responses = new Admin\Responses\Assistants();
+    $buddybot_assistant_responses = new Admin\Responses\EditAssistant();
+    $buddybot_playground_responses = new Admin\Responses\Playground();
+    $buddybot_settings_responses = new Admin\Responses\Settings();
 }
 
 //----------Public Code--------//

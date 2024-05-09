@@ -22,8 +22,8 @@ final class AdminMenu extends \BuddyBot\Admin\MoRoot
     public function mainMenuItem()
     {
         add_menu_page(
-            'Metagauss',
-            'Metagauss',
+            'BuddyBot',
+            'BuddyBot',
             'manage_options',
             'buddybot-chatbot',
             array($this, 'appMenuPage'),
