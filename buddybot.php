@@ -50,6 +50,7 @@ if (is_admin()) {
 //----------Public Code--------//
 
 if (!is_admin()) {
+    $buddybot_shortcodes = new Frontend\ShortCodes();
 }
 
 $buddybot_db = new MoDb();
