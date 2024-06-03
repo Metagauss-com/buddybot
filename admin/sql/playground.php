@@ -39,7 +39,8 @@ class Playground extends \BuddyBot\Admin\Sql\MoRoot
         
         $data = array(
             'thread_id' => $thread_id,
-            'user_id' => get_current_user_id()
+            'user_id' => get_current_user_id(),
+            'created' => current_time('mysql', true)
         );
 
         $format = array('%s', '%d');
