@@ -4,7 +4,7 @@ namespace BuddyBot;
 
 final class MoConfig
 {
-    public const PREFIX = "buddybot"; 
+    public const PREFIX = "buddybot";
     protected static $instance;
     protected $db_tables;
     protected $unsupported_models = array();
