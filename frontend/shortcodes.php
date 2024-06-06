@@ -29,8 +29,12 @@ final class ShortCodes extends \BuddyBot\Frontend\MoRoot
             $this->enqueueViewScript($class);
 
             $view_class = 'BuddyBot\Frontend\Views\\' . $this->frontend_theme . '\\' . $class;
-            $view = new $view_class();
+            $view = $view_class::getInstance();
             add_shortcode($shortcode, array($view, 'shortcodeHtml'));
+
+            $js_class = 'BuddyBot\Frontend\requests\\' . $class;
+            $js = $js_class::getInstance();
+            add_action('wp_footer', array($js, 'localJs'));
         }
     }
 
@@ -53,6 +57,8 @@ final class ShortCodes extends \BuddyBot\Frontend\MoRoot
 
     private function enqueuePluginScript()
     {
+        wp_enqueue_script('buddybot-jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js');
+
         switch ($this->frontend_theme) {
             case 'bootstrap':
                 wp_enqueue_script(

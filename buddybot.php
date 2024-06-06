@@ -33,7 +33,6 @@ if (is_readable(plugin_dir_path(__FILE__) . 'loader.php')) {
 
 spl_autoload_register(array(__NAMESPACE__ . '\Loader', 'loadClass'));
 
-
 //----------Admin Code--------//
 
 if (is_admin()) {
@@ -52,6 +51,8 @@ if (is_admin()) {
 if (!is_admin()) {
     $buddybot_shortcodes = new Frontend\ShortCodes();
 }
+
+$buddybot_responses = new Frontend\Responses\BuddybotResponses();
 
 $buddybot_db = new MoDb();
 register_activation_hook(__FILE__, array($buddybot_db, 'installPlugin'));
