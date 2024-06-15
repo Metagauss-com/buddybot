@@ -33,7 +33,19 @@ trait SecurityChecks
     protected function isOpenAiKeySet()
     {
         $openai_api_key = $this->sql->getOption('openai_api_key', '');
-        $html = $openai_api_key;
+        
+        if (empty($openai_api_key)) {
+            $this->errors += 1;
+            $html = $this->opeaiApiKeyNotSet();
+            return $html;
+        }
+    }
+
+    private function openAiApiKeyNotSet()
+    {
+        $html = '<div class="alert alert-danger small" role="alert">';
+        $html .= __('API Key Missing.', 'buddybot');
+        $html .= '</div>';
         return $html;
     }
 }

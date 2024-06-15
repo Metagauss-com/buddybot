@@ -10,9 +10,15 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
         wp_die();
     }
 
+    public function getThreadInfo()
+    {
+        echo 'thread_info';
+    }
+
     public function __construct()
     {
         $this->setAll();
         add_action('wp_ajax_getConversationList', array($this, 'getConversationList'));
+        add_action('wp_ajax_getThreadInfo', array($this, 'getThreadInfo'));
     }
 }

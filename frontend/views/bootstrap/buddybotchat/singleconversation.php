@@ -16,7 +16,7 @@ trait SingleConversation
     protected function backBtn()
     {
         $html = '<div id="buddybot-single-conversation-back-btn-wrapper" class="mb-3">';
-        $html .= '<button type="button" class="btn btn-light btn-sm d-flex">';
+        $html .= '<button id="buddybot-single-conversation-back-btn" type="button" class="btn btn-outline-dark rounded-4 p-3 d-flex">';
         $html .= '<span class="material-symbols-outlined">arrow_back_ios</span>';
         $html .= __('All Conversations', 'buddybot');
         $html .= '</button>';
@@ -26,22 +26,24 @@ trait SingleConversation
 
     private function messagesBox()
     {
-        $html = '<div id="buddybot-single-conversation-messages-wrapper">';
+        $html = '<div id="buddybot-single-conversation-messages-wrapper" class="border p-3 mb-3">';
         $html .= '</div>';
         return $html;
     }
 
     private function newMessageInput()
     {
-        $html = '<div id="buddybot-single-conversation-new-messages-wrapper" class="d-flex align-items-center">';
+        $html = '<div id="buddybot-single-conversation-new-messages-wrapper" class="">';
         
-        $html .= '<div class="w-75">';
-        $html .= '<textarea class="form-control">';
+        $html .= '<div class="">';
+        $html .= '<textarea class="form-control rounded-4 p-3 border-dark" rows="3">';
         $html .= '</textarea>';
         $html .= '</div>';
 
-        $html .= '<div class="w-25">';
-        $html .= '<button type="button" class="btn btn-primary btn-sm ms-2">Primary</button>';
+        $html .= '<div class="text-center mt-3">';
+        $html .= '<button type="button" class="btn btn-dark btn-lg p-3 rounded-5">';
+        $html .= __('Ask A Question', 'buddybot');
+        $html .= '</button>';
         $html .= '</textarea>';
         $html .= '</div>';
         

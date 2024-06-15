@@ -28,7 +28,23 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
 
     private function conversationListWrapper()
     {
-        $html = '<div id="buddybot-chat-conversation-list-wrapper">';
+        $html  = '<div id="buddybot-chat-conversation-list-header" class="d-flex justify-content-start align-items-center">';
+        
+        $html .= '<div class="fs-6 fw-bold text-uppercase me-2">';
+        $html .= __('Select Conversation or', 'buddybot');
+        $html .= '</div>';
+        
+        $html .= '<button type="button" class="btn btn-success">';
+        $html .= __('Start New', 'buddybot');
+        $html .= '</button>';
+        
+        $html .= '</div>';
+
+        $html .= '<div id="buddybot-chat-conversation-list-loader" class="text-muted">';
+        $html .= __('Loading conversations...', 'buddybot');
+        $html .= '</div>';
+
+        $html .= '<div id="buddybot-chat-conversation-list-wrapper">';
         $html .= '</div>';
         return $html;
     }
@@ -47,7 +63,8 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
     {
         echo '<ol class="list-group list-group-numbered small">';
         foreach ($this->conversations as $conversation) {
-            echo '<li class="list-group-item d-flex justify-content-between align-items-start">';
+            echo '<li class="list-group-item list-group-item-action d-flex justify-content-between align-items-start border-dark bg-transparent"';
+            echo 'data-bb-threadid="' . $conversation->thread_id . '" role="button">';
             echo '<div class="ms-2 me-auto">';
             echo '<div class="fw-bold">' . $conversation->thread_name . '</div>';
             echo '<div class="text-muted small text-end">' . $conversation->created . '</div>';
