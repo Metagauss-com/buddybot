@@ -19,11 +19,19 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
         $html = $this->securityChecksHtml();
 
         if (!$this->errors) {
+            $html .= $this->alertsHtml();
             $html .= $this->conversationListWrapper();
             $html .= $this->singleConversationHtml();
         }
 
         return $html;
+    }
+
+    protected function alertsHtml()
+    {
+        echo '<div class="buddybot-chat-conversation-alert alert alert-danger small" data-bb-alert="danger" role="alert">';
+        echo 'A simple primary alert—check it out!';
+        echo '</div>';
     }
 
     private function conversationListWrapper()
@@ -34,7 +42,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
         $html .= __('Select Conversation or', 'buddybot');
         $html .= '</div>';
         
-        $html .= '<button type="button" class="btn btn-success">';
+        $html .= '<button id="buddybot-chat-conversation-start-new" type="button" class="btn btn-warning btn-sm px-3 rounded-4">';
         $html .= __('Start New', 'buddybot');
         $html .= '</button>';
         

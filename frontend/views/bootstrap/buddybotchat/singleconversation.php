@@ -26,7 +26,7 @@ trait SingleConversation
 
     private function messagesBox()
     {
-        $html = '<div id="buddybot-single-conversation-messages-wrapper" class="border p-3 mb-3">';
+        $html = '<div id="buddybot-single-conversation-messages-wrapper" class="mb-3" style="max-height:400px;overflow:auto;">';
         $html .= '</div>';
         return $html;
     }
@@ -36,13 +36,15 @@ trait SingleConversation
         $html = '<div id="buddybot-single-conversation-new-messages-wrapper" class="">';
         
         $html .= '<div class="">';
-        $html .= '<textarea class="form-control rounded-4 p-3 border-dark" rows="3">';
+        $html .= '<textarea class="form-control rounded-4 p-3 border-dark" rows="3" ';
+        $html .= 'placeholder="' . __('Type your question here.', 'buddybot') . '">';
         $html .= '</textarea>';
         $html .= '</div>';
 
         $html .= '<div class="text-center mt-3">';
-        $html .= '<button type="button" class="btn btn-dark btn-lg p-3 rounded-5">';
-        $html .= __('Ask A Question', 'buddybot');
+        $html .= '<button type="button" class="btn btn-dark p-3 rounded-5">';
+        $html .= '<span class="material-symbols-outlined vertical-baseline">robot_2</span>';
+        $html .= __('Send', 'buddybot');
         $html .= '</button>';
         $html .= '</textarea>';
         $html .= '</div>';
