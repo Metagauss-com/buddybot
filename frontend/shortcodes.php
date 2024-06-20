@@ -42,7 +42,7 @@ final class ShortCodes extends \BuddyBot\Frontend\MoRoot
     {
         wp_enqueue_style(
             'buddybot-material-symbols',
-            'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200'
+            'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0'
         );
 
         switch ($this->frontend_theme) {

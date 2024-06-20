@@ -15,6 +15,8 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
         $this->loadThreadListViewJs();
         $this->loadSingleThreadViewJs();
         $this->getMessagesJs();
+        $this->hasMoreMessagesJs();
+        $this->getPreviousMessagesJs();
     }
 
     private function toggleAlertJs()
@@ -117,6 +119,8 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
             $("#buddybot-chat-conversation-list-wrapper").removeClass("visually-hidden");
             $("#buddybot-single-conversation-wrapper").addClass("visually-hidden");
             sessionStorage.removeItem("bbCurrentThreadId");
+            sessionStorage.removeItem("bbFirstId");
+            sessionStorage.removeItem("bbLastId");
             $("#buddybot-single-conversation-messages-wrapper").html("");
         }';
     }
@@ -135,7 +139,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
                 sessionStorage.removeItem("bbCurrentThreadId");
             } else {
                 sessionStorage.setItem("bbCurrentThreadId", threadId);
-                getMessages(limit = 10);
+                getMessages(limit = 2);
             }
         }';
     }
@@ -143,24 +147,64 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
     private function getMessagesJs()
     {
         echo '
-        function getMessages(limit = 10) {
+        function getMessages(limit = 10, after = "") {
             const data = {
                 "action": "getMessages",
                 "thread_id": sessionStorage.getItem("bbCurrentThreadId"),
                 "limit": limit,
                 "order": "desc",
+                "after": after,
                 "nonce": "' . wp_create_nonce('get_messages') . '"
             };
 
             $.post(ajaxurl, data, function(response) {
                 response = JSON.parse(response);
+                
                 if (response.success) {
-                    $("#buddybot-single-conversation-messages-wrapper").append(response.html);
+
+                    hasMoreMessages(response.result);
+
+                    $("#buddybot-single-conversation-messages-wrapper").prepend(response.html);
                 } else {
                     showAlert("danger", response.message);
                 }
                 
             });
         }';
+    }
+
+    private function hasMoreMessagesJs()
+    {
+        echo '
+        function hasMoreMessages(thread) {
+
+            if(thread.has_more) {
+                $("#buddybot-single-conversation-load-messages-btn").removeClass("visually-hidden");
+            } else {
+                $("#buddybot-single-conversation-load-messages-btn").addClass("visually-hidden");
+            }
+
+            sessionStorage.setItem("bbFirstId", thread.first_id);
+            sessionStorage.setItem("bbLastId", thread.last_id);
+        }
+        ';
+    }
+
+    private function getPreviousMessagesJs()
+    {
+        echo '
+        $("#buddybot-single-conversation-load-messages-btn").click(getPreviousMessages);
+
+        function getPreviousMessages() {
+            let lastId = sessionStorage.getItem("bbLastId");
+
+            if (lastId === "") {
+                return;
+            }
+
+            getMessages(limit = 10, lastId);
+        }
+
+        ';
     }
 }

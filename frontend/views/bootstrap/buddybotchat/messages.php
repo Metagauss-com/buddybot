@@ -72,13 +72,13 @@ class Messages extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
         $args = array('default' => 'retro');
         $img_url = get_avatar_url(get_current_user_id(), $args);
         
-        $html = '<div class="buddybot-playground-messages-list-item d-flex justify-content-end my-2" id="' . esc_attr($this->message->id) . '">';
+        $html = '<div class="buddybot-playground-messages-list-item d-flex justify-content-end text-dark" id="' . esc_attr($this->message->id) . '">';
 
         $html .= $this->messageImage($img_url);
 
         $html .= '<div>';
 
-        $html .= '<div class="p-2 border-start border-dark border-4 bg-secondary bg-opacity-10" style="max-width: 500px;">';
+        $html .= '<div class="p-2" style="max-width: 500px;">';
         
         foreach ($this->message->content as $content) {
             
@@ -113,13 +113,13 @@ class Messages extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
     {
         $img_url = $this->config->getRootUrl() . 'admin/html/images/third-party/openai/openai-logomark.svg';
         
-        $html = '<div class="buddybot-playground-messages-list-item d-flex justify-content-start my-2" id="' . esc_attr($this->message->id) . '">';
+        $html = '<div class="buddybot-playground-messages-list-item d-flex justify-content-start text-dark" id="' . esc_attr($this->message->id) . '">';
 
         $html .= $this->messageImage($img_url);
 
         $html .= '<div>';
 
-        $html .= '<div class="p-2 border-start border-warning border-4 bg-warning bg-opacity-10" style="max-width: 500px;">';
+        $html .= '<div class="p-2 bg-light bg-opacity-10" style="max-width: 500px;">';
         
         foreach ($this->message->content as $content) {
             
@@ -171,7 +171,7 @@ class Messages extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
         }
 
 
-        $html = '<div class="small text-end text-muted mt-2 me-2">';
+        $html = '<div class="small text-start text-secondary ms-2">';
         $html .= esc_html($message_date . ', ' . $message_time);
         $html .= '</div>';
         return $html;
