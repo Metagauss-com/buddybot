@@ -17,6 +17,8 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
         $this->getMessagesJs();
         $this->hasMoreMessagesJs();
         $this->getPreviousMessagesJs();
+        $this->sendUserMessageJs();
+        $this->scrollToMessageJs();
     }
 
     private function toggleAlertJs()
@@ -203,8 +205,92 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
             }
 
             getMessages(limit = 10, lastId);
+            scrollToTop();
         }
 
+        ';
+    }
+
+    private function sendUserMessageJs()
+    {
+        echo '
+        $("#buddybot-single-conversation-send-message-btn").click(sendUserMessage);
+
+        function sendUserMessage() {
+            let userMessage = $.trim($("#buddybot-single-conversation-user-message").val());
+            
+            if (userMessage === "" || userMessage == null) {
+                return;
+            }
+            
+            const messageData = {
+                "action": "sendUserMessage",
+                "thread_id": sessionStorage.getItem("bbCurrentThreadId"),
+                "user_message": userMessage,
+                "nonce": "' . wp_create_nonce('send_user_message') . '"
+            };
+
+            $.post(ajaxurl, messageData, function(response) {
+                response = JSON.parse(response);
+                
+                if (response.success) {
+                    $("#buddybot-single-conversation-user-message").val("");
+                    $("#buddybot-single-conversation-messages-wrapper").append(response.html);
+                    sessionStorage.setItem("bbFirstId", response.result.id);
+                    scrollToBottom(response.result.id);
+                    createRun();
+                } else {
+                    showAlert("danger", response.message);
+                }
+            });
+        }
+        ';
+    }
+
+    private function createRunJs()
+    {
+        echo '
+        function createRun() {
+
+            const assistantId = $("#buddybot-playground-assistants-list").val();
+
+            const data = {
+                "action": "createRun",
+                "thread_id": sessionStorage.getItem("bbCurrentThreadId"),
+                "assistant_id": assistantId,
+                "nonce": "' . wp_create_nonce('create_run') . '"
+            };
+  
+            $.post(ajaxurl, data, function(response) {
+                response = JSON.parse(response);
+                if (response.success) {
+                    updateStatus(runCreated);
+                    $("#mgao-playground-run-id-input").val(response.result.id);
+                    checkRun = setInterval(retrieveRun, 2000);
+                } else {
+                    disableMessage(false);
+                    updateStatus(response.message);
+                }
+            });
+        }
+        ';
+    }
+
+    private function scrollToMessageJs()
+    {
+        echo '
+        function scrollToBottom(id) {
+            let height = $("#" + id).outerHeight();
+            $("#buddybot-single-conversation-messages-wrapper").animate({
+                scrollTop: $("#buddybot-single-conversation-messages-wrapper")[0].scrollHeight - height - 200
+            }, 1000);
+        }
+
+        function scrollToTop() {
+            $("#buddybot-single-conversation-messages-wrapper").animate({
+                scrollTop: 0
+            }, 1000);
+        }
         ';
     }
 }

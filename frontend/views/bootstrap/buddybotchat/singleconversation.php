@@ -62,16 +62,15 @@ trait SingleConversation
         $html = '<div id="buddybot-single-conversation-new-messages-wrapper" class="">';
         
         $html .= '<div class="">';
-        $html .= '<textarea class="form-control rounded-4 p-3 border-bottom border-dark border-2 shadow-0" rows="3" ';
+        $html .= '<textarea id="buddybot-single-conversation-user-message" class="form-control rounded-4 p-3 border-bottom border-dark border-2 shadow-0" rows="3" ';
         $html .= 'placeholder="' . __('Type your question here.', 'buddybot') . '">';
         $html .= '</textarea>';
         $html .= '</div>';
 
         $html .= '<div class="text-center mt-3">';
-        $html .= '<button type="button" class="btn btn-dark p-3 rounded-5">';
+        $html .= '<button id="buddybot-single-conversation-send-message-btn" type="button" class="btn btn-dark p-3 rounded-5">';
         $html .= __('Send', 'buddybot');
         $html .= '</button>';
-        $html .= '</textarea>';
         $html .= '</div>';
         
         $html .= '</div>';

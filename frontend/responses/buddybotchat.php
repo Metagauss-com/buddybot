@@ -73,11 +73,51 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
         return $chat_bubble->getHtml();
     }
 
+    public function sendUserMessage()
+    {
+        $this->checkNonce('send_user_message');
+
+        $thread_id = sanitize_text_field($_POST['thread_id']);
+        $user_message = sanitize_textarea_field(wp_unslash($_POST['user_message']));
+        $url = 'https://api.openai.com/v1/threads/' . $thread_id . '/messages';
+
+        $ch = curl_init($url);
+        
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'OpenAI-Beta: assistants=v1',
+            'Content-Type: application/json',
+            'Authorization: Bearer ' . $this->api_key
+            )
+        );
+
+        $data = array(
+            'role' => 'user',
+            'content' => $user_message,
+            'metadata' => array(
+                'wp_user_id' => get_current_user_id(),
+                'wp_source' => 'frontend'
+            )
+        );
+
+        curl_setopt($ch, CURLOPT_POSTFIELDS, wp_json_encode($data));
+        $output = $this->curlOutput($ch);
+        $this->checkError($output);
+        $this->sql->updateThreadName($thread_id, $user_message);
+
+        $this->response['html'] = $this->chatBubbleHtml($output);
+        echo wp_json_encode($this->response);
+        wp_die();
+    }
+
     public function __construct()
     {
         $this->setAll();
         add_action('wp_ajax_getConversationList', array($this, 'getConversationList'));
         add_action('wp_ajax_getThreadInfo', array($this, 'getThreadInfo'));
         add_action('wp_ajax_getMessages', array($this, 'getMessages'));
+        add_action('wp_ajax_sendUserMessage', array($this, 'sendUserMessage'));
     }
 }
