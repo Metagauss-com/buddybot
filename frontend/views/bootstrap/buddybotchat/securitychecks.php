@@ -7,8 +7,9 @@ trait SecurityChecks
 
     protected function securityChecksHtml()
     {
-        $html = $this->isUserLoggedIn();
+        $html  = $this->isUserLoggedIn();
         $html .= $this->isOpenAiKeySet();
+        $html .= $this->chatbotExists();
         return $html;
     }
 
@@ -45,6 +46,27 @@ trait SecurityChecks
     {
         $html = '<div class="alert alert-danger small" role="alert">';
         $html .= __('API Key Missing.', 'buddybot');
+        $html .= '</div>';
+        return $html;
+    }
+
+    private function chatbotExists()
+    {
+        $chatbot = $this->sql->getChatbot($this->atts['id']);
+
+        if ($chatbot === null) {
+            $this->errors += 1;
+            $html = $this->invalidChatbot();
+            return $html;
+        } else {
+            $this->chatbot = $chatbot;
+        }
+    }
+
+    private function invalidChatbot()
+    {
+        $html = '<div class="alert alert-danger small" role="alert">';
+        $html .= __('Invalid Chatbot ID. Unable to proceed.', 'buddybot');
         $html .= '</div>';
         return $html;
     }

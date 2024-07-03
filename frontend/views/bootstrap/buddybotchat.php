@@ -10,16 +10,20 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
     use Singleton;
     use SecurityChecks;
     use SingleConversation;
-
-    protected $sql;
     protected $conversations;
+    protected $chatbot;
 
     public function shortcodeHtml($atts, $content = null)
     {
+        $this->atts = shortcode_atts( array(
+            'id' => $this->buddybotId()
+        ), $atts );
+
         $html = $this->securityChecksHtml();
 
         if (!$this->errors) {
             $html .= $this->alertsHtml();
+            $html .= $this->assistantId();
             $html .= $this->conversationListWrapper();
             $html .= $this->singleConversationHtml();
         }
@@ -27,11 +31,24 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
         return $html;
     }
 
+    protected function buddybotId()
+    {
+        $id = $this->sql->getDefaultBuddybotId();
+        return $id;
+    }
+
     protected function alertsHtml()
     {
-        echo '<div class="buddybot-chat-conversation-alert alert alert-danger small" data-bb-alert="danger" role="alert">';
-        echo 'A simple primary alert—check it out!';
-        echo '</div>';
+        $html = '<div class="buddybot-chat-conversation-alert alert alert-danger small" data-bb-alert="danger" role="alert">';
+        $html .= '</div>';
+        return $html;
+    }
+
+    protected function assistantId()
+    {
+        $html  = '<input id="buddybot-chat-conversation-assistant-id" type="hidden" ';
+        $html .= 'value="' . esc_attr($this->chatbot->assistant_id) . '">';
+        return $html;
     }
 
     private function conversationListWrapper()
@@ -70,6 +87,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
     protected function listHtml()
     {
         echo '<ol class="list-group list-group-numbered small">';
+
         foreach ($this->conversations as $conversation) {
             echo '<li class="list-group-item list-group-item-action d-flex justify-content-between align-items-start border-dark bg-transparent"';
             echo 'data-bb-threadid="' . $conversation->thread_id . '" role="button">';
@@ -79,6 +97,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
             echo '</div>';
             echo '</li>';
         }
+        
         echo '</ol>';
     }
 }

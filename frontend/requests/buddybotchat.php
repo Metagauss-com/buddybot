@@ -18,6 +18,9 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
         $this->hasMoreMessagesJs();
         $this->getPreviousMessagesJs();
         $this->sendUserMessageJs();
+        $this->createRunJs();
+        $this->retrieveRunJs();
+        $this->getAssistantResponseJs();
         $this->scrollToMessageJs();
     }
 
@@ -163,9 +166,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
                 response = JSON.parse(response);
                 
                 if (response.success) {
-
                     hasMoreMessages(response.result);
-
                     $("#buddybot-single-conversation-messages-wrapper").prepend(response.html);
                 } else {
                     showAlert("danger", response.message);
@@ -231,6 +232,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
             };
 
             $.post(ajaxurl, messageData, function(response) {
+
                 response = JSON.parse(response);
                 
                 if (response.success) {
@@ -252,7 +254,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
         echo '
         function createRun() {
 
-            const assistantId = $("#buddybot-playground-assistants-list").val();
+            const assistantId = $("#buddybot-chat-conversation-assistant-id").val();
 
             const data = {
                 "action": "createRun",
@@ -264,17 +266,101 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
             $.post(ajaxurl, data, function(response) {
                 response = JSON.parse(response);
                 if (response.success) {
-                    updateStatus(runCreated);
-                    $("#mgao-playground-run-id-input").val(response.result.id);
+                    sessionStorage.setItem("bbCurrentRunId", response.result.id);
                     checkRun = setInterval(retrieveRun, 2000);
                 } else {
-                    disableMessage(false);
-                    updateStatus(response.message);
+                    showAlert("danger", response.message);
                 }
             });
         }
         ';
     }
+
+    private function retrieveRunJs()
+    {
+        echo '
+        function retrieveRun() {
+
+            const data = {
+                "action": "retrieveRun",
+                "thread_id": sessionStorage.getItem("bbCurrentThreadId"),
+                "run_id": sessionStorage.getItem("bbCurrentRunId"),
+                "nonce": "' . wp_create_nonce('retrieve_run') . '"
+            };
+  
+            $.post(ajaxurl, data, function(response) {
+                
+                response = JSON.parse(response);
+                
+                if (response.success) {
+                    
+                    switch (response.result.status) {
+                        
+                        case "completed":
+                            clearInterval(checkRun);
+                            getAssistantResponse();
+                            break;
+                        
+                        case "failed":
+                            clearInterval(checkRun);
+                            showAlert(
+                                "danger", response.result.last_error.code + ": " +
+                                response.result.last_error.message
+                            );
+                            break;
+
+                        case "cancelled":
+                        case "cancelling":
+                            clearInterval(checkRun);
+                            break;
+                        
+                        case "requires_action":
+                            clearInterval(checkRun);
+                            getAssistantResponse();
+                            break;
+                    }
+
+                } else {
+                    showAlert("danger", response.message);
+                    clearInterval(checkRun);
+                }
+            });
+        }
+        ';
+    }
+
+    private function getAssistantResponseJs()
+    {
+        echo '
+        function getAssistantResponse() {
+
+            const threadId = $("#mgao-playground-thread-id-input").val();
+
+            const data = {
+                "action": "getMessages",
+                "thread_id": sessionStorage.getItem("bbCurrentThreadId"),
+                "before": sessionStorage.getItem("bbFirstId"),
+                "limit": 10,
+                "order": "desc",
+                "nonce": "' . wp_create_nonce('get_messages') . '"
+            };
+  
+            $.post(ajaxurl, data, function(response) {
+
+                response = JSON.parse(response);
+
+                if (response.success) {
+                    $("#buddybot-single-conversation-messages-wrapper").append(response.html);
+                    sessionStorage.setItem("bbFirstId", response.result.first_id);
+                    scrollToBottom(response.result.first_id);
+                } else {
+                    showAlert("danger", response.message);
+                }
+            });
+        }
+        ';
+    }
+
 
     private function scrollToMessageJs()
     {

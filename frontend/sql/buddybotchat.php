@@ -3,6 +3,36 @@ namespace BuddyBot\Frontend\Sql;
 
 class BuddybotChat extends \BuddyBot\Frontend\Sql\Moroot
 {
+    public function getDefaultBuddybotId()
+    {
+        $table = $this->config->getDbTable('chatbot');
+
+        global $wpdb;
+
+        $id = $wpdb->get_var(
+            $wpdb->prepare(
+                'SELECT id FROM %i LIMIT 1', $table
+            )
+        );
+
+        return $id;
+    }
+
+    public function getChatbot($chatbot_id)
+    {
+        $table = $this->config->getDbTable('chatbot');
+
+        global $wpdb;
+
+        $chatbot = $wpdb->get_row(
+            $wpdb->prepare(
+                'SELECT * FROM %i WHERE id = %d', $table, $chatbot_id
+            )
+        );
+
+        return $chatbot;
+    }
+
     public function getConversationsByUserId($user_id)
     {
         global $wpdb;
