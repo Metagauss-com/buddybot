@@ -84,9 +84,42 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
         }
     }
 
-    private function addMessageToThread()
+    private function createThreadWithMessage()
     {
-        $thread_id = sanitize_text_field($_POST['thread_id']);
+        $url = 'https://api.openai.com/v1/threads';
+
+        $ch = curl_init($url);
+        
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'OpenAI-Beta: assistants=v1',
+            'Content-Type: application/json',
+            'Authorization: Bearer ' . $this->api_key
+            )
+        );
+
+        $data = array(
+            'metadata' => array(
+                'wp_user_id' => get_current_user_id(),
+                'wp_source' => 'frontend'
+            )
+        );
+
+        curl_setopt($ch, CURLOPT_POSTFIELDS, wp_json_encode($data));
+        $output = $this->curlOutput($ch);
+        $this->checkError($output);
+        $this->addMessageToThread($this->response['result']->id);
+        wp_die();
+    }
+
+    private function addMessageToThread($thread_id = false)
+    {
+        if ($thread_id === false) {
+            $thread_id = sanitize_text_field($_POST['thread_id']);
+        }
+
         $user_message = sanitize_textarea_field(wp_unslash($_POST['user_message']));
         
         $url = 'https://api.openai.com/v1/threads/' . $thread_id . '/messages';
@@ -123,7 +156,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
         wp_die();
     }
 
-    private function createRun()
+    public function createFrontendRun()
     {
         $thread_id = $_POST['thread_id'];
         $assistant_id = $_POST['assistant_id'];
@@ -159,7 +192,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
         wp_die();
     }
 
-    public function retrieveRun()
+    public function retrieveFrontendRun()
     {
         $this->checkNonce('retrieve_run');
 
@@ -193,7 +226,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
         add_action('wp_ajax_getThreadInfo', array($this, 'getThreadInfo'));
         add_action('wp_ajax_getMessages', array($this, 'getMessages'));
         add_action('wp_ajax_sendUserMessage', array($this, 'sendUserMessage'));
-        add_action('wp_ajax_createRun', array($this, 'createRun'));
-        add_action('wp_ajax_retrieveRun', array($this, 'retrieveRun'));
+        add_action('wp_ajax_createFrontendRun', array($this, 'createFrontendRun'));
+        add_action('wp_ajax_retrieveFrontendRun', array($this, 'retrieveFrontendRun'));
     }
 }

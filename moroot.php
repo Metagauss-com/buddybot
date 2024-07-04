@@ -5,6 +5,12 @@ namespace BuddyBot;
 class MoRoot
 {
     public $config;
+    protected $options;
+
+    protected function setOptions()
+    {
+        $this->options = bbOptions::getInstance();
+    }
 
     protected function setConfig()
     {

@@ -22,6 +22,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
         $this->retrieveRunJs();
         $this->getAssistantResponseJs();
         $this->scrollToMessageJs();
+        $this->animateTypeJs();
     }
 
     private function toggleAlertJs()
@@ -141,18 +142,30 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
             $("#buddybot-single-conversation-wrapper").removeClass("visually-hidden");
 
             if (threadId === false) {
-                sessionStorage.removeItem("bbCurrentThreadId");
+                loadNewThreadView();
             } else {
-                sessionStorage.setItem("bbCurrentThreadId", threadId);
-                getMessages(limit = 2);
+                loadExistingThreadView(threadId);
             }
-        }';
+        }
+            
+        function loadNewThreadView() {
+            sessionStorage.removeItem("bbCurrentThreadId");
+            $("#buddybot-single-conversation-load-messages-btn").addClass("visually-hidden");
+            $("#buddybot-single-conversation-delete-thread-btn").addClass("visually-hidden");
+        }
+
+        function loadExistingThreadView(threadId) {
+            sessionStorage.setItem("bbCurrentThreadId", threadId);
+            getMessages(20, "", "bottom");
+        }
+
+        ';
     }
 
     private function getMessagesJs()
     {
         echo '
-        function getMessages(limit = 10, after = "") {
+        function getMessages(limit = 10, after = "", scroll = "bottom") {
             const data = {
                 "action": "getMessages",
                 "thread_id": sessionStorage.getItem("bbCurrentThreadId"),
@@ -168,6 +181,13 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
                 if (response.success) {
                     hasMoreMessages(response.result);
                     $("#buddybot-single-conversation-messages-wrapper").prepend(response.html);
+
+                    if (scroll === "bottom") {
+                        scrollToBottom();
+                    } else {
+                        scrollToTop();
+                    }
+
                 } else {
                     showAlert("danger", response.message);
                 }
@@ -205,8 +225,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
                 return;
             }
 
-            getMessages(limit = 10, lastId);
-            scrollToTop();
+            getMessages(limit = 10, lastId, "top");
         }
 
         ';
@@ -232,12 +251,12 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
             };
 
             $.post(ajaxurl, messageData, function(response) {
-
                 response = JSON.parse(response);
                 
                 if (response.success) {
                     $("#buddybot-single-conversation-user-message").val("");
                     $("#buddybot-single-conversation-messages-wrapper").append(response.html);
+                    sessionStorage.setItem("bbCurrentThreadId", response.result.thread_id);
                     sessionStorage.setItem("bbFirstId", response.result.id);
                     scrollToBottom(response.result.id);
                     createRun();
@@ -257,7 +276,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
             const assistantId = $("#buddybot-chat-conversation-assistant-id").val();
 
             const data = {
-                "action": "createRun",
+                "action": "createFrontendRun",
                 "thread_id": sessionStorage.getItem("bbCurrentThreadId"),
                 "assistant_id": assistantId,
                 "nonce": "' . wp_create_nonce('create_run') . '"
@@ -282,7 +301,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
         function retrieveRun() {
 
             const data = {
-                "action": "retrieveRun",
+                "action": "retrieveFrontendRun",
                 "thread_id": sessionStorage.getItem("bbCurrentThreadId"),
                 "run_id": sessionStorage.getItem("bbCurrentRunId"),
                 "nonce": "' . wp_create_nonce('retrieve_run') . '"
@@ -352,7 +371,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
                 if (response.success) {
                     $("#buddybot-single-conversation-messages-wrapper").append(response.html);
                     sessionStorage.setItem("bbFirstId", response.result.first_id);
-                    scrollToBottom(response.result.first_id);
+                    animateMessageText(response.result.first_id);
                 } else {
                     showAlert("danger", response.message);
                 }
@@ -365,17 +384,52 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
     private function scrollToMessageJs()
     {
         echo '
-        function scrollToBottom(id) {
-            let height = $("#" + id).outerHeight();
-            $("#buddybot-single-conversation-messages-wrapper").animate({
-                scrollTop: $("#buddybot-single-conversation-messages-wrapper")[0].scrollHeight - height - 200
-            }, 1000);
+        function scrollToBottom(id = null) {
+
+        const wrapper = "#buddybot-single-conversation-messages-wrapper";
+
+            if (id === null) {
+                $(wrapper).stop().animate({
+                    scrollTop: $(wrapper)[0].scrollHeight
+                }, 1000);
+            } else {
+                let height = $("#" + id).outerHeight();
+                $(wrapper).animate({
+                    scrollTop: $(wrapper)[0].scrollHeight - height - 200
+                }, 1000);
+            }
         }
 
         function scrollToTop() {
             $("#buddybot-single-conversation-messages-wrapper").animate({
                 scrollTop: 0
             }, 1000);
+        }
+        ';
+    }
+
+    private function animateTypeJs()
+    {
+        echo '
+        let charIndex = 0;
+        let messageText = "";
+        let messageContainer = null;
+
+        function animateMessageText(element) {
+            charIndex = 0;
+            messageContainer = $("#" + element).find(".buddybot-chat-conversation-assistant-response");
+            messageText = messageContainer.html();
+            messageContainer.text("");
+            animateText();
+        }
+
+        function animateText() {
+            if (charIndex < messageText.length) {
+                messageContainer.append(document.createTextNode(messageText.charAt(charIndex)));
+                scrollToBottom();
+                charIndex++;
+                setTimeout(animateText, 50);
+            }
         }
         ';
     }

@@ -59,7 +59,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
         $html .= __('Select Conversation or', 'buddybot');
         $html .= '</div>';
         
-        $html .= '<button id="buddybot-chat-conversation-start-new" type="button" class="btn btn-warning btn-sm px-3 rounded-4">';
+        $html .= '<button id="buddybot-chat-conversation-start-new" type="button" class="btn btn-dark btn-sm px-3 rounded-2">';
         $html .= __('Start New', 'buddybot');
         $html .= '</button>';
         
@@ -86,10 +86,10 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
 
     protected function listHtml()
     {
-        echo '<ol class="list-group list-group-numbered small">';
+        echo '<ol class="list-group list-group-numbered small px-0">';
 
         foreach ($this->conversations as $conversation) {
-            echo '<li class="list-group-item list-group-item-action d-flex justify-content-between align-items-start border-dark bg-transparent"';
+            echo '<li class="list-group-item list-group-item-action m-0 d-flex justify-content-between align-items-start bg-transparent"';
             echo 'data-bb-threadid="' . $conversation->thread_id . '" role="button">';
             echo '<div class="ms-2 me-auto">';
             echo '<div class="fw-bold">' . $conversation->thread_name . '</div>';

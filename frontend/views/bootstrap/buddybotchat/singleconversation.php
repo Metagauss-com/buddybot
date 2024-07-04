@@ -33,7 +33,7 @@ trait SingleConversation
         $html .= $this->mIcon('cloud_download');
         $html .= '</div>';
 
-        $html .= '<div class="mx-1" role="button">';
+        $html .= '<div id="buddybot-single-conversation-delete-thread-btn" class="mx-1" role="button">';
         $html .= $this->mIcon('delete');
         $html .= '</div>';
         
@@ -68,7 +68,7 @@ trait SingleConversation
         $html .= '</div>';
 
         $html .= '<div class="text-center mt-3">';
-        $html .= '<button id="buddybot-single-conversation-send-message-btn" type="button" class="btn btn-dark p-3 rounded-5">';
+        $html .= '<button id="buddybot-single-conversation-send-message-btn" type="button" class="btn btn-dark py-3 px-4 rounded-2">';
         $html .= __('Send', 'buddybot');
         $html .= '</button>';
         $html .= '</div>';

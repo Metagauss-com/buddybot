@@ -9,7 +9,7 @@ final class StyleSheets extends \BuddyBot\Admin\MoRoot
 
     protected function isInternalPage()
     {
-        if (key_exists('page', $_GET) and strpos($_GET['page'], 'buddybot') == 0) {
+        if (key_exists('page', $_GET) and strpos($_GET['page'], 'buddybot') === 0) {
             return true;
         } else {
             return false;

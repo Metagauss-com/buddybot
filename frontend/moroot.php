@@ -3,7 +3,7 @@ namespace BuddyBot\Frontend;
 
 class MoRoot extends \BuddyBot\MoRoot
 {
-    protected function mIcon($type = 'add')
+   protected function mIcon($type = 'add')
     {
         $html = '<span class="material-symbols-outlined">';
         $html .= $type;

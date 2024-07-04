@@ -6,7 +6,7 @@ class MoRoot extends \BuddyBot\Frontend\Moroot
     protected $sql;
 
     protected $response;
-    protected $api_key = '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';
+    protected $api_key;
 
     protected function setSql()
     {
@@ -17,6 +17,11 @@ class MoRoot extends \BuddyBot\Frontend\Moroot
             $class_name = '\BuddyBot\frontend\Sql\\' . $class_name;
             $this->sql = $class_name::getInstance(); 
         }
+    }
+
+    protected function setApiKey()
+    {
+        $this->api_key = $this->options->getOption('openai_api_key');
     }
     
     protected function checkNonce($nonce)
