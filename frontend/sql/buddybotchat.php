@@ -46,6 +46,19 @@ class BuddybotChat extends \BuddyBot\Frontend\Sql\Moroot
         return $conversations;
     }
 
+    public function saveThreadInDb($thread_id)
+    {
+        $table = $this->config->getDbTable('threads');
+        $data = array(
+            'thread_id' => $thread_id,
+            'user_id' => get_current_user_id(),
+            'created' => current_time('mysql', true)
+        );
+
+        global $wpdb;
+        return $wpdb->insert($table, $data, array('%s', '%d', '%s'));
+    }
+
     public function updateThreadName($thread_id, $thread_name)
     {
         $table = $this->config->getDbTable('threads');

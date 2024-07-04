@@ -12,6 +12,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
     use SingleConversation;
     protected $conversations;
     protected $chatbot;
+    protected $timezone;
 
     public function shortcodeHtml($atts, $content = null)
     {
@@ -55,7 +56,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
     {
         $html  = '<div id="buddybot-chat-conversation-list-header" class="d-flex justify-content-start align-items-center">';
         
-        $html .= '<div class="fs-6 fw-bold text-uppercase me-2">';
+        $html .= '<div class="small fw-bold me-2">';
         $html .= __('Select Conversation or', 'buddybot');
         $html .= '</div>';
         
@@ -74,8 +75,10 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
         return $html;
     }
 
-    public function conversationList()
+    public function conversationList($timezone)
     {
+        $this->timezone = $timezone;
+
         $user_id = get_current_user_id();
         $this->conversations = $this->sql->getConversationsByUserId($user_id);
         
@@ -90,14 +93,21 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
 
         foreach ($this->conversations as $conversation) {
             echo '<li class="list-group-item list-group-item-action m-0 d-flex justify-content-between align-items-start bg-transparent"';
-            echo 'data-bb-threadid="' . $conversation->thread_id . '" role="button">';
+            echo 'data-bb-threadid="' . esc_html($conversation->thread_id) . '" role="button">';
             echo '<div class="ms-2 me-auto">';
-            echo '<div class="fw-bold">' . $conversation->thread_name . '</div>';
-            echo '<div class="text-muted small text-end">' . $conversation->created . '</div>';
+            echo '<div class="fw-bold">' . esc_html($conversation->thread_name) . '</div>';
+            echo '<div class="text-muted small text-start">' . esc_html($this->conversationDate($conversation->created)) . '</div>';
             echo '</div>';
             echo '</li>';
         }
         
         echo '</ol>';
+    }
+
+    protected function conversationDate($date_string)
+    {
+        $timezone = new \DateTimeZone($this->timezone);
+        $timestamp = strtotime($date_string);
+        return wp_date(get_option('date_format') . ' ' . get_option('time_format'), $timestamp, $timezone);
     }
 }

@@ -44,6 +44,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
     private function onLoadJs()
     {
         echo '
+            const bbTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
             loadThreadListView();
         ';
     }
@@ -54,7 +55,8 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
         function getUserThreads() {
 
             const data = {
-                "action": "getConversationList"
+                "action": "getConversationList",
+                "timezone": bbTimeZone
             };
   
             $.post(ajaxurl, data, function(response) {
@@ -172,6 +174,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
                 "limit": limit,
                 "order": "desc",
                 "after": after,
+                "timezone": bbTimeZone,
                 "nonce": "' . wp_create_nonce('get_messages') . '"
             };
 

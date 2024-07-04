@@ -6,7 +6,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
     public function getConversationList()
     {
         $buddybot_chat = \BuddyBot\Frontend\Views\Bootstrap\BuddybotChat::getInstance();
-        $buddybot_chat->conversationList();
+        $buddybot_chat->conversationList($_POST['timezone']);
         wp_die();
     }
 
@@ -110,6 +110,16 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
         curl_setopt($ch, CURLOPT_POSTFIELDS, wp_json_encode($data));
         $output = $this->curlOutput($ch);
         $this->checkError($output);
+
+        $save_thread = $this->sql->saveThreadInDb($this->response['result']->id);
+
+        if ($save_thread === false) {
+            $this->response['success'] = false;
+            $this->response['message'] = __('Unable to save conversation in database.', 'buddybot');
+            echo wp_json_encode($this->response);
+            wp_die();
+        }
+
         $this->addMessageToThread($this->response['result']->id);
         wp_die();
     }
