@@ -7,6 +7,7 @@ final class MoConfig
     public const PREFIX = "buddybot";
     protected static $instance;
     protected $db_tables;
+    protected $c_key = 'nsalfpn8ec';
     protected $unsupported_models = array();
     protected $date_format;
     protected $time_format;

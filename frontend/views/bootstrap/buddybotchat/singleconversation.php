@@ -20,22 +20,22 @@ trait SingleConversation
         
         $html .= '<div class="d-flex">';
 
-        $html .= '<div id="buddybot-single-conversation-back-btn" class="" role="button">';
+        $html .= '<button id="buddybot-single-conversation-back-btn" class="bg-transparent border-0 shadow-0 text-dark p-0" role="button">';
         $html .= $this->mIcon('arrow_back_ios');
-        $html .= '</div>';
+        $html .= '</button>';
 
         $html .= '</div>';
         
         
         $html .= '<div class="d-flex align-items-center">';
         
-        $html .= '<div id="buddybot-single-conversation-load-messages-btn" class="mx-1" role="button">';
+        $html .= '<button id="buddybot-single-conversation-load-messages-btn" class="bg-transparent border-0 shadow-0 text-dark p-0 mx-1" role="button">';
         $html .= $this->mIcon('cloud_download');
-        $html .= '</div>';
+        $html .= '</button>';
 
-        $html .= '<div id="buddybot-single-conversation-delete-thread-btn" class="mx-1" role="button">';
+        $html .= '<button id="buddybot-single-conversation-delete-thread-btn" class="bg-transparent border-0 shadow-0 text-dark p-0 mx-1" role="button">';
         $html .= $this->mIcon('delete');
-        $html .= '</div>';
+        $html .= '</button>';
         
         $html .= '</div>';
         

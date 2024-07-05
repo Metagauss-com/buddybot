@@ -163,7 +163,7 @@ class ChatBubble extends \BuddyBot\Admin\Html\Elements\Playground\MoRoot
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Authorization: Bearer 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'
+            'Authorization: Bearer ' . $this->options->getOption('openai_api_key')
             )
         );
 

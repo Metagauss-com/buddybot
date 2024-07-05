@@ -7,11 +7,11 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
     {
         $this->toggleAlertJs();
         $this->onLoadJs();
+        $this->lockUiJs();
         $this->getUserThreadsJs();
         $this->startNewThreadBtnJs();
         $this->singleThreadBackBtnJs();
         $this->threadListItemJs();
-        $this->getThreadInfoJs();
         $this->loadThreadListViewJs();
         $this->loadSingleThreadViewJs();
         $this->getMessagesJs();
@@ -49,11 +49,26 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
         ';
     }
 
+    private function lockUiJs()
+    {
+        echo '
+        function lockUi(state = true) {
+            $("#buddybot-single-conversation-user-message").prop("disabled", state);
+            $("#buddybot-single-conversation-send-message-btn").prop("disabled", state);
+            $("#buddybot-single-conversation-load-messages-btn").prop("disabled", state);
+            $("#buddybot-single-conversation-delete-thread-btn").prop("disabled", state);
+            $("#buddybot-single-conversation-back-btn").prop("disabled", state);
+            $("#buddybot-chat-conversation-start-new").prop("disabled", state);
+        }
+        ';
+    }
+
     private function getUserThreadsJs()
     {
         echo '
         function getUserThreads() {
 
+            lockUi();
             const data = {
                 "action": "getConversationList",
                 "timezone": bbTimeZone
@@ -62,6 +77,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
             $.post(ajaxurl, data, function(response) {
                 $("#buddybot-chat-conversation-list-loader").addClass("visually-hidden");
                 $("#buddybot-chat-conversation-list-wrapper").html(response);
+                lockUi(false);
             });
         }
         ';
@@ -92,28 +108,6 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
             let threadId = $(this).attr("data-bb-threadid");
             loadSingleThreadView(threadId);
         });';
-    }
-
-    private function getThreadInfoJs()
-    {
-        echo '
-        function getThreadInfo(threadId = "") {
-
-            if (threadId === "") {
-                return;
-            }
-
-            const data = {
-                "action": "getThreadInfo",
-                "thread_id": threadId,
-                "nonce": "' . wp_create_nonce('get_thread_info') . '"
-            };
-
-            $.post(ajaxurl, data, function(response) {
-                alert(response);
-            });
-        }
-        ';
     }
 
     private function loadThreadListViewJs()

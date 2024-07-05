@@ -182,6 +182,11 @@ class Messages extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
         $bold = '/(?<=\*\*)(.*?)(?=\*\*)/';
         $text = preg_replace($bold, '<strong>$1</strong>', $text);
         $text = str_replace('**', '', $text);
+
+        $bold = '/(?<=`)(.*?)(?=`)/';
+        $text = preg_replace($bold, '<code>$1</code>', $text);
+        $text = str_replace('**', '', $text);
+
         return  nl2br($text);
     }
 
@@ -194,7 +199,7 @@ class Messages extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Authorization: Bearer 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'
+            'Authorization: Bearer ' . $this->options->getOption('openai_api_key')
             )
         );
 

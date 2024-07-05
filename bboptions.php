@@ -33,6 +33,33 @@ final class bbOptions
             return $fallback;
         }
 
+        $option_value = $this->decryptKey($name, $option_value);
         return $option_value;
+    }
+
+    private function decryptKey($name, $option_value)
+    {
+        $method = 'decrypt' . str_replace('_', '', $name);
+
+        if (method_exists($this, $method)) {
+            return $this->$method($option_value);
+        } else {
+            return $option_value;
+        }
+    }
+
+    protected function decryptOpenAiApiKey($option_value)
+    {
+        $cipher = 'aes-128-cbc';
+        $config = MoConfig::getInstance();
+        $key = $config->getProp('c_key');
+
+        return openssl_decrypt(
+            $option_value,
+            $cipher,
+            $key,
+            0,
+            '6176693754375346'
+        );
     }
 }

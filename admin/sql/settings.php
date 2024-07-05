@@ -22,6 +22,9 @@ class Settings extends \BuddyBot\Admin\Sql\MoRoot
 
     public function saveOption($name, $value)
     {
+
+        $value = $this->encryptKey($name, $value);
+
         global $wpdb;
 
         if ($this->isOptionSet($name)) {
@@ -48,5 +51,33 @@ class Settings extends \BuddyBot\Admin\Sql\MoRoot
                 array('%s', '%s', '%d', '%s')
             );
         }
+    }
+
+    private function encryptKey($name, $value)
+    {
+        $method = 'encrypt' . str_replace('_', '', $name);
+
+        if (method_exists($this, $method)) {
+            return $this->$method($value);
+        } else {
+            return $value;
+        }
+    }
+
+    private function encryptOpenAiApiKey($option_value)
+    {
+        $cipher = 'aes-128-cbc';
+        $ivlen = openssl_cipher_iv_length($cipher);
+        $iv = openssl_random_pseudo_bytes($ivlen);
+
+        $key = $this->config->getProp('c_key');
+
+        return openssl_encrypt(
+            $option_value,
+            $cipher,
+            $key,
+            0,
+            '6176693754375346'
+        );
     }
 }
