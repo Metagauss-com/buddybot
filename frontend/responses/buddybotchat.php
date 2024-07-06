@@ -10,11 +10,6 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
         wp_die();
     }
 
-    public function getThreadInfo()
-    {
-        echo 'thread_info';
-    }
-
     public function getMessages()
     {
         $this->checkNonce('get_messages');
@@ -229,14 +224,58 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
         wp_die();
     }
 
+    public function deleteFrontendThread()
+    {
+        $this->checkNonce('delete_frontend_thread');
+
+        $thread_id = $_POST['thread_id'];
+        $user_id = get_current_user_id();
+
+        if ($this->sql->isThreadOwner($thread_id, $user_id) === false) {
+            $this->response['success'] = false;
+            $this->response['message'] = __('You are not authorized to delete this thread.', 'buddybot');
+            return;
+        }
+
+        $url = 'https://api.openai.com/v1/threads/' . $thread_id;
+
+        $ch = curl_init($url);
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'Authorization: Bearer ' . $this->api_key,
+            'OpenAI-Beta: assistants=v1'
+            )
+        );
+
+        $output = $this->curlOutput($ch);
+        $this->checkError($output);
+        
+        if ($this->response['result']->deleted) {
+            $this->response['success'] = true;
+        } else {
+            $this->response['success'] = false;
+            $this->response['message'] = __('Unable to delete conversation.', 'buddybot');
+        }
+
+        if ($this->response['success']) {
+            $this->sql->deleteThread($thread_id);
+        }
+
+        echo wp_json_encode($this->response);
+        wp_die();
+    }
+
     public function __construct()
     {
         $this->setAll();
         add_action('wp_ajax_getConversationList', array($this, 'getConversationList'));
-        add_action('wp_ajax_getThreadInfo', array($this, 'getThreadInfo'));
         add_action('wp_ajax_getMessages', array($this, 'getMessages'));
         add_action('wp_ajax_sendUserMessage', array($this, 'sendUserMessage'));
         add_action('wp_ajax_createFrontendRun', array($this, 'createFrontendRun'));
         add_action('wp_ajax_retrieveFrontendRun', array($this, 'retrieveFrontendRun'));
+        add_action('wp_ajax_deleteFrontendThread', array($this, 'deleteFrontendThread'));
     }
 }

@@ -23,6 +23,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
         $this->getAssistantResponseJs();
         $this->scrollToMessageJs();
         $this->animateTypeJs();
+        $this->deleteThreadModalBtnJs();
     }
 
     private function toggleAlertJs()
@@ -59,6 +60,15 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
             $("#buddybot-single-conversation-delete-thread-btn").prop("disabled", state);
             $("#buddybot-single-conversation-back-btn").prop("disabled", state);
             $("#buddybot-chat-conversation-start-new").prop("disabled", state);
+            toggleElement("#buddybot-single-conversation-top-spinners", state);
+        }
+        
+        function toggleElement(element, state = true) {
+            if (state === true) {
+                $(element).removeClass("visually-hidden");
+            } else {
+                $(element).addClass("visually-hidden");
+            }
         }
         ';
     }
@@ -69,6 +79,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
         function getUserThreads() {
 
             lockUi();
+
             const data = {
                 "action": "getConversationList",
                 "timezone": bbTimeZone
@@ -162,6 +173,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
     {
         echo '
         function getMessages(limit = 10, after = "", scroll = "bottom") {
+            lockUi();
             const data = {
                 "action": "getMessages",
                 "thread_id": sessionStorage.getItem("bbCurrentThreadId"),
@@ -189,6 +201,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
                     showAlert("danger", response.message);
                 }
                 
+                lockUi(false);
             });
         }';
     }
@@ -240,6 +253,8 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
                 return;
             }
             
+            lockUi();
+
             const messageData = {
                 "action": "sendUserMessage",
                 "thread_id": sessionStorage.getItem("bbCurrentThreadId"),
@@ -254,6 +269,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
                     $("#buddybot-single-conversation-user-message").val("");
                     $("#buddybot-single-conversation-messages-wrapper").append(response.html);
                     sessionStorage.setItem("bbCurrentThreadId", response.result.thread_id);
+                    $("#buddybot-single-conversation-delete-thread-btn").removeClass("visually-hidden");
                     sessionStorage.setItem("bbFirstId", response.result.id);
                     scrollToBottom(response.result.id);
                     createRun();
@@ -350,8 +366,6 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
         echo '
         function getAssistantResponse() {
 
-            const threadId = $("#mgao-playground-thread-id-input").val();
-
             const data = {
                 "action": "getMessages",
                 "thread_id": sessionStorage.getItem("bbCurrentThreadId"),
@@ -372,6 +386,9 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
                 } else {
                     showAlert("danger", response.message);
                 }
+
+                lockUi(false);
+
             });
         }
         ';
@@ -427,6 +444,37 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
                 charIndex++;
                 setTimeout(animateText, 50);
             }
+        }
+        ';
+    }
+
+    private function deleteThreadModalBtnJs()
+    {
+        echo '
+        $("#buddybot-single-conversation-delete-thread-modal-btn").click(deleteThread);
+        
+        function deleteThread() {
+        lockUi();
+        
+        const threadData = {
+                "action": "deleteFrontendThread",
+                "thread_id": sessionStorage.getItem("bbCurrentThreadId"),
+                "nonce": "' . wp_create_nonce('delete_frontend_thread') . '"
+            };
+
+            $.post(ajaxurl, threadData, function(response) {
+
+                response = JSON.parse(response);
+
+                if (response.success) {
+                    loadThreadListView();
+                } else {
+                    showAlert("danger", response.message);
+                }
+
+                lockUi(false);
+
+            });
         }
         ';
     }

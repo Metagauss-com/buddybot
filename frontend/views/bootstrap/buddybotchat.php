@@ -4,12 +4,14 @@ namespace BuddyBot\Frontend\Views\Bootstrap;
 use BuddyBot\Traits\Singleton;
 use BuddyBot\Frontend\Views\Bootstrap\BuddybotChat\SecurityChecks;
 use BuddyBot\Frontend\Views\Bootstrap\BuddybotChat\SingleConversation;
+use BuddyBot\Frontend\Views\Bootstrap\BuddybotChat\DeleteConversation;
 
 class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
 {
     use Singleton;
     use SecurityChecks;
     use SingleConversation;
+    use DeleteConversation;
     protected $conversations;
     protected $chatbot;
     protected $timezone;
@@ -23,6 +25,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
         $html = $this->securityChecksHtml();
 
         if (!$this->errors) {
+            $html .= $this->deleteConversationModalHtml();
             $html .= $this->alertsHtml();
             $html .= $this->assistantId();
             $html .= $this->conversationListWrapper();
@@ -84,6 +87,8 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
         
         if (!empty($this->conversations)) {
             $this->listHtml();
+        } else {
+            $this->noCoversationHistoryHtml();
         }
     }
 
@@ -109,5 +114,21 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
         $timezone = new \DateTimeZone($this->timezone);
         $timestamp = strtotime($date_string);
         return wp_date(get_option('date_format') . ' ' . get_option('time_format'), $timestamp, $timezone);
+    }
+
+    protected function noCoversationHistoryHtml()
+    {
+        $img_url = $this->config->getRootUrl() . 'frontend/images/buddybotchat/bootstrap/zero-conversations.svg';
+        echo '<div class="mt-4 text-center">';
+        
+        echo '<div class="my-4">';
+        echo '<img width="250" src="' . esc_url($img_url) . '">';
+        echo '</div>';
+        
+        echo '<div>';
+        esc_html_e('Sorry, you have no past conversations. Please start a new one.', 'buddybot');
+        echo '</div>';
+        
+        echo '</div>';
     }
 }

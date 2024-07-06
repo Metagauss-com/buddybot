@@ -73,4 +73,32 @@ class BuddybotChat extends \BuddyBot\Frontend\Sql\Moroot
         global $wpdb;
         $wpdb->update($table, $data, $where, array('%s'), array('%s'));
     }
+
+    public function deleteThread($thread_id)
+    {
+        $table = $this->config->getDbTable('threads');
+        $where = array('thread_id' => $thread_id);
+
+        global $wpdb;
+        return $wpdb->delete($table, $where, ['%s']);
+    }
+
+    public function isThreadOwner($thread_id, $user_id)
+    {
+        $table = $this->config->getDbTable('threads');
+
+        global $wpdb;
+
+        $thread_owner_id = $wpdb->get_var(
+            $wpdb->prepare(
+                'SELECT user_id FROM %i WHERE thread_id = %s', $table, $thread_id
+            )
+        );
+
+        if ($user_id === absint($thread_owner_id)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
