@@ -36,7 +36,11 @@ final class CoreFiles
 
     public function getLocalPath($type)
     {
-        return $this->$type['local_path'];
+        if (!empty($this->$type['local_path'])) {
+            return $this->$type['local_path'];
+        } else {
+            return false;
+        }
     }
 
     public function getRemoteName($type)

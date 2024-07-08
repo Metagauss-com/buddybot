@@ -9,8 +9,8 @@ final class Settings extends \BuddyBot\Admin\Html\Views\MoRoot
     protected function setSections()
     {
         $this->sections = array(
-            'general' => __('General', 'buddybot'),
-            'extensions' => __('Extensions', 'buddybot')
+            'general' => __('General', 'buddybot')
+            // 'extensions' => __('Extensions', 'buddybot')
         );
     }
 

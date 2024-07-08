@@ -1,6 +1,13 @@
 <div class="p-5">
 
 <?php
+
+$buddybot_checks = new BuddyBot\Admin\InitialChecks();
+
+if ($buddybot_checks->hasErrors()) {
+    return;
+}
+
 $mo_assistants_page = new \BuddyBot\Admin\Html\Views\Assistants();
 $mo_assistants_page->getHtml();
 

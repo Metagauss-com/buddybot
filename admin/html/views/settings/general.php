@@ -15,7 +15,7 @@ class General extends \BuddyBot\Admin\Html\Views\Settings\MoRoot
     {
         $id = 'buddybot-settings-openai-api-key';
         $label = __('OpenAI API Key', 'buddybot');
-        $value = $this->sql->getOption('openai_api_key', 'default');
+        $value = $this->options->getOption('openai_api_key', '');
         $control = '<input type="text" id="' . esc_attr($id) . '" value="' . esc_attr($value) . '" class="regular-text">';
         $description = __('Your OPENAI API key.', 'buddybot');
 
