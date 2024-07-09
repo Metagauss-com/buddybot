@@ -229,11 +229,11 @@ class ChatBot extends \BuddyBot\Admin\Requests\MoRoot
             let name = $("#mgao-chatbot-name").val();
             
             if (name === "") {
-                dataErrors.push("' . __('Chatbot name cannot be empty.', 'buddybot') . '"); 
+                dataErrors.push("' . esc_html(__('BuddyBot name cannot be empty.', 'buddybot')) . '"); 
             }
 
             if (name.length > 1024) {
-                dataErrors.push("' . __('Chatbot name cannot be more than 1024 characters.', 'buddybot') . '"); 
+                dataErrors.push("' . esc_html(__('BuddBot name cannot be more than 1024 characters.', 'buddybot')) . '"); 
             }
 
             return name;
@@ -244,7 +244,7 @@ class ChatBot extends \BuddyBot\Admin\Requests\MoRoot
             let description = $("#mgao-chatbot-description").val();
 
             if (description.length > 2048) {
-                dataErrors.push("' . __('Chatbot description cannot be more than 2048 characters.', 'buddybot') . '"); 
+                dataErrors.push("' . esc_html(__('Chatbot description cannot be more than 2048 characters.', 'buddybot')) . '"); 
             }
 
             return description;
@@ -255,7 +255,7 @@ class ChatBot extends \BuddyBot\Admin\Requests\MoRoot
             let assistantId = $("#mgao-chatbot-assistant-id").val();
             
             if (assistantId === "") {
-                dataErrors.push("' . __('Please select an Assistant for this Chatbot.', 'buddybot') . '"); 
+                dataErrors.push("' . esc_html(__('Please select an Assistant for this BuddyBot.', 'buddybot')) . '"); 
             }
 
             return assistantId;

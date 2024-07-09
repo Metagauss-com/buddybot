@@ -73,7 +73,6 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
             };
 
             $.post(ajaxurl, data, function(response) {
-                alert(response);
                 response = JSON.parse(response);
                 if (response.success) {
                     location.replace("' . admin_url() . 'admin.php?page=buddybot-settings&section=' . '" + section + "&success=1");

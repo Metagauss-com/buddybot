@@ -29,9 +29,9 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
     protected function setHeading()
     {
         if ($this->is_edit) {
-            $this->heading = __('Edit Chatbot', 'buddybot');
+            $this->heading = __('Edit BuddyBot', 'buddybot');
         } else {
-            $this->heading = __('New Chatbot', 'buddybot');
+            $this->heading = __('New BuddyBot', 'buddybot');
         }
     }
 
@@ -66,6 +66,7 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
         $this->pageSuccessAlert();
         $this->pageErrors();
         $this->pageHeading($this->heading);
+        $this->chatbotShortcode();
         $this->chatbotOptions();
         $this->saveBtn();
     }
@@ -77,15 +78,31 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
         }
 
         echo '<div id="buddybot-chatbot-success" class="notice notice-success mb-3 ms-0">';
-        echo '<p id="buddybot-chatbot-success-message" class="fw-bold">' . __('Chatbot updated successfully.', 'buddybot') . '</p>';
+        echo '<p id="buddybot-chatbot-success-message" class="fw-bold">' . __('BuddyBot updated successfully.', 'buddybot') . '</p>';
         echo '</div>';
     }
 
     private function pageErrors()
     {
         echo '<div id="buddybot-chatbot-errors" class="notice notice-error settings-error mb-3 ms-0">';
-        echo '<p id="buddybot-chatbot-error-message" class="fw-bold">' . __('Unable to save Chatbot. Please fix errors.', 'buddybot') . '</p>';
+        echo '<p id="buddybot-chatbot-error-message" class="fw-bold">' . __('Unable to save BuddyBot. Please fix errors.', 'buddybot') . '</p>';
         echo '<ul id="buddybot-chatbot-errors-list" class="small"></ul>';
+        echo '</div>';
+    }
+
+    private function chatbotShortcode()
+    {
+        if (!$this->is_edit) {
+            return;
+        }
+
+        echo '<div class="mb-4">';
+        echo '<span class="fw-bold">';
+        esc_html_e('Shortcode', 'buddybot');
+        echo ': </span>';
+        echo '<code>';
+        echo '[buddybot_chat id=' . absint($this->chatbot_id) . ']';
+        echo '</code>';
         echo '</div>';
     }
 
@@ -164,9 +181,9 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
 
 
         if ($this->is_edit) {
-            $label = __('Update Chatbot', 'buddybot');
+            $label = __('Update BuddyBot', 'buddybot');
         } else {
-            $label = __('Save Chatbot', 'buddybot');
+            $label = __('Save BuddyBot', 'buddybot');
         }
         
         $this->loaderBtn('primary btn-sm', 'mgao-chatbot-save-btn', $label);

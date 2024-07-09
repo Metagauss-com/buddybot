@@ -433,8 +433,13 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
             charIndex = 0;
             messageContainer = $("#" + element).find(".buddybot-chat-conversation-assistant-response");
             messageText = messageContainer.html();
-            messageContainer.text("");
-            animateText();
+            
+            if (messageText.includes("<")) {
+                scrollToBottom(element);
+            } else {   
+                messageContainer.text("");
+                animateText();
+            }
         }
 
         function animateText() {

@@ -9,7 +9,7 @@ final class AdminMenu extends \BuddyBot\Admin\MoRoot
         $this->playgroundSubmenuItem();
         // $this->wizardSubmenuItem();
         // $this->orgFilesSubmenuItem();
-        // $this->assistantsSubmenuItem();
+        $this->assistantsSubmenuItem();
         // $this->addFileSubmenuItem();
         $this->dataSyncSubmenuItem();
         $this->settingsSubmenuItem();
