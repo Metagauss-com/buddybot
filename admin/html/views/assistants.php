@@ -18,7 +18,7 @@ final class Assistants extends \BuddyBot\Admin\Html\Views\MoRoot
         $add_assistant_page = get_admin_url() . 'admin.php?page=buddybot-assistant';
         echo '<div class="mb-3">';
         echo '<a class="btn btn-dark btn-sm" role="button"';
-        echo 'href="' . $add_assistant_page . '"';
+        echo 'href="' . esc_url($add_assistant_page) . '"';
         echo '>';
         echo esc_html(__('Create New Assistant', 'buddybot'));
         echo '</a>';

@@ -37,7 +37,7 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
             const data = {
                 "action": "getOptions",
                 "section": section,
-                "nonce": "' . wp_create_nonce('get_options') . '"
+                "nonce": "' . esc_js(wp_create_nonce('get_options')) . '"
             };
   
             $.post(ajaxurl, data, function(response) {
@@ -69,13 +69,13 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
                 "action": "saveSettings",
                 "options_data": optionsData,
                 "section": section,
-                "nonce": "' . wp_create_nonce('save_settings') . '"
+                "nonce": "' . esc_js(wp_create_nonce('save_settings')) . '"
             };
 
             $.post(ajaxurl, data, function(response) {
                 response = JSON.parse(response);
                 if (response.success) {
-                    location.replace("' . admin_url() . 'admin.php?page=buddybot-settings&section=' . '" + section + "&success=1");
+                    location.replace("' . esc_url(admin_url()) . 'admin.php?page=buddybot-settings&section=' . '" + section + "&success=1");
                 } else {
                     $("#buddybot-settings-error-message").html(response.message);
                     dataErrors = response.errors;
@@ -132,7 +132,7 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
             key = $.trim(key);
 
             if (key === "") {
-                dataErrors.push("' . __('OpenAI API Key cannot be empty.', 'buddybot') . '"); 
+                dataErrors.push("' . esc_html(__('OpenAI API Key cannot be empty.', 'buddybot')) . '"); 
             }
 
             return key;

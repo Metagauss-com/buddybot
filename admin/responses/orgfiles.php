@@ -29,7 +29,7 @@ class OrgFiles extends \BuddyBot\Admin\Responses\MoRoot
             $this->response['success'] = false;
         }
 
-        echo json_encode($this->response);
+        echo wp_json_encode($this->response);
         wp_die();
     }
 

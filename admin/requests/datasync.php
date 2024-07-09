@@ -28,7 +28,7 @@ class DataSync extends \BuddyBot\Admin\Requests\MoRoot
                 const data = {
                     "action": "checkFileStatus",
                     "file_id": fileId,
-                    "nonce": "' . $nonce . '"
+                    "nonce": "' . esc_js($nonce) . '"
                 };
       
                 $.post(ajaxurl, data, function(response) {
@@ -61,7 +61,7 @@ class DataSync extends \BuddyBot\Admin\Requests\MoRoot
             const data = {
                 "action": "isFileWritable",
                 "data_type": dataType,
-                "nonce": "' . $nonce . '"
+                "nonce": "' . esc_js($nonce) . '"
             };
   
             $.post(ajaxurl, data, function(response) {
@@ -85,7 +85,7 @@ class DataSync extends \BuddyBot\Admin\Requests\MoRoot
             const data = {
                 "action": "addDataToFile",
                 "data_type": dataType,
-                "nonce": "' . $nonce . '"
+                "nonce": "' . esc_js($nonce) . '"
             };
   
             $.post(ajaxurl, data, function(response) {
@@ -109,7 +109,7 @@ class DataSync extends \BuddyBot\Admin\Requests\MoRoot
             const data = {
                 "action": "transferDataFile",
                 "data_type": dataType,
-                "nonce": "' . $nonce . '"
+                "nonce": "' . esc_js($nonce) . '"
             };
   
             $.post(ajaxurl, data, function(response) {

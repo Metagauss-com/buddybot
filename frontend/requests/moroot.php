@@ -23,7 +23,7 @@ class MoRoot extends \BuddyBot\Frontend\Moroot
     {
         $ajax_url = admin_url('admin-ajax.php');
         echo '
-        const ajaxurl = "' . $ajax_url . '";
+        const ajaxurl = "' . esc_url($ajax_url) . '";
         ';
     }
 }

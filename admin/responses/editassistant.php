@@ -94,7 +94,7 @@ class EditAssistant extends \BuddyBot\Admin\Responses\MoRoot
         $data['tools'] = $this->assistantTools($assistant_data->tools);
         $data['file_ids'] = $this->assistantFiles($assistant_data->file_ids);
 
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($ch, CURLOPT_POSTFIELDS, wp_json_encode($data));
 
         $output = $this->curlOutput($ch);
         $this->checkError($output);

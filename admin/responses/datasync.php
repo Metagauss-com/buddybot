@@ -38,7 +38,9 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
         $data_type = $_POST['data_type'];
         $file = $this->core_files->getLocalPath($data_type);
 
-        if (is_writable($file)) {
+        global $wp_filesystem;
+
+        if ($wp_filesystem->is_writable($file)) {
             $this->response['success'] = true;
             $this->response['message'] = '<div>' . __('The file is writable.', 'buddybot') . '</div>';
         } else {
@@ -64,7 +66,7 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
         } else {
             $this->response['success'] = false;
             $this->response['message'] = '<div>' . __('Data compile method undefined. Operation aborted.', 'buddybot') . '</div>';
-            echo json_encode($this->response);
+            echo wp_json_encode($this->response);
             wp_die();
         }
 
@@ -73,7 +75,7 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
         $this->response['success'] = true;
         $this->response['message'] = '<div>' . __('Added data to file.', 'buddybot') . '</div>';
 
-        echo json_encode($this->response);
+        echo wp_json_encode($this->response);
         wp_die();
     }
 
@@ -88,8 +90,8 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
         if($post_query->have_posts()) {
             while($post_query->have_posts()) {
                 $post_query->the_post();
-                $this->file_data .= strip_tags(get_the_title());
-                $this->file_data .= strip_tags(get_the_content());
+                $this->file_data .= wp_strip_all_tags(get_the_title());
+                $this->file_data .= wp_strip_all_tags(get_the_content());
             }
         }
 
@@ -105,7 +107,7 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
         $comments = get_comments($args);
 
         foreach ($comments as $comment) {
-            $this->file_data .= strip_tags($comment->comment_content);
+            $this->file_data .= wp_strip_all_tags($comment->comment_content);
         }
     
     }
@@ -161,13 +163,13 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
 
         if ($update) {
             $this->response['success'] = true;
-            $this->response['message'] = '<div>' . __(sprintf('Remote file name updated to %s.', $output->id), 'buddybot') . '</div>';
+            $this->response['message'] = '<div>' . __(wp_sprintf('Remote file name updated to %s.', $output->id), 'buddybot') . '</div>';
         } else {
             $this->response['success'] = false;
             $this->response['message'] = '<div>' . __('Unable to update remote file name.', 'buddybot') . '</div>';
         }
 
-        echo json_encode($this->response);
+        echo wp_json_encode($this->response);
     }
 
     public function __construct()

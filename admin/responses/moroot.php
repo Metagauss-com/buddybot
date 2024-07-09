@@ -33,7 +33,7 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
             $this->response['success'] = false;
             $this->response['message'] = '<div>' . __('Nonce error.', 'buddybot') . '</div>';
             $this->response['errors'] = array(__('Nonce check failed.', 'buddybot'));
-            echo json_encode($this->response);
+            echo wp_json_encode($this->response);
             wp_die();
         }
     }
@@ -43,7 +43,7 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
         if (!(current_user_can('manage_options'))) {
             $this->response['success'] = false;
             $this->response['message'] = __('You do not have permission to do this.', 'buddybot');
-            echo json_encode($this->response);
+            echo wp_json_encode($this->response);
             wp_die();
         }
     }

@@ -35,7 +35,7 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
         }
 
         echo '
-        const context = "' . $context . '";
+        const context = "' . esc_html($context) . '";
         ';
     }
 
@@ -48,7 +48,7 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
             const select = $("#buddybot-editassistant-assistantmodel");
             const data = {
                 "action": "getModels",
-                "nonce": "' . $nonce . '"
+                "nonce": "' . esc_js($nonce) . '"
             };
       
             $.post(ajaxurl, data, function(response) {
@@ -76,7 +76,7 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
         function getFiles(){
             const data = {
                 "action": "getFiles",
-                "nonce": "' . $nonce . '"
+                "nonce": "' . esc_js($nonce) . '"
             };
       
             $.post(ajaxurl, data, function(response) {
@@ -202,16 +202,16 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
 
             const data = {
                 "action": "createAssistant",
-                "assistant_id": "' . $this->assistant_id . '",
+                "assistant_id": "' . absint($this->assistant_id) . '",
                 "assistant_data": JSON.stringify(aData),
-                "nonce": "' . $nonce . '"
+                "nonce": "' . esc_js($nonce) . '"
             };
       
             $.post(ajaxurl, data, function(response) {
                 hideBtnLoader("#buddybot-editassistant-editassistant-submit");
                 response = JSON.parse(response);
                 if (response.success) {
-                    location.replace("' . get_admin_url() . 'admin.php?page=buddybot-assistant&assistant_id=' . '" + response.result.id);
+                    location.replace("' . esc_url(get_admin_url()) . 'admin.php?page=buddybot-assistant&assistant_id=' . '" + response.result.id);
                 } else {
                     showAlert(response.message);
                 }
@@ -236,8 +236,8 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
             disableFields(true);
             const data = {
                 "action": "getAssistantData",
-                "assistant_id": "' . $this->assistant_id . '",
-                "nonce": "' . $nonce . '"
+                "assistant_id": "' . absint($this->assistant_id) . '",
+                "nonce": "' . esc_js($nonce) . '"
             };
       
             $.post(ajaxurl, data, function(response) {

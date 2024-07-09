@@ -47,7 +47,7 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
         if ($this->chatbot_id != $first_id) {
             echo '
             <script>
-            location.replace("' . admin_url() . 'admin.php?page=buddybot-chatbot&chatbot_id=' . absint($first_id) . '");
+            location.replace("' . esc_url(admin_url()) . 'admin.php?page=buddybot-chatbot&chatbot_id=' . absint($first_id) . '");
             </script>
             ';
         }
@@ -78,14 +78,14 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
         }
 
         echo '<div id="buddybot-chatbot-success" class="notice notice-success mb-3 ms-0">';
-        echo '<p id="buddybot-chatbot-success-message" class="fw-bold">' . __('BuddyBot updated successfully.', 'buddybot') . '</p>';
+        echo '<p id="buddybot-chatbot-success-message" class="fw-bold">' . esc_html(__('BuddyBot updated successfully.', 'buddybot')) . '</p>';
         echo '</div>';
     }
 
     private function pageErrors()
     {
         echo '<div id="buddybot-chatbot-errors" class="notice notice-error settings-error mb-3 ms-0">';
-        echo '<p id="buddybot-chatbot-error-message" class="fw-bold">' . __('Unable to save BuddyBot. Please fix errors.', 'buddybot') . '</p>';
+        echo '<p id="buddybot-chatbot-error-message" class="fw-bold">' . esc_html(__('Unable to save BuddyBot. Please fix errors.', 'buddybot')) . '</p>';
         echo '<ul id="buddybot-chatbot-errors-list" class="small"></ul>';
         echo '</div>';
     }
@@ -169,7 +169,7 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<div class="small mb-2 text-secondary" id="mgao-chatbot-selected-assistant-id">' . esc_html($value) . '</div>';
         echo '<input type="hidden" id="mgao-chatbot-assistant-id" value="' . esc_attr($value) . '">';
         echo '<button type="button" class="buddybot-item-field button button-secondary" data-bs-toggle="modal" data-bs-target="#buddybot-select-assistant-modal">';
-        echo __('Select Assistant', 'buddybot');
+        esc_html_e('Select Assistant', 'buddybot');
         echo '</button>';
         echo '</td>';
         echo '</tr>';

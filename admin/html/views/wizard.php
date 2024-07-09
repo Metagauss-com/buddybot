@@ -15,7 +15,7 @@ final class Wizard extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         $url = get_admin_url(null, 'admin.php?page=buddybot-defaultwizard');
         echo '<a href="' . esc_url( $url) . '">';
-        echo __('BuddyBot Wizard', 'buddybot');
+        esc_html_e('BuddyBot Wizard', 'buddybot');
         echo '</a>';
     }
     

@@ -23,7 +23,7 @@ class AddFile extends \BuddyBot\Admin\Requests\MoRoot
             const data = {
                 "action": "addFile",
                 "file_id": fileId,
-                "nonce": "' . $nonce . '"
+                "nonce": "' . esc_js($nonce) . '"
             };
   
             $.post(ajaxurl, data, function(response) {

@@ -34,14 +34,14 @@ final class Settings extends \BuddyBot\Admin\Html\Views\MoRoot
         }
 
         echo '<div id="buddybot-settings-success" class="notice notice-success mb-3 ms-0">';
-        echo '<p id="buddybot-settings-success-message" class="fw-bold">' . __('Settings updated successfully.', 'buddybot') . '</p>';
+        echo '<p id="buddybot-settings-success-message" class="fw-bold">' . esc_html_e('Settings updated successfully.', 'buddybot') . '</p>';
         echo '</div>';
     }
 
     private function pageErrors()
     {
         echo '<div id="buddybot-settings-errors" class="notice notice-error settings-error mb-3 ms-0">';
-        echo '<p id="buddybot-settings-error-message" class="fw-bold">' . __('Unable to update settings. Please fix errors.', 'buddybot') . '</p>';
+        echo '<p id="buddybot-settings-error-message" class="fw-bold">' . esc_html_e('Unable to update settings. Please fix errors.', 'buddybot') . '</p>';
         echo '<ul id="buddybot-settings-errors-list" class="small"></ul>';
         echo '</div>';
     }
@@ -66,7 +66,7 @@ final class Settings extends \BuddyBot\Admin\Html\Views\MoRoot
                 $selected = ' selected';
             }
 
-            echo '<option value="' . esc_attr($name) . '"' . $selected . '>';
+            echo '<option value="' . esc_attr($name) . '"' . esc_attr($selected) . '>';
             echo esc_html($label);
             echo '</label>';
         }
@@ -99,7 +99,7 @@ final class Settings extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         echo '<p class="submit">';
         echo '<input type="submit" id="buddybot-settings-update-btn" ';
-        echo 'class="button button-primary" value="' . __('Save Options', 'buddybot') . '">';
+        echo 'class="button button-primary" value="' . esc_html__('Save Options', 'buddybot') . '">';
         echo '</p>';
     }
 }

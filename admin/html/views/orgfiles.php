@@ -17,7 +17,7 @@ final class OrgFiles extends \BuddyBot\Admin\Html\Views\MoRoot
         $addfile_page = get_admin_url() . 'admin.php?page=buddybot-addfile';
         echo '<div class="mb-3">';
         echo '<a class="btn btn-dark btn-sm" role="button"';
-        echo 'href="' . $addfile_page . '"';
+        echo 'href="' . esc_url($addfile_page) . '"';
         echo '>';
         echo esc_html(__('Add File', 'buddybot'));
         echo '</a>';

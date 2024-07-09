@@ -205,7 +205,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
                 $selected = ' selected';
             }
 
-            echo '<option' . $selected . '>' . $user->display_name . '</option>';
+            echo '<option' . esc_attr($selected) . '>' . esc_html($user->display_name) . '</option>';
         }
     }
 
@@ -218,7 +218,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
         }
 
         echo '<input id="mgao-playground-thread-id-input" ';
-        echo 'type="hidden" value="' . $thread_id . '">';
+        echo 'type="hidden" value="' . esc_attr($thread_id) . '">';
     }
 
     private function runIdInput()
@@ -234,7 +234,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
         if ($response['success'] === false) {
             esc_html_e('There was an error while fetching threads.', 'buddybot');
             echo ' ';
-            echo $response['message'];
+            echo esc_html($response['message']);
             return;
         }
 

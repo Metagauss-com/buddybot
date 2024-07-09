@@ -72,7 +72,7 @@ final class DefaultBuddyBotWizard extends \BuddyBot\Admin\Requests\MoRoot
             const data = {
                 "action": "isLocalFileWritable",
                 "data_types": dataTypes,
-                "nonce": "' .  wp_create_nonce('is_local_file_writable') . '"
+                "nonce": "' .  esc_js(wp_create_nonce('is_local_file_writable')) . '"
             };
   
             $.post(ajaxurl, data, function(response) {

@@ -32,25 +32,25 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
     {
         echo '
         let checkRun = "";
-        const gettingAssistants = "' . esc_html('Getting list of assistants.', 'buddybot') . '";
-        const assistantsUpdated = "' . esc_html('Assistants updated.', 'buddybot') . '";
-        const messageEmpty = "' . esc_html('Cannot send empty message.', 'buddybot') . '";
-        const creatingThread = "' . esc_html('Starting new conversation.', 'buddybot') . '";
-        const threadCreated = "' . esc_html('Conversation started.', 'buddybot') . '";
-        const sendingMessage = "' . esc_html('Sending message to the Assistant.', 'buddybot') . '";
-        const messageSent = "' . esc_html('Message sent.', 'buddybot') . '";
-        const creatingRun = "' . esc_html('Asking assistant to read your message.', 'buddybot') . '";
-        const runCreated = "' . esc_html('Assistant is processing your message.', 'buddybot') . '";
-        const retrievingRun = "' . esc_html('Checking response to your message.', 'buddybot') . '";
-        const runCancelled = "' . esc_html('The process was aborted.', 'buddybot') . '";
-        const gettingResponse = "' . esc_html("Fetching Assistant response.", 'buddybot') . '";
-        const responseUpdated = "' . esc_html("Assistant response received.", 'buddybot') . '";
-        const gettingThreadMessages = "' . esc_html("Fetching conversation data.", 'buddybot') . '";
-        const threadMessagesUpdated = "' . esc_html("Conversation data updated.", 'buddybot') . '";
-        const gettingPastMessages = "' . esc_html("Loading previous messages.", 'buddybot') . '";
-        const pastMessagesUpdated = "' . esc_html("Loaded previous messages.", 'buddybot') . '";
-        const deletingThread = "' . esc_html("Deleting conversation.", 'buddybot') . '";
-        const threadDeleted = "' . esc_html("Conversation deleted successfully!", 'buddybot') . '";
+        const gettingAssistants = "' . esc_html__('Getting list of assistants.', 'buddybot') . '";
+        const assistantsUpdated = "' . esc_html__('Assistants updated.', 'buddybot') . '";
+        const messageEmpty = "' . esc_html__('Cannot send empty message.', 'buddybot') . '";
+        const creatingThread = "' . esc_html__('Starting new conversation.', 'buddybot') . '";
+        const threadCreated = "' . esc_html__('Conversation started.', 'buddybot') . '";
+        const sendingMessage = "' . esc_html__('Sending message to the Assistant.', 'buddybot') . '";
+        const messageSent = "' . esc_html__('Message sent.', 'buddybot') . '";
+        const creatingRun = "' . esc_html__('Asking assistant to read your message.', 'buddybot') . '";
+        const runCreated = "' . esc_html__('Assistant is processing your message.', 'buddybot') . '";
+        const retrievingRun = "' . esc_html__('Checking response to your message.', 'buddybot') . '";
+        const runCancelled = "' . esc_html__('The process was aborted.', 'buddybot') . '";
+        const gettingResponse = "' . esc_html__("Fetching Assistant response.", 'buddybot') . '";
+        const responseUpdated = "' . esc_html__("Assistant response received.", 'buddybot') . '";
+        const gettingThreadMessages = "' . esc_html__("Fetching conversation data.", 'buddybot') . '";
+        const threadMessagesUpdated = "' . esc_html__("Conversation data updated.", 'buddybot') . '";
+        const gettingPastMessages = "' . esc_html__("Loading previous messages.", 'buddybot') . '";
+        const pastMessagesUpdated = "' . esc_html__("Loaded previous messages.", 'buddybot') . '";
+        const deletingThread = "' . esc_html__("Deleting conversation.", 'buddybot') . '";
+        const threadDeleted = "' . esc_html__("Conversation deleted successfully!", 'buddybot') . '";
         ';
     }
 
@@ -85,7 +85,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
 
             const data = {
                 "action": "getAssistantOptions",
-                "nonce": "' . $nonce . '"
+                "nonce": "' . esc_js($nonce) . '"
             };
   
             $.post(ajaxurl, data, function(response) {
@@ -146,7 +146,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
             
             const data = {
                 "action": "createThread",
-                "nonce": "' . $nonce . '"
+                "nonce": "' . esc_js($nonce) . '"
             };
   
             $.post(ajaxurl, data, function(response) {
@@ -182,7 +182,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
                 "message": message,
                 "file_url": $("#buddybot-playground-attachment-url").val(),
                 "file_mime": $("#buddybot-playground-attachment-mime").val(),
-                "nonce": "' . $nonce . '"
+                "nonce": "' . esc_js($nonce) . '"
             };
   
             $.post(ajaxurl, data, function(response) {
@@ -220,7 +220,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
                 "action": "createRun",
                 "thread_id": threadId,
                 "assistant_id": assistantId,
-                "nonce": "' . $nonce . '"
+                "nonce": "' . esc_js($nonce) . '"
             };
   
             $.post(ajaxurl, data, function(response) {
@@ -254,7 +254,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
                 "action": "retrieveRun",
                 "thread_id": threadId,
                 "run_id": runId,
-                "nonce": "' . $nonce . '"
+                "nonce": "' . esc_js($nonce) . '"
             };
   
             $.post(ajaxurl, data, function(response) {
@@ -322,7 +322,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
                 "before": $("#buddybot-playground-first-message-id").val(),
                 "limit": 20,
                 "order": "desc",
-                "nonce": "' . $nonce . '"
+                "nonce": "' . esc_js($nonce) . '"
             };
   
             $.post(ajaxurl, data, function(response) {
@@ -361,7 +361,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
                 "thread_id": threadId,
                 "limit": 5,
                 "order": "desc",
-                "nonce": "' . $nonce . '"
+                "nonce": "' . esc_js($nonce) . '"
             };
   
             $.post(ajaxurl, data, function(response) {
@@ -461,7 +461,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
                 "limit": 5,
                 "after": lastId,
                 "order": "desc",
-                "nonce": "' . $nonce . '"
+                "nonce": "' . esc_js($nonce) . '"
             };
   
             $.post(ajaxurl, data, function(response) {
@@ -544,7 +544,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
             const data = {
                 "action": "deleteThread",
                 "thread_id": threadId,
-                "nonce": "' . $nonce . '"
+                "nonce": "' . esc_js($nonce) . '"
             };
 
             $.post(ajaxurl, data, function(response) {

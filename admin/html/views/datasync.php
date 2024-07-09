@@ -60,7 +60,7 @@ final class DataSync extends \BuddyBot\Admin\Html\Views\MoRoot
         $btn_id = 'buddybot-sync-' . $type . '-btn';
         echo '<button id="' . esc_attr($btn_id) . '" type="button" ';
         echo 'class="buddybot-sync-btn btn btn-outline-dark" ';
-        echo 'data-buddybot-type="' . $type .  '"';
+        echo 'data-buddybot-type="' . esc_attr($type) .  '"';
         echo '>';
         $this->moIcon('directory_sync');
         echo '</button>';

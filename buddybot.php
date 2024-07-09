@@ -1,14 +1,14 @@
 <?php
 /**
- * Plugin Name:       BuddyBot AI - Custom AI Assistant and Chat Agent for WordPress
- * Description:       Plugin to connect WordPress with OpenAI.
+ * Plugin Name:       BuddyBot AI - Custom AI Assistant and Chat Agent
+ * Description:       Create and connect BuddyBot with AI Assistant, syncronize site data and publish on the frontend.
  * Version:           1.0.0
- * Requires at least: 5.2
+ * Requires at least: 6.2
  * Requires PHP:      8.0
- * Author URI:        https://profiles.wordpress.org/metagauss/
+ * Author URI:        https://profiles.wordpress.org/buddybot/
  * License:           GPL v2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       BuddyBot
+ * Text Domain:       buddybot
  * Domain Path:       /languages
  * Network:           False
 */

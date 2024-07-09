@@ -19,7 +19,7 @@ final class Assistants extends \BuddyBot\Admin\Requests\MoRoot
 
             const data = {
                 "action": "getAssistants",
-                "nonce": "' . $nonce . '"
+                "nonce": "' . esc_js($nonce) . '"
             };
   
             $.post(ajaxurl, data, function(response) {
@@ -48,7 +48,7 @@ final class Assistants extends \BuddyBot\Admin\Requests\MoRoot
             const data = {
                 "action": "deleteOrgFile",
                 "file_id": fileId,
-                "nonce": "' . $nonce . '"
+                "nonce": "' . esc_js($nonce) . '"
             };
   
             $.post(ajaxurl, data, function(response) {

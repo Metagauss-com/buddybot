@@ -54,7 +54,7 @@ class ChatBot extends \BuddyBot\Admin\Requests\MoRoot
                 
                 const data = {
                     "action": "selectAssistantModal",
-                    "nonce": "' . wp_create_nonce('select_assistant_modal') . '"
+                    "nonce": "' . esc_js(wp_create_nonce('select_assistant_modal')) . '"
                 };
   
                 $.post(ajaxurl, data, function(response) {
@@ -114,7 +114,7 @@ class ChatBot extends \BuddyBot\Admin\Requests\MoRoot
             const data = {
                 "action": "selectAssistantModal",
                 "after": $("#mgao-selectassistant-last-id").val(),
-                "nonce": "' . wp_create_nonce('select_assistant_modal') . '"
+                "nonce": "' . esc_js(wp_create_nonce('select_assistant_modal')) . '"
             };
 
             $.post(ajaxurl, data, function(response) {
@@ -192,13 +192,13 @@ class ChatBot extends \BuddyBot\Admin\Requests\MoRoot
             const data = {
                 "action": "saveChatbot",
                 "chatbot_data": chatbotData,
-                "nonce": "' . wp_create_nonce('save_chatbot') . '"
+                "nonce": "' . esc_js(wp_create_nonce('save_chatbot')) . '"
             };
 
             $.post(ajaxurl, data, function(response) {
                 response = JSON.parse(response);
                 if (response.success) {
-                    location.replace("' . admin_url() . 'admin.php?page=buddybot-chatbot&chatbot_id=' . '" + response.chatbot_id + "&success=1");
+                    location.replace("' . esc_url(admin_url()) . 'admin.php?page=buddybot-chatbot&chatbot_id=' . '" + response.chatbot_id + "&success=1");
                 } else {
                     dataErrors = response.errors;
                     displayErrors();

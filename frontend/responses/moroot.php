@@ -32,7 +32,7 @@ class MoRoot extends \BuddyBot\Frontend\Moroot
             $this->response['success'] = false;
             $this->response['message'] =  __('Nonce error. Unable to complete request.', 'buddybot');
             $this->response['errors'] = array(__('Nonce check failed.', 'buddybot'));
-            echo json_encode($this->response);
+            echo wp_json_encode($this->response);
             wp_die();
         }
     }

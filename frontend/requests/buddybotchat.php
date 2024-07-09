@@ -181,7 +181,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
                 "order": "desc",
                 "after": after,
                 "timezone": bbTimeZone,
-                "nonce": "' . wp_create_nonce('get_messages') . '"
+                "nonce": "' . esc_js(wp_create_nonce('get_messages')) . '"
             };
 
             $.post(ajaxurl, data, function(response) {
@@ -259,7 +259,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
                 "action": "sendUserMessage",
                 "thread_id": sessionStorage.getItem("bbCurrentThreadId"),
                 "user_message": userMessage,
-                "nonce": "' . wp_create_nonce('send_user_message') . '"
+                "nonce": "' . esc_js(wp_create_nonce('send_user_message')) . '"
             };
 
             $.post(ajaxurl, messageData, function(response) {
@@ -292,7 +292,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
                 "action": "createFrontendRun",
                 "thread_id": sessionStorage.getItem("bbCurrentThreadId"),
                 "assistant_id": assistantId,
-                "nonce": "' . wp_create_nonce('create_run') . '"
+                "nonce": "' . esc_js(wp_create_nonce('create_run')) . '"
             };
   
             $.post(ajaxurl, data, function(response) {
@@ -317,7 +317,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
                 "action": "retrieveFrontendRun",
                 "thread_id": sessionStorage.getItem("bbCurrentThreadId"),
                 "run_id": sessionStorage.getItem("bbCurrentRunId"),
-                "nonce": "' . wp_create_nonce('retrieve_run') . '"
+                "nonce": "' . esc_js(wp_create_nonce('retrieve_run')) . '"
             };
   
             $.post(ajaxurl, data, function(response) {
@@ -372,7 +372,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
                 "before": sessionStorage.getItem("bbFirstId"),
                 "limit": 10,
                 "order": "desc",
-                "nonce": "' . wp_create_nonce('get_messages') . '"
+                "nonce": "' . esc_js(wp_create_nonce('get_messages')) . '"
             };
   
             $.post(ajaxurl, data, function(response) {
@@ -464,7 +464,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
         const threadData = {
                 "action": "deleteFrontendThread",
                 "thread_id": sessionStorage.getItem("bbCurrentThreadId"),
-                "nonce": "' . wp_create_nonce('delete_frontend_thread') . '"
+                "nonce": "' . esc_js(wp_create_nonce('delete_frontend_thread')) . '"
             };
 
             $.post(ajaxurl, threadData, function(response) {

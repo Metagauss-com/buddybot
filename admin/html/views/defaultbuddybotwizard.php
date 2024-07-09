@@ -25,7 +25,7 @@ final class DefaultBuddyBotWizard extends \BuddyBot\Admin\Html\Views\MoRoot
         esc_html_e('Select Data');
         echo '</h5>';
         echo '<p class="card-text">';
-        echo __('Select the data you wish to send to OPENAI server to train your AI assistant.', 'buddybot');
+        esc_html_e('Select the data you wish to send to OPENAI server to train your AI assistant.', 'buddybot');
         $this->dataSelectCheckboxes();
         echo '</p>';
         echo '<button id="buddybot-default-wizard-start-btn" class="btn btn-primary w-100">';
