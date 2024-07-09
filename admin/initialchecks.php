@@ -50,7 +50,7 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
         if (empty($key)) {
             $this->errors += 1;
             $this->addAlert(
-                __('OpenAI API Key Missing.', 'buddybot')
+                __(sprintf('OpenAI API Key Missing. Please save it <a href="%s">here.</a>', admin_url('admin.php?page=buddybot-settings')), 'buddybot')
             );
         }
     }
