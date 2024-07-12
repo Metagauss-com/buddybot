@@ -4,60 +4,171 @@ namespace BuddyBot\Admin\Responses;
 
 class EditAssistant extends \BuddyBot\Admin\Responses\MoRoot
 {
+    // public function getModels()
+    // {
+    //     $this->checkNonce('get_models');
+
+    //     $url = 'https://api.openai.com/v1/models';
+    //     $ch = curl_init($url);
+        
+    //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        
+    //     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    //         'Authorization: Bearer ' . $this->api_key
+    //         )
+    //     );
+
+    //     $output = curl_exec($ch);
+    //     curl_close($ch);
+
+    //     $output = json_decode($output);
+
+    //     if ($output->object === 'list') {
+    //         $this->response['success'] = true;
+    //         $this->response['list'] = $output->data;
+    //         $this->response['html'] = $this->modelsListHtml($output->data);
+    //     } else {
+    //         $this->response['success'] = false;
+    //         $this->response['message'] = __('Unable to fetch models list.', 'buddybot');
+    //     }
+
+    //     echo wp_json_encode($this->response);
+    //     wp_die();
+    // }
+
     public function getModels()
     {
         $this->checkNonce('get_models');
 
         $url = 'https://api.openai.com/v1/models';
-        $ch = curl_init($url);
-        
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Authorization: Bearer ' . $this->api_key
-            )
-        );
+        $response = wp_remote_get($url, array(
+            'headers' => array(
+                'Authorization' => 'Bearer ' . $this->api_key
+            ),
+            'timeout' => 15,
+        ));
 
-        $output = curl_exec($ch);
-        curl_close($ch);
-
-        $output = json_decode($output);
-
-        if ($output->object === 'list') {
-            $this->response['success'] = true;
-            $this->response['list'] = $output->data;
-            $this->response['html'] = $this->modelsListHtml($output->data);
-        } else {
+        if (is_wp_error($response)) {
             $this->response['success'] = false;
-            $this->response['message'] = __('Unable to fetch models list.', 'buddybot');
+            $this->response['message'] = __('Request to OpenAI API failed.', 'buddybot');
+        } else {
+            $body = wp_remote_retrieve_body($response);
+            $output = json_decode($body);
+
+            if ($output && isset($output->object) && $output->object === 'list') {
+                $this->response['success'] = true;
+                $this->response['list'] = $output->data;
+                $this->response['html'] = $this->modelsListHtml($output->data);
+            } else {
+                $this->response['success'] = false;
+                $this->response['message'] = __('Unable to fetch models list.', 'buddybot');
+            }
         }
 
         echo wp_json_encode($this->response);
         wp_die();
     }
 
+
+    // public function getFiles()
+    // {
+    //     $this->checkNonce('get_files');
+
+    //     $url = 'https://api.openai.com/v1/files';
+    //     $ch = curl_init($url);
+        
+    //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        
+    //     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    //         'Authorization: Bearer ' . $this->api_key
+    //         )
+    //     );
+
+    //     $output = $this->curlOutput($ch);
+    //     $this->checkError($output);
+
+    //     $this->response['html'] = $this->filesListHtml($output->data);
+
+    //     echo wp_json_encode($this->response);
+    //     wp_die();
+    // }
+
     public function getFiles()
     {
         $this->checkNonce('get_files');
 
         $url = 'https://api.openai.com/v1/files';
-        $ch = curl_init($url);
-        
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Authorization: Bearer ' . $this->api_key
-            )
-        );
+        $response = wp_remote_get($url, array(
+            'headers' => array(
+                'Authorization' => 'Bearer ' . $this->api_key
+            ),
+            'timeout' => 15,
+        ));
 
-        $output = $this->curlOutput($ch);
-        $this->checkError($output);
+        if (is_wp_error($response)) {
+            $this->response['html'] = '';
+            $this->response['message'] = __('Request to OpenAI API failed.', 'buddybot');
+        } else {
+            $body = wp_remote_retrieve_body($response);
+            $output = json_decode($body);
 
-        $this->response['html'] = $this->filesListHtml($output->data);
+            if ($output && isset($output->data)) {
+                $this->response['html'] = $this->filesListHtml($output->data);
+            } else {
+                $this->response['html'] = '';
+                $this->response['message'] = __('Unable to fetch files list.', 'buddybot');
+            }
+        }
 
         echo wp_json_encode($this->response);
         wp_die();
     }
+
+
+    // public function createAssistant()
+    // {
+    //     $this->checkNonce('create_assistant');
+    //     $this->checkCapabilities();
+
+    //     $assistant_id = '';
+
+    //     if (!empty($_POST['assistant_id'])) {
+    //         $assistant_id = '/' . $_POST['assistant_id'];
+    //     }
+
+    //     $url = 'https://api.openai.com/v1/assistants' . $assistant_id;
+
+    //     $ch = curl_init($url);
+        
+    //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        
+    //     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    //         'Content-Type: application/json',
+    //         'Authorization: Bearer ' . $this->api_key,
+    //         'OpenAI-Beta: assistants=v1'
+    //         )
+    //     );
+
+    //     $assistant_data = json_decode(wp_unslash($_POST['assistant_data']));
+
+    //     $data = array(
+    //         'model' => $assistant_data->model,
+    //         'name' => $assistant_data->name,
+    //         'description' => $assistant_data->description,
+    //     );
+
+    //     $data['tools'] = $this->assistantTools($assistant_data->tools);
+    //     $data['file_ids'] = $this->assistantFiles($assistant_data->file_ids);
+
+    //     curl_setopt($ch, CURLOPT_POSTFIELDS, wp_json_encode($data));
+
+    //     $output = $this->curlOutput($ch);
+    //     $this->checkError($output);
+
+    //     $this->response['result'] = $output;
+    //     echo wp_json_encode($this->response);
+    //     wp_die();
+    // }
 
     public function createAssistant()
     {
@@ -72,37 +183,36 @@ class EditAssistant extends \BuddyBot\Admin\Responses\MoRoot
 
         $url = 'https://api.openai.com/v1/assistants' . $assistant_id;
 
-        $ch = curl_init($url);
-        
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Content-Type: application/json',
-            'Authorization: Bearer ' . $this->api_key,
-            'OpenAI-Beta: assistants=v1'
-            )
-        );
+        $response = wp_remote_post($url, array(
+            'headers' => array(
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $this->api_key,
+                'OpenAI-Beta' => 'assistants=v1'
+            ),
+            'body' => wp_json_encode(array(
+                'model' => $_POST['assistant_data']['model'],
+                'name' => $_POST['assistant_data']['name'],
+                'description' => $_POST['assistant_data']['description'],
+                'tools' => $this->assistantTools($_POST['assistant_data']['tools']),
+                'file_ids' => $this->assistantFiles($_POST['assistant_data']['file_ids']),
+            )),
+            'timeout' => 15,
+        ));
 
-        $assistant_data = json_decode(wp_unslash($_POST['assistant_data']));
+        if (is_wp_error($response)) {
+            $this->response['result'] = '';
+            $this->response['message'] = __('Request to OpenAI API failed.', 'buddybot');
+        } else {
+            $body = wp_remote_retrieve_body($response);
+            $output = json_decode($body);
 
-        $data = array(
-            'model' => $assistant_data->model,
-            'name' => $assistant_data->name,
-            'description' => $assistant_data->description,
-        );
+            $this->response['result'] = $output;
+        }
 
-        $data['tools'] = $this->assistantTools($assistant_data->tools);
-        $data['file_ids'] = $this->assistantFiles($assistant_data->file_ids);
-
-        curl_setopt($ch, CURLOPT_POSTFIELDS, wp_json_encode($data));
-
-        $output = $this->curlOutput($ch);
-        $this->checkError($output);
-
-        $this->response['result'] = $output;
         echo wp_json_encode($this->response);
         wp_die();
     }
+
 
     private function assistantTools($tools)
     {
@@ -172,6 +282,31 @@ class EditAssistant extends \BuddyBot\Admin\Responses\MoRoot
         return $html;
     }
 
+    // public function getAssistantData()
+    // {
+    //     $this->checkNonce('get_assistant_data');
+
+    //     $assistant_id = sanitize_text_field($_POST['assistant_id']);
+
+    //     $url = 'https://api.openai.com/v1/assistants/' . $assistant_id;
+    //     $ch = curl_init($url);
+        
+    //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        
+    //     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    //         'Content-Type: application/json',
+    //         'Authorization: Bearer ' . $this->api_key,
+    //         'OpenAI-Beta: assistants=v1'
+    //         )
+    //     );
+
+    //     $output = $this->curlOutput($ch);
+    //     $this->checkError($output);
+
+    //     echo wp_json_encode($this->response);
+    //     wp_die();
+    // }
+
     public function getAssistantData()
     {
         $this->checkNonce('get_assistant_data');
@@ -179,23 +314,30 @@ class EditAssistant extends \BuddyBot\Admin\Responses\MoRoot
         $assistant_id = sanitize_text_field($_POST['assistant_id']);
 
         $url = 'https://api.openai.com/v1/assistants/' . $assistant_id;
-        $ch = curl_init($url);
-        
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Content-Type: application/json',
-            'Authorization: Bearer ' . $this->api_key,
-            'OpenAI-Beta: assistants=v1'
-            )
-        );
 
-        $output = $this->curlOutput($ch);
-        $this->checkError($output);
+        $response = wp_remote_get($url, array(
+            'headers' => array(
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $this->api_key,
+                'OpenAI-Beta' => 'assistants=v1'
+            ),
+            'timeout' => 15,
+        ));
+
+        if (is_wp_error($response)) {
+            $this->response['result'] = '';
+            $this->response['message'] = __('Request to OpenAI API failed.', 'buddybot');
+        } else {
+            $body = wp_remote_retrieve_body($response);
+            $output = json_decode($body);
+
+            $this->response['result'] = $output;
+        }
 
         echo wp_json_encode($this->response);
         wp_die();
     }
+
 
     public function __construct()
     {

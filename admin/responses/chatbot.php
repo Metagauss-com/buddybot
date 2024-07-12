@@ -4,6 +4,38 @@ namespace BuddyBot\Admin\Responses;
 
 class ChatBot extends \BuddyBot\Admin\Responses\MoRoot
 {
+    // public function selectAssistantModal()
+    // {
+    //     $this->checkNonce('select_assistant_modal');
+
+    //     $after = '';
+
+    //     if (!empty($_POST['after'])) {
+    //         $after = '&after=' . sanitize_text_field($_POST['after']);
+    //     }
+
+    //     $url = 'https://api.openai.com/v1/assistants?limit=10' . $after;
+
+    //     $ch = curl_init($url);
+        
+    //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        
+    //     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    //         'OpenAI-Beta: assistants=v1',
+    //         'Content-Type: application/json',
+    //         'Authorization: Bearer ' . $this->api_key
+    //         )
+    //     );
+
+    //     $output = $this->curlOutput($ch);
+    //     $this->checkError($output);
+
+    //     $this->response['html'] = $this->getAssistantListHtml($output->data);
+
+    //     echo wp_json_encode($this->response);
+    //     wp_die();
+    // }
+
     public function selectAssistantModal()
     {
         $this->checkNonce('select_assistant_modal');
@@ -15,26 +47,29 @@ class ChatBot extends \BuddyBot\Admin\Responses\MoRoot
         }
 
         $url = 'https://api.openai.com/v1/assistants?limit=10' . $after;
-
-        $ch = curl_init($url);
-        
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'OpenAI-Beta: assistants=v1',
-            'Content-Type: application/json',
-            'Authorization: Bearer ' . $this->api_key
-            )
+        $args = array(
+            'headers' => array(
+                'OpenAI-Beta' => 'assistants=v1',
+                'Content-Type' => 'application/json',
+                'Authorization' => 'Bearer ' . $this->api_key
+            ),
         );
-
-        $output = $this->curlOutput($ch);
-        $this->checkError($output);
-
-        $this->response['html'] = $this->getAssistantListHtml($output->data);
-
+        $response = wp_remote_get($url, $args);
+        if (is_wp_error($response)) {
+            $this->response['html'] = __('Failed to fetch assistant list.', 'buddybot');
+        } else {
+            $body = wp_remote_retrieve_body($response);
+            $output = json_decode($body);
+            if ($output && isset($output->data)) {
+                $this->response['html'] = $this->getAssistantListHtml($output->data);
+            } else {
+                $this->response['html'] = __('No assistants found.', 'buddybot');
+            }
+        }
         echo wp_json_encode($this->response);
         wp_die();
     }
+
 
     private function getAssistantListHtml($list)
     {

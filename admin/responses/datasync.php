@@ -6,6 +6,32 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
 {
     protected $file_data = '';
 
+    // public function checkFileStatus()
+    // {
+    //     $this->checkNonce('check_file_status');
+        
+    //     $file_id = $_POST['file_id'];
+
+    //     $url = 'https://api.openai.com/v1/files/' . $file_id;
+    //     $ch = curl_init($url);
+        
+    //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        
+    //     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    //         'Authorization: Bearer ' . $this->api_key
+    //         )
+    //     );
+
+    //     $output = $this->curlOutput($ch);
+    //     $this->checkError($output);
+        
+    //     $this->response['success'] = true;
+    //     $this->response['message'] = __('File syncronized!', 'buddybot');
+
+    //     echo wp_json_encode($this->response);
+    //     wp_die();
+    // }
+
     public function checkFileStatus()
     {
         $this->checkNonce('check_file_status');
@@ -13,21 +39,28 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
         $file_id = $_POST['file_id'];
 
         $url = 'https://api.openai.com/v1/files/' . $file_id;
-        $ch = curl_init($url);
-        
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Authorization: Bearer ' . $this->api_key
-            )
-        );
 
-        $output = $this->curlOutput($ch);
-        $this->checkError($output);
-        
-        $this->response['success'] = true;
-        $this->response['message'] = __('File syncronized!', 'buddybot');
+        $response = wp_remote_get($url, array(
+            'headers' => array(
+                'Authorization' => 'Bearer ' . $this->api_key
+            ),
+            'timeout' => 15, 
+        ));
+        if (is_wp_error($response)) {
+            $this->response['success'] = false;
+            $this->response['message'] = __('Request to OpenAI API failed.', 'buddybot');
+        } else {
+            $body = wp_remote_retrieve_body($response);
+            $output = json_decode($body);
 
+            if ($output && isset($output->id) && $output->id === $file_id) {
+                $this->response['success'] = true;
+                $this->response['message'] = __('File synchronized!', 'buddybot');
+            } else {
+                $this->response['success'] = false;
+                $this->response['message'] = __('Unable to check file status.', 'buddybot');
+            }
+        }
         echo wp_json_encode($this->response);
         wp_die();
     }
@@ -120,6 +153,43 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
         $this->file_data = '';
     }
 
+    // public function transferDataFile()
+    // {
+    //     $this->checkNonce('transfer_data_file');
+    //     $this->checkCapabilities();
+
+    //     $data_type = $_POST['data_type'];
+
+    //     $cfile = curl_file_create(
+    //         realpath($this->core_files->getLocalPath($data_type)),
+    //         'application/octet-stream',
+    //         basename($this->core_files->getRemoteName($data_type))
+    //     );
+
+    //     $url = 'https://api.openai.com/v1/files';
+    //     $ch = curl_init($url);
+        
+    //     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        
+    //     curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    //         'Authorization: Bearer ' . $this->api_key
+    //         )
+    //     );
+
+    //     $data = array(
+    //         'purpose' => 'assistants',
+    //         'file' => $cfile
+    //     );
+
+    //     curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+
+    //     $output = $this->curlOutput($ch);
+    //     $this->checkError($output);
+    //     $this->updateRemoteFileOption($data_type, $output);
+
+    //     wp_die();
+    // }
+
     public function transferDataFile()
     {
         $this->checkNonce('transfer_data_file');
@@ -127,33 +197,38 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
 
         $data_type = $_POST['data_type'];
 
-        $cfile = curl_file_create(
+        $cfile = new CURLFile(
             realpath($this->core_files->getLocalPath($data_type)),
             'application/octet-stream',
             basename($this->core_files->getRemoteName($data_type))
         );
 
         $url = 'https://api.openai.com/v1/files';
-        $ch = curl_init($url);
-        
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Authorization: Bearer ' . $this->api_key
-            )
+
+        $args = array(
+            'headers' => array(
+                'Authorization' => 'Bearer ' . $this->api_key
+            ),
+            'body' => array(
+                'purpose' => 'assistants',
+                'file' => $cfile->getCurlFile()
+            ),
         );
 
-        $data = array(
-            'purpose' => 'assistants',
-            'file' => $cfile
-        );
+        $response = wp_remote_post($url, $args);
 
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-
-        $output = $this->curlOutput($ch);
-        $this->checkError($output);
-        $this->updateRemoteFileOption($data_type, $output);
-
+        if (is_wp_error($response)) {
+            $this->checkError($response);
+            wp_die();
+        }
+        $body = wp_remote_retrieve_body($response);
+        $output = json_decode($body);
+        if ($output && isset($output->id)) {
+            $this->updateRemoteFileOption($data_type, $output);
+        } else {
+            $this->response['success'] = false;
+            $this->response['message'] = __('Unable to transfer data file.', 'buddybot');
+        }
         wp_die();
     }
 

@@ -48,14 +48,23 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
         }
     }
 
-    protected function curlOutput($ch)
+    // protected function curlOutput($ch)
+    // {
+    //     $output = curl_exec($ch);
+    //     $output = json_decode($output);
+    //     $this->response['result'] = $output;
+    //     curl_close($ch);
+    //     return $output;
+    // }
+
+    protected function wpRemoteGetOutput($response)
     {
-        $output = curl_exec($ch);
-        $output = json_decode($output);
+        $body = wp_remote_retrieve_body($response);
+        $output = json_decode($body);
         $this->response['result'] = $output;
-        curl_close($ch);
         return $output;
     }
+
 
     protected function checkError($output)
     {
