@@ -44,7 +44,7 @@ class SelectAssistant extends \BuddyBot\Admin\Html\Modals\MoRoot
     protected function loadMoreBtn()
     {
         echo '<div id="buddybot-selectassistant-load-more" class="text-center">';
-        $this->loaderBtn('dark btn-sm', 'buddybot-selectassistant-load-more-btn', __('Load More', 'buddybot'));
+        $this->loaderBtn('outline-dark btn-sm', 'buddybot-selectassistant-load-more-btn', __('Load More', 'buddybot'));
         echo '</div>';
     }
 }

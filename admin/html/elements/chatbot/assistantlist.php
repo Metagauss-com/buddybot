@@ -47,7 +47,7 @@ class AssistantList extends \BuddyBot\Admin\Html\Elements\Chatbot\MoRoot
     private function createdOn()
     {
         $format = get_option('date_format') . ' ' . get_option('time_format');
-        $html = '<div class="small text-muted">';
+        $html = '<div class="small">';
         $html .= __('Created On', 'buddybot');
         $html .= ' ';
         $html .= wp_date($format, $this->item->created_at);

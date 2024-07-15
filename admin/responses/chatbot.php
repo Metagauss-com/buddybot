@@ -15,22 +15,18 @@ class ChatBot extends \BuddyBot\Admin\Responses\MoRoot
         }
 
         $url = 'https://api.openai.com/v1/assistants?limit=10' . $after;
-
-        $ch = curl_init($url);
         
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'OpenAI-Beta: assistants=v1',
-            'Content-Type: application/json',
-            'Authorization: Bearer ' . $this->api_key
-            )
-        );
+        $headers = [
+            'OpenAI-Beta' => 'assistants=v1',
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer ' . $this->api_key
+        ];
 
-        $output = $this->curlOutput($ch);
-        $this->checkError($output);
+        $args = ['headers' => $headers];
+        $this->openai_response = wp_remote_get($url, $args);
+        $this->processResponse();
 
-        $this->response['html'] = $this->getAssistantListHtml($output->data);
+        $this->response['html'] = $this->getAssistantListHtml($this->openai_response_body->data);
 
         echo wp_json_encode($this->response);
         wp_die();

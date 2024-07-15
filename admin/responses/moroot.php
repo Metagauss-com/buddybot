@@ -4,6 +4,8 @@ namespace BuddyBot\Admin\Responses;
 
 class MoRoot extends \BuddyBot\Admin\MoRoot
 {
+    protected $openai_response = '';
+    protected $openai_response_body = '';
     protected $response = array();
     protected $api_key = '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';
     protected $core_files;
@@ -57,7 +59,7 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
         return $output;
     }
 
-    protected function checkError($output)
+/*     protected function checkError($output)
     {
         if (!is_object($output)) {
             $this->response['success'] = false;
@@ -73,6 +75,38 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
         } else {
             $this->response['success'] = true;
         }
+    } */
+
+    protected function processResponse()
+    {
+        if (is_wp_error($this->openai_response)) {
+            $this->response['success'] = false; 
+            $this->response['message'] = $this->openai_response->get_error_message();
+            echo wp_json_encode($this->response);
+            error_log("1");
+            wp_die();
+        }
+
+        $openai_response_body = wp_remote_retrieve_body($this->openai_response);
+        $this->openai_response_body = json_decode($openai_response_body);
+
+        if (!is_object($this->openai_response_body)) {
+            $this->response['success'] = false;
+            $this->response['message'] = __('Output is not an object. ', 'buddybot') . ' ' . maybe_serialize($this->openai_response_body);
+            echo wp_json_encode($this->response);
+            error_log("2");
+            wp_die();
+        } elseif (!empty($this->openai_response_body->error)) {
+            $this->response['success'] = false;
+            $this->response['message'] = '<span class="text-danger">' . __('There was an error. ', 'buddybot');
+            $this->response['message'] .= $this->openai_response_body->error->message . '</span>';
+            echo wp_json_encode($this->response);
+            error_log("3");
+            wp_die();
+        }
+            
+        $this->response['success'] = true;
+        $this->response['result'] = $this->openai_response_body;
     }
 
     protected function moIcon($icon)

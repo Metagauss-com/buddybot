@@ -136,6 +136,9 @@ class ChatBot extends \BuddyBot\Admin\Requests\MoRoot
                 showLoadMoreBtn(listData.result.has_more);
                 updateLastId(listData.result.last_id);
                 highlightCurrentAssistant();
+            } else {
+                $("#buddybot-selectassistant-spinner").addClass("visually-hidden");
+                $("#mgao-select-assistant-modal-list").append(listData.message);
             }
         }
         ';
@@ -147,7 +150,7 @@ class ChatBot extends \BuddyBot\Admin\Requests\MoRoot
         function highlightCurrentAssistant() {
             let currentAssistantId = $("#mgao-chatbot-assistant-id").val();
             if (currentAssistantId !== "") {
-                $("#mgao-select-assistant-modal-list").find("[data-mgao-id=" + currentAssistantId).addClass("bg-success bg-opacity-25");
+                $("#mgao-select-assistant-modal-list").find("[data-mgao-id=" + currentAssistantId).addClass("text-bg-dark");
             }
         }
         ';

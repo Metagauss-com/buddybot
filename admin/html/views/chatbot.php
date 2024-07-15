@@ -129,11 +129,12 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
 
         echo '<tr>';
         echo '<th scope="row">';
-        echo '<label for="mgao-chatbot-name">' . esc_html(__('Name', 'buddybot')) . '</label></th>';
+        echo '<label for="mgao-chatbot-name">' . esc_html(__('Name (required)', 'buddybot')) . '</label>';
+        echo '</th>';
         echo '<td>';
         echo '<input type="text" id="mgao-chatbot-name" value="' . esc_html($value) . '" class="buddybot-item-field regular-text">';
         echo '<p class="description" id="tagline-description">';
-        esc_html_e('Name of your chatbot. This is not visible to the user.', 'buddybot');
+        esc_html_e('Name of your BuddyBot. This is not visible to the user.', 'buddybot');
         echo '</p>';
         echo '</td>';
         echo '</tr>';
@@ -151,7 +152,7 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
         echo esc_textarea($value);
         echo '</textarea>';
         echo '<p class="description" id="tagline-description">';
-        esc_html_e('Description for your chatbot. This is not visible to the user.', 'buddybot');
+        esc_html_e('Description for your BuddyBot. This is not visible to the user.', 'buddybot');
         echo '</p>';
         echo '</td>';
         echo '</tr>';
@@ -186,7 +187,7 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
             $label = __('Save BuddyBot', 'buddybot');
         }
         
-        $this->loaderBtn('primary btn-sm', 'mgao-chatbot-save-btn', $label);
+        $this->loaderBtn('dark btn-sm', 'mgao-chatbot-save-btn', $label);
         echo '</p>';
     }
     
