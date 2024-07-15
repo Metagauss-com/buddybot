@@ -48,7 +48,20 @@ class DataSync extends \BuddyBot\Admin\Requests\MoRoot
         
         function syncBtn() {
             let dataType = $(this).attr("data-buddybot-type");
+            syncBtnStart(dataType);
             isFileWritable(dataType);
+        }
+        
+        function syncBtnStart(dataType) {
+            let btn = $("button[data-buddybot-type = " + dataType + "]");
+            btn.prop("disabled", true);
+            btn.addClass("bb-btn-sync-start");
+        }
+        
+        function syncBtnStop(dataType) {
+            let btn = $("button[data-buddybot-type = " + dataType + "]");
+            btn.prop("disabled", false);
+            btn.removeClass("bb-btn-sync-start");
         }
         ';
     }
@@ -59,7 +72,7 @@ class DataSync extends \BuddyBot\Admin\Requests\MoRoot
         echo '
         function isFileWritable(dataType) {
             const data = {
-                "action": "isFileWritable",
+                "action": "isBbFileWritable",
                 "data_type": dataType,
                 "nonce": "' . esc_js($nonce) . '"
             };
@@ -71,6 +84,7 @@ class DataSync extends \BuddyBot\Admin\Requests\MoRoot
                     addDataToFile(dataType);
                 };
 
+                $(".buddybot-msgs").removeClass("visually-hidden");
                 $(".buddybot-msgs").append(response.message);
             });
         }
@@ -115,6 +129,7 @@ class DataSync extends \BuddyBot\Admin\Requests\MoRoot
             $.post(ajaxurl, data, function(response) {
                 response = JSON.parse(response);
                 $(".buddybot-msgs").append(response.message);
+                syncBtnStop(dataType);
             });
         }
         ';

@@ -59,7 +59,7 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
         return $output;
     }
 
-/*     protected function checkError($output)
+    protected function checkError($output)
     {
         if (!is_object($output)) {
             $this->response['success'] = false;
@@ -75,7 +75,7 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
         } else {
             $this->response['success'] = true;
         }
-    } */
+    }
 
     protected function processResponse()
     {
@@ -134,7 +134,7 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
 
     protected function listSpinner()
     {
-        $html .= '<div class="buddybot-list-spinner spinner-border spinner-border-sm visually-hidden" role="status">';
+        $html = '<div class="buddybot-list-spinner spinner-border spinner-border-sm visually-hidden" role="status">';
         $html .= '<span class="visually-hidden">Loading...</span></div>';
         return $html;
     }

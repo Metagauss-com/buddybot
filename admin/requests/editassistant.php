@@ -236,7 +236,7 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
             disableFields(true);
             const data = {
                 "action": "getAssistantData",
-                "assistant_id": "' . absint($this->assistant_id) . '",
+                "assistant_id": "' . $this->assistant_id . '",
                 "nonce": "' . esc_js($nonce) . '"
             };
       

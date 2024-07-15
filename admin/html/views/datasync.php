@@ -33,7 +33,7 @@ final class DataSync extends \BuddyBot\Admin\Html\Views\MoRoot
         
         echo '<div>';
         echo '<h5 class="mb-1">' . esc_html($heading) . '</h5>';
-        echo '<p class="mb-1">' . esc_html($text) . '</p>';
+        echo '<p class="mb-1 fw-bold">' . esc_html($text) . '</p>';
         echo '</div>';
         
         echo '<div class="btn-group btn-group-sm" role="group">';
@@ -42,7 +42,7 @@ final class DataSync extends \BuddyBot\Admin\Html\Views\MoRoot
         
         echo '</div>';
 
-        echo '<div class="buddybot-remote-file-status small text-muted" role="group">';
+        echo '<div class="buddybot-remote-file-status small" role="group">';
         echo esc_html(__('Checking status...', 'buddybot'));
         echo '</div>';
 
@@ -51,7 +51,7 @@ final class DataSync extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function msgArea()
     {
-        echo '<div class="buddybot-msgs small text-muted p-3 bg-light w-50 mt-4 rounded-3" role="group">';
+        echo '<div class="buddybot-msgs small text-muted w-50 mt-4 visually-hidden" role="group">';
         echo '</div>';
     }
 
@@ -70,7 +70,7 @@ final class DataSync extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         $type = 'posts';
         $heading = __('WP Posts', 'buddybot');
-        $text = __('Syncronize WordPress posts with OpenAI.', 'buddybot');
+        $text = __('Syncronize WordPress Posts with OpenAI.', 'buddybot');
         $this->listItem($type, $heading, $text);
     }
 
@@ -78,7 +78,7 @@ final class DataSync extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         $type = 'comments';
         $heading = __('Site Comments', 'buddybot');
-        $text = __('Syncronize WordPress comments with OpenAI.', 'buddybot');
+        $text = __('Syncronize WordPress Comments with OpenAI.', 'buddybot');
         $this->listItem($type, $heading, $text);
     }
 

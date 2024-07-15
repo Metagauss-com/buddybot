@@ -169,7 +169,7 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<div class="small fw-bold text-secondary" id="mgao-chatbot-selected-assistant-name"></div>';
         echo '<div class="small mb-2 text-secondary" id="mgao-chatbot-selected-assistant-id">' . esc_html($value) . '</div>';
         echo '<input type="hidden" id="mgao-chatbot-assistant-id" value="' . esc_attr($value) . '">';
-        echo '<button type="button" class="buddybot-item-field button button-secondary" data-bs-toggle="modal" data-bs-target="#buddybot-select-assistant-modal">';
+        echo '<button type="button" class="buddybot-item-field btn btn-outline-dark btn-sm" data-bs-toggle="modal" data-bs-target="#buddybot-select-assistant-modal">';
         esc_html_e('Select Assistant', 'buddybot');
         echo '</button>';
         echo '</td>';

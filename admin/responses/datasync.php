@@ -12,40 +12,38 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
         
         $file_id = $_POST['file_id'];
 
-        $url = 'https://api.openai.com/v1/files/' . $file_id;
-        $ch = curl_init($url);
+        $url = 'https://api.openai.com/v1/files/' . sanitize_text_field($file_id);
         
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Authorization: Bearer ' . $this->api_key
-            )
-        );
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->api_key
+        ];
 
-        $output = $this->curlOutput($ch);
-        $this->checkError($output);
+        $args = ['headers' => $headers];
+
+        $this->openai_response = wp_remote_get($url, $args);
+        $this->processResponse();
         
-        $this->response['success'] = true;
         $this->response['message'] = __('File syncronized!', 'buddybot');
 
         echo wp_json_encode($this->response);
         wp_die();
     }
 
-    public function isFileWritable()
+    public function isBbFileWritable()
     {
         $this->checkNonce('is_file_writable');
         $data_type = $_POST['data_type'];
         $file = $this->core_files->getLocalPath($data_type);
 
+        WP_Filesystem();
         global $wp_filesystem;
 
         if ($wp_filesystem->is_writable($file)) {
             $this->response['success'] = true;
-            $this->response['message'] = '<div>' . __('The file is writable.', 'buddybot') . '</div>';
+            $this->response['message'] = '<div class="text-success">' . __('The file is writable.', 'buddybot') . '</div>';
         } else {
             $this->response['success'] = false;
-            $this->response['message'] = __('The file is not writable.', 'buddybot');
+            $this->response['message'] = '<div class="text-danger">' . __('The file is not writable.', 'buddybot') . '</div>';
         }
 
         echo wp_json_encode($this->response);
@@ -57,7 +55,7 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
         $this->checkNonce('add_data_to_file');
         $this->checkCapabilities();
         
-        $data_type = $_POST['data_type'];
+        $data_type = sanitize_text_field($_POST['data_type']);
 
         $method = 'compile' . $data_type;
 
@@ -65,7 +63,7 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
             $this->$method();
         } else {
             $this->response['success'] = false;
-            $this->response['message'] = '<div>' . __('Data compile method undefined. Operation aborted.', 'buddybot') . '</div>';
+            $this->response['message'] = '<div class="text-danger">' . __('Data compile method undefined. Operation aborted.', 'buddybot') . '</div>';
             echo wp_json_encode($this->response);
             wp_die();
         }
@@ -73,7 +71,7 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
         $this->writeData($data_type);
         
         $this->response['success'] = true;
-        $this->response['message'] = '<div>' . __('Added data to file.', 'buddybot') . '</div>';
+        $this->response['message'] = '<div class="text-success">' . __('Added data to file.', 'buddybot') . '</div>';
 
         echo wp_json_encode($this->response);
         wp_die();
@@ -162,11 +160,12 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
         $update = update_option($this->core_files->getWpOptionName($data_type), $output->id, false);
 
         if ($update) {
+            $file_name = '<span class="text-bg-success px-2 py-1 rounded-1 small">' . $output->id . '</span>';
             $this->response['success'] = true;
-            $this->response['message'] = '<div>' . __(wp_sprintf('Remote file name updated to %s.', $output->id), 'buddybot') . '</div>';
+            $this->response['message'] = '<div class="text-success">' . __(wp_sprintf('Remote file name updated to %s', $file_name), 'buddybot') . '</div>';
         } else {
             $this->response['success'] = false;
-            $this->response['message'] = '<div>' . __('Unable to update remote file name.', 'buddybot') . '</div>';
+            $this->response['message'] = '<div class="text-danger">' . __('Unable to update remote file name.', 'buddybot') . '</div>';
         }
 
         echo wp_json_encode($this->response);
@@ -176,7 +175,7 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
     {
         $this->setAll();
         add_action('wp_ajax_checkFileStatus', array($this, 'checkFileStatus'));
-        add_action('wp_ajax_isFileWritable', array($this, 'isFileWritable'));
+        add_action('wp_ajax_isBbFileWritable', array($this, 'isBbFileWritable'));
         add_action('wp_ajax_addDataToFile', array($this, 'addDataToFile'));
         add_action('wp_ajax_transferDataFile', array($this, 'transferDataFile'));
     }

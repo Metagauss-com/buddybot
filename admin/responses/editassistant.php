@@ -178,6 +178,8 @@ class EditAssistant extends \BuddyBot\Admin\Responses\MoRoot
 
         $assistant_id = sanitize_text_field($_POST['assistant_id']);
 
+        error_log($assistant_id);
+
         $url = 'https://api.openai.com/v1/assistants/' . $assistant_id;
         $ch = curl_init($url);
         
