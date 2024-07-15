@@ -73,6 +73,9 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
 
         global $wp_filesystem;
 
+        require_once ( ABSPATH . '/wp-admin/includes/file.php' );
+	    WP_Filesystem();
+
         if ($wp_filesystem->is_writable($file)) {
             $this->response['success'] = true;
             $this->response['message'] = '<div>' . __('The file is writable.', 'buddybot') . '</div>';

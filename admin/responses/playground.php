@@ -160,6 +160,7 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
             $this->response['success'] = false;
             $this->response['message'] = __('Request to OpenAI API failed.', 'buddybot');
         } else {
+            $this->response['success'] = true;
             $body = wp_remote_retrieve_body($response);
             $output = json_decode($body);
 
