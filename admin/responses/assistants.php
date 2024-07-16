@@ -7,32 +7,69 @@ class Assistants extends \BuddyBot\Admin\Responses\MoRoot
     
     public function deleteAssistant()
     {
+        $this->checkNonce('delete_assistant');
+        $this->checkCapabilities();
 
+        $assistant_id = $_POST['assistant_id'];
+
+        if (empty($assistant_id)) {
+            $this->response['success'] = false;
+            $this->response['message'] = __('Assistant ID cannot be empty.', 'buddybot');
+            echo wp_json_encode($this->response);
+            wp_die();
+        }
+
+        $url = 'https://api.openai.com/v1/assistants/' . $assistant_id;
+
+        $headers = [
+            'Content-Type' => 'application/json',
+            'OpenAI-Beta' => 'assistants=v2',
+            'Authorization' => 'Bearer ' . $this->api_key
+        ];
+
+        $args = ['headers' => $headers, 'method' => 'DELETE'];
+
+        $this->openai_response = wp_remote_post($url, $args);
+        $this->processResponse();
+        
+        if ($this->response['result']->deleted) {
+            $this->response['success'] = true;
+            $this->response['message'] = __('Successfully deleted Assistant.', 'buddybot');
+        } else {
+            $this->response['success'] = false;
+            $this->response['message'] = __('Unable to delete the Assistant.', 'buddybot');
+        }
+
+        echo wp_json_encode($this->response);
+        wp_die();
     }
 
     public function getAssistants()
     {
         $this->checkNonce('get_assistants');
 
-        $url = 'https://api.openai.com/v1/assistants?limit=50';
+        $after = '';
 
-        $ch = curl_init($url);
+        if (!empty($_POST['after'])) {
+            $after = '&after=' . $_POST['after'];
+        }
+
+        $url = 'https://api.openai.com/v1/assistants?limit=10' . sanitize_text_field($after);
         
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'OpenAI-Beta: assistants=v1',
-            'Content-Type: application/json',
-            'Authorization: Bearer ' . $this->api_key
-            )
-        );
+        $headers = [
+            'OpenAI-Beta' => 'assistants=v1',
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer ' . $this->api_key
+        ];
 
-        $output = $this->curlOutput($ch);
-        $this->checkError($output);
+        $args = ['headers' => $headers];
 
-        if ($output->object === 'list') {
+        $this->openai_response = wp_remote_get($url, $args);
+        $this->processResponse();
+
+        if ($this->openai_response_body->object === 'list') {
             $this->response['success'] = true;
-            $this->assistantsTableHtml($output);
+            $this->assistantsTableHtml($_POST['current_count']);
         } else {
             $this->response['success'] = false;
             $this->response['message'] = __('Unable to fetch assistants list.', 'buddybot');
@@ -42,17 +79,18 @@ class Assistants extends \BuddyBot\Admin\Responses\MoRoot
         wp_die();
     }
 
-    private function assistantsTableHtml($output)
+    private function assistantsTableHtml($current_count)
     {
-        if (!is_array($output->data)) {
+        if (!is_array($this->openai_response_body->data)) {
             return;
         }
 
         $html = '';
 
-        foreach ($output->data as $index => $assistant) {
-            $html .= '<tr class="small" data-buddybot-itemid="' . esc_attr($assistant->id) . '">';
-            $html .= '<th scope="row">' . absint($index) + 1 . '</th>';
+        foreach ($this->openai_response_body->data as $index => $assistant) {
+            $index = absint($current_count) + $index + 1;
+            $html .= '<tr class="small buddybot-assistant-table-row" data-buddybot-itemid="' . esc_attr($assistant->id) . '">';
+            $html .= '<th class="buddybot-assistants-sr-no" scope="row">' . absint($index) . '</th>';
             $html .= '<td>' . esc_html($assistant->name) . '</td>';
             $html .= '<td>' . esc_html($assistant->description) . '</td>';
             $html .= '<td>' . esc_html($assistant->model) . '</td>';
@@ -69,7 +107,7 @@ class Assistants extends \BuddyBot\Admin\Responses\MoRoot
         $assistant_url = get_admin_url() . 'admin.php?page=buddybot-assistant&assistant_id=' . $assistant_id;
         $html = '<div class="btn-group btn-group-sm me-2" role="group" aria-label="Basic example">';
         $html .= '<a href="' . esc_url($assistant_url) . '" type="button" class="buddybot-listbtn-assistant-edit btn btn-outline-dark">' . $this->moIcon('edit') . '</a>';
-        $html .= '<button type="button" class="buddybot-listbtn-assistant-delete btn btn-outline-dark">' . $this->moIcon('delete') . '</button>';
+        $html .= '<button type="button" class="buddybot-listbtn-assistant-delete btn btn-outline-dark" data-buddybot-itemid="' . esc_html($assistant_id) . '">' . $this->moIcon('delete') . '</button>';
         $html .= '</div>';
 
         $html .= $this->listSpinner();

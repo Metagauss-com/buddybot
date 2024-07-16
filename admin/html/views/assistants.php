@@ -11,6 +11,8 @@ final class Assistants extends \BuddyBot\Admin\Html\Views\MoRoot
         $this->pageBtns();
         $this->alertContainer();
         $this->assistantsTable();
+        $this->noMoreAssistants();
+        $this->loadMoreBtn();
     }
 
     public function pageBtns()
@@ -50,13 +52,28 @@ final class Assistants extends \BuddyBot\Admin\Html\Views\MoRoot
     private function tableBody()
     {
         echo '<tbody>';
-        echo '<tr>';
+        echo '<tr id="buddybot-assistants-loading-spinner">';
         echo '<td colspan="6" class="p-5">';
         echo '<div class="spinner-border text-dark d-flex justify-content-center mx-auto" role="status">';
         echo '<span class="visually-hidden">Loading...</span>';
         echo '</div>';
         echo '</td>';
         echo '</tbody>';
+    }
+
+    private function noMoreAssistants()
+    {
+        echo '<div id="buddybot-assistants-no-more" class="text-center small fw-bold visually-hidden">';
+        esc_html_e('There are no more Assistants to load.', 'buddybot');
+        $this->moIcon('sentiment_satisfied');
+        echo '</div>';
+    }
+
+    private function loadMoreBtn()
+    {
+        echo '<div class="text-center">';
+        $this->loaderBtn('outline-dark btn-sm visually-hidden', 'buddybot-assistants-load-more-btn', __('Load More', 'buddybot'));
+        echo '</div>';
     }
     
 }
