@@ -19,7 +19,7 @@ class MoRoot extends \BuddyBot\Admin\Html\MoRoot
 
     protected function alertContainer()
     {
-        echo '<div id="buddybot-alert-container" class="alert alert-danger small w-50" role="alert" style="display:none;">';
+        echo '<div id="buddybot-alert-container" class="alert alert-danger small w-75" role="alert" style="display:none;">';
         echo '</div>';
     }
 

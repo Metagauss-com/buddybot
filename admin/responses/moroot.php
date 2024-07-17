@@ -96,8 +96,8 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
             wp_die();
         } elseif (!empty($this->openai_response_body->error)) {
             $this->response['success'] = false;
-            $this->response['message'] = '<span class="text-danger">' . __('There was an error. ', 'buddybot');
-            $this->response['message'] .= $this->openai_response_body->error->message . '</span>';
+            $this->response['message'] = __('There was an error. ', 'buddybot');
+            $this->response['message'] .= $this->openai_response_body->error->message;
             echo wp_json_encode($this->response);
             wp_die();
         }

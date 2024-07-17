@@ -42,7 +42,7 @@ class EditAssistant extends \BuddyBot\Admin\Html\Views\MoRoot
         $this->assistantTools();
         echo '</div>';
 
-        echo '<div class="col-md-4 p-0 flex-column bg-light rounded-3 small" style="max-height: 700px;">';
+        echo '<div class="col-md-4 p-0 flex-column bg-light rounded-3 small overflow-hidden mt-4" style="max-height: 700px;">';
         $this->orgFiles();
         echo '</div>';
         
@@ -129,21 +129,21 @@ class EditAssistant extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         $id = 'buddybot-editassistant-assistantfiles';
         
-        echo '<div class="p-4">';
+        echo '<div class="p-3 mb-4 bg-secondary bg-opacity-10">';
         
-        echo '<div class="fw-bold text-uppercase mb-3">';
+        echo '<div class="fw-bold text-uppercase mb-3 small">';
         echo esc_html__('Files Selected', 'buddybot');
         echo '<span class="ms-1 fw-normal font-monospace" id="' . esc_attr($id . '-filescount') . '">';
         echo '</span>';
         echo '</div>';
         
-        echo '<p class="description text-dark">' . esc_html__(
+        echo '<p class="small text-dark">' . esc_html__(
             'Optional. Select files to be attached to this Assistant. Maximum 20 files (not more than 512MB each) allowed. Requires RETRIEVAL tool.', 'buddybot'
             ) . '</p>';
         
         echo '</div>';
         
-        echo '<div id="' . esc_attr($id) . '" class="ps-4 small" style="height:500px;overflow:auto;">';
+        echo '<div id="' . esc_attr($id) . '" class="ps-3 small" style="height:500px;overflow:auto;">';
         echo '<div class="mt-5 text-center">';
         $this->moSpinner();
         echo '</div>';

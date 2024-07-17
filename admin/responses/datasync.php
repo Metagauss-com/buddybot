@@ -127,7 +127,7 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
 
         $cfile = curl_file_create(
             realpath($this->core_files->getLocalPath($data_type)),
-            'application/octet-stream',
+            'text/plain',
             basename($this->core_files->getRemoteName($data_type))
         );
 
