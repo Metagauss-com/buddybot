@@ -20,7 +20,7 @@ final class CoreFiles
     {
         $this->posts = array(
             'local_path' => $this->config->getRootPath() . 'data/posts.txt',
-            'remote_name' => 'WP Posts',
+            'remote_name' => 'wp_posts.txt',
             'wp_option_name' => 'buddybot-posts-remote-file-id'
         );
     }
@@ -29,7 +29,7 @@ final class CoreFiles
     {
         $this->comments = array(
             'local_path' => $this->config->getRootPath() . 'data/posts.txt',
-            'remote_name' => 'WP Comments',
+            'remote_name' => 'wp_comments.txt',
             'wp_option_name' => 'buddybot-comments-remote-file-id'
         );
     }

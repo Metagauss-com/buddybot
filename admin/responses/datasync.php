@@ -127,7 +127,7 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
 
         $cfile = curl_file_create(
             realpath($this->core_files->getLocalPath($data_type)),
-            'text/plain',
+            mime_content_type(realpath($this->core_files->getLocalPath($data_type))),
             basename($this->core_files->getRemoteName($data_type))
         );
 
@@ -137,7 +137,7 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         
         curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Authorization: Bearer ' . $this->api_key
+            'Authorization: Bearer ' . $this->api_key,
             )
         );
 
