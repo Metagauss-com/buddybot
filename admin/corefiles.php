@@ -52,5 +52,11 @@ final class CoreFiles
     {
         return $this->$type['wp_option_name'];
     }
+
+    public function getRemoteFileId($type)
+    {
+        $option_name = $this->getWpOptionName($type);
+        return get_option($option_name, false);
+    }
     
 }

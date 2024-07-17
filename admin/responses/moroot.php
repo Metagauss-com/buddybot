@@ -83,7 +83,6 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
             $this->response['success'] = false; 
             $this->response['message'] = $this->openai_response->get_error_message();
             echo wp_json_encode($this->response);
-            error_log("1");
             wp_die();
         }
 
@@ -94,14 +93,12 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
             $this->response['success'] = false;
             $this->response['message'] = __('Output is not an object. ', 'buddybot') . ' ' . maybe_serialize($this->openai_response_body);
             echo wp_json_encode($this->response);
-            error_log("2");
             wp_die();
         } elseif (!empty($this->openai_response_body->error)) {
             $this->response['success'] = false;
             $this->response['message'] = '<span class="text-danger">' . __('There was an error. ', 'buddybot');
             $this->response['message'] .= $this->openai_response_body->error->message . '</span>';
             echo wp_json_encode($this->response);
-            error_log("3");
             wp_die();
         }
             

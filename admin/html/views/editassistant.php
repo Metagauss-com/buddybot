@@ -32,9 +32,9 @@ class EditAssistant extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function assistantFields()
     {
-        echo '<div class="buddybot-container row w-75 rounded border small">';
+        echo '<div class="buddybot-container row w-75 small">';
         
-        echo '<div class="col-md-8 border-end p-5">';
+        echo '<div class="col-md-8 pe-3">';
         $this->assistantName();
         $this->assistantDescription();
         $this->assistantModel();
@@ -42,11 +42,11 @@ class EditAssistant extends \BuddyBot\Admin\Html\Views\MoRoot
         $this->assistantTools();
         echo '</div>';
 
-        echo '<div class="col-md-4 p-0 flex-column">';
+        echo '<div class="col-md-4 p-0 flex-column bg-light rounded-3 small" style="max-height: 700px;">';
         $this->orgFiles();
         echo '</div>';
         
-        echo '<div class="col-md-12 p-3 border-top">';
+        echo '<div class="col-md-12 p-3">';
         $this->submitBtn();
         echo '</div>';
         
@@ -61,7 +61,7 @@ class EditAssistant extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<div class="mb-4">';
         echo '<label for="' . esc_attr($id) . '" class="form-label fw-bold">' . esc_html($label) . '</label>';
         echo '<input type="text" class="w-100 buddybot-item-field" id="' . esc_attr($id) . '" placeholder="' . esc_attr($placeholder) . '" size="256">';
-        echo '<p class="description">' . esc_html__('Optional. Maximum 256 characters.', 'buddybot') . '</p>';
+        echo '<p class="description text-dark">' . esc_html__('Optional. Maximum 256 characters.', 'buddybot') . '</p>';
         echo '</div>';
     }
 
@@ -73,7 +73,7 @@ class EditAssistant extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<div class="mb-4">';
         echo '<label for="' . esc_attr($id) . '" class="form-label fw-bold">' . esc_html($label) . '</label>';
         echo '<textarea class="w-100 buddybot-item-field" id="' . esc_attr($id) . '" placeholder="' . esc_attr($placeholder) . '" rows="5" maxlength="512"></textarea>';
-        echo '<p class="description">' . esc_html__('Optional. Maximum 512 characters.', 'buddybot') . '</p>';
+        echo '<p class="description text-dark">' . esc_html__('Optional. Maximum 512 characters.', 'buddybot') . '</p>';
         echo '</div>';
     }
 
@@ -83,12 +83,12 @@ class EditAssistant extends \BuddyBot\Admin\Html\Views\MoRoot
         $label = __('Assistant Model', 'buddybot');
         echo '<div class="mb-4">';
         echo '<label for="' . esc_attr($id) . '" class="form-label fw-bold">' . esc_html($label) . '</label>';
-        echo '<div><select id="' . esc_attr($id) . '" class="me-2 buddybot-item-field">';
+        echo '<div><select id="' . esc_attr($id) . '" class="small me-2 buddybot-item-field">';
         echo '<option value="" selected>' . esc_html__('Loading...', 'buddybot') . '</option>';
         echo '</select>';
         $this->moSpinner();
         echo '</div>';
-        echo '<p class="description">' . esc_html__('Required. AI Model for this Assistant.', 'buddybot') . '</p>';
+        echo '<p class="description text-dark">' . esc_html__('Required. AI Model for this Assistant.', 'buddybot') . '</p>';
         echo '</div>';
     }
 
@@ -100,7 +100,7 @@ class EditAssistant extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<div class="mb-4">';
         echo '<label for="' . esc_attr($id) . '" class="form-label fw-bold">' . esc_html($label) . '</label>';
         echo '<textarea class="w-100 buddybot-item-field" id="' . esc_attr($id) . '" placeholder="' . esc_attr($placeholder) . '" rows="5" maxlength="32768"></textarea>';
-        echo '<p class="description">' . esc_html__('Optional. Maximum 32768 characters.', 'buddybot') . '</p>';
+        echo '<p class="description text-dark">' . esc_html__('Optional. Maximum 32768 characters.', 'buddybot') . '</p>';
         echo '</div>';
     }
 
@@ -121,7 +121,7 @@ class EditAssistant extends \BuddyBot\Admin\Html\Views\MoRoot
         echo esc_html__('Retrieval', 'buddybot');
         echo '</label></div>';
         
-        echo '<p class="description">' . esc_html__('Optional. The tools enabled on the assistant.', 'buddybot') . '</p>';
+        echo '<p class="description text-dark">' . esc_html__('Optional. The tools enabled on the assistant.', 'buddybot') . '</p>';
         echo '</div>';
     }
 
@@ -129,19 +129,21 @@ class EditAssistant extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         $id = 'buddybot-editassistant-assistantfiles';
         
-        echo '<div class="p-3 border-bottom">';
+        echo '<div class="p-4">';
         
-        echo '<div class="fw-bold">';
-        echo esc_html__('Attached Files', 'buddybot');
-        echo '<span class="text-success ms-1 fw-normal" id="' . esc_attr($id . '-filescount') . '">';
+        echo '<div class="fw-bold text-uppercase mb-3">';
+        echo esc_html__('Files Selected', 'buddybot');
+        echo '<span class="ms-1 fw-normal font-monospace" id="' . esc_attr($id . '-filescount') . '">';
         echo '</span>';
         echo '</div>';
         
-        echo '<p class="description">' . esc_html__('Optional. Select files to be attached to this Assistant. Maximum 20 files (not more than 512MB each) allowed.', 'buddybot') . '</p>';
+        echo '<p class="description text-dark">' . esc_html__(
+            'Optional. Select files to be attached to this Assistant. Maximum 20 files (not more than 512MB each) allowed. Requires RETRIEVAL tool.', 'buddybot'
+            ) . '</p>';
         
         echo '</div>';
         
-        echo '<div id="' . esc_attr($id) . '" class="p-3 small" style="height:100%;overflow:auto;">';
+        echo '<div id="' . esc_attr($id) . '" class="ps-4 small" style="height:500px;overflow:auto;">';
         echo '<div class="mt-5 text-center">';
         $this->moSpinner();
         echo '</div>';
@@ -159,7 +161,7 @@ class EditAssistant extends \BuddyBot\Admin\Html\Views\MoRoot
         $id = 'buddybot-editassistant-editassistant-submit';
         echo '<div>';
         
-        $this->loaderBtn('success', $id, $btn_label);
+        $this->loaderBtn('dark btn-sm', $id, $btn_label);
 
         echo '</div>';
     }

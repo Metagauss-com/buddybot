@@ -25,7 +25,7 @@ class MoRoot extends \BuddyBot\Admin\Html\MoRoot
 
     protected function moSpinner()
     {
-        echo '<div class="buddybot-dataload-spinner spinner-border spinner-border-sm text-primary" role="status">';
+        echo '<div class="buddybot-dataload-spinner spinner-border spinner-border-sm text-dark" role="status">';
         echo '<span class="visually-hidden">Loading...</span>';
         echo '</div>';
     }
