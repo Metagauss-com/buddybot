@@ -82,7 +82,7 @@ class EditAssistant extends \BuddyBot\Admin\Responses\MoRoot
 
         $args = [
             'headers' => $headers,
-            'body' => json_encode($data),
+            'body' => wp_json_encode($data),
             'method' => 'POST'
         ];
 
