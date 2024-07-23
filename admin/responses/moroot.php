@@ -7,7 +7,7 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
     protected $openai_response = '';
     protected $openai_response_body = '';
     protected $response = array();
-    protected $api_key = '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';
+    protected $api_key;
     protected $core_files;
     protected $sql;
     
@@ -20,6 +20,11 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
             $class_name = '\BuddyBot\Admin\Sql\\' . $class_name;
             $this->sql = $class_name::getInstance(); 
         }
+    }
+
+    protected function setApiKey()
+    {
+        $this->api_key = $this->options->getOption('openai_api_key');
     }
 
     protected function setCoreFiles()
