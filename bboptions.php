@@ -23,7 +23,7 @@ final class bbOptions
     {
         global $wpdb;
 
-        if($wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %i', $this->table)) != $this->table) {
+        if($wpdb->get_var("SHOW TABLES LIKE '$this->table'") != $this->table) {
             return $fallback;
         }
 
