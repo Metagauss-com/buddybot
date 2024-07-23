@@ -4,7 +4,7 @@
  * Description:       Create and connect BuddyBot with AI Assistant, syncronize site data and publish on the frontend.
  * Version:           1.0.0
  * Requires at least: 6.2
- * Requires PHP:      7.4
+ * Requires PHP:      8.0
  * Author URI:        https://profiles.wordpress.org/buddybot/
  * License:           GPL v2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -33,6 +33,9 @@ if (is_readable(plugin_dir_path(__FILE__) . 'loader.php')) {
 
 spl_autoload_register(array(__NAMESPACE__ . '\Loader', 'loadClass'));
 
+$buddybot_db = new MoDb();
+register_activation_hook(__FILE__, array($buddybot_db, 'installPlugin'));
+
 //----------Admin Code--------//
 
 if (is_admin()) {
@@ -54,6 +57,3 @@ if (!is_admin()) {
 }
 
 $buddybot_responses = new Frontend\Responses\BuddybotResponses();
-
-$buddybot_db = new MoDb();
-register_activation_hook(__FILE__, array($buddybot_db, 'installPlugin'));

@@ -22,6 +22,11 @@ final class bbOptions
     public function getOption(string $name, string $fallback = '')
     {
         global $wpdb;
+
+        if($wpdb->get_var("SHOW TABLES LIKE '$this->table'") != $this->table) {
+            return $fallback;
+        }
+
         $option_value =  $wpdb->get_var(
             $wpdb->prepare(
                 'SELECT option_value FROM %i WHERE option_name = %s',
@@ -30,6 +35,7 @@ final class bbOptions
         );
 
         if ($option_value === null) {
+            "no database";
             return $fallback;
         }
 
