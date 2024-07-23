@@ -172,8 +172,8 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
         $this->moIcon('close');
         echo '</div>';
 
-        echo '<input id="buddybot-playground-attachment-url" type="text">';
-        echo '<input id="buddybot-playground-attachment-mime" type="text">';
+        echo '<input id="buddybot-playground-attachment-url" type="hidden">';
+        echo '<input id="buddybot-playground-attachment-mime" type="hidden">';
 
         echo '</div>';
 
