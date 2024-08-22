@@ -9,7 +9,7 @@ final class StyleSheets extends \BuddyBot\Admin\MoRoot
 
     protected function isInternalPage()
     {
-        if (key_exists('page', $_GET) and strpos($_GET['page'], 'buddybot') === 0) {
+        if (!empty($_GET['page']) and strpos($_GET['page'], 'buddybot') === 0) {
             return true;
         } else {
             return false;
@@ -36,7 +36,7 @@ final class StyleSheets extends \BuddyBot\Admin\MoRoot
     protected function pageLevelScripts()
     {
         if ($this->isInternalPage()) {
-            $css_file_name = str_replace('buddybot-','', $_GET['page']);
+            $css_file_name = str_replace('buddybot-','', sanitize_text_field($_GET['page']));
             $css_file_url = $this->config->getRootUrl() . 'admin/css/' . $css_file_name . '.css';
             wp_enqueue_style($_GET['page'], $css_file_url);
         }

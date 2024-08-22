@@ -24,12 +24,14 @@ class DefaultBuddyBotWizard extends \BuddyBot\Admin\Responses\MoRoot
             
             if ($file === false) {
                 $errors += 1;
-                $this->response['message'] .= __(sprintf('%s file path is not defined.', $data_type), 'buddybot');
+                // Translators: %s is the type of data which is being synced with OpenAI server.
+                $this->response['message'] .= sprintf(esc_html__('%s file path is not defined.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_html($data_type));
             }
 
             if (!is_writable($file)) {
                 $errors += 1;
-                $this->response['message'] .= __(sprintf('%s file is not writable.', $data_type), 'buddybot');
+                // Translators: %s is the type of data which is being synced with OpenAI server.
+                $this->response['message'] .= sprintf(esc_html__('%s file is not writable.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_html($data_type));
             }
 
         }
@@ -50,7 +52,7 @@ class DefaultBuddyBotWizard extends \BuddyBot\Admin\Responses\MoRoot
         $this->checkNonce('add_data_to_file');
         $this->checkCapabilities();
         
-        $data_type = $_POST['data_type'];
+        $data_type = sanitize_text_field($_POST['data_type']);
 
         $method = 'compile' . $data_type;
 
@@ -118,7 +120,7 @@ class DefaultBuddyBotWizard extends \BuddyBot\Admin\Responses\MoRoot
         $this->checkNonce('transfer_data_file');
         $this->checkCapabilities();
 
-        $data_type = $_POST['data_type'];
+        $data_type = sanitize_text_field($_POST['data_type']);
 
         $cfile = curl_file_create(
             realpath($this->core_files->getLocalPath($data_type)),
@@ -156,7 +158,8 @@ class DefaultBuddyBotWizard extends \BuddyBot\Admin\Responses\MoRoot
 
         if ($update) {
             $this->response['success'] = true;
-            $this->response['message'] = '<div>' . __(sprintf('Remote file name updated to %s.', $output->id), 'buddybot') . '</div>';
+            // Translators: %s is the remote ID of the recently uploaded file on the OpenAI server.
+            $this->response['message'] = '<div>' . sprintf(esc_html__('Remote file name updated to %s.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_html($output->id)) . '</div>';
         } else {
             $this->response['success'] = false;
             $this->response['message'] = '<div>' . __('Unable to update remote file name.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';

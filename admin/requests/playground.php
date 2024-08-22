@@ -43,14 +43,14 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
         const runCreated = "' . esc_html__('Assistant is processing your message.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
         const retrievingRun = "' . esc_html__('Checking response to your message.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
         const runCancelled = "' . esc_html__('The process was aborted.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
-        const gettingResponse = "' . esc_html__("Fetching Assistant response.", 'buddybot') . '";
-        const responseUpdated = "' . esc_html__("Assistant response received.", 'buddybot') . '";
-        const gettingThreadMessages = "' . esc_html__("Fetching conversation data.", 'buddybot') . '";
-        const threadMessagesUpdated = "' . esc_html__("Conversation data updated.", 'buddybot') . '";
-        const gettingPastMessages = "' . esc_html__("Loading previous messages.", 'buddybot') . '";
-        const pastMessagesUpdated = "' . esc_html__("Loaded previous messages.", 'buddybot') . '";
-        const deletingThread = "' . esc_html__("Deleting conversation.", 'buddybot') . '";
-        const threadDeleted = "' . esc_html__("Conversation deleted successfully!", 'buddybot') . '";
+        const gettingResponse = "' . esc_html__("Fetching Assistant response.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const responseUpdated = "' . esc_html__("Assistant response received.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const gettingThreadMessages = "' . esc_html__("Fetching conversation data.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const threadMessagesUpdated = "' . esc_html__("Conversation data updated.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const gettingPastMessages = "' . esc_html__("Loading previous messages.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const pastMessagesUpdated = "' . esc_html__("Loaded previous messages.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const deletingThread = "' . esc_html__("Deleting conversation.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const threadDeleted = "' . esc_html__("Conversation deleted successfully!", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
         ';
     }
 

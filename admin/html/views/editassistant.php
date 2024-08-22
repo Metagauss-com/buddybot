@@ -138,7 +138,7 @@ class EditAssistant extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '</div>';
         
         echo '<p class="small text-dark">' . esc_html__(
-            'Optional. Select files to be attached to this Assistant. Maximum 20 files (not more than 512MB each) allowed. Requires RETRIEVAL tool.', 'buddybot'
+            'Optional. Select files to be attached to this Assistant. Maximum 20 files (not more than 512MB each) allowed. Requires RETRIEVAL tool.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'
             ) . '</p>';
         
         echo '</div>';

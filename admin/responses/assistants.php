@@ -10,7 +10,7 @@ class Assistants extends \BuddyBot\Admin\Responses\MoRoot
         $this->checkNonce('delete_assistant');
         $this->checkCapabilities();
 
-        $assistant_id = $_POST['assistant_id'];
+        $assistant_id = sanitize_text_field($_POST['assistant_id']);
 
         if (empty($assistant_id)) {
             $this->response['success'] = false;
@@ -51,7 +51,7 @@ class Assistants extends \BuddyBot\Admin\Responses\MoRoot
         $after = '';
 
         if (!empty($_POST['after'])) {
-            $after = '&after=' . $_POST['after'];
+            $after = '&after=' . sanitize_text_field($_POST['after']);
         }
 
         $url = 'https://api.openai.com/v1/assistants?limit=10' . sanitize_text_field($after);

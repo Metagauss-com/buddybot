@@ -84,12 +84,7 @@ final class DataSync extends \BuddyBot\Admin\Html\Views\MoRoot
 
     public function pageJs()
     {
-        echo '
-        <script>
-        $(document).ready(function(){' . PHP_EOL;
         
-        echo 
-        PHP_EOL . '});
-        </script>';
     }
+
 }

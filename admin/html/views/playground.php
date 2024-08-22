@@ -213,8 +213,8 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         $thread_id = '';
 
-        if (!empty($_GET['thread_id'])) {
-            $thread_id = $_GET['thread_id'];
+        if (!empty(sanitize_text_field($_GET['thread_id']))) {
+            $thread_id = sanitize_text_field($_GET['thread_id']);
         }
 
         echo '<input id="mgao-playground-thread-id-input" ';
@@ -261,16 +261,22 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
 
     public function pageJs()
     {
-        echo '
+        ?>
+
         <script>
-        $(document).ready(function(){' . PHP_EOL;
+        $(document).ready(function(){
+        
+        <?php
 
         $this->openMediaWindowJs();
         $this->selectAttachmentJs();
         
-        echo 
-        PHP_EOL . '});
-        </script>';
+        ?>
+        
+        });
+        </script>'
+        
+        <?php
     }
 
     private function openMediaWindowJs()

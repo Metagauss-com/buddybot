@@ -103,10 +103,10 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
     {
         $this->checkNonce('create_message');
 
-        $thread_id = $_POST['thread_id'];
-        $message = wp_unslash($_POST['message']);
-        $file_url = $_POST['file_url'];
-        $file_mime = $_POST['file_mime'];
+        $thread_id = sanitize_text_field($_POST['thread_id']);
+        $message = sanitize_textarea_field(wp_unslash($_POST['message']));
+        $file_url = sanitize_text_field($_POST['file_url']);
+        $file_mime = sanitize_text_field($_POST['file_mime']);
 
         $file_id = '';
 
@@ -188,8 +188,8 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
     {
         $this->checkNonce('create_run');
 
-        $thread_id = $_POST['thread_id'];
-        $assistant_id = $_POST['assistant_id'];
+        $thread_id = sanitize_text_field($_POST['thread_id']);
+        $assistant_id = sanitize_text_field($_POST['assistant_id']);
         
         $url = 'https://api.openai.com/v1/threads/' . $thread_id . '/runs';
 
@@ -226,8 +226,8 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
     {
         $this->checkNonce('retrieve_run');
 
-        $thread_id = $_POST['thread_id'];
-        $run_id = $_POST['run_id'];
+        $thread_id = sanitize_text_field($_POST['thread_id']);
+        $run_id = sanitize_text_field($_POST['run_id']);
         
         $url = 'https://api.openai.com/v1/threads/' . $thread_id . '/runs/' . $run_id;
 
@@ -261,13 +261,16 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
         $completion_tokens = absint($this->response['result']->usage->completion_tokens);
         $total_tokens = absint($this->response['result']->usage->total_tokens);
 
-        $message = __(
-            sprintf(
-                'Tokens Prompt: %1d. Completion: %2d. Total: %3d.',
-                $prompt_tokens, $completion_tokens, $total_tokens
+        // Translators: %1d are number of tokens used by user prompt. %2d is number of tokens used in completition run. %3d are total tokens used in the run.
+        $message = sprintf(
+            esc_html__(
+                'Tokens Prompt: %1$1d. Completion: %2$2d. Total: %3$3d.',
+                'buddybot-ai-custom-ai-assistant-and-chat-agent'
             ),
-            'buddybot'
-        );
+                absint($prompt_tokens),
+                absint($completion_tokens),
+                absint($total_tokens)
+            );
 
         $this->response['tokens'] = $message;
     }
@@ -276,18 +279,18 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
     {
         $this->checkNonce('list_messages');
 
-        $thread_id = $_POST['thread_id'];
-        $limit = $_POST['limit'];
-        $order = $_POST['order'];
+        $thread_id = sanitize_text_field($_POST['thread_id']);
+        $limit = absint($_POST['limit']);
+        $order = sanitize_text_field($_POST['order']);
         $after = '';
         $before = '';
 
-        if (!empty($_POST['after'])) {
-            $after = '&after=' . $_POST['after'];
+        if (!empty(sanitize_text_field($_POST['after']))) {
+            $after = '&after=' . sanitize_text_field($_POST['after']);
         }
 
-        if (!empty($_POST['before'])) {
-            $before = '&before=' . $_POST['before'];
+        if (!empty(sanitize_text_field($_POST['before']))) {
+            $before = '&before=' . sanitize_text_field($_POST['before']);
         }
         
         $url = 'https://api.openai.com/v1/threads/' . $thread_id . '/messages?limit=' . $limit . '&order=' . $order . $after . $before;
@@ -333,9 +336,9 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
     public function deleteThread()
     {
         $this->checkNonce('delete_thread');
-        $thread_id = $_POST['thread_id'];
+        $thread_id = sanitize_text_field($_POST['thread_id']);
 
-        $url = 'https://api.openai.com/v1/threads/' . $thread_id;
+        $url = 'https://api.openai.com/v1/threads/' . sanitize_text_field($thread_id);
 
         $ch = curl_init($url);
 

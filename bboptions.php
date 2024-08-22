@@ -23,9 +23,11 @@ final class bbOptions
     {
         global $wpdb;
 
-        if($wpdb->get_var("SHOW TABLES LIKE '$this->table'") != $this->table) {
+/*         $table = $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE '%s'", $this->table));
+
+        if ($table != $this->table) {
             return $fallback;
-        }
+        } */
 
         $option_value =  $wpdb->get_var(
             $wpdb->prepare(
@@ -35,7 +37,6 @@ final class bbOptions
         );
 
         if ($option_value === null) {
-            "no database";
             return $fallback;
         }
 

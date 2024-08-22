@@ -29,7 +29,7 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
     {
         $capability = 'manage_options';
 
-        $page = str_replace('buddybot-', '', $_GET['page']);
+        $page = str_replace('buddybot-', '', sanitize_text_field($_GET['page']));
 
         if (array_key_exists($page, $this->capabilities)) {
             $capability = $this->capabilities[$page];
@@ -50,7 +50,8 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
         if (empty($key)) {
             $this->errors += 1;
             $this->addAlert(
-                __(sprintf('OpenAI API Key Missing. Please save it <a href="%s">here.</a>', admin_url('admin.php?page=buddybot-settings')), 'buddybot')
+                // Translators: %s is url to BuddyBot settings page in admin area. This should not be changed.
+                sprintf(esc_html__('OpenAI API Key Missing. Please save it <a href="%s">here.</a>', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_url(admin_url('admin.php?page=buddybot-settings')))
             );
         }
     }

@@ -31,7 +31,7 @@ class Settings extends \BuddyBot\Admin\Responses\MoRoot
             wp_die();
         }
 
-        $secure_class = '\BuddyBot\Admin\Secure\Settings\\' . $_POST['section'];
+        $secure_class = '\BuddyBot\Admin\Secure\Settings\\' . sanitize_text_field($_POST['section']);
         $secure = new $secure_class();
         $options = $secure->secureData($options_data);
         $errors = $secure->getErrors();

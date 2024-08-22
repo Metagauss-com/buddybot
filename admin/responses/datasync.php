@@ -10,7 +10,7 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
     {
         $this->checkNonce('check_file_status');
         
-        $file_id = $_POST['file_id'];
+        $file_id = sanitize_text_field($_POST['file_id']);
 
         $url = 'https://api.openai.com/v1/files/' . sanitize_text_field($file_id);
         
@@ -32,7 +32,7 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
     public function isBbFileWritable()
     {
         $this->checkNonce('is_file_writable');
-        $data_type = $_POST['data_type'];
+        $data_type = sanitize_text_field($_POST['data_type']);
         $file = $this->core_files->getLocalPath($data_type);
 
         WP_Filesystem();
@@ -123,7 +123,7 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
         $this->checkNonce('transfer_data_file');
         $this->checkCapabilities();
 
-        $data_type = $_POST['data_type'];
+        $data_type = sanitize_text_field($_POST['data_type']);
 
         $cfile = curl_file_create(
             realpath($this->core_files->getLocalPath($data_type)),
@@ -162,7 +162,8 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
         if ($update) {
             $file_name = '<span class="text-bg-success px-2 py-1 rounded-1 small">' . $output->id . '</span>';
             $this->response['success'] = true;
-            $this->response['message'] = '<div class="text-success">' . __(wp_sprintf('Remote file name updated to %s', $file_name), 'buddybot') . '</div>';
+            // Translators: %s is replaced with the file ID from OpenAI server.
+            $this->response['message'] = '<div class="text-success">' . sprintf(esc_html__('Remote file name updated to %s', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_html($file_name)) . '</div>';
         } else {
             $this->response['success'] = false;
             $this->response['message'] = '<div class="text-danger">' . __('Unable to update remote file name.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';

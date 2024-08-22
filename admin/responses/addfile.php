@@ -13,7 +13,7 @@ class AddFile extends \BuddyBot\Admin\Responses\MoRoot
             wp_die();
         }
 
-        $file_id = $_POST['file_id'];
+        $file_id = sanitize_text_field($_POST['file_id']);
 
         $cfile = curl_file_create(
             wp_get_attachment_url($file_id),
@@ -48,7 +48,7 @@ class AddFile extends \BuddyBot\Admin\Responses\MoRoot
             $response['success'] = false;
         }
 
-        echo json_encode($response);
+        echo wp_json_encode($response);
         curl_close($ch);
 
         wp_die();
@@ -57,7 +57,8 @@ class AddFile extends \BuddyBot\Admin\Responses\MoRoot
     private function printFileOutput($output)
     {
         $html = '<span>';
-        $html .= __(sprintf('Your file has been uploaded successfully with id <b>%s</b>', $output->id), 'buddybot');
+        // Translators: %s is the remote file ID from OpenAI server.
+        $html .= sprintf(esc_html__('Your file has been uploaded successfully with id <b>%s</b>', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), $output->id);
         $html .= '</span>';
         return $html;
     }

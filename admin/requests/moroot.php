@@ -6,19 +6,21 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
 {
     public function requestsJs()
     {
-        echo '
+        ?>
         <script>
-        $(document).ready(function(){' . PHP_EOL;
+        $(document).ready(function(){
 
+        <?php
         $this->showAlertJs();
         $this->hideAlertJs();
         $this->loaderBtnJs();
         $this->disableFieldsJs();
         $this->requestJs();
         
-        echo 
-        PHP_EOL . '});
-        </script>';
+        ?>
+        });
+        </script>'
+        <?php
     }
 
     protected function showAlertJs()

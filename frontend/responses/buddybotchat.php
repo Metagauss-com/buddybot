@@ -14,18 +14,18 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
     {
         $this->checkNonce('get_messages');
 
-        $thread_id = $_POST['thread_id'];
-        $limit = $_POST['limit'];
-        $order = $_POST['order'];
+        $thread_id = sanitize_text_field($_POST['thread_id']);
+        $limit = absint($_POST['limit']);
+        $order = sanitize_text_field($_POST['order']);
         $after = '';
         $before = '';
 
-        if (!empty($_POST['after'])) {
-            $after = '&after=' . $_POST['after'];
+        if (!empty(sanitize_text_field($_POST['after']))) {
+            $after = '&after=' . sanitize_text_field($_POST['after']);
         }
 
-        if (!empty($_POST['before'])) {
-            $before = '&before=' . $_POST['before'];
+        if (!empty(sanitize_text_field($_POST['before']))) {
+            $before = '&before=' . sanitize_text_field($_POST['before']);
         }
         
         $url = 'https://api.openai.com/v1/threads/' . $thread_id . '/messages?limit=' . $limit . '&order=' . $order . $after . $before;
@@ -163,8 +163,8 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
 
     public function createFrontendRun()
     {
-        $thread_id = $_POST['thread_id'];
-        $assistant_id = $_POST['assistant_id'];
+        $thread_id = sanitize_text_field($_POST['thread_id']);
+        $assistant_id = sanitize_text_field($_POST['assistant_id']);
         
         $url = 'https://api.openai.com/v1/threads/' . $thread_id . '/runs';
 
@@ -201,8 +201,8 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
     {
         $this->checkNonce('retrieve_run');
 
-        $thread_id = $_POST['thread_id'];
-        $run_id = $_POST['run_id'];
+        $thread_id = sanitize_text_field($_POST['thread_id']);
+        $run_id = sanitize_text_field($_POST['run_id']);
         
         $url = 'https://api.openai.com/v1/threads/' . $thread_id . '/runs/' . $run_id;
 
@@ -228,7 +228,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
     {
         $this->checkNonce('delete_frontend_thread');
 
-        $thread_id = $_POST['thread_id'];
+        $thread_id = sanitize_text_field($_POST['thread_id']);
         $user_id = get_current_user_id();
 
         if ($this->sql->isThreadOwner($thread_id, $user_id) === false) {
