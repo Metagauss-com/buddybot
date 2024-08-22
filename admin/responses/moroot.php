@@ -34,7 +34,9 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
 
     protected function checkNonce($nonce)
     {
-        $nonce_status = wp_verify_nonce($_POST['nonce'], $nonce);
+        $nonce_status = wp_verify_nonce(
+            sanitize_text_field(wp_unslash($_POST['nonce'])),
+            $nonce);
 
         if ($nonce_status === false) {
             $this->response['success'] = false;

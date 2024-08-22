@@ -7,7 +7,7 @@ class AddFile extends \BuddyBot\Admin\Responses\MoRoot
 
     public function addFile()
     {
-        $nonce_status = wp_verify_nonce($_POST['nonce'], 'add_file');
+        $nonce_status = wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'add_file');
 
         if ($nonce_status === false) {
             wp_die();

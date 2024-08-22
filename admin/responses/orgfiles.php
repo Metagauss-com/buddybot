@@ -35,7 +35,10 @@ class OrgFiles extends \BuddyBot\Admin\Responses\MoRoot
 
     public function getOrgFiles()
     {
-        $nonce_status = wp_verify_nonce($_POST['nonce'], 'get_org_files');
+        $nonce_status = wp_verify_nonce(
+            sanitize_text_field(wp_unslash($_POST['nonce'])),
+            'get_org_files'
+        );
 
         if ($nonce_status === false) {
             wp_die();
