@@ -18,10 +18,10 @@ final class StyleSheets extends \BuddyBot\Admin\MoRoot
 
     protected function pluginLevelScripts() 
     {
-        $bootstrap_css = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css';
-        $bootstrap_js = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js';
-        $jquery_js = 'https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js';
-        $material_symbols = 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0';
+        $bootstrap_css = $this->config->getRootUrl() . 'external/bootstrap/bootstrap.min.css';
+        $bootstrap_js = $this->config->getRootUrl() . 'external/bootstrap/bootstrap.min.js';
+        $jquery_js = $this->config->getRootUrl() . 'external/jquery/jquery-3.7.1.min.js';
+        $material_symbols = $this->config->getRootUrl() . 'external/material-symbols/material-symbols.css';
         
         if ($this->isInternalPage()) {
             wp_enqueue_style($this->config::PREFIX . '-material-symbols-css', $material_symbols);

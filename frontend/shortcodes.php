@@ -42,14 +42,14 @@ final class ShortCodes extends \BuddyBot\Frontend\MoRoot
     {
         wp_enqueue_style(
             'buddybot-material-symbols',
-            'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0'
+            $this->config->getRootUrl() . 'external/material-symbols/material-symbols.css'
         );
 
         switch ($this->frontend_theme) {
             case 'bootstrap':
                 wp_enqueue_style(
                     'buddybot-bootstrap-style',
-                    'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css'
+                    $this->config->getRootUrl() . 'external/bootstrap/bootstrap.min.css'
                 );
                 break;
         }
@@ -57,13 +57,13 @@ final class ShortCodes extends \BuddyBot\Frontend\MoRoot
 
     private function enqueuePluginScript()
     {
-        wp_enqueue_script('buddybot-jquery', 'https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js');
+        wp_enqueue_script('buddybot-jquery', $this->config->getRootUrl() . 'external/jquery/jquery-3.7.1.min.js');
 
         switch ($this->frontend_theme) {
             case 'bootstrap':
                 wp_enqueue_script(
                     'buddybot-bootstrap-script',
-                    'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js'
+                    $this->config->getRootUrl() . 'external/bootstrap/bootstrap.min.js'
                 );
                 break;
         }
@@ -72,6 +72,7 @@ final class ShortCodes extends \BuddyBot\Frontend\MoRoot
     private function enqueueViewStyle($file)
     {
         $file_path = $this->config->getRootPath() . 'frontend/css/' . $file . '.css';
+        
         if (file_exists($file_path)) {
             $file_url = $this->config->getRootUrl() . 'frontend/css/' . $file . '.css';
             wp_enqueue_style('buddybot-style-' . $file, $file_url);
