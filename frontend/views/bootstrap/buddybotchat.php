@@ -60,17 +60,17 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
         $html  = '<div id="buddybot-chat-conversation-list-header" class="d-flex justify-content-start align-items-center">';
         
         $html .= '<div class="small fw-bold me-2">';
-        $html .= __('Select Conversation or', 'buddybot');
+        $html .= __('Select Conversation or', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $html .= '</div>';
         
         $html .= '<button id="buddybot-chat-conversation-start-new" type="button" class="btn btn-dark btn-sm px-3 rounded-2">';
-        $html .= __('Start New', 'buddybot');
+        $html .= __('Start New', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $html .= '</button>';
         
         $html .= '</div>';
 
         $html .= '<div id="buddybot-chat-conversation-list-loader" class="text-muted">';
-        $html .= __('Loading conversations...', 'buddybot');
+        $html .= __('Loading conversations...', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $html .= '</div>';
 
         $html .= '<div id="buddybot-chat-conversation-list-wrapper">';
@@ -126,7 +126,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
         echo '</div>';
         
         echo '<div>';
-        esc_html_e('Sorry, you have no past conversations. Please start a new one.', 'buddybot');
+        esc_html_e('Sorry, you have no past conversations. Please start a new one.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</div>';
         
         echo '</div>';

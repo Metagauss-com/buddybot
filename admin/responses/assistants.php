@@ -14,7 +14,7 @@ class Assistants extends \BuddyBot\Admin\Responses\MoRoot
 
         if (empty($assistant_id)) {
             $this->response['success'] = false;
-            $this->response['message'] = __('Assistant ID cannot be empty.', 'buddybot');
+            $this->response['message'] = __('Assistant ID cannot be empty.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             echo wp_json_encode($this->response);
             wp_die();
         }
@@ -34,10 +34,10 @@ class Assistants extends \BuddyBot\Admin\Responses\MoRoot
         
         if ($this->response['result']->deleted) {
             $this->response['success'] = true;
-            $this->response['message'] = __('Successfully deleted Assistant.', 'buddybot');
+            $this->response['message'] = __('Successfully deleted Assistant.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         } else {
             $this->response['success'] = false;
-            $this->response['message'] = __('Unable to delete the Assistant.', 'buddybot');
+            $this->response['message'] = __('Unable to delete the Assistant.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
 
         echo wp_json_encode($this->response);
@@ -72,7 +72,7 @@ class Assistants extends \BuddyBot\Admin\Responses\MoRoot
             $this->assistantsTableHtml($_POST['current_count']);
         } else {
             $this->response['success'] = false;
-            $this->response['message'] = __('Unable to fetch assistants list.', 'buddybot');
+            $this->response['message'] = __('Unable to fetch assistants list.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
 
         echo wp_json_encode($this->response);

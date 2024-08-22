@@ -6,7 +6,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
 {
     public function getHtml()
     {
-        $heading = __('Playground', 'buddybot');
+        $heading = __('Playground', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $this->pageHeading($heading);
         $this->playgroundContainer();
     }
@@ -28,16 +28,16 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
         
         echo '<div id="buddybot-playground-options-select-assistant" class="p-3">';
         echo '<label class="">';
-        esc_html_e('Assistant', 'buddybot');
+        esc_html_e('Assistant', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '<label>';
         echo '<select id="buddybot-playground-assistants-list" class="form-select ms-2">';
-        echo '<option disabled>' . esc_html__('Loading...', 'buddybot') . '</option>';
+        echo '<option disabled>' . esc_html__('Loading...', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</option>';
         echo '</select>';
         echo '</div>';
         
         echo '<div id="buddybot-playground-options-select-user" class="p-3">';
         echo '<label class="">';
-        esc_html_e('User', 'buddybot');
+        esc_html_e('User', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '<label>';
         echo '<select id="" class="ms-2">';
         $this->getUsers();
@@ -52,7 +52,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<div id="buddybot-playground-threads-container" class="col-md-2 flex-column border-end bg-light">';
         
         echo '<div id="buddybot-playground-threads-header" class="fs-6 p-4">';
-        esc_html_e('History', 'buddybot');
+        esc_html_e('History', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</div>';
 
         $this->threatIdInput();
@@ -91,7 +91,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         echo '<button id="buddybot-playground-past-messages-btn" type="button" class="btn btn-outline-dark btn-sm" style="opacity:0;">';
         $this->moIcon('cached');
-        // esc_html_e('Delete Thread', 'buddybot');
+        // esc_html_e('Delete Thread', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</button>';
     }
 
@@ -105,7 +105,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         echo '<button id="buddybot-playground-delete-thread-btn" type="button" class="btn btn-outline-danger btn-sm">';
         $this->moIcon('delete');
-        // esc_html_e('Delete Thread', 'buddybot');
+        // esc_html_e('Delete Thread', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</button>';
     }
 
@@ -127,7 +127,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         echo '<div class="">';
         echo '<div id="buddybot-playground-message-status" class="text-center small">';
-        $this->statusBarMessage('creating-thread', __('Starting new conversation', 'buddybot'));
+        $this->statusBarMessage('creating-thread', __('Starting new conversation', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
         echo '</div>';
         $this->openAiBadge();
         echo '</div>';
@@ -188,7 +188,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<div class="p-2">';
         echo '<button id="mgao-playground-send-message-btn" type="button"';
         echo 'class="btn btn-dark">';
-        esc_html_e('Send', 'buddybot');
+        esc_html_e('Send', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</button>';
         echo '</div>';
     }
@@ -232,7 +232,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
         $response = $this->sql->getThreadsByUserId();
 
         if ($response['success'] === false) {
-            esc_html_e('There was an error while fetching threads.', 'buddybot');
+            esc_html_e('There was an error while fetching threads.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             echo ' ';
             echo esc_html($response['message']);
             return;
@@ -240,7 +240,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
 
         if (empty($response['result'])) {
             echo '<span class="text-muted">';
-            esc_html_e('No previous conversations.', 'buddybot');
+            esc_html_e('No previous conversations.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             echo '</span>';
             return;
         }
@@ -275,8 +275,8 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function openMediaWindowJs()
     {
-        $title = __('Select a file to attach to your message', 'buddybot');
-        $btn_label = __('Attach To Message', 'buddybot');
+        $title = __('Select a file to attach to your message', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $btn_label = __('Attach To Message', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         
         echo '
         $("#mgao-playground-message-file-btn").click(function(e) {

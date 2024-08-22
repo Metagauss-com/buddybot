@@ -38,7 +38,7 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
         if (!current_user_can($capability)) {
             $this->errors += 1;
             $this->addAlert(
-                __('You are not authorized to access this page.', 'buddybot')
+                __('You are not authorized to access this page.', 'buddybot-ai-custom-ai-assistant-and-chat-agent')
             );
         }
     }
@@ -60,7 +60,7 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
         if (!extension_loaded('curl')) {
             $this->errors += 1;
             $this->addAlert(
-                __('Curl PHP extension not installed. Communication with OpenAI server not possible.', 'buddybot')
+                __('Curl PHP extension not installed. Communication with OpenAI server not possible.', 'buddybot-ai-custom-ai-assistant-and-chat-agent')
             );
         }
     }
@@ -84,7 +84,7 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
                 } else {
                     $this->errors += 1;
                     $this->addAlert(
-                        __('Invalid custom check requested.', 'buddybot')
+                        __('Invalid custom check requested.', 'buddybot-ai-custom-ai-assistant-and-chat-agent')
                     );
                 }
             }

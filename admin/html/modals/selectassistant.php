@@ -8,7 +8,7 @@ class SelectAssistant extends \BuddyBot\Admin\Html\Modals\MoRoot
 
     protected function modalTitle()
     {
-        return __('Select Assistant', 'buddybot');
+        return __('Select Assistant', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
     }
 
     protected function bodyContent()
@@ -44,7 +44,7 @@ class SelectAssistant extends \BuddyBot\Admin\Html\Modals\MoRoot
     protected function loadMoreBtn()
     {
         echo '<div id="buddybot-selectassistant-load-more" class="text-center">';
-        $this->loaderBtn('outline-dark btn-sm', 'buddybot-selectassistant-load-more-btn', __('Load More', 'buddybot'));
+        $this->loaderBtn('outline-dark btn-sm', 'buddybot-selectassistant-load-more-btn', __('Load More', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
         echo '</div>';
     }
 }

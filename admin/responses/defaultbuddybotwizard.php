@@ -13,7 +13,7 @@ class DefaultBuddyBotWizard extends \BuddyBot\Admin\Responses\MoRoot
 
         if (!is_array($data_types)) {
             $this->response['success'] = false;
-            $this->response['message'] = __('Data types should be passed as an array.', 'buddybot');
+            $this->response['message'] = __('Data types should be passed as an array.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
 
         $errors = 0;
@@ -36,7 +36,7 @@ class DefaultBuddyBotWizard extends \BuddyBot\Admin\Responses\MoRoot
 
         if ($errors === 0) {
             $this->response['success'] = true;
-            $this->response['message'] = __('Yay! The files are writable.', 'buddybot');
+            $this->response['message'] = __('Yay! The files are writable.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         } else {
             $this->response['success'] = false;
         }
@@ -58,7 +58,7 @@ class DefaultBuddyBotWizard extends \BuddyBot\Admin\Responses\MoRoot
             $this->$method();
         } else {
             $this->response['success'] = false;
-            $this->response['message'] = '<div>' . __('Data compile method undefined. Operation aborted.', 'buddybot') . '</div>';
+            $this->response['message'] = '<div>' . __('Data compile method undefined. Operation aborted.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
             echo wp_json_encode($this->response);
             wp_die();
         }
@@ -66,7 +66,7 @@ class DefaultBuddyBotWizard extends \BuddyBot\Admin\Responses\MoRoot
         $this->writeData($data_type);
         
         $this->response['success'] = true;
-        $this->response['message'] = '<div>' . __('Added data to file.', 'buddybot') . '</div>';
+        $this->response['message'] = '<div>' . __('Added data to file.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
 
         echo wp_json_encode($this->response);
         wp_die();
@@ -159,7 +159,7 @@ class DefaultBuddyBotWizard extends \BuddyBot\Admin\Responses\MoRoot
             $this->response['message'] = '<div>' . __(sprintf('Remote file name updated to %s.', $output->id), 'buddybot') . '</div>';
         } else {
             $this->response['success'] = false;
-            $this->response['message'] = '<div>' . __('Unable to update remote file name.', 'buddybot') . '</div>';
+            $this->response['message'] = '<div>' . __('Unable to update remote file name.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
         }
 
         echo wp_json_encode($this->response);

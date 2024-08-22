@@ -26,7 +26,7 @@ trait SecurityChecks
     private function userNotLoggedIn()
     {
         $html = '<div class="alert alert-danger small" role="alert">';
-        $html .= __('You must be logged in to use this feature.', 'buddybot');
+        $html .= __('You must be logged in to use this feature.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $html .= '</div>';
         return $html;
     }
@@ -45,7 +45,7 @@ trait SecurityChecks
     private function openAiApiKeyNotSet()
     {
         $html = '<div class="alert alert-danger small" role="alert">';
-        $html .= __('API Key Missing.', 'buddybot');
+        $html .= __('API Key Missing.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $html .= '</div>';
         return $html;
     }
@@ -66,7 +66,7 @@ trait SecurityChecks
     private function invalidChatbot()
     {
         $html = '<div class="alert alert-danger small" role="alert">';
-        $html .= __('Invalid Chatbot ID. Unable to proceed.', 'buddybot');
+        $html .= __('Invalid Chatbot ID. Unable to proceed.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $html .= '</div>';
         return $html;
     }

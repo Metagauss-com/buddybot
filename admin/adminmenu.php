@@ -38,8 +38,8 @@ final class AdminMenu extends \BuddyBot\Admin\MoRoot
     {
         add_submenu_page(
             'buddybot-chatbot',
-            __('Playground', 'buddybot'),
-            __('Playground', 'buddybot'),
+            __('Playground', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            __('Playground', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
             'manage_options',
             'buddybot-playground',
             array($this, 'playgroundMenuPage'),
@@ -51,8 +51,8 @@ final class AdminMenu extends \BuddyBot\Admin\MoRoot
     {
         add_submenu_page(
             'buddybot-chatbot',
-            __('Wizard', 'buddybot'),
-            __('Wizard', 'buddybot'),
+            __('Wizard', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            __('Wizard', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
             'manage_options',
             'buddybot-wizard',
             array($this, 'wizardMenuPage'),
@@ -64,8 +64,8 @@ final class AdminMenu extends \BuddyBot\Admin\MoRoot
     {
         add_submenu_page(
             'buddybot-chatbot',
-            __('Files', 'buddybot'),
-            __('Files', 'buddybot'),
+            __('Files', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            __('Files', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
             'manage_options',
             'buddybot-files',
             array($this, 'filesMenuPage'),
@@ -77,8 +77,8 @@ final class AdminMenu extends \BuddyBot\Admin\MoRoot
     {
         add_submenu_page(
             'buddybot-chatbot',
-            __('Add File', 'buddybot'),
-            __('Add File', 'buddybot'),
+            __('Add File', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            __('Add File', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
             'manage_options',
             'buddybot-addfile',
             array($this, 'addFileMenuPage'),
@@ -90,8 +90,8 @@ final class AdminMenu extends \BuddyBot\Admin\MoRoot
     {
         add_submenu_page(
             'buddybot-chatbot',
-            __('Data Sync', 'buddybot'),
-            __('Data Sync', 'buddybot'),
+            __('Data Sync', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            __('Data Sync', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
             'manage_options',
             'buddybot-datasync',
             array($this, 'dataSyncMenuPage'),
@@ -103,8 +103,8 @@ final class AdminMenu extends \BuddyBot\Admin\MoRoot
     {
         add_submenu_page(
             'buddybot-chatbot',
-            __('Assistants', 'buddybot'),
-            __('Assistants', 'buddybot'),
+            __('Assistants', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            __('Assistants', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
             'manage_options',
             'buddybot-assistants',
             array($this, 'assistantsMenuPage'),
@@ -116,8 +116,8 @@ final class AdminMenu extends \BuddyBot\Admin\MoRoot
     {
         add_submenu_page(
             '',
-            __('Edit Assistant', 'buddybot'),
-            __('Edit Assistant', 'buddybot'),
+            __('Edit Assistant', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            __('Edit Assistant', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
             'manage_options',
             'buddybot-assistant',
             array($this, 'EditAssistantMenuPage'),
@@ -129,8 +129,8 @@ final class AdminMenu extends \BuddyBot\Admin\MoRoot
     {
         add_submenu_page(
             '',
-            __('Default Buddybot', 'buddybot'),
-            __('Default Buddybot', 'buddybot'),
+            __('Default Buddybot', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            __('Default Buddybot', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
             'manage_options',
             'buddybot-defaultwizard',
             array($this, 'defaultBuddybotWizardMenuPage'),
@@ -142,8 +142,8 @@ final class AdminMenu extends \BuddyBot\Admin\MoRoot
     {
         add_submenu_page(
             'buddybot-chatbot',
-            __('Settings', 'buddybot'),
-            __('Settings', 'buddybot'),
+            __('Settings', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            __('Settings', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
             'manage_options',
             'buddybot-settings',
             array($this, 'settingsMenuPage'),

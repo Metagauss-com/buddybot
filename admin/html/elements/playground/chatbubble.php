@@ -132,11 +132,11 @@ class ChatBubble extends \BuddyBot\Admin\Html\Elements\Playground\MoRoot
         $current_day = wp_date('j');
 
         if ($message_day === $current_day) {
-            $message_date = __('Today', 'buddybot');
+            $message_date = __('Today', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
 
         if ((absint($current_day) - absint($message_day)) === 1) {
-            $message_date = __('Yesterday', 'buddybot');
+            $message_date = __('Yesterday', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
 
 

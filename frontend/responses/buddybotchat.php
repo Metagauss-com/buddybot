@@ -110,7 +110,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
 
         if ($save_thread === false) {
             $this->response['success'] = false;
-            $this->response['message'] = __('Unable to save conversation in database.', 'buddybot');
+            $this->response['message'] = __('Unable to save conversation in database.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             echo wp_json_encode($this->response);
             wp_die();
         }
@@ -233,7 +233,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
 
         if ($this->sql->isThreadOwner($thread_id, $user_id) === false) {
             $this->response['success'] = false;
-            $this->response['message'] = __('You are not authorized to delete this thread.', 'buddybot');
+            $this->response['message'] = __('You are not authorized to delete this thread.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             return;
         }
 
@@ -257,7 +257,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
             $this->response['success'] = true;
         } else {
             $this->response['success'] = false;
-            $this->response['message'] = __('Unable to delete conversation.', 'buddybot');
+            $this->response['message'] = __('Unable to delete conversation.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
 
         if ($this->response['success']) {

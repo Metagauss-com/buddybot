@@ -6,7 +6,7 @@ final class DefaultBuddyBotWizard extends \BuddyBot\Admin\Html\Views\MoRoot
 {
     public function getHtml()
     {
-        $heading = __('Set Default BuddyBot', 'buddybot');
+        $heading = __('Set Default BuddyBot', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $this->pageHeading($heading);
         $this->wizardStartPrompt();
         $this->progressBarBlock();
@@ -18,18 +18,18 @@ final class DefaultBuddyBotWizard extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<div class="text-start mb-3 d-flex justify-content-center">';
         echo '<div class="card p-0" style="width: 18rem;">';
         echo '<div class="card-header small">';
-        esc_html_e('Step 1', 'buddybot');
+        esc_html_e('Step 1', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</div>';
         echo '<div class="card-body">';
         echo '<h5 class="card-title">';
         esc_html_e('Select Data');
         echo '</h5>';
         echo '<p class="card-text">';
-        esc_html_e('Select the data you wish to send to OPENAI server to train your AI assistant.', 'buddybot');
+        esc_html_e('Select the data you wish to send to OPENAI server to train your AI assistant.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $this->dataSelectCheckboxes();
         echo '</p>';
         echo '<button id="buddybot-default-wizard-start-btn" class="btn btn-primary w-100">';
-        esc_html_e('Start', 'buddybot');
+        esc_html_e('Start', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</button>';
         echo '</div>';
         echo '</div>';
@@ -43,14 +43,14 @@ final class DefaultBuddyBotWizard extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<div class="form-check small">';
         echo '<input class="align-text-bottom" type="checkbox" value="posts" id="buddybot-default-wizard-data-type-posts">';
         echo '<label class="" for="buddybot-default-wizard-data-type-posts">';
-        esc_html_e('Posts', 'butddybot');
+        esc_html_e('Posts', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</label>';
         echo '</div>';
 
         echo '<div class="form-check small">';
         echo '<input class="align-text-bottom" type="checkbox" value="comments" id="buddybot-default-wizard-data-type-comments">';
         echo '<label class="" for="buddybot-default-wizard-data-type-comments">';
-        esc_html_e('Comments', 'butddybot');
+        esc_html_e('Comments', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</label>';
         echo '</div>';
 

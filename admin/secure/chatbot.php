@@ -25,17 +25,17 @@ final class Chatbot extends \BuddyBot\Admin\Secure\MoRoot
         $name = sanitize_text_field($_POST['chatbot_data']['name']);
 
         if (empty($name) and !empty($_POST['chatbot_data']['name'])) {
-            $this->errors[] = __('Invalid Chatbot name.', 'buddybot');
+            $this->errors[] = __('Invalid Chatbot name.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             return $name;
         }
 
         if (empty($name)) {
-            $this->errors[] = __('Chatbot name cannot be empty.', 'buddybot');
+            $this->errors[] = __('Chatbot name cannot be empty.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             return $name;
         }
 
         if (strlen($name) > 1024) {
-            $this->errors[] = __('Chatbot name cannot be more than 1024 characters.', 'buddybot');
+            $this->errors[] = __('Chatbot name cannot be more than 1024 characters.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             return $name;
         }
 
@@ -47,7 +47,7 @@ final class Chatbot extends \BuddyBot\Admin\Secure\MoRoot
         $description = sanitize_textarea_field($_POST['chatbot_data']['description']);
 
         if (strlen($description) > 2048) {
-            $this->errors[] =  __('Chatbot description cannot be more than 2048 characters.', 'buddybot');
+            $this->errors[] =  __('Chatbot description cannot be more than 2048 characters.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
 
         return $description;
@@ -58,7 +58,7 @@ final class Chatbot extends \BuddyBot\Admin\Secure\MoRoot
         $assistant_id = sanitize_text_field($_POST['chatbot_data']['assistant_id']);
 
         if (empty($assistant_id)) {
-            $this->errors[] = __('Please select an Assistant for this Chatbot.', 'buddybot');
+            $this->errors[] = __('Please select an Assistant for this Chatbot.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
 
         return $assistant_id;

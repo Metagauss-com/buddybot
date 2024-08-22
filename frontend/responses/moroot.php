@@ -30,8 +30,8 @@ class MoRoot extends \BuddyBot\Frontend\Moroot
 
         if ($nonce_status === false) {
             $this->response['success'] = false;
-            $this->response['message'] =  __('Nonce error. Unable to complete request.', 'buddybot');
-            $this->response['errors'] = array(__('Nonce check failed.', 'buddybot'));
+            $this->response['message'] =  __('Nonce error. Unable to complete request.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            $this->response['errors'] = array(__('Nonce check failed.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
             echo wp_json_encode($this->response);
             wp_die();
         }
@@ -50,12 +50,12 @@ class MoRoot extends \BuddyBot\Frontend\Moroot
     {
         if (!is_object($output)) {
             $this->response['success'] = false;
-            $this->response['message'] = __('Output is not an object. ', 'buddybot') . ' ' . maybe_serialize($output);
+            $this->response['message'] = __('Output is not an object. ', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . ' ' . maybe_serialize($output);
             echo wp_json_encode($this->response);
             wp_die();
         } elseif (!empty($output->error)) {
             $this->response['success'] = false;
-            $this->response['message'] =  __('There was an error. ', 'buddybot') . $output->error->message;
+            $this->response['message'] =  __('There was an error. ', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . $output->error->message;
             echo wp_json_encode($this->response);
             wp_die();
         } else {

@@ -25,7 +25,7 @@ class EditAssistant extends \BuddyBot\Admin\Responses\MoRoot
             $this->response['html'] = $this->modelsListHtml($this->openai_response_body->data);
         } else {
             $this->response['success'] = false;
-            $this->response['message'] = __('Unable to fetch models list.', 'buddybot');
+            $this->response['message'] = __('Unable to fetch models list.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
 
         echo wp_json_encode($this->response);
@@ -159,11 +159,11 @@ class EditAssistant extends \BuddyBot\Admin\Responses\MoRoot
             $badge ='';
 
             if ($file->id === $remote_posts_file_id) {
-                $badge = '<span class="badge text-bg-success rounded-pill ms-1 text-uppercase">' . __('Latest Posts File', 'buddybot') . '</span>';
+                $badge = '<span class="badge text-bg-success rounded-pill ms-1 text-uppercase">' . __('Latest Posts File', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</span>';
             }
 
             if ($file->id === $remote_comments_file_id) {
-                $badge = '<span class="badge text-bg-success rounded-pill ms-1 text-uppercase">' . __('Latest Comments File', 'buddybot') . '</span>';
+                $badge = '<span class="badge text-bg-success rounded-pill ms-1 text-uppercase">' . __('Latest Comments File', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</span>';
             }
 
             if ($file->purpose === 'assistants' and absint($file->bytes) <= 536870912) {

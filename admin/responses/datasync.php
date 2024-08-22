@@ -23,7 +23,7 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
         $this->openai_response = wp_remote_get($url, $args);
         $this->processResponse();
         
-        $this->response['message'] = __('File syncronized!', 'buddybot');
+        $this->response['message'] = __('File syncronized!', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
 
         echo wp_json_encode($this->response);
         wp_die();
@@ -40,10 +40,10 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
 
         if ($wp_filesystem->is_writable($file)) {
             $this->response['success'] = true;
-            $this->response['message'] = '<div class="text-success">' . __('The file is writable.', 'buddybot') . '</div>';
+            $this->response['message'] = '<div class="text-success">' . __('The file is writable.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
         } else {
             $this->response['success'] = false;
-            $this->response['message'] = '<div class="text-danger">' . __('The file is not writable.', 'buddybot') . '</div>';
+            $this->response['message'] = '<div class="text-danger">' . __('The file is not writable.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
         }
 
         echo wp_json_encode($this->response);
@@ -63,7 +63,7 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
             $this->$method();
         } else {
             $this->response['success'] = false;
-            $this->response['message'] = '<div class="text-danger">' . __('Data compile method undefined. Operation aborted.', 'buddybot') . '</div>';
+            $this->response['message'] = '<div class="text-danger">' . __('Data compile method undefined. Operation aborted.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
             echo wp_json_encode($this->response);
             wp_die();
         }
@@ -71,7 +71,7 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
         $this->writeData($data_type);
         
         $this->response['success'] = true;
-        $this->response['message'] = '<div class="text-success">' . __('Added data to file.', 'buddybot') . '</div>';
+        $this->response['message'] = '<div class="text-success">' . __('Added data to file.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
 
         echo wp_json_encode($this->response);
         wp_die();
@@ -165,7 +165,7 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
             $this->response['message'] = '<div class="text-success">' . __(wp_sprintf('Remote file name updated to %s', $file_name), 'buddybot') . '</div>';
         } else {
             $this->response['success'] = false;
-            $this->response['message'] = '<div class="text-danger">' . __('Unable to update remote file name.', 'buddybot') . '</div>';
+            $this->response['message'] = '<div class="text-danger">' . __('Unable to update remote file name.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
         }
 
         echo wp_json_encode($this->response);

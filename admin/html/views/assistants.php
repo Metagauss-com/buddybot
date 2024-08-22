@@ -6,7 +6,7 @@ final class Assistants extends \BuddyBot\Admin\Html\Views\MoRoot
 {
     public function getHtml()
     {
-        $heading = __('Assistants', 'megaform-openai');
+        $heading = __('Assistants', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $this->pageHeading($heading);
         $this->pageBtns();
         $this->alertContainer();
@@ -22,7 +22,7 @@ final class Assistants extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<a class="btn btn-dark btn-sm" role="button"';
         echo 'href="' . esc_url($add_assistant_page) . '"';
         echo '>';
-        echo esc_html(__('Create New Assistant', 'buddybot'));
+        echo esc_html(__('Create New Assistant', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
         echo '</a>';
         echo '</div>';
     }
@@ -39,11 +39,11 @@ final class Assistants extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         echo '<thead>';
         echo '<tr>';
-        echo '<th scope="col">' . esc_html(__('No.', 'buddybot')) . '</th>';
-        echo '<th scope="col">' . esc_html(__('Name', 'buddybot')) . '</th>';
-        echo '<th scope="col">' . esc_html(__('Description', 'buddybot')) . '</th>';
-        echo '<th scope="col">' . esc_html(__('Model', 'buddybot')) . '</th>';
-        echo '<th scope="col">' . esc_html(__('ID', 'buddybot')) . '</th>';
+        echo '<th scope="col">' . esc_html(__('No.', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '</th>';
+        echo '<th scope="col">' . esc_html(__('Name', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '</th>';
+        echo '<th scope="col">' . esc_html(__('Description', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '</th>';
+        echo '<th scope="col">' . esc_html(__('Model', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '</th>';
+        echo '<th scope="col">' . esc_html(__('ID', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '</th>';
         echo '<th scope="col"></th>';
         echo '</tr>';
         echo '</thead>';
@@ -64,7 +64,7 @@ final class Assistants extends \BuddyBot\Admin\Html\Views\MoRoot
     private function noMoreAssistants()
     {
         echo '<div id="buddybot-assistants-no-more" class="text-center small fw-bold visually-hidden">';
-        esc_html_e('There are no more Assistants to load.', 'buddybot');
+        esc_html_e('There are no more Assistants to load.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $this->moIcon('sentiment_satisfied');
         echo '</div>';
     }
@@ -72,7 +72,7 @@ final class Assistants extends \BuddyBot\Admin\Html\Views\MoRoot
     private function loadMoreBtn()
     {
         echo '<div class="text-center">';
-        $this->loaderBtn('outline-dark btn-sm visually-hidden', 'buddybot-assistants-load-more-btn', __('Load More', 'buddybot'));
+        $this->loaderBtn('outline-dark btn-sm visually-hidden', 'buddybot-assistants-load-more-btn', __('Load More', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
         echo '</div>';
     }
     

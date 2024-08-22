@@ -6,7 +6,7 @@ final class OrgFiles extends \BuddyBot\Admin\Html\Views\MoRoot
 {
     public function getHtml()
     {
-        $heading = __('Files', 'megaform-openai');
+        $heading = __('Files', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $this->pageHeading($heading);
         $this->pageBtns();
         $this->filesTable();
@@ -19,7 +19,7 @@ final class OrgFiles extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<a class="btn btn-dark btn-sm" role="button"';
         echo 'href="' . esc_url($addfile_page) . '"';
         echo '>';
-        echo esc_html(__('Add File', 'buddybot'));
+        echo esc_html(__('Add File', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
         echo '</a>';
         echo '</div>';
     }
@@ -36,12 +36,12 @@ final class OrgFiles extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         echo '<thead>';
         echo '<tr>';
-        echo '<th scope="col">' . esc_html(__('No.', 'buddybot')) . '</th>';
+        echo '<th scope="col">' . esc_html(__('No.', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '</th>';
         echo '<th scope="col"></th>';
-        echo '<th scope="col">' . esc_html(__('File Name', 'buddybot')) . '</th>';
-        echo '<th scope="col">' . esc_html(__('Purpose', 'buddybot')) . '</th>';
-        echo '<th scope="col">' . esc_html(__('Size', 'buddybot')) . '</th>';
-        echo '<th scope="col">' . esc_html(__('ID', 'buddybot')) . '</th>';
+        echo '<th scope="col">' . esc_html(__('File Name', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '</th>';
+        echo '<th scope="col">' . esc_html(__('Purpose', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '</th>';
+        echo '<th scope="col">' . esc_html(__('Size', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '</th>';
+        echo '<th scope="col">' . esc_html(__('ID', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '</th>';
         echo '<th scope="col"></th>';
         echo '</tr>';
         echo '</thead>';

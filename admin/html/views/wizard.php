@@ -6,7 +6,7 @@ final class Wizard extends \BuddyBot\Admin\Html\Views\MoRoot
 {
     public function getHtml()
     {
-        $heading = __('Setup Wizard', 'buddybot');
+        $heading = __('Setup Wizard', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $this->pageHeading($heading);
         $this->wizardBlocks();
     }
@@ -15,7 +15,7 @@ final class Wizard extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         $url = get_admin_url(null, 'admin.php?page=buddybot-defaultwizard');
         echo '<a href="' . esc_url( $url) . '">';
-        esc_html_e('BuddyBot Wizard', 'buddybot');
+        esc_html_e('BuddyBot Wizard', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</a>';
     }
     

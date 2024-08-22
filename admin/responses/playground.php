@@ -29,7 +29,7 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
             $this->assistantOptionsHtml($output);
         } else {
             $this->response['success'] = false;
-            $this->response['message'] = __('Unable to fetch assistants list.', 'buddybot');
+            $this->response['message'] = __('Unable to fetch assistants list.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
 
         echo wp_json_encode($this->response);
@@ -91,7 +91,7 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
             $insert = $this->sql->saveThreadId($output->id);
             if ($insert === false) {
                 $this->response['success'] = false;
-                $this->response['message'] = __('Unable to save thread in the database', 'buddybot');
+                $this->response['message'] = __('Unable to save thread in the database', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             }
         }
 
@@ -355,7 +355,7 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
             $this->response['success'] = true;
         } else {
             $this->response['success'] = false;
-            $this->response['message'] = __('Unable to delete conversation.', 'buddybot');
+            $this->response['message'] = __('Unable to delete conversation.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
 
         if ($this->response['success']) {

@@ -6,7 +6,7 @@ final class AddFile extends \BuddyBot\Admin\Html\Views\MoRoot
 {
     public function getHtml()
     {
-        $heading = __('Add File', 'megaform-openai');
+        $heading = __('Add File', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $this->pageHeading($heading);
         $this->uploadArea();
     }
@@ -23,11 +23,11 @@ final class AddFile extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<input type="hidden" id="buddybot-file-selected" class="form-control mb-2">';
 
         echo '<button class="btn btn-outline-dark btn-sm me-1" type="button" id="buddybot-file-select-btn">';
-        echo esc_html(__('Select File', 'buddybot'));
+        echo esc_html(__('Select File', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
         echo '</button>';
 
         echo '<button class="btn btn-dark btn-sm ms-1" type="button" id="buddybot-file-upload-btn">';
-        echo esc_html(__('Upload File', 'buddybot'));
+        echo esc_html(__('Upload File', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
         echo '</button>';
 
         echo '</div>';

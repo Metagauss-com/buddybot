@@ -9,8 +9,8 @@ final class Settings extends \BuddyBot\Admin\Html\Views\MoRoot
     protected function setSections()
     {
         $this->sections = array(
-            'general' => __('General', 'buddybot')
-            // 'extensions' => __('Extensions', 'buddybot')
+            'general' => __('General', 'buddybot-ai-custom-ai-assistant-and-chat-agent')
+            // 'extensions' => __('Extensions', 'buddybot-ai-custom-ai-assistant-and-chat-agent')
         );
     }
 
@@ -19,7 +19,7 @@ final class Settings extends \BuddyBot\Admin\Html\Views\MoRoot
         $this->pageSuccessAlert();
         $this->pageErrors();
 
-        $heading = __('Settings', 'megaform-openai');
+        $heading = __('Settings', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $this->pageHeading($heading);
         $this->sectionToggle();
         $this->optionsLoader();
@@ -34,14 +34,14 @@ final class Settings extends \BuddyBot\Admin\Html\Views\MoRoot
         }
 
         echo '<div id="buddybot-settings-success" class="notice notice-success mb-3 ms-0">';
-        echo '<p id="buddybot-settings-success-message" class="fw-bold">' . esc_html_e('Settings updated successfully.', 'buddybot') . '</p>';
+        echo '<p id="buddybot-settings-success-message" class="fw-bold">' . esc_html_e('Settings updated successfully.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
         echo '</div>';
     }
 
     private function pageErrors()
     {
         echo '<div id="buddybot-settings-errors" class="notice notice-error settings-error mb-3 ms-0">';
-        echo '<p id="buddybot-settings-error-message" class="fw-bold">' . esc_html_e('Unable to update settings. Please fix errors.', 'buddybot') . '</p>';
+        echo '<p id="buddybot-settings-error-message" class="fw-bold">' . esc_html_e('Unable to update settings. Please fix errors.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
         echo '<ul id="buddybot-settings-errors-list" class="small"></ul>';
         echo '</div>';
     }
@@ -49,7 +49,7 @@ final class Settings extends \BuddyBot\Admin\Html\Views\MoRoot
     private function sectionToggle()
     {
         echo '<label for="mgao-settings-section-select" class="small my-3">';
-        echo esc_html(__('Select', 'buddybot'));
+        echo esc_html(__('Select', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
         $this->sectionSelect();
         echo '</label>';
     }
@@ -85,7 +85,7 @@ final class Settings extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<div id="buddybot-settings-section-options-loader" class="text-center mt-5 visually-hidden">';
 
         echo '<span>';
-        esc_html_e('Loading options...', 'buddybot');
+        esc_html_e('Loading options...', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</span>';
 
         echo '<div class="spinner-border spinner-border-sm ms-2" role="status">
@@ -99,7 +99,7 @@ final class Settings extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         echo '<p class="submit">';
         echo '<input type="submit" id="buddybot-settings-update-btn" ';
-        echo 'class="button button-primary" value="' . esc_html__('Save Options', 'buddybot') . '">';
+        echo 'class="button button-primary" value="' . esc_html__('Save Options', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '">';
         echo '</p>';
     }
 }

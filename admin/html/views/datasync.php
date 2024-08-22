@@ -6,7 +6,7 @@ final class DataSync extends \BuddyBot\Admin\Html\Views\MoRoot
 {
     public function getHtml()
     {
-        $heading = __('Data Sync', 'megaform-openai');
+        $heading = __('Data Sync', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $this->pageHeading($heading);
         $this->itemsList();
         $this->msgArea();
@@ -43,7 +43,7 @@ final class DataSync extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '</div>';
 
         echo '<div class="buddybot-remote-file-status small" role="group">';
-        echo esc_html(__('Checking status...', 'buddybot'));
+        echo esc_html(__('Checking status...', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
         echo '</div>';
 
         echo '</div>';   
@@ -69,16 +69,16 @@ final class DataSync extends \BuddyBot\Admin\Html\Views\MoRoot
     private function postsItem()
     {
         $type = 'posts';
-        $heading = __('WP Posts', 'buddybot');
-        $text = __('Syncronize WordPress Posts with OpenAI.', 'buddybot');
+        $heading = __('WP Posts', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $text = __('Syncronize WordPress Posts with OpenAI.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $this->listItem($type, $heading, $text);
     }
 
     private function commentsItem()
     {
         $type = 'comments';
-        $heading = __('Site Comments', 'buddybot');
-        $text = __('Syncronize WordPress Comments with OpenAI.', 'buddybot');
+        $heading = __('Site Comments', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $text = __('Syncronize WordPress Comments with OpenAI.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $this->listItem($type, $heading, $text);
     }
 

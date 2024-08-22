@@ -32,17 +32,17 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
     {
         echo '
         let checkRun = "";
-        const gettingAssistants = "' . esc_html__('Getting list of assistants.', 'buddybot') . '";
-        const assistantsUpdated = "' . esc_html__('Assistants updated.', 'buddybot') . '";
-        const messageEmpty = "' . esc_html__('Cannot send empty message.', 'buddybot') . '";
-        const creatingThread = "' . esc_html__('Starting new conversation.', 'buddybot') . '";
-        const threadCreated = "' . esc_html__('Conversation started.', 'buddybot') . '";
-        const sendingMessage = "' . esc_html__('Sending message to the Assistant.', 'buddybot') . '";
-        const messageSent = "' . esc_html__('Message sent.', 'buddybot') . '";
-        const creatingRun = "' . esc_html__('Asking assistant to read your message.', 'buddybot') . '";
-        const runCreated = "' . esc_html__('Assistant is processing your message.', 'buddybot') . '";
-        const retrievingRun = "' . esc_html__('Checking response to your message.', 'buddybot') . '";
-        const runCancelled = "' . esc_html__('The process was aborted.', 'buddybot') . '";
+        const gettingAssistants = "' . esc_html__('Getting list of assistants.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const assistantsUpdated = "' . esc_html__('Assistants updated.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const messageEmpty = "' . esc_html__('Cannot send empty message.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const creatingThread = "' . esc_html__('Starting new conversation.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const threadCreated = "' . esc_html__('Conversation started.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const sendingMessage = "' . esc_html__('Sending message to the Assistant.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const messageSent = "' . esc_html__('Message sent.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const creatingRun = "' . esc_html__('Asking assistant to read your message.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const runCreated = "' . esc_html__('Assistant is processing your message.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const retrievingRun = "' . esc_html__('Checking response to your message.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const runCancelled = "' . esc_html__('The process was aborted.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
         const gettingResponse = "' . esc_html__("Fetching Assistant response.", 'buddybot') . '";
         const responseUpdated = "' . esc_html__("Assistant response received.", 'buddybot') . '";
         const gettingThreadMessages = "' . esc_html__("Fetching conversation data.", 'buddybot') . '";

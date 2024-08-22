@@ -72,13 +72,13 @@ trait SingleConversation
         
         $html .= '<div class="">';
         $html .= '<textarea id="buddybot-single-conversation-user-message" class="form-control rounded-4 p-3 border-bottom border-dark border-2 shadow-0" rows="3" ';
-        $html .= 'placeholder="' . __('Type your question here.', 'buddybot') . '">';
+        $html .= 'placeholder="' . __('Type your question here.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '">';
         $html .= '</textarea>';
         $html .= '</div>';
 
         $html .= '<div class="text-center mt-3">';
         $html .= '<button id="buddybot-single-conversation-send-message-btn" type="button" class="btn btn-dark py-3 px-4 rounded-2">';
-        $html .= __('Send', 'buddybot');
+        $html .= __('Send', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $html .= '</button>';
         $html .= '</div>';
         

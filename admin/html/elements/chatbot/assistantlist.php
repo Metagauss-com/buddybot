@@ -27,7 +27,7 @@ class AssistantList extends \BuddyBot\Admin\Html\Elements\Chatbot\MoRoot
         $name = $this->item->name;
 
         if (empty($name)) {
-            $name = __('Unnamed', 'buddybot');
+            $name = __('Unnamed', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
 
         $html = '<div class="small fw-bold">';
@@ -48,7 +48,7 @@ class AssistantList extends \BuddyBot\Admin\Html\Elements\Chatbot\MoRoot
     {
         $format = get_option('date_format') . ' ' . get_option('time_format');
         $html = '<div class="small">';
-        $html .= __('Created On', 'buddybot');
+        $html .= __('Created On', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $html .= ' ';
         $html .= wp_date($format, $this->item->created_at);
         $html .= '</div>';

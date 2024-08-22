@@ -132,7 +132,7 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
             key = $.trim(key);
 
             if (key === "") {
-                dataErrors.push("' . esc_html(__('OpenAI API Key cannot be empty.', 'buddybot')) . '"); 
+                dataErrors.push("' . esc_html(__('OpenAI API Key cannot be empty.', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '"); 
             }
 
             return key;
