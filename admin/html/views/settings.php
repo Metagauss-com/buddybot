@@ -29,7 +29,7 @@ final class Settings extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function pageSuccessAlert()
     {
-        if (empty($_GET['success']) or $_GET['success'] != 1) {
+        if (empty($_GET['success']) or absint($_GET['success']) != 1) {
             return;
         }
 

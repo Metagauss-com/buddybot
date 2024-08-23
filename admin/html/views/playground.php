@@ -213,7 +213,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         $thread_id = '';
 
-        if (!empty(sanitize_text_field($_GET['thread_id']))) {
+        if (!empty($_GET['thread_id'])) {
             $thread_id = sanitize_text_field($_GET['thread_id']);
         }
 

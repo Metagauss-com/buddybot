@@ -2,6 +2,8 @@
 
 <?php
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly 
+
 $buddybot_checks = new BuddyBot\Admin\InitialChecks();
 
 if ($buddybot_checks->hasErrors()) {
@@ -12,7 +14,7 @@ $mo_chatbot_page = new \BuddyBot\Admin\Html\Views\ChatBot();
 $mo_chatbot_page->getHtml();
 
 $mo_chatbot_requests = new \BuddyBot\Admin\Requests\ChatBot();
-add_action('admin_footer', array($mo_chatbot_requests, 'requestsJs'));
+add_action('admin_print_footer_scripts', array($mo_chatbot_requests, 'requestsJs'));
 ?>
 
 </div>

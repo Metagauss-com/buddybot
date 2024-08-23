@@ -50,7 +50,7 @@ class Assistants extends \BuddyBot\Admin\Responses\MoRoot
 
         $after = '';
 
-        if (!empty($_POST['after'])) {
+        if (!empty(sanitize_text_field($_POST['after']))) {
             $after = '&after=' . sanitize_text_field($_POST['after']);
         }
 
@@ -69,7 +69,7 @@ class Assistants extends \BuddyBot\Admin\Responses\MoRoot
 
         if ($this->openai_response_body->object === 'list') {
             $this->response['success'] = true;
-            $this->assistantsTableHtml($_POST['current_count']);
+            $this->assistantsTableHtml(absint($_POST['current_count']));
         } else {
             $this->response['success'] = false;
             $this->response['message'] = __('Unable to fetch assistants list.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');

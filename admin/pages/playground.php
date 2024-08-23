@@ -2,6 +2,8 @@
 
 <?php
 
+if (!defined('ABSPATH')) exit; // Exit if accessed directly
+
 $buddybot_checks = new BuddyBot\Admin\InitialChecks();
 
 if ($buddybot_checks->hasErrors()) {
@@ -10,10 +12,10 @@ if ($buddybot_checks->hasErrors()) {
 
 $mo_playground_page = new \BuddyBot\Admin\Html\Views\Playground();
 $mo_playground_page->getHtml();
-add_action('admin_footer', array($mo_playground_page, 'pageJs'));
+add_action('admin_print_footer_scripts', array($mo_playground_page, 'pageJs'));
 
 $mo_playground_requests = new \BuddyBot\Admin\Requests\Playground();
-add_action('admin_footer', array($mo_playground_requests, 'requestsJs'));
+add_action('admin_print_footer_scripts', array($mo_playground_requests, 'requestsJs'));
 ?>
 
 </div>

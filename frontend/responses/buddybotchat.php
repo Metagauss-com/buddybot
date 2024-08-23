@@ -72,7 +72,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
     {
         $this->checkNonce('send_user_message');
 
-        if (empty($_POST['thread_id'])) {
+        if (empty(sanitize_text_field($_POST['thread_id']))) {
             $this->createThreadWithMessage();
         } else {
             $this->addMessageToThread();

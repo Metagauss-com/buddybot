@@ -8,7 +8,7 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
 
     protected function setAssistantId()
     {
-        if (!empty($_GET['assistant_id'])) {
+        if (!empty(sanitize_text_field($_GET['assistant_id']))) {
             $this->assistant_id = sanitize_text_field($_GET['assistant_id']);
         }
     }

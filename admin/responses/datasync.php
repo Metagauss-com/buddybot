@@ -118,7 +118,7 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
         $this->file_data = '';
     }
 
-    public function transferDataFile()
+/*     public function transferDataFile()
     {
         $this->checkNonce('transfer_data_file');
         $this->checkCapabilities();
@@ -149,6 +149,59 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 
         $output = $this->curlOutput($ch);
+        $this->checkError($output);
+        $this->updateRemoteFileOption($data_type, $output);
+
+        wp_die();
+    } */
+
+    public function transferDataFile()
+    {
+        $this->checkNonce('transfer_data_file');
+        $this->checkCapabilities();
+
+        $data_type = sanitize_text_field($_POST['data_type']);
+
+        // Get the local file path
+        $file_path = realpath($this->core_files->getLocalPath($data_type));
+
+        // Read file content
+        $file_content = file_get_contents($file_path);
+
+        // Prepare the body with multipart/form-data
+        $boundary = wp_generate_password(24);
+        $eol = "\r\n";
+
+        $body = '';
+        $body .= '--' . $boundary . $eol;
+        $body .= 'Content-Disposition: form-data; name="purpose"' . $eol . $eol;
+        $body .= 'assistants' . $eol;
+
+        $body .= '--' . $boundary . $eol;
+        $body .= 'Content-Disposition: form-data; name="file"; filename="' . basename($file_path) . '"' . $eol;
+        $body .= 'Content-Type: ' . mime_content_type($file_path) . $eol . $eol;
+        $body .= $file_content . $eol;
+        $body .= '--' . $boundary . '--';
+
+        $headers = array(
+            'Authorization' => 'Bearer ' . $this->api_key,
+            'Content-Type' => 'multipart/form-data; boundary=' . $boundary,
+        );
+
+        $response = wp_remote_post('https://api.openai.com/v1/files', array(
+            'headers' => $headers,
+            'body'    => $body,
+            'timeout' => 60,
+        ));
+
+        if (is_wp_error($response)) {
+            $this->response['success'] = false;
+            $this->response['message'] = $response->get_error_message();
+            echo wp_json_encode($this->response);
+            wp_die();
+        }
+
+        $output = json_decode(wp_remote_retrieve_body($response));
         $this->checkError($output);
         $this->updateRemoteFileOption($data_type, $output);
 

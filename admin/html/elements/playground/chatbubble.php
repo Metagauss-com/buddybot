@@ -157,17 +157,20 @@ class ChatBubble extends \BuddyBot\Admin\Html\Elements\Playground\MoRoot
     protected function parseFile($file_id)
     {
         $url = 'https://api.openai.com/v1/files/' . $file_id;
-        
-        $ch = curl_init($url);
-        
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Authorization: Bearer ' . $this->options->getOption('openai_api_key')
-            )
-        );
 
-        $output = json_decode(curl_exec($ch));
+        $headers = array(
+            'Authorization' => 'Bearer ' . $this->options->getOption('openai_api_key'),
+        );
+    
+        $response = wp_remote_get($url, array(
+            'headers' => $headers,
+        ));
+    
+        if (is_wp_error($response)) {
+            return '';
+        }
+    
+        $output = json_decode(wp_remote_retrieve_body($response));
 
         $type = pathinfo($output->filename, PATHINFO_EXTENSION);
         
@@ -197,22 +200,25 @@ class ChatBubble extends \BuddyBot\Admin\Html\Elements\Playground\MoRoot
     protected function parseImage($image_id)
     {
         $url = 'https://api.openai.com/v1/files/' . $image_id . '/content';
-
-        $ch = curl_init($url);
-        
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Authorization: Bearer ' . $this->options->getOption('openai_api_key')
-            )
+    
+        $headers = array(
+            'Authorization' => 'Bearer ' . $this->options->getOption('openai_api_key'),
         );
-
-        $output = curl_exec($ch);
-        
+    
+        $response = wp_remote_get($url, array(
+            'headers' => $headers,
+        ));
+    
+        if (is_wp_error($response)) {
+            return;
+        }
+    
+        $output = wp_remote_retrieve_body($response);
+    
         $html = '<div class="mb-2 bg-secondary bg-opacity-10 p-3 rounded-3">';
-        $html .= '<img src="data:image/png;base64, ' . base64_encode($output) . '" width="96">';
+        $html .= '<img src="data:image/png;base64,' . base64_encode($output) . '" width="96">';
         $html .= '</div>';
-        
+    
         return $html;
     }
 }

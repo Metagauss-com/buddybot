@@ -12,6 +12,7 @@ class DefaultBuddyBotWizard extends \BuddyBot\Admin\Responses\MoRoot
         $data_types = $_POST['data_types'];
 
         if (!is_array($data_types)) {
+            $data_types = array();
             $this->response['success'] = false;
             $this->response['message'] = __('Data types should be passed as an array.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
