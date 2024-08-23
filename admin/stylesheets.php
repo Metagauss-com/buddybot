@@ -24,10 +24,10 @@ final class StyleSheets extends \BuddyBot\Admin\MoRoot
         $material_symbols = $this->config->getRootUrl() . 'external/material-symbols/material-symbols.css';
         
         if ($this->isInternalPage()) {
-            wp_enqueue_style($this->config::PREFIX . '-material-symbols-css', $material_symbols);
-            wp_enqueue_style($this->config::PREFIX . '-bootstrap-css', $bootstrap_css);
-            wp_enqueue_script($this->config::PREFIX . '-bootstrap-js', $bootstrap_js);
-            wp_enqueue_script($this->config::PREFIX . '-jquery-js', $jquery_js);
+            wp_enqueue_style($this->config::PREFIX . '-material-symbols-css', esc_url($material_symbols));
+            wp_enqueue_style($this->config::PREFIX . '-bootstrap-css', esc_url($bootstrap_css));
+            wp_enqueue_script($this->config::PREFIX . '-bootstrap-js', esc_url($bootstrap_js));
+            wp_enqueue_script($this->config::PREFIX . '-jquery-js', esc_url($jquery_js));
             wp_enqueue_style($this->config::PREFIX . '-global-css', $this->config->getRootUrl() . 'admin/css/buddybot.css');
 
         }
