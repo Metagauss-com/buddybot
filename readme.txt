@@ -43,6 +43,18 @@ BuddyBot AI integrates with OpenAI to provide advanced AI assistant capabilities
 
 Please review these documents to understand how OpenAI handles your data.
 
+= Requirements =
+
+- An OpenAI account and API key are required to use the BuddyBot plugin. You can sign up for an OpenAI account at [OpenAI's website](https://www.openai.com/).
+- Once you have an account, you need to obtain an API key to configure the plugin.
+
+= Getting Started =
+
+- **Create an OpenAI Account**: Visit [OpenAI's website](https://www.openai.com/) to sign up for an account if you don't already have one.
+- **Generate an API Key**: After signing up, log in to your OpenAI account and generate an API key. You will need this key to configure the BuddyBot plugin.
+- **Configure the Plugin**: Enter your OpenAI API key in the plugin settings page in your WordPress admin dashboard to enable the plugin's functionality.
+
+
 == Installation ==
 
 1. Upload the `buddybot-ai` folder to the `/wp-content/plugins/` directory.
