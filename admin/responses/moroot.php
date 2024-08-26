@@ -68,9 +68,9 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
 
     protected function checkError($output)
     {
-        if (!is_array($output)) {
+        if (is_scalar($output)) {
             $this->response['success'] = false;
-            $this->response['message'] = __('Output is not an object. ', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . ' ' . maybe_serialize($output);
+            $this->response['message'] = __('Invalid data structure. ', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . ' ' . maybe_serialize($output);
             echo wp_json_encode($this->response);
             wp_die();
         } elseif (!empty($output->error)) {
@@ -81,6 +81,7 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
             wp_die();
         } else {
             $this->response['success'] = true;
+            $this->response['result'] = $output;
         }
     }
 
