@@ -176,10 +176,10 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
         $update = update_option($this->core_files->getWpOptionName($data_type), $output->id, false);
 
         if ($update) {
-            $file_name = '<span class="text-bg-success px-2 py-1 rounded-1 small">' . $output->id . '</span>';
+            $file_name = '<span class="text-bg-success px-2 py-1 rounded-1 small fw-bold">' . $output->id . '</span>';
             $this->response['success'] = true;
             // Translators: %s is replaced with the file ID from OpenAI server.
-            $this->response['message'] = '<div class="text-success">' . sprintf(esc_html__('Remote file name updated to %s', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_html($file_name)) . '</div>';
+            $this->response['message'] = '<div class="text-success">' . sprintf(esc_html__('Remote file name updated to %s', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), wp_kses_post($file_name)) . '</div>';
         } else {
             $this->response['success'] = false;
             $this->response['message'] = '<div class="text-danger">' . __('Unable to update remote file name.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
