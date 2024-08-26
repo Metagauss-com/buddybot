@@ -118,43 +118,6 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
         $this->file_data = '';
     }
 
-/*     public function transferDataFile()
-    {
-        $this->checkNonce('transfer_data_file');
-        $this->checkCapabilities();
-
-        $data_type = sanitize_text_field($_POST['data_type']);
-
-        $cfile = curl_file_create(
-            realpath($this->core_files->getLocalPath($data_type)),
-            mime_content_type(realpath($this->core_files->getLocalPath($data_type))),
-            basename($this->core_files->getRemoteName($data_type))
-        );
-
-        $url = 'https://api.openai.com/v1/files';
-        $ch = curl_init($url);
-        
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Authorization: Bearer ' . $this->api_key,
-            )
-        );
-
-        $data = array(
-            'purpose' => 'assistants',
-            'file' => $cfile
-        );
-
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-
-        $output = $this->curlOutput($ch);
-        $this->checkError($output);
-        $this->updateRemoteFileOption($data_type, $output);
-
-        wp_die();
-    } */
-
     public function transferDataFile()
     {
         $this->checkNonce('transfer_data_file');

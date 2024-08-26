@@ -68,7 +68,7 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
 
     protected function checkError($output)
     {
-        if (!is_object($output)) {
+        if (!is_array($output)) {
             $this->response['success'] = false;
             $this->response['message'] = __('Output is not an object. ', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . ' ' . maybe_serialize($output);
             echo wp_json_encode($this->response);

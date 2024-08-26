@@ -4,56 +4,7 @@ namespace BuddyBot\Admin\Responses;
 
 class AddFile extends \BuddyBot\Admin\Responses\MoRoot
 {
-
-    /* public function addFile()
-    {
-        $nonce_status = wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['nonce'])), 'add_file');
-
-        if ($nonce_status === false) {
-            wp_die();
-        }
-
-        $file_id = sanitize_text_field($_POST['file_id']);
-
-        $cfile = curl_file_create(
-            wp_get_attachment_url($file_id),
-            get_post_mime_type($file_id),
-            get_the_title($file_id)
-        );
-
-        $url = 'https://api.openai.com/v1/files';
-        $ch = curl_init($url);
-        
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Authorization: Bearer ' . $this->api_key
-            )
-        );
-
-        $data = array(
-            'purpose' => 'assistants',
-            'file' => $cfile
-        );
-
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-
-        $output = curl_exec($ch);
-
-        if ($output != false) {
-            $response['success'] = true;
-            $output = json_decode($output);
-            $response['html'] = $this->printFileOutput($output);
-        } else {
-            $response['success'] = false;
-        }
-
-        echo wp_json_encode($response);
-        curl_close($ch);
-
-        wp_die();
-    } */
-
+    
     public function addFile()
     {
         $this->checkNonce('add_file');
@@ -69,11 +20,10 @@ class AddFile extends \BuddyBot\Admin\Responses\MoRoot
         
         if (is_wp_error($temp_file)) {
             $this->response['success'] = false;
-            echo wp_json_encode($response);
+            echo wp_json_encode($this->response);
             wp_die();
         }
 
-        // Prepare the file array for the upload
         $file_array = array(
             'name' => $file_name,
             'type' => $file_mime_type,
@@ -82,18 +32,15 @@ class AddFile extends \BuddyBot\Admin\Responses\MoRoot
             'size' => filesize($temp_file),
         );
 
-        // Prepare the headers
         $headers = array(
             'Authorization' => 'Bearer ' . $this->api_key,
         );
 
-        // Prepare the data for the request
         $data = array(
             'purpose' => 'assistants',
             'file' => $file_array,
         );
 
-        // Perform the POST request
         $response = wp_remote_post('https://api.openai.com/v1/files', array(
             'headers' => $headers,
             'body' => $data,

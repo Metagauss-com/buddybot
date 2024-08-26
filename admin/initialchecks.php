@@ -56,16 +56,6 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
         }
     }
 
-    private function curlCheck()
-    {
-        if (!extension_loaded('curl')) {
-            $this->errors += 1;
-            $this->addAlert(
-                __('Curl PHP extension not installed. Communication with OpenAI server not possible.', 'buddybot-ai-custom-ai-assistant-and-chat-agent')
-            );
-        }
-    }
-
     public function hasErrors()
     {
         if ($this->errors > 0) {
@@ -92,7 +82,6 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
         } else {
             $this->capabilityCheck();
             $this->openaiApikeyCheck();
-            $this->curlCheck();
         }
     }
 

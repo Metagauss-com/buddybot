@@ -182,30 +182,40 @@ class EditAssistant extends \BuddyBot\Admin\Responses\MoRoot
         return $html;
     }
 
-    public function getAssistantData()
-    {
-        $this->checkNonce('get_assistant_data');
+public function getAssistantData()
+{
+    $this->checkNonce('get_assistant_data');
 
-        $assistant_id = sanitize_text_field($_POST['assistant_id']);
+    $assistant_id = sanitize_text_field($_POST['assistant_id']);
 
-        $url = 'https://api.openai.com/v1/assistants/' . $assistant_id;
-        $ch = curl_init($url);
-        
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Content-Type: application/json',
-            'Authorization: Bearer ' . $this->api_key,
-            'OpenAI-Beta: assistants=v1'
-            )
-        );
+    $url = 'https://api.openai.com/v1/assistants/' . $assistant_id;
 
-        $output = $this->curlOutput($ch);
-        $this->checkError($output);
+    $headers = array(
+        'Content-Type' => 'application/json',
+        'Authorization' => 'Bearer ' . $this->api_key,
+        'OpenAI-Beta' => 'assistants=v1'
+    );
 
-        echo wp_json_encode($this->response);
+    $response = wp_remote_get($url, array(
+        'headers' => $headers,
+        'timeout' => 60,
+    ));
+
+    if (is_wp_error($response)) {
+        $this->response['sucess'] = false;
+        $this->response['message'] = $response->get_error_message();
         wp_die();
     }
+
+    $output = json_decode(wp_remote_retrieve_body($response), true);
+    $this->checkError($output);
+
+    $this->response['success'] = true;
+    $this->response['result'] = $output;
+    
+    echo wp_json_encode($this->response);
+    wp_die();
+}
 
     public function __construct()
     {

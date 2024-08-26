@@ -11,16 +11,6 @@ final class MoConfig
     protected $unsupported_models = array();
     protected $date_format;
     protected $time_format;
-    
-    public function isCurlSet()
-    {
-        if  (in_array  ('curl', get_loaded_extensions())) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
 
     private function setDbTables()
     {
