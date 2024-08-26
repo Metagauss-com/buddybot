@@ -66,7 +66,9 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function pageSuccessAlert()
     {
-        if (empty($_GET['success']) or $_GET['success'] != 1) {
+        $success = (isset($_GET['success']) and $_GET['success'] == 1) ? 1 : 0;
+
+        if (!$success) {
             return;
         }
 

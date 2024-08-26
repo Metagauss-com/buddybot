@@ -21,7 +21,7 @@ class DefaultBuddyBotWizard extends \BuddyBot\Admin\Responses\MoRoot
 
         foreach ($data_types as $data_type) {
             
-            $file = $this->core_files->getLocalPath($data_type);
+            $file = $this->core_files->getLocalPath(sanitize_text_field($data_type));
             
             if ($file === false) {
                 $errors += 1;

@@ -368,11 +368,11 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
         $after = '';
         $before = '';
     
-        if (!empty(sanitize_text_field($_POST['after']))) {
+        if (!empty($_POST['after'])) {
             $after = '&after=' . sanitize_text_field($_POST['after']);
         }
     
-        if (!empty(sanitize_text_field($_POST['before']))) {
+        if (!empty($_POST['before'])) {
             $before = '&before=' . sanitize_text_field($_POST['before']);
         }
         

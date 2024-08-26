@@ -62,7 +62,7 @@ final class Settings extends \BuddyBot\Admin\Html\Views\MoRoot
         {
             $selected = '';
 
-            if (!empty(sanitize_text_field($_GET['section'])) and sanitize_text_field($_GET['section']) === $name) {
+            if (!empty($_GET['section']) and sanitize_text_field($_GET['section']) === $name) {
                 $selected = ' selected';
             }
 

@@ -19,30 +19,34 @@ final class bbOptions
         $this->table = $this->config->getDbTable('settings');
     }
 
-    public function getOption(string $name, string $fallback = '')
+    public function getOption(string $name, string $fallback = '', int $cache_expiry = 3600)
     {
         global $wpdb;
-
-/*         $table = $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE '%s'", $this->table));
-
-        if ($table != $this->table) {
-            return $fallback;
-        } */
-
-        $option_value =  $wpdb->get_var(
-            $wpdb->prepare(
-                'SELECT option_value FROM %i WHERE option_name = %s',
-                $this->table, $name
-            )
-        );
-
-        if ($option_value === null) {
-            return $fallback;
+        
+        $name = sanitize_text_field($name);
+        $option_value = wp_cache_get($name, 'buddybot');
+    
+        if ($option_value === false) {
+            $option_value = $wpdb->get_var(
+                $wpdb->prepare(
+                    'SELECT option_value FROM %i WHERE option_name = %s',
+                    $this->table, $name
+                )
+            );
+    
+            if ($option_value === null) {
+                return $fallback;
+            }
+    
+            wp_cache_set($name, $option_value, 'buddybot', $cache_expiry);
         }
-
+    
+        // Decrypt the option value if needed
         $option_value = $this->decryptKey($name, $option_value);
+    
         return $option_value;
     }
+    
 
     private function decryptKey($name, $option_value)
     {

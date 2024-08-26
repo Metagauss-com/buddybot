@@ -40,18 +40,9 @@ class MoRoot extends \BuddyBot\Frontend\Moroot
         }
     }
 
-    protected function curlOutput($ch)
-    {
-        $output = curl_exec($ch);
-        $output = json_decode($output);
-        $this->response['result'] = $output;
-        curl_close($ch);
-        return $output;
-    }
-
     protected function checkError($output)
     {
-        if (!is_object($output)) {
+        if (is_scalar($output)) {
             $this->response['success'] = false;
             $this->response['message'] = __('Output is not an object. ', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . ' ' . maybe_serialize($output);
             echo wp_json_encode($this->response);
@@ -63,6 +54,7 @@ class MoRoot extends \BuddyBot\Frontend\Moroot
             wp_die();
         } else {
             $this->response['success'] = true;
+            $this->response['result'] = $output;
         }
     }
 }
