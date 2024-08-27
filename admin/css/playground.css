@@ -1,3 +1,7 @@
+body {
+    background: #fff !important;
+}
+
 .buddybot-rotate-icon {
     animation: icon-rotate 1s infinite linear;
 }

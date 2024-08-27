@@ -3,52 +3,91 @@ namespace BuddyBot\Frontend\Sql;
 
 class BuddybotChat extends \BuddyBot\Frontend\Sql\Moroot
 {
-    public function getDefaultBuddybotId()
+    public function getDefaultBuddybotId(int $cache_expiry = 3600)
     {
-        $table = $this->config->getDbTable('chatbot');
-
         global $wpdb;
-
-        $id = $wpdb->get_var(
-            $wpdb->prepare(
-                'SELECT id FROM %i LIMIT 1', $table
-            )
-        );
-
+    
+        $table = esc_sql($this->config->getDbTable('chatbot'));
+    
+        $cache_key = 'default_buddybot_id';
+    
+        $id = wp_cache_get($cache_key, 'buddybot');
+    
+        if ($id === false) {
+            // If the cache does not have the value, query the database
+            $id = $wpdb->get_var(
+                $wpdb->prepare(
+                    'SELECT id FROM %i LIMIT 1', $table
+                )
+            );
+    
+            // Cache the result for future use with an expiry time
+            wp_cache_set($cache_key, $id, 'buddybot', $cache_expiry);
+        }
+    
         return $id;
     }
+    
 
-    public function getChatbot($chatbot_id)
+    public function getChatbot($chatbot_id, int $cache_expiry = 3600)
     {
-        $table = $this->config->getDbTable('chatbot');
-
         global $wpdb;
-
-        $chatbot = $wpdb->get_row(
-            $wpdb->prepare(
-                'SELECT * FROM %i WHERE id = %d', $table, $chatbot_id
-            )
-        );
-
+    
+        $table = esc_sql($this->config->getDbTable('chatbot'));    
+        $cache_key = 'chatbot_' . $chatbot_id;
+    
+        $chatbot = wp_cache_get($cache_key, 'buddybot');
+    
+        if ($chatbot === false) {
+            $chatbot = $wpdb->get_row(
+                $wpdb->prepare(
+                    "SELECT * FROM %i WHERE id = %d",
+                    $table, $chatbot_id
+                )
+            );
+    
+            wp_cache_set($cache_key, $chatbot, 'buddybot', $cache_expiry);
+        }
+    
         return $chatbot;
     }
+    
 
-    public function getConversationsByUserId($user_id)
+    public function getConversationsByUserId($user_id, int $cache_expiry = 3600)
     {
         global $wpdb;
-        $conversations = $wpdb->get_results(
-            $wpdb->prepare(
-                'SELECT * FROM %i WHERE user_id=%d',
-                $this->config->getDbTable('threads'), $user_id
-            )
-        );
-
+    
+        // Sanitize the table name securely
+        $table = esc_sql($this->config->getDbTable('threads'));
+    
+        // Define a cache key for this query
+        $cache_key = 'conversations_user_' . $user_id;
+    
+        // Attempt to get the cached value
+        $conversations = wp_cache_get($cache_key, 'buddybot');
+    
+        if ($conversations === false) {
+            // If the cache does not have the value, query the database
+            $conversations = $wpdb->get_results(
+                $wpdb->prepare(
+                    "SELECT * FROM %i WHERE user_id = %d",
+                    $table, $user_id
+                )
+            );
+    
+            // Cache the result for future use with an expiry time
+            wp_cache_set($cache_key, $conversations, 'buddybot', $cache_expiry);
+        }
+    
         return $conversations;
     }
+    
 
     public function saveThreadInDb($thread_id)
     {
-        $table = $this->config->getDbTable('threads');
+        $table = esc_sql($this->config->getDbTable('threads'));
+        $cache_key = 'conversations_user_' . get_current_user_id();
+
         $data = array(
             'thread_id' => $thread_id,
             'user_id' => get_current_user_id(),
@@ -56,23 +95,39 @@ class BuddybotChat extends \BuddyBot\Frontend\Sql\Moroot
         );
 
         global $wpdb;
-        return $wpdb->insert($table, $data, array('%s', '%d', '%s'));
+        $insert = $wpdb->insert($table, $data, array('%s', '%d', '%s'));
+
+        if ($insert) {
+            wp_cache_delete($cache_key, 'buddybot');
+        }
+
+        return $insert;
     }
 
     public function updateThreadName($thread_id, $thread_name)
     {
-        $table = $this->config->getDbTable('threads');
-        
+        $thread_id = sanitize_text_field($thread_id);
+        $thread_name = sanitize_text_field($thread_name);
+    
+        // Shorten thread name if it exceeds 100 characters
         if (strlen($thread_name) > 100) {
-            $thread_name = substr($thread_name, 100);
+            $thread_name = substr($thread_name, 0, 100);
         }
-
-        $data = array('thread_name' => $thread_name);
-        $where = array('thread_id' => $thread_id);
-
+    
+        $table = $this->config->getDbTable('threads');
+    
         global $wpdb;
-        $wpdb->update($table, $data, $where, array('%s'), array('%s'));
+    
+        // Update the thread name in the database
+        $wpdb->update(
+            $table,
+            array('thread_name' => $thread_name),
+            array('thread_id' => $thread_id),
+            array('%s'),
+            array('%s')
+        );
     }
+    
 
     public function deleteThread($thread_id)
     {

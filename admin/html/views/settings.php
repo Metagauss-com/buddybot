@@ -33,8 +33,8 @@ final class Settings extends \BuddyBot\Admin\Html\Views\MoRoot
             return;
         }
 
-        echo '<div id="buddybot-settings-success" class="notice notice-success mb-3 ms-0">';
-        echo '<p id="buddybot-settings-success-message" class="fw-bold">' . esc_html_e('Settings updated successfully.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
+        echo '<div id="buddybot-settings-success" class="notice notice-success mb-3 ms-0 py-2 small">';
+        echo '<span id="buddybot-settings-success-message" class="fw-medium">' . esc_html('Settings updated successfully.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</span>';
         echo '</div>';
     }
 

@@ -50,11 +50,11 @@ class Assistants extends \BuddyBot\Admin\Responses\MoRoot
 
         $after = '';
 
-        if (!empty(sanitize_text_field($_POST['after']))) {
+        if (!empty($_POST['after'])) {
             $after = '&after=' . sanitize_text_field($_POST['after']);
         }
 
-        $url = 'https://api.openai.com/v1/assistants?limit=10' . sanitize_text_field($after);
+        $url = 'https://api.openai.com/v1/assistants?limit=10' . $after;
         
         $headers = [
             'OpenAI-Beta' => 'assistants=v1',

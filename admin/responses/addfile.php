@@ -52,7 +52,7 @@ class AddFile extends \BuddyBot\Admin\Responses\MoRoot
         ));
 
         // Clean up the temporary file
-        @unlink($temp_file);
+        wp_delete_file($temp_file);
 
         if (is_wp_error($response)) {
             $response_data['success'] = false;

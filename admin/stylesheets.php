@@ -24,11 +24,11 @@ final class StyleSheets extends \BuddyBot\Admin\MoRoot
         $material_symbols = $this->config->getRootUrl() . 'external/material-symbols/material-symbols.css';
         
         if ($this->isInternalPage()) {
-            wp_enqueue_style($this->config::PREFIX . '-material-symbols-css', esc_url($material_symbols));
-            wp_enqueue_style($this->config::PREFIX . '-bootstrap-css', esc_url($bootstrap_css));
-            wp_enqueue_script($this->config::PREFIX . '-bootstrap-js', esc_url($bootstrap_js));
-            wp_enqueue_script($this->config::PREFIX . '-jquery-js', esc_url($jquery_js));
-            wp_enqueue_style($this->config::PREFIX . '-global-css', $this->config->getRootUrl() . 'admin/css/buddybot.css');
+            wp_enqueue_style($this->config::PREFIX . '-material-symbols-css', esc_url($material_symbols), array(), '1.0.0');
+            wp_enqueue_style($this->config::PREFIX . '-bootstrap-css', esc_url($bootstrap_css), array(), '5.3');
+            wp_enqueue_script($this->config::PREFIX . '-bootstrap-js', esc_url($bootstrap_js), array(), '5.3');
+            wp_enqueue_script($this->config::PREFIX . '-jquery-js', esc_url($jquery_js), array(), '3.7.1');
+            wp_enqueue_style($this->config::PREFIX . '-global-css', $this->config->getRootUrl() . 'admin/css/buddybot.css', array(), '1.0.0');
 
         }
     }
@@ -38,7 +38,19 @@ final class StyleSheets extends \BuddyBot\Admin\MoRoot
         if ($this->isInternalPage()) {
             $css_file_name = str_replace('buddybot-','', sanitize_text_field($_GET['page']));
             $css_file_url = $this->config->getRootUrl() . 'admin/css/' . $css_file_name . '.css';
-            wp_enqueue_style(sanitize_text_field($_GET['page']), sanitize_url($css_file_url));
+            $css_file_path = $this->config->getRootPath() . 'admin/css/' . $css_file_name . '.css';
+
+            if (file_exists($css_file_path)) {
+                wp_enqueue_style(sanitize_text_field($_GET['page']), sanitize_url($css_file_url), array(), '1.0.0');
+            }
+
+            $js_file_name = str_replace('buddybot-','', sanitize_text_field($_GET['page']));
+            $js_file_url = $this->config->getRootUrl() . 'admin/css/' . $js_file_name . '.js';
+            $js_file_path = $this->config->getRootPath() . 'admin/css/' . $js_file_name . '.js';
+
+            if (file_exists($js_file_path)) {
+                wp_enqueue_script(sanitize_text_field($_GET['page']), sanitize_url($js_file_url), array(), '1.0.0');
+            }
         }
     }
 

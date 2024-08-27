@@ -2,7 +2,7 @@
 === BuddyBot AI - Custom AI Assistant and Chat Agent ===
 
 Contributors: buddybot 
-Tags: AI, chatbot, OpenAI, assistant, WordPress, Bootstrap  
+Tags: AI, chatbot, OpenAI, AI assistant  
 Requires at least: 5.0  
 Tested up to: 6.6  
 Stable tag: 1.0.0  

@@ -14,7 +14,7 @@ class ChatBot extends \BuddyBot\Admin\Requests\MoRoot
     }
 
     protected function chatbotId() {
-        if (empty(sanitize_text_field($_GET['chatbot_id']))) {
+        if (empty($_GET['chatbot_id'])) {
             return 0;
         } else {
             return sanitize_text_field($_GET['chatbot_id']);

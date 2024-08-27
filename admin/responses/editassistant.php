@@ -58,7 +58,7 @@ class EditAssistant extends \BuddyBot\Admin\Responses\MoRoot
 
         $assistant_id = '';
 
-        if (!empty(sanitize_text_field($_POST['assistant_id']))) {
+        if (!empty($_POST['assistant_id'])) {
             $assistant_id = '/' . sanitize_text_field($_POST['assistant_id']);
         }
 

@@ -42,14 +42,18 @@ final class ShortCodes extends \BuddyBot\Frontend\MoRoot
     {
         wp_enqueue_style(
             'buddybot-material-symbols',
-            $this->config->getRootUrl() . 'external/material-symbols/material-symbols.css'
+            $this->config->getRootUrl() . 'external/material-symbols/material-symbols.css',
+            array(),
+            '1.0.0'
         );
 
         switch ($this->frontend_theme) {
             case 'bootstrap':
                 wp_enqueue_style(
                     'buddybot-bootstrap-style',
-                    $this->config->getRootUrl() . 'external/bootstrap/bootstrap.min.css'
+                    $this->config->getRootUrl() . 'external/bootstrap/bootstrap.min.css',
+                    array(),
+                    '5.3'
                 );
                 break;
         }
@@ -57,13 +61,15 @@ final class ShortCodes extends \BuddyBot\Frontend\MoRoot
 
     private function enqueuePluginScript()
     {
-        wp_enqueue_script('buddybot-jquery', $this->config->getRootUrl() . 'external/jquery/jquery-3.7.1.min.js');
+        wp_enqueue_script('buddybot-jquery', $this->config->getRootUrl() . 'external/jquery/jquery-3.7.1.min.js', array(), '3.7.1');
 
         switch ($this->frontend_theme) {
             case 'bootstrap':
                 wp_enqueue_script(
                     'buddybot-bootstrap-script',
-                    $this->config->getRootUrl() . 'external/bootstrap/bootstrap.min.js'
+                    $this->config->getRootUrl() . 'external/bootstrap/bootstrap.min.js',
+                    array(),
+                    '5.3'
                 );
                 break;
         }
@@ -75,13 +81,13 @@ final class ShortCodes extends \BuddyBot\Frontend\MoRoot
         
         if (file_exists($file_path)) {
             $file_url = $this->config->getRootUrl() . 'frontend/css/' . $file . '.css';
-            wp_enqueue_style('buddybot-style-' . $file, $file_url);
+            wp_enqueue_style('buddybot-style-' . $file, $file_url, array(), '1.0.0');
         }
 
         $file_path = $this->config->getRootPath() . 'frontend/css/' . $this->frontend_theme . '/' . $file . '.css';
         if (file_exists($file_path)) {
             $file_url = $this->config->getRootUrl() . 'frontend/css/'  . $this->frontend_theme . '/' . $file . '.css';
-            wp_enqueue_style('buddybot-style-' . $this->frontend_theme . '-' . $file, $file_url);
+            wp_enqueue_style('buddybot-style-' . $this->frontend_theme . '-' . $file, $file_url, array(), '1.0.0');
         }
     }
 
@@ -90,13 +96,13 @@ final class ShortCodes extends \BuddyBot\Frontend\MoRoot
         $file_path = $this->config->getRootPath() . 'frontend/js/' . $file . '.js';
         if (file_exists($file_path)) {
             $file_url = $this->config->getRootUrl() . 'frontend/js/' . $file . '.js';
-            wp_enqueue_style('buddybot-script-' . $file, $file_url);
+            wp_enqueue_style('buddybot-script-' . $file, $file_url, '1.0.0');
         }
 
         $file_path = $this->config->getRootPath() . 'frontend/js/' . $this->frontend_theme . '/' . $file . '.js';
         if (file_exists($file_path)) {
             $file_url = $this->config->getRootUrl() . 'frontend/js/'  . $this->frontend_theme . '/' . $file . '.js';
-            wp_enqueue_style('buddybot-script-' . $this->frontend_theme . '-' . $file, $file_url);
+            wp_enqueue_style('buddybot-script-' . $this->frontend_theme . '-' . $file, $file_url, array(), '1.0.0');
         }
     }
 

@@ -30,7 +30,7 @@ final class bbOptions
             $option_value = $wpdb->get_var(
                 $wpdb->prepare(
                     'SELECT option_value FROM %i WHERE option_name = %s',
-                    $this->table, $name
+                    esc_sql($this->table), $name
                 )
             );
     

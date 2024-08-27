@@ -221,7 +221,7 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
         ));
     
         // Clean up the temporary file
-        @unlink($temp_file);
+        wp_delete_file($temp_file);
     
         // Check for errors
         if (is_wp_error($response)) {
@@ -345,11 +345,7 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
         $total_tokens = absint($this->response['result']->usage->total_tokens);
 
         // Translators: %1d are number of tokens used by user prompt. %2d is number of tokens used in completition run. %3d are total tokens used in the run.
-        $message = sprintf(
-            esc_html__(
-                'Tokens Prompt: %1$1d. Completion: %2$2d. Total: %3$3d.',
-                'buddybot-ai-custom-ai-assistant-and-chat-agent'
-            ),
+        $message = sprintf(esc_html__('Tokens Prompt: %1$1d. Completion: %2$2d. Total: %3$3d.','buddybot-ai-custom-ai-assistant-and-chat-agent'),
                 absint($prompt_tokens),
                 absint($completion_tokens),
                 absint($total_tokens)

@@ -8,7 +8,7 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
 
     protected function setAssistantId()
     {
-        if (!empty(sanitize_text_field($_GET['assistant_id']))) {
+        if (!empty($_GET['assistant_id'])) {
             $this->assistant_id = sanitize_text_field($_GET['assistant_id']);
         }
     }
@@ -35,7 +35,7 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
         }
 
         echo '
-        const context = "' . esc_html($context) . '";
+        const context = "' . esc_js($context) . '";
         ';
     }
 
@@ -202,7 +202,7 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
 
             const data = {
                 "action": "createAssistant",
-                "assistant_id": "' . absint($this->assistant_id) . '",
+                "assistant_id": "' . esc_js($this->assistant_id) . '",
                 "assistant_data": JSON.stringify(aData),
                 "nonce": "' . esc_js($nonce) . '"
             };

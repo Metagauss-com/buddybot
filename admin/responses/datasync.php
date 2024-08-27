@@ -110,13 +110,41 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
     
     }
 
-    private function writeData($data_type)
+/*     private function writeData($data_type)
     {
         $file = fopen($this->core_files->getLocalPath($data_type), "w");
         fwrite($file, str_replace('&nbsp;',' ', $this->file_data));
         fclose($file);
         $this->file_data = '';
-    }
+    } */
+
+    private function writeData($data_type)
+    {
+        // Initialize the WP_Filesystem
+        if (!function_exists('WP_Filesystem')) {
+            require_once ABSPATH . 'wp-admin/includes/file.php';
+        }
+    
+        WP_Filesystem();
+        global $wp_filesystem;
+    
+        // Get the file path
+        $file_path = $this->core_files->getLocalPath($data_type);
+    
+        // Replace &nbsp; with space
+        $file_data = str_replace('&nbsp;', ' ', $this->file_data);
+    
+        // Write to the file using WP_Filesystem
+        if (!$wp_filesystem->put_contents($file_path, $file_data, FS_CHMOD_FILE)) {
+            // Handle the error if file writing fails
+            return false;
+        }
+    
+        // Clear file data after writing
+        $this->file_data = '';
+    
+        return true;
+    }        
 
     public function transferDataFile()
     {
