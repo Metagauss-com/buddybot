@@ -51,7 +51,7 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
             $this->errors += 1;
             $this->addAlert(
                 // Translators: %s is url to BuddyBot settings page in admin area. This should not be changed.
-                sprintf(esc_html__('OpenAI API Key Missing. Please save it <a href="%s">here.</a>', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_url(admin_url('admin.php?page=buddybot-settings')))
+                sprintf(wp_kses_post('OpenAI API Key Missing. Please save it <a href="%s">here.</a>', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_url(admin_url('admin.php?page=buddybot-settings')))
             );
         }
     }
