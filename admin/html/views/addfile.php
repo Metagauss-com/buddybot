@@ -37,7 +37,7 @@ final class AddFile extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         echo '
         <script>
-        $(document).ready(function(){' . PHP_EOL;
+        jQuery(document).ready(function($){' . PHP_EOL;
 
         $this->openMediaWindow();
         

@@ -8,7 +8,7 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
     {
         ?>
         <script>
-        $(document).ready(function(){
+        jQuery(document).ready(function($){
 
         <?php
         $this->showAlertJs();

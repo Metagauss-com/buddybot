@@ -264,7 +264,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
         ?>
 
         <script>
-        $(document).ready(function(){
+        jQuery(document).ready(function($){
         
         <?php
 
