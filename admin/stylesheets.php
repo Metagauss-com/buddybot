@@ -42,14 +42,6 @@ final class StyleSheets extends \BuddyBot\Admin\MoRoot
             if (file_exists($css_file_path)) {
                 wp_enqueue_style(sanitize_text_field($_GET['page']), sanitize_url($css_file_url), array(), '1.0.0');
             }
-
-            $js_file_name = str_replace('buddybot-','', sanitize_text_field($_GET['page']));
-            $js_file_url = $this->config->getRootUrl() . 'admin/js/' . $js_file_name . '.js';
-            $js_file_path = $this->config->getRootPath() . 'admin/js/' . $js_file_name . '.js';
-
-            if (file_exists($js_file_path)) {
-                wp_enqueue_script(sanitize_text_field($_GET['page']), sanitize_url($js_file_url), array('jquery'), '1.0.0');
-            }
         }
     }
 

@@ -37,6 +37,9 @@ class MoRoot extends \BuddyBot\Admin\Html\MoRoot
 
     public function pageJs()
     {
-
+        $js_file_name = str_replace('buddybot-','', sanitize_text_field($_GET['page']));
+        $js_file_url = $this->config->getRootUrl() . 'admin/js/' . $js_file_name . '.js';
+        wp_enqueue_script(sanitize_text_field($_GET['page']), sanitize_url($js_file_url), array('jquery'), '1.0.0');
+        wp_add_inline_script(sanitize_text_field($_GET['page']), $this->getInlineJs());
     }
 }

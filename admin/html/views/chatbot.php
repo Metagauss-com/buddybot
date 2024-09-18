@@ -186,20 +186,19 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '</p>';
     }
     
-    public function pageJs()
-    {
-        ?>
-
-        <script id="buddybot-chatbot-footer-js">
-        loadFirstBuddyBot();
-
-        function loadFirstBuddyBot() {
-            if ( <?php echo absint($this->chatbot_id) ?> !==  <?php echo absint($this->first_id)  ?> ) {
-                location.replace("<?php echo esc_url(admin_url()) ?>admin.php?page=buddybot-chatbot&chatbot_id=<?php echo absint($this->first_id) ?> ")
+    public function getInlineJs()
+    {    
+        return '
+        jQuery(document).ready(function($){
+    
+            loadFirstBuddyBot();
+    
+            function loadFirstBuddyBot() {
+                if (' . absint($this->chatbot_id) . ' !==  ' . absint($this->first_id) . ' ) {
+                    location.replace("' . esc_url(admin_url()) . 'admin.php?page=buddybot-chatbot&chatbot_id=' . absint($this->first_id) . '");
+                }
             }
-        }
-        </script>
-
-        <?php
+        })';
     }
+    
 }

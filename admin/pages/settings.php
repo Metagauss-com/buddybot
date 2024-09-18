@@ -13,7 +13,7 @@ if ($buddybot_checks->hasErrors()) {
 
 $mo_settings_page = new \BuddyBot\Admin\Html\Views\Settings();
 $mo_settings_page->getHtml();
-add_action('admin_print_footer_scripts', array($mo_settings_page, 'pageJs'));
+$mo_settings_page->pageJs();
 
 $mo_settings_requests = new \BuddyBot\Admin\Requests\Settings();
 add_action('admin_print_footer_scripts', array($mo_settings_requests, 'requestsJs'));

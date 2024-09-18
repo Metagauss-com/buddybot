@@ -33,22 +33,18 @@ final class AddFile extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '</div>';
     }
 
-    public function pageJs()
+    public function getInlineJs()
     {
-        echo '
-        <script>
+        $js = '
         jQuery(document).ready(function($){' . PHP_EOL;
-
-        $this->openMediaWindow();
-        
-        echo 
-        PHP_EOL . '});
-        </script>';
+        $js .= $this->openMediaWindow();
+        $js .= '});';
+        return $js;
     }
 
     private function openMediaWindow()
     {
-        echo '
+        return '
         $("#buddybot-file-select-btn").click(function(e) {
 
             e.preventDefault();

@@ -12,7 +12,7 @@ if ($buddybot_checks->hasErrors()) {
 
 $mo_playground_page = new \BuddyBot\Admin\Html\Views\Playground();
 $mo_playground_page->getHtml();
-add_action('admin_print_footer_scripts', array($mo_playground_page, 'pageJs'));
+$mo_playground_page->pageJs();
 
 $mo_playground_requests = new \BuddyBot\Admin\Requests\Playground();
 add_action('admin_print_footer_scripts', array($mo_playground_requests, 'requestsJs'));

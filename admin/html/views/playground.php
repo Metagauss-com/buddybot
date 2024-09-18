@@ -259,24 +259,13 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
         }
     }
 
-    public function pageJs()
+    public function getInlineJs()
     {
-        ?>
-
-        <script>
-        jQuery(document).ready(function($){
-        
-        <?php
-
-        $this->openMediaWindowJs();
-        $this->selectAttachmentJs();
-        
-        ?>
-        
-        });
-        </script>'
-        
-        <?php
+        $js = 'jQuery(document).ready(function($){';
+        $js .= $this->openMediaWindowJs();
+        $js .= $this->selectAttachmentJs();
+        $js .= '});';
+        return $js;
     }
 
     private function openMediaWindowJs()
@@ -284,7 +273,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
         $title = __('Select a file to attach to your message', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $btn_label = __('Attach To Message', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         
-        echo '
+        return '
         $("#mgao-playground-message-file-btn").click(function(e) {
 
             e.preventDefault();
@@ -317,7 +306,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function selectAttachmentJs()
     {   
-        echo '
+        return '
         function selectAttachment(attachment) {
             if (
                 typeof attachment === "object" &&

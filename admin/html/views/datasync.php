@@ -82,7 +82,7 @@ final class DataSync extends \BuddyBot\Admin\Html\Views\MoRoot
         $this->listItem($type, $heading, $text);
     }
 
-    public function pageJs()
+    public function getInlineJs()
     {
         
     }
