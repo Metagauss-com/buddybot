@@ -38,7 +38,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
 
     protected function shortcodeJs()
     {
-        wp_enqueue_script('buddybot-chatbot-script', $this->config->getRootUrl() . 'frontend/js/test.js', array('jquery'), '1.0', true);
+        wp_enqueue_script('buddybot-chatbot-script', $this->config->getRootUrl() . 'frontend/js/buddybotchat.js', array('jquery'), '1.0', true);
         $js = \BuddyBot\Frontend\Requests\BuddybotChat::getInstance();
         wp_add_inline_script('buddybot-chatbot-script', $js->localJs());
     }
