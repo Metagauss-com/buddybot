@@ -26,7 +26,6 @@ final class ShortCodes extends \BuddyBot\Frontend\MoRoot
             $this->enqueuePluginStyle();
             $this->enqueuePluginScript();
             $this->enqueueViewStyle($class);
-            $this->enqueueViewScript($class);
 
             $view_class = 'BuddyBot\Frontend\Views\\' . $this->frontend_theme . '\\' . $class;
             $view = $view_class::getInstance();
@@ -85,25 +84,6 @@ final class ShortCodes extends \BuddyBot\Frontend\MoRoot
             $file_url = $this->config->getRootUrl() . 'frontend/css/'  . $this->frontend_theme . '/' . $file . '.css';
             wp_enqueue_style('buddybot-style-' . $this->frontend_theme . '-' . $file, $file_url, array(), '1.0.0');
         }
-    }
-
-    private function enqueueViewScript($file)
-    {
-        $file_path = $this->config->getRootPath() . 'frontend/js/' . $file . '.js';
-        if (file_exists($file_path)) {
-            $file_url = $this->config->getRootUrl() . 'frontend/js/' . $file . '.js';
-            wp_enqueue_style('buddybot-script-' . $file, $file_url, '1.0.0');
-        }
-
-        $file_path = $this->config->getRootPath() . 'frontend/js/' . $this->frontend_theme . '/' . $file . '.js';
-        if (file_exists($file_path)) {
-            $file_url = $this->config->getRootUrl() . 'frontend/js/'  . $this->frontend_theme . '/' . $file . '.js';
-            wp_enqueue_style('buddybot-script-' . $this->frontend_theme . '-' . $file, $file_url, array(), '1.0.0');
-        }
-
-        $js_class = 'BuddyBot\Frontend\requests\\' . $file;
-        $js = $js_class::getInstance();
-        wp_add_inline_script('buddybot-script-' . $file, $js->localJs());
     }
 
     public function __construct()

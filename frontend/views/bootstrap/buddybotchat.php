@@ -23,6 +23,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
         ), $atts );
 
         $html = $this->securityChecksHtml();
+        $this->shortcodeJs();
 
         if (!$this->errors) {
             $html .= $this->deleteConversationModalHtml();
@@ -33,6 +34,13 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
         }
 
         return $html;
+    }
+
+    protected function shortcodeJs()
+    {
+        wp_enqueue_script('buddybot-chatbot-script', $this->config->getRootUrl() . 'frontend/js/test.js', array('jquery'), '1.0', true);
+        $js = \BuddyBot\Frontend\Requests\BuddybotChat::getInstance();
+        wp_add_inline_script('buddybot-chatbot-script', $js->localJs());
     }
 
     protected function buddybotId()
