@@ -181,7 +181,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
                 "order": "desc",
                 "after": after,
                 "timezone": bbTimeZone,
-                "nonce": "' . esc_js(wp_create_nonce('get_messages')) . '"
+                "nonce": "' . esc_js(\wp_create_nonce('get_messages')) . '"
             };
 
             $.post(ajaxurl, data, function(response) {

@@ -31,10 +31,6 @@ final class ShortCodes extends \BuddyBot\Frontend\MoRoot
             $view_class = 'BuddyBot\Frontend\Views\\' . $this->frontend_theme . '\\' . $class;
             $view = $view_class::getInstance();
             add_shortcode($shortcode, array($view, 'shortcodeHtml'));
-
-            $js_class = 'BuddyBot\Frontend\requests\\' . $class;
-            $js = $js_class::getInstance();
-            add_action('wp_footer', array($js, 'localJs'));
         }
     }
 
@@ -61,7 +57,7 @@ final class ShortCodes extends \BuddyBot\Frontend\MoRoot
 
     private function enqueuePluginScript()
     {
-        wp_enqueue_script('buddybot-jquery', $this->config->getRootUrl() . 'external/jquery/jquery-3.7.1.min.js', array(), '3.7.1');
+        wp_enqueue_script('jquery');
 
         switch ($this->frontend_theme) {
             case 'bootstrap':
@@ -104,6 +100,10 @@ final class ShortCodes extends \BuddyBot\Frontend\MoRoot
             $file_url = $this->config->getRootUrl() . 'frontend/js/'  . $this->frontend_theme . '/' . $file . '.js';
             wp_enqueue_style('buddybot-script-' . $this->frontend_theme . '-' . $file, $file_url, array(), '1.0.0');
         }
+
+        $js_class = 'BuddyBot\Frontend\requests\\' . $file;
+        $js = $js_class::getInstance();
+        wp_add_inline_script('buddybot-script-' . $file, $js->localJs());
     }
 
     public function __construct()

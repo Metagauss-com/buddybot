@@ -12,9 +12,6 @@ if ($buddybot_checks->hasErrors()) {
 
 $mo_assistant_page = new \BuddyBot\Admin\Html\Views\EditAssistant();
 $mo_assistant_page->getHtml();
-
-$mo_assistant_requests = new \BuddyBot\Admin\Requests\EditAssistant();
-add_action('admin_print_footer_scripts', array($mo_assistant_requests, 'requestsJs'));
 ?>
 
 </div>

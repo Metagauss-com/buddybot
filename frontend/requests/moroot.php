@@ -13,10 +13,15 @@ class MoRoot extends \BuddyBot\Frontend\Moroot
         $name =  new \ReflectionClass($this);
         $name =  $name->getShortName();
         $js_id = 'buddybot-' . strtolower($name) . '-local-js';
+
+        ob_start();
         echo '<script id="' . esc_attr($js_id) . '">';
+        echo 'jQuery(document).ready(function($){';
         $this->ajaxUrl();
         $this->shortcodeJs();
+        echo '});';
         echo '</script>';
+        return ob_get_clean();
     }
 
     protected function ajaxUrl()
