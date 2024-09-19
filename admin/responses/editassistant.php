@@ -70,7 +70,8 @@ class EditAssistant extends \BuddyBot\Admin\Responses\MoRoot
             'Authorization' => 'Bearer ' . $this->api_key
         ];
 
-        $assistant_data = json_decode(wp_unslash($_POST['assistant_data']));
+        $assistant_data = json_decode( wp_unslash( sanitize_text_field( $_POST['assistant_data'] ) ), false );
+
 
         $data = array(
             'model' => $assistant_data->model,

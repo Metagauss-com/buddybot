@@ -119,7 +119,7 @@ final class AdminMenu extends \BuddyBot\Admin\MoRoot
             __('Edit Assistant', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
             __('Edit Assistant', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
             'manage_options',
-            'buddybot-assistant',
+            'buddybot-editassistant',
             array($this, 'EditAssistantMenuPage'),
             1
         );

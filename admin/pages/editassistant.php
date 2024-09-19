@@ -12,6 +12,7 @@ if ($buddybot_checks->hasErrors()) {
 
 $mo_assistant_page = new \BuddyBot\Admin\Html\Views\EditAssistant();
 $mo_assistant_page->getHtml();
+$mo_assistant_page->pageJs();
 ?>
 
 </div>

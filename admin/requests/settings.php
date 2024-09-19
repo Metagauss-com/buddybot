@@ -67,7 +67,7 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
 
             const data = {
                 "action": "saveSettings",
-                "options_data": optionsData,
+                "options_data": JSON.stringify(optionsData),
                 "section": section,
                 "nonce": "' . esc_js(wp_create_nonce('save_settings')) . '"
             };

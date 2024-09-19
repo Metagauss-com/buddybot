@@ -199,6 +199,5 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
                 }
             }
         })';
-    }
-    
+    }  
 }

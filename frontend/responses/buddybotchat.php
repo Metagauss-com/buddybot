@@ -6,7 +6,8 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
     public function getConversationList()
     {
         $buddybot_chat = \BuddyBot\Frontend\Views\Bootstrap\BuddybotChat::getInstance();
-        $buddybot_chat->conversationList($_POST['timezone']);
+        $timezone = sanitize_text_field(wp_unslash($_POST['timezone']));
+        $buddybot_chat->conversationList($timezone);
         wp_die();
     }
 

@@ -104,7 +104,7 @@ class Assistants extends \BuddyBot\Admin\Responses\MoRoot
 
     protected function assistantBtns($assistant_id)
     {   
-        $assistant_url = get_admin_url() . 'admin.php?page=buddybot-assistant&assistant_id=' . $assistant_id;
+        $assistant_url = get_admin_url() . 'admin.php?page=buddybot-editassistant&assistant_id=' . $assistant_id;
         $html = '<div class="btn-group btn-group-sm me-2" role="group" aria-label="Basic example">';
         $html .= '<a href="' . esc_url($assistant_url) . '" type="button" class="buddybot-listbtn-assistant-edit btn btn-outline-dark">' . $this->moIcon('edit') . '</a>';
         $html .= '<button type="button" class="buddybot-listbtn-assistant-delete btn btn-outline-dark" data-buddybot-itemid="' . esc_html($assistant_id) . '">' . $this->moIcon('delete') . '</button>';

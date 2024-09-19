@@ -21,7 +21,7 @@ class Settings extends \BuddyBot\Admin\Responses\MoRoot
     {
         $this->checkNonce('save_settings');
 
-        $options_data = $_POST['options_data'];
+        $options_data = json_decode(wp_unslash(sanitize_text_field($_POST['options_data'])), true);
 
         if (!is_array($options_data)) {
             $this->response['success'] = false;

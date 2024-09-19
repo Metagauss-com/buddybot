@@ -211,7 +211,7 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
                 hideBtnLoader("#buddybot-editassistant-editassistant-submit");
                 response = JSON.parse(response);
                 if (response.success) {
-                    location.replace("' . esc_url(get_admin_url()) . 'admin.php?page=buddybot-assistant&assistant_id=' . '" + response.result.id);
+                    location.replace("' . esc_url(get_admin_url()) . 'admin.php?page=buddybot-editassistant&assistant_id=' . '" + response.result.id);
                 } else {
                     showAlert(response.message);
                 }
