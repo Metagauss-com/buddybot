@@ -1,8 +1,8 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Secure;
+namespace BuddyBot\Admin\Secure;
 
-class MoRoot extends \MetagaussOpenAI\Admin\MoRoot
+class MoRoot extends \BuddyBot\Admin\MoRoot
 {
     protected $errors = array();
     protected $sql;
@@ -13,7 +13,7 @@ class MoRoot extends \MetagaussOpenAI\Admin\MoRoot
         $file_path = $this->config->getRootPath() . 'admin/sql/' . strtolower($class_name) . '.php';
 
         if (file_exists($file_path)) {
-            $class_name = '\MetagaussOpenAI\Admin\Sql\\' . $class_name;
+            $class_name = '\BuddyBot\Admin\Sql\\' . $class_name;
             $this->sql = $class_name::getInstance(); 
         }
     }
@@ -28,7 +28,7 @@ class MoRoot extends \MetagaussOpenAI\Admin\MoRoot
         $clean_data = array();
 
         if(!is_array($data)) {
-            $this->errors[] = __('Data should be in array format.', 'metagauss-openai');
+            $this->errors[] = __('Data should be in array format.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             return;
         }
 

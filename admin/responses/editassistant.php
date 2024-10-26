@@ -1,35 +1,31 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Responses;
+namespace BuddyBot\Admin\Responses;
 
-class EditAssistant extends \MetagaussOpenAI\Admin\Responses\MoRoot
+class EditAssistant extends \BuddyBot\Admin\Responses\MoRoot
 {
     public function getModels()
     {
         $this->checkNonce('get_models');
 
         $url = 'https://api.openai.com/v1/models';
-        $ch = curl_init($url);
         
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Authorization: Bearer ' . $this->api_key
-            )
-        );
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->api_key
+        ];
 
-        $output = curl_exec($ch);
-        curl_close($ch);
+        $args = ['headers' => $headers];
 
-        $output = json_decode($output);
+        $this->openai_response = wp_remote_get($url, $args);
+        $this->processResponse();
 
-        if ($output->object === 'list') {
+        if ($this->openai_response_body->object === 'list') {
             $this->response['success'] = true;
-            $this->response['list'] = $output->data;
-            $this->response['html'] = $this->modelsListHtml($output->data);
+            $this->response['list'] = $this->openai_response_body->data;
+            $this->response['html'] = $this->modelsListHtml($this->openai_response_body->data);
         } else {
             $this->response['success'] = false;
-            $this->response['message'] = __('Unable to fetch models list.', 'metagauss-openai');
+            $this->response['message'] = __('Unable to fetch models list.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
 
         echo wp_json_encode($this->response);
@@ -41,19 +37,15 @@ class EditAssistant extends \MetagaussOpenAI\Admin\Responses\MoRoot
         $this->checkNonce('get_files');
 
         $url = 'https://api.openai.com/v1/files';
-        $ch = curl_init($url);
         
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Authorization: Bearer ' . $this->api_key
-            )
-        );
+        $headers = ['Authorization' => 'Bearer ' . $this->api_key];
 
-        $output = $this->curlOutput($ch);
-        $this->checkError($output);
+        $args = ['headers' => $headers];
 
-        $this->response['html'] = $this->filesListHtml($output->data);
+        $this->openai_response = wp_remote_get($url, $args);
+        $this->processResponse();
+
+        $this->response['html'] = $this->filesListHtml($this->openai_response_body->data);
 
         echo wp_json_encode($this->response);
         wp_die();
@@ -67,39 +59,37 @@ class EditAssistant extends \MetagaussOpenAI\Admin\Responses\MoRoot
         $assistant_id = '';
 
         if (!empty($_POST['assistant_id'])) {
-            $assistant_id = '/' . $_POST['assistant_id'];
+            $assistant_id = '/' . sanitize_text_field($_POST['assistant_id']);
         }
 
         $url = 'https://api.openai.com/v1/assistants' . $assistant_id;
-
-        $ch = curl_init($url);
         
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Content-Type: application/json',
-            'Authorization: Bearer ' . $this->api_key,
-            'OpenAI-Beta: assistants=v1'
-            )
-        );
+        $headers = [
+            'Content-Type' => 'application/json',
+            'OpenAI-Beta' => 'assistants=v1',
+            'Authorization' => 'Bearer ' . $this->api_key
+        ];
 
-        $assistant_data = json_decode(wp_unslash($_POST['assistant_data']));
+        $assistant_data = json_decode( wp_unslash( sanitize_text_field( $_POST['assistant_data'] ) ), false );
+
 
         $data = array(
             'model' => $assistant_data->model,
             'name' => $assistant_data->name,
             'description' => $assistant_data->description,
+            'tools' => $this->assistantTools($assistant_data->tools),
+            'file_ids' => $this->assistantFiles($assistant_data->file_ids)
         );
 
-        $data['tools'] = $this->assistantTools($assistant_data->tools);
-        $data['file_ids'] = $this->assistantFiles($assistant_data->file_ids);
+        $args = [
+            'headers' => $headers,
+            'body' => wp_json_encode($data),
+            'method' => 'POST'
+        ];
 
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        $this->openai_response = wp_remote_post($url, $args);
+        $this->processResponse();
 
-        $output = $this->curlOutput($ch);
-        $this->checkError($output);
-
-        $this->response['result'] = $output;
         echo wp_json_encode($this->response);
         wp_die();
     }
@@ -150,6 +140,9 @@ class EditAssistant extends \MetagaussOpenAI\Admin\Responses\MoRoot
 
     private function filesListHtml($list)
     {
+        $remote_posts_file_id = $this->core_files->getRemoteFileId('posts');
+        $remote_comments_file_id = $this->core_files->getRemoteFileId('comments');
+
         $html = '';
 
         if (!is_array($list) or empty($list)) {
@@ -158,12 +151,30 @@ class EditAssistant extends \MetagaussOpenAI\Admin\Responses\MoRoot
 
         foreach ($list as $file) {
 
+            $ext = pathinfo($file->filename, PATHINFO_EXTENSION);
+
+            if (empty($ext)) {
+                continue;
+            }
+
+            $badge ='';
+
+            if ($file->id === $remote_posts_file_id) {
+                $badge = '<span class="badge text-bg-success rounded-pill ms-1 text-uppercase">' . __('Latest Posts File', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</span>';
+            }
+
+            if ($file->id === $remote_comments_file_id) {
+                $badge = '<span class="badge text-bg-success rounded-pill ms-1 text-uppercase">' . __('Latest Comments File', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</span>';
+            }
+
             if ($file->purpose === 'assistants' and absint($file->bytes) <= 536870912) {
-                $html .= '<div class="mb-2 text-muted">';
-                $html .= '<label for="' . $file->id . '">';
-                $html .= '<input type="checkbox" class="me-2 mo-item-field" id="' . $file->id . '" value="' . $file->id . '">';
-                $html .= $file->filename;
-                $html .= '<span class="badge text-bg-secondary rounded-pill ms-1">' . $this->fileSize($file->bytes) . '</span>';
+                $html .= '<div class="mb-2">';
+                $html .= '<label for="' . $file->id . '" title="' . $file->filename . '">';
+                $html .= '<input type="checkbox" class="me-2 buddybot-item-field" id="' . $file->id . '" value="' . $file->id . '">';
+                $html .= (strlen($file->filename) > 20) ? substr($file->filename, 0, 20).'...' : $file->filename;
+                $html .= '<span class="font-monospace ms-1 text-muted"> / ' . $ext . '</span>';
+                $html .= '<span class="font-monospace ms-1 text-muted"> / ' . $this->fileSize($file->bytes) . '</span>';
+                $html .= $badge;
                 $html .= '</label>';
                 $html .= '</div>';
             }
@@ -172,30 +183,40 @@ class EditAssistant extends \MetagaussOpenAI\Admin\Responses\MoRoot
         return $html;
     }
 
-    public function getAssistantData()
-    {
-        $this->checkNonce('get_assistant_data');
+public function getAssistantData()
+{
+    $this->checkNonce('get_assistant_data');
 
-        $assistant_id = sanitize_text_field($_POST['assistant_id']);
+    $assistant_id = sanitize_text_field($_POST['assistant_id']);
 
-        $url = 'https://api.openai.com/v1/assistants/' . $assistant_id;
-        $ch = curl_init($url);
-        
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Content-Type: application/json',
-            'Authorization: Bearer ' . $this->api_key,
-            'OpenAI-Beta: assistants=v1'
-            )
-        );
+    $url = 'https://api.openai.com/v1/assistants/' . $assistant_id;
 
-        $output = $this->curlOutput($ch);
-        $this->checkError($output);
+    $headers = array(
+        'Content-Type' => 'application/json',
+        'Authorization' => 'Bearer ' . $this->api_key,
+        'OpenAI-Beta' => 'assistants=v1'
+    );
 
-        echo wp_json_encode($this->response);
+    $response = wp_remote_get($url, array(
+        'headers' => $headers,
+        'timeout' => 60,
+    ));
+
+    if (is_wp_error($response)) {
+        $this->response['sucess'] = false;
+        $this->response['message'] = $response->get_error_message();
         wp_die();
     }
+
+    $output = json_decode(wp_remote_retrieve_body($response), true);
+    $this->checkError($output);
+
+    $this->response['success'] = true;
+    $this->response['result'] = $output;
+    
+    echo wp_json_encode($this->response);
+    wp_die();
+}
 
     public function __construct()
     {

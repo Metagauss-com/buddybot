@@ -1,6 +1,6 @@
 <?php
 
-namespace MetagaussOpenAI;
+namespace BuddyBot;
 
 class MoDb
 {   
@@ -22,6 +22,7 @@ class MoDb
         thread_id varchar(100),
         user_id mediumint(9),
         thread_name varchar(100),
+        created datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
         PRIMARY KEY  (id)
         )  $this->charset;";
         

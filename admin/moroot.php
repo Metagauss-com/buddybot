@@ -1,8 +1,8 @@
 <?php
 
-namespace MetagaussOpenAI\Admin;
+namespace BuddyBot\Admin;
 
-class MoRoot extends \MetagaussOpenAI\MoRoot
+class MoRoot extends \BuddyBot\MoRoot
 {
     protected function fileSize($bytes)
     {

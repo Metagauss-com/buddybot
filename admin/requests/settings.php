@@ -1,8 +1,8 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Requests;
+namespace BuddyBot\Admin\Requests;
 
-final class Settings extends \MetagaussOpenAI\Admin\Requests\MoRoot
+final class Settings extends \BuddyBot\Admin\Requests\MoRoot
 {
     public function requestJs()
     {
@@ -30,19 +30,19 @@ final class Settings extends \MetagaussOpenAI\Admin\Requests\MoRoot
         $("#mgao-settings-section-select").change(sectionToggle);
 
         function sectionToggle() {
-            $("#mgoa-settings-section-options > tbody").html("");
-            $("#mgoa-settings-section-options-loader").removeClass("visually-hidden");
+            $("#buddybot-settings-section-options > tbody").html("");
+            $("#buddybot-settings-section-options-loader").removeClass("visually-hidden");
             let section = $("#mgao-settings-section-select").val();
 
             const data = {
                 "action": "getOptions",
                 "section": section,
-                "nonce": "' . wp_create_nonce('get_options') . '"
+                "nonce": "' . esc_js(wp_create_nonce('get_options')) . '"
             };
   
             $.post(ajaxurl, data, function(response) {
-                $("#mgoa-settings-section-options-loader").addClass("visually-hidden");
-                $("#mgoa-settings-section-options > tbody").html(response);
+                $("#buddybot-settings-section-options-loader").addClass("visually-hidden");
+                $("#buddybot-settings-section-options > tbody").html(response);
             });
         }
         ';
@@ -51,7 +51,7 @@ final class Settings extends \MetagaussOpenAI\Admin\Requests\MoRoot
     private function saveOptionsJs()
     {
         echo '
-        $("#mgoa-settings-update-btn").click(saveOptions);
+        $("#buddybot-settings-update-btn").click(saveOptions);
 
         function saveOptions() {
 
@@ -67,18 +67,17 @@ final class Settings extends \MetagaussOpenAI\Admin\Requests\MoRoot
 
             const data = {
                 "action": "saveSettings",
-                "options_data": optionsData,
+                "options_data": JSON.stringify(optionsData),
                 "section": section,
-                "nonce": "' . wp_create_nonce('save_settings') . '"
+                "nonce": "' . esc_js(wp_create_nonce('save_settings')) . '"
             };
 
             $.post(ajaxurl, data, function(response) {
-                alert(response);
                 response = JSON.parse(response);
                 if (response.success) {
-                    location.replace("' . admin_url() . 'admin.php?page=metagaussopenai-settings&section=' . '" + section + "&success=1");
+                    location.replace("' . esc_url(admin_url()) . 'admin.php?page=buddybot-settings&section=' . '" + section + "&success=1");
                 } else {
-                    $("#mgoa-settings-error-message").html(response.message);
+                    $("#buddybot-settings-error-message").html(response.message);
                     dataErrors = response.errors;
                     displayErrors();
                 }
@@ -109,17 +108,17 @@ final class Settings extends \MetagaussOpenAI\Admin\Requests\MoRoot
             let errorsHtml = "";
 
             if (dataErrors.length === 0) {
-                $("#mgoa-settings-errors").hide();
+                $("#buddybot-settings-errors").hide();
                 return;
             }
 
-            $("#mgoa-settings-success").hide();
+            $("#buddybot-settings-success").hide();
             $.each(dataErrors, function(index, value){
                 errorsHtml = errorsHtml + "<li>" + value + "</li>";
             });
 
-            $("#mgoa-settings-errors-list").html(errorsHtml);
-            $("#mgoa-settings-errors").show();
+            $("#buddybot-settings-errors-list").html(errorsHtml);
+            $("#buddybot-settings-errors").show();
             dataErrors.length = 0;
         }
         ';
@@ -129,11 +128,11 @@ final class Settings extends \MetagaussOpenAI\Admin\Requests\MoRoot
     {
         echo '
         function getOpenAiApiKey() {
-            let key = $("#mgoa-settings-openai-api-key").val();
+            let key = $("#buddybot-settings-openai-api-key").val();
             key = $.trim(key);
 
             if (key === "") {
-                dataErrors.push("' . __('OpenAI API Key cannot be empty.', 'metagauss-openai') . '"); 
+                dataErrors.push("' . esc_html(__('OpenAI API Key cannot be empty.', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '"); 
             }
 
             return key;

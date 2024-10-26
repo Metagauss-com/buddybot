@@ -1,14 +1,15 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Requests;
+namespace BuddyBot\Admin\Requests;
 
-class MoRoot extends \MetagaussOpenAI\Admin\MoRoot
+class MoRoot extends \BuddyBot\Admin\MoRoot
 {
     public function requestsJs()
     {
-        echo '
-        <script>
-        $(document).ready(function(){' . PHP_EOL;
+
+        ob_start();
+        
+        echo 'jQuery(document).ready(function($){';
 
         $this->showAlertJs();
         $this->hideAlertJs();
@@ -16,17 +17,17 @@ class MoRoot extends \MetagaussOpenAI\Admin\MoRoot
         $this->disableFieldsJs();
         $this->requestJs();
         
-        echo 
-        PHP_EOL . '});
-        </script>';
+        echo '});';
+
+        return ob_get_clean();
     }
 
     protected function showAlertJs()
     {
         echo '
         function showAlert(message = "") {
-            $("#mo-alert-container").html(message);
-            $("#mo-alert-container").show();
+            $("#buddybot-alert-container").html(message);
+            $("#buddybot-alert-container").show();
         }
         ';
     }
@@ -35,8 +36,8 @@ class MoRoot extends \MetagaussOpenAI\Admin\MoRoot
     {
         echo '
         function hideAlert(message = "") {
-            $("#mo-alert-container").html("");
-            $("#mo-alert-container").hide();
+            $("#buddybot-alert-container").html("");
+            $("#buddybot-alert-container").hide();
         }
         ';
     }
@@ -46,14 +47,14 @@ class MoRoot extends \MetagaussOpenAI\Admin\MoRoot
         echo '
         function showBtnLoader(btnId) {
             $(btnId).prop("disabled", true);
-            $(btnId).children(".mo-loaderbtn-label").addClass("visually-hidden");
-            $(btnId).children(".mo-loaderbtn-spinner").removeClass("visually-hidden");
+            $(btnId).children(".buddybot-loaderbtn-label").addClass("visually-hidden");
+            $(btnId).children(".buddybot-loaderbtn-spinner").removeClass("visually-hidden");
         }
 
         function hideBtnLoader(btnId) {
             $(btnId).prop("disabled", false);
-            $(btnId).children(".mo-loaderbtn-label").removeClass("visually-hidden");
-            $(btnId).children(".mo-loaderbtn-spinner").addClass("visually-hidden");
+            $(btnId).children(".buddybot-loaderbtn-label").removeClass("visually-hidden");
+            $(btnId).children(".buddybot-loaderbtn-spinner").addClass("visually-hidden");
         }
         ';
     }
@@ -62,7 +63,7 @@ class MoRoot extends \MetagaussOpenAI\Admin\MoRoot
     {
         echo '
         function disableFields(isDisabled) {
-            $(".mo-item-field").each(function(){
+            $(".buddybot-item-field").each(function(){
                 $(this).prop("disabled", isDisabled);
             });
         }

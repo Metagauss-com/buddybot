@@ -1,8 +1,8 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Html\Elements\Chatbot;
+namespace BuddyBot\Admin\Html\Elements\Chatbot;
 
-class AssistantList extends \MetagaussOpenAI\Admin\Html\Elements\Chatbot\MoRoot
+class AssistantList extends \BuddyBot\Admin\Html\Elements\Chatbot\MoRoot
 {
     protected $item;
 
@@ -27,7 +27,7 @@ class AssistantList extends \MetagaussOpenAI\Admin\Html\Elements\Chatbot\MoRoot
         $name = $this->item->name;
 
         if (empty($name)) {
-            $name = __('Unnamed', 'metagauss-openai');
+            $name = __('Unnamed', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
 
         $html = '<div class="small fw-bold">';
@@ -47,8 +47,8 @@ class AssistantList extends \MetagaussOpenAI\Admin\Html\Elements\Chatbot\MoRoot
     private function createdOn()
     {
         $format = get_option('date_format') . ' ' . get_option('time_format');
-        $html = '<div class="small text-muted">';
-        $html .= __('Created On', 'metagauss-openai');
+        $html = '<div class="small">';
+        $html .= __('Created On', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $html .= ' ';
         $html .= wp_date($format, $this->item->created_at);
         $html .= '</div>';

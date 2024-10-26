@@ -1,30 +1,21 @@
 <?php
 
-namespace MetagaussOpenAI;
+namespace BuddyBot;
 
 final class MoConfig
 {
-    public const PREFIX = "metagauss-openai"; 
+    public const PREFIX = "buddybot";
     protected static $instance;
     protected $db_tables;
+    protected $c_key = 'nsalfpn8ec';
     protected $unsupported_models = array();
     protected $date_format;
     protected $time_format;
-    
-    public function isCurlSet()
-    {
-        if  (in_array  ('curl', get_loaded_extensions())) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
 
     private function setDbTables()
     {
         global $wpdb;
-        $prefix = $wpdb->prefix . 'mgoa_';
+        $prefix = $wpdb->prefix . 'buddybot_';
         $this->db_tables = array(
             'threads' => $prefix . 'threads',
             'chatbot' => $prefix . 'chatbot',

@@ -1,16 +1,16 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Html\Views;
+namespace BuddyBot\Admin\Html\Views;
 
-final class Settings extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
+final class Settings extends \BuddyBot\Admin\Html\Views\MoRoot
 {
     protected $sections;
 
     protected function setSections()
     {
         $this->sections = array(
-            'general' => __('General', 'metagauss-openai'),
-            'extensions' => __('Extensions', 'metagauss-openai')
+            'general' => __('General', 'buddybot-ai-custom-ai-assistant-and-chat-agent')
+            // 'extensions' => __('Extensions', 'buddybot-ai-custom-ai-assistant-and-chat-agent')
         );
     }
 
@@ -19,7 +19,7 @@ final class Settings extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
         $this->pageSuccessAlert();
         $this->pageErrors();
 
-        $heading = __('Settings', 'megaform-openai');
+        $heading = __('Settings', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $this->pageHeading($heading);
         $this->sectionToggle();
         $this->optionsLoader();
@@ -29,27 +29,27 @@ final class Settings extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
 
     private function pageSuccessAlert()
     {
-        if (empty($_GET['success']) or $_GET['success'] != 1) {
+        if (empty($_GET['success']) or absint($_GET['success']) != 1) {
             return;
         }
 
-        echo '<div id="mgoa-settings-success" class="notice notice-success mb-3 ms-0">';
-        echo '<p id="mgoa-settings-success-message" class="fw-bold">' . __('Settings updated successfully.', 'metagauss-openai') . '</p>';
+        echo '<div id="buddybot-settings-success" class="notice notice-success mb-3 ms-0 py-2 small">';
+        echo '<span id="buddybot-settings-success-message" class="fw-medium">' . esc_html('Settings updated successfully.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</span>';
         echo '</div>';
     }
 
     private function pageErrors()
     {
-        echo '<div id="mgoa-settings-errors" class="notice notice-error settings-error mb-3 ms-0">';
-        echo '<p id="mgoa-settings-error-message" class="fw-bold">' . __('Unable to update settings. Please fix errors.', 'metagauss-openai') . '</p>';
-        echo '<ul id="mgoa-settings-errors-list" class="small"></ul>';
+        echo '<div id="buddybot-settings-errors" class="notice notice-error settings-error mb-3 ms-0">';
+        echo '<p id="buddybot-settings-error-message" class="fw-bold">' . esc_html_e('Unable to update settings. Please fix errors.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
+        echo '<ul id="buddybot-settings-errors-list" class="small"></ul>';
         echo '</div>';
     }
 
     private function sectionToggle()
     {
         echo '<label for="mgao-settings-section-select" class="small my-3">';
-        echo esc_html(__('Select', 'metagauss-openai'));
+        echo esc_html(__('Select', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
         $this->sectionSelect();
         echo '</label>';
     }
@@ -62,11 +62,11 @@ final class Settings extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
         {
             $selected = '';
 
-            if (!empty($_GET['section']) and $_GET['section'] === $name) {
+            if (!empty($_GET['section']) and sanitize_text_field($_GET['section']) === $name) {
                 $selected = ' selected';
             }
 
-            echo '<option value="' . esc_attr($name) . '"' . $selected . '>';
+            echo '<option value="' . esc_attr($name) . '"' . esc_attr($selected) . '>';
             echo esc_html($label);
             echo '</label>';
         }
@@ -76,16 +76,16 @@ final class Settings extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
 
     private function sectionOptions()
     {
-        echo '<table id="mgoa-settings-section-options" class="form-table mt-3" role="presentation"><tbody>';
+        echo '<table id="buddybot-settings-section-options" class="form-table mt-3" role="presentation"><tbody>';
         echo '</tbody></table>';
     }
 
     private function optionsLoader()
     {
-        echo '<div id="mgoa-settings-section-options-loader" class="text-center mt-5 visually-hidden">';
+        echo '<div id="buddybot-settings-section-options-loader" class="text-center mt-5 visually-hidden">';
 
         echo '<span>';
-        esc_html_e('Loading options...', 'metagauss-openai');
+        esc_html_e('Loading options...', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</span>';
 
         echo '<div class="spinner-border spinner-border-sm ms-2" role="status">
@@ -98,8 +98,8 @@ final class Settings extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
     private function updateOptions()
     {
         echo '<p class="submit">';
-        echo '<input type="submit" id="mgoa-settings-update-btn" ';
-        echo 'class="button button-primary" value="' . __('Save Options', 'metagauss-openai') . '">';
+        echo '<input type="submit" id="buddybot-settings-update-btn" ';
+        echo 'class="button button-primary" value="' . esc_html__('Save Options', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '">';
         echo '</p>';
     }
 }

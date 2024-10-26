@@ -1,8 +1,8 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Requests;
+namespace BuddyBot\Admin\Requests;
 
-class DataSync extends \MetagaussOpenAI\Admin\Requests\MoRoot
+class DataSync extends \BuddyBot\Admin\Requests\MoRoot
 {
     public function requestJs()
     {
@@ -19,21 +19,21 @@ class DataSync extends \MetagaussOpenAI\Admin\Requests\MoRoot
         echo '
         $(".list-group-item").each(function(){
             let listItem = $(this);
-            let dataType = listItem.attr("data-mo-type");
-            let fileId = listItem.attr("data-mo-remote_file_id");
+            let dataType = listItem.attr("data-buddybot-type");
+            let fileId = listItem.attr("data-buddybot-remote_file_id");
 
             if (fileId == 0) {
-                listItem.find(".mo-remote-file-status").text("Not syncronized.");
+                listItem.find(".buddybot-remote-file-status").text("Not syncronized.");
             } else {
                 const data = {
                     "action": "checkFileStatus",
                     "file_id": fileId,
-                    "nonce": "' . $nonce . '"
+                    "nonce": "' . esc_js($nonce) . '"
                 };
       
                 $.post(ajaxurl, data, function(response) {
                     response = JSON.parse(response);
-                    listItem.find(".mo-remote-file-status").text(response.message);   
+                    listItem.find(".buddybot-remote-file-status").text(response.message);   
                 });
             }
 
@@ -44,11 +44,24 @@ class DataSync extends \MetagaussOpenAI\Admin\Requests\MoRoot
     private function syncBtnJs()
     {
         echo '
-        $(".mo-sync-btn").click(syncBtn);
+        $(".buddybot-sync-btn").click(syncBtn);
         
         function syncBtn() {
-            let dataType = $(this).attr("data-mo-type");
+            let dataType = $(this).attr("data-buddybot-type");
+            syncBtnStart(dataType);
             isFileWritable(dataType);
+        }
+        
+        function syncBtnStart(dataType) {
+            let btn = $("button[data-buddybot-type = " + dataType + "]");
+            btn.prop("disabled", true);
+            btn.addClass("bb-btn-sync-start");
+        }
+        
+        function syncBtnStop(dataType) {
+            let btn = $("button[data-buddybot-type = " + dataType + "]");
+            btn.prop("disabled", false);
+            btn.removeClass("bb-btn-sync-start");
         }
         ';
     }
@@ -59,9 +72,9 @@ class DataSync extends \MetagaussOpenAI\Admin\Requests\MoRoot
         echo '
         function isFileWritable(dataType) {
             const data = {
-                "action": "isFileWritable",
+                "action": "isBbFileWritable",
                 "data_type": dataType,
-                "nonce": "' . $nonce . '"
+                "nonce": "' . esc_js($nonce) . '"
             };
   
             $.post(ajaxurl, data, function(response) {
@@ -71,7 +84,8 @@ class DataSync extends \MetagaussOpenAI\Admin\Requests\MoRoot
                     addDataToFile(dataType);
                 };
 
-                $(".mo-msgs").append(response.message);
+                $(".buddybot-msgs").removeClass("visually-hidden");
+                $(".buddybot-msgs").append(response.message);
             });
         }
         ';
@@ -85,7 +99,7 @@ class DataSync extends \MetagaussOpenAI\Admin\Requests\MoRoot
             const data = {
                 "action": "addDataToFile",
                 "data_type": dataType,
-                "nonce": "' . $nonce . '"
+                "nonce": "' . esc_js($nonce) . '"
             };
   
             $.post(ajaxurl, data, function(response) {
@@ -95,7 +109,7 @@ class DataSync extends \MetagaussOpenAI\Admin\Requests\MoRoot
                     transferDataFile(dataType);
                 }
 
-                $(".mo-msgs").append(response.message);
+                $(".buddybot-msgs").append(response.message);
             });
         }
         ';
@@ -109,12 +123,13 @@ class DataSync extends \MetagaussOpenAI\Admin\Requests\MoRoot
             const data = {
                 "action": "transferDataFile",
                 "data_type": dataType,
-                "nonce": "' . $nonce . '"
+                "nonce": "' . esc_js($nonce) . '"
             };
   
             $.post(ajaxurl, data, function(response) {
                 response = JSON.parse(response);
-                $(".mo-msgs").append(response.message);
+                $(".buddybot-msgs").append(response.message);
+                syncBtnStop(dataType);
             });
         }
         ';

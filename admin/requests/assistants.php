@@ -1,13 +1,15 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Requests;
+namespace BuddyBot\Admin\Requests;
 
-final class Assistants extends \MetagaussOpenAI\Admin\Requests\MoRoot
+final class Assistants extends \BuddyBot\Admin\Requests\MoRoot
 {
     public function requestJs()
     {
         $this->getAssistantsJs();
+        $this->loadMoreAssistantsJs();
         $this->deleteAssistantJs();
+        $this->renumberRowsJs();
     }
 
     private function getAssistantsJs()
@@ -15,17 +17,32 @@ final class Assistants extends \MetagaussOpenAI\Admin\Requests\MoRoot
         $nonce = wp_create_nonce('get_assistants');
         echo '
         getAssistants();
-        function getAssistants() {
+        function getAssistants(after = "") {
 
             const data = {
                 "action": "getAssistants",
-                "nonce": "' . $nonce . '"
+                "after": after,
+                "current_count": $("table.buddybot-org-assistants-table").find("tr.buddybot-assistant-table-row").length,
+                "nonce": "' . esc_js($nonce) . '"
             };
   
             $.post(ajaxurl, data, function(response) {
                 response = JSON.parse(response);
+
                 if (response.success) {
-                    $("tbody").html(response.html);
+                    $("#buddybot-assistants-loading-spinner").addClass("visually-hidden");
+                    $("tbody").append(response.html);
+
+                    if (response.result.has_more) {
+                        $("#buddybot-assistants-load-more-btn").removeClass("visually-hidden");
+                        $("#buddybot-assistants-load-more-btn").prop("disabled", false);
+                        $("#buddybot-assistants-load-more-btn").find(".buddybot-loaderbtn-label").removeClass("visually-hidden");
+                        $("#buddybot-assistants-load-more-btn").find(".buddybot-loaderbtn-spinner").addClass("visually-hidden");
+                    } else {
+                        $("#buddybot-assistants-load-more-btn").addClass("visually-hidden");
+                        $("#buddybot-assistants-no-more").removeClass("visually-hidden");
+                    }
+
                 } else {
                     showAlert(response.message);
                 }
@@ -34,34 +51,60 @@ final class Assistants extends \MetagaussOpenAI\Admin\Requests\MoRoot
         ';
     }
 
+    private function loadMoreAssistantsJs()
+    {
+        echo '
+        $("#buddybot-assistants-load-more-btn").click(function() {
+            let lastAssistant = $("tr.buddybot-assistant-table-row:last-child").attr("data-buddybot-itemid");
+            $(this).prop("disabled", true);
+            $(this).find(".buddybot-loaderbtn-label").addClass("visually-hidden");
+            $(this).find(".buddybot-loaderbtn-spinner").removeClass("visually-hidden");
+            getAssistants(lastAssistant);
+        });
+        ';
+    }
+
     private function deleteAssistantJs()
     {
         $nonce = wp_create_nonce('delete_assistant');
         echo '
-        $(".mo-org-assistants-table").on("click", ".mo-listbtn-assistant-delete", function(){
+        $(".buddybot-org-assistants-table").on("click", ".buddybot-listbtn-assistant-delete", function(){
             
-            let row = $(this).parents("tr");
-            let fileId = row.attr("data-mo-itemid");
+            $(".buddybot-listbtn-assistant-delete").prop("disabled", true);
 
-            row.find(".mo-list-spinner").removeClass("visually-hidden");
+            let assistantId = $(this).attr("data-buddybot-itemid");
 
             const data = {
-                "action": "deleteOrgFile",
-                "file_id": fileId,
-                "nonce": "' . $nonce . '"
+                "action": "deleteAssistant",
+                "assistant_id": assistantId,
+                "nonce": "' . esc_js($nonce) . '"
             };
   
             $.post(ajaxurl, data, function(response) {
                 response = JSON.parse(response);
 
                 if (response.success) {
-                    getOrgFiles();
+                    $("tr.buddybot-assistant-table-row[data-buddybot-itemid=" + assistantId + "]").remove();
+                    $(".buddybot-listbtn-assistant-delete").prop("disabled", false);
+                    renumberRows();
                 } else {
-                    alert("Failed to delete file " + fileId);
-                    row.find(".mo-list-spinner").addClass("visually-hidden");
+                    alert(response.message);
                 }
             });
         });
+        ';
+    }
+
+    private function renumberRowsJs()
+    {
+        echo '
+        function renumberRows() {
+            let i = 1;
+            $("tr.buddybot-assistant-table-row").each(function() {
+                $(this).children("th.buddybot-assistants-sr-no").html(i);
+                i++;
+            });
+        }
         ';
     }
 }

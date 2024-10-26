@@ -1,12 +1,12 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Html\Views;
+namespace BuddyBot\Admin\Html\Views;
 
-class Playground extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
+class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
 {
     public function getHtml()
     {
-        $heading = __('Playground', 'metagauss-openai');
+        $heading = __('Playground', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $this->pageHeading($heading);
         $this->playgroundContainer();
     }
@@ -24,20 +24,20 @@ class Playground extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
 
     private function playgroundOptions()
     {
-        echo '<div id="mgoa-playground-options-container" class="col-md-12 d-flex border-bottom">';
+        echo '<div id="buddybot-playground-options-container" class="col-md-12 d-flex border-bottom">';
         
-        echo '<div id="mgoa-playground-options-select-assistant" class="p-3">';
+        echo '<div id="buddybot-playground-options-select-assistant" class="p-3">';
         echo '<label class="">';
-        esc_html_e('Assistant', 'metagauss-openai');
+        esc_html_e('Assistant', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '<label>';
-        echo '<select id="mgoa-playground-assistants-list" class="form-select ms-2">';
-        echo '<option disabled>' . esc_html__('Loading...', 'metagauss-openai') . '</option>';
+        echo '<select id="buddybot-playground-assistants-list" class="form-select ms-2">';
+        echo '<option disabled>' . esc_html__('Loading...', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</option>';
         echo '</select>';
         echo '</div>';
         
-        echo '<div id="mgoa-playground-options-select-user" class="p-3">';
+        echo '<div id="buddybot-playground-options-select-user" class="p-3">';
         echo '<label class="">';
-        esc_html_e('User', 'metagauss-openai');
+        esc_html_e('User', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '<label>';
         echo '<select id="" class="ms-2">';
         $this->getUsers();
@@ -49,16 +49,16 @@ class Playground extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
 
     private function threadsContainer()
     {
-        echo '<div id="mgoa-playground-threads-container" class="col-md-2 flex-column border-end bg-light">';
+        echo '<div id="buddybot-playground-threads-container" class="col-md-2 flex-column border-end bg-light">';
         
-        echo '<div id="mgoa-playground-threads-header" class="fs-6 p-4">';
-        esc_html_e('History', 'metagauss-openai');
+        echo '<div id="buddybot-playground-threads-header" class="fs-6 p-4">';
+        esc_html_e('History', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</div>';
 
         $this->threatIdInput();
         $this->runIdInput();
         
-        echo '<div id="mgoa-playground-threads-list" class="p-3" style="height: 750px; overflow-y: auto;">';
+        echo '<div id="buddybot-playground-threads-list" class="p-3" style="height: 750px; overflow-y: auto;">';
         $this->threadList();
         echo '</div>';
         
@@ -77,21 +77,21 @@ class Playground extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
 
     private function threadOperations()
     {
-        echo '<div id="mgoa-playground-thread-operations" class="d-flex justify-content-between p-3">';
+        echo '<div id="buddybot-playground-thread-operations" class="d-flex justify-content-between p-3">';
         $this->loadMessagesBtn();
         $this->tokensDisplay();
-        echo '<input id="mgoa-playground-first-message-id" type="hidden">';
-        echo '<input id="mgoa-playground-last-message-id" type="hidden">';
-        echo '<input id="mgoa-playground-has-more-messages" type="hidden">';
+        echo '<input id="buddybot-playground-first-message-id" type="hidden">';
+        echo '<input id="buddybot-playground-last-message-id" type="hidden">';
+        echo '<input id="buddybot-playground-has-more-messages" type="hidden">';
         $this->deleteThreadBtn();
         echo '</div>';
     }
 
     private function loadMessagesBtn()
     {
-        echo '<button id="mgoa-playground-past-messages-btn" type="button" class="btn btn-outline-dark btn-sm" style="opacity:0;">';
+        echo '<button id="buddybot-playground-past-messages-btn" type="button" class="btn btn-outline-dark btn-sm" style="opacity:0;">';
         $this->moIcon('cached');
-        // esc_html_e('Delete Thread', 'metagauss-openai');
+        // esc_html_e('Delete Thread', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</button>';
     }
 
@@ -103,15 +103,15 @@ class Playground extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
 
     private function deleteThreadBtn()
     {
-        echo '<button id="mgoa-playground-delete-thread-btn" type="button" class="btn btn-outline-danger btn-sm">';
+        echo '<button id="buddybot-playground-delete-thread-btn" type="button" class="btn btn-outline-danger btn-sm">';
         $this->moIcon('delete');
-        // esc_html_e('Delete Thread', 'metagauss-openai');
+        // esc_html_e('Delete Thread', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</button>';
     }
 
     private function messagesListContainer()
     {
-        echo '<div id="mgoa-playground-messages-list" class="p-3" style="height:600px; overflow-y: auto;">';
+        echo '<div id="buddybot-playground-messages-list" class="p-3" style="height:600px; overflow-y: auto;">';
         echo '</div>';
     }
 
@@ -126,15 +126,15 @@ class Playground extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
     private function messagesStatusBar()
     {
         echo '<div class="">';
-        echo '<div id="mgoa-playground-message-status" class="text-center small">';
-        $this->statusBarMessage('creating-thread', __('Starting new conversation', 'metagauss-openai'));
+        echo '<div id="buddybot-playground-message-status" class="text-center small">';
+        $this->statusBarMessage('creating-thread', __('Starting new conversation', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
         echo '</div>';
         $this->openAiBadge();
         echo '</div>';
     }
 
     private function statusBarMessage($attr, $text) {
-        echo '<span data-mo-message="' . esc_attr($attr) . '">';
+        echo '<span data-buddybot-message="' . esc_attr($attr) . '">';
         echo esc_html($text);
         echo '</span>';
     }
@@ -163,21 +163,21 @@ class Playground extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
     {
         echo '<div class="p-2 flex-fill">';
         
-        echo '<div id="mgoa-playground-attachment-wrapper" class="rounded p-2 mb-2 border small d-flex justify-content-between align-items-center visually-hidden">';
+        echo '<div id="buddybot-playground-attachment-wrapper" class="rounded p-2 mb-2 border small d-flex justify-content-between align-items-center visually-hidden">';
 
-        echo '<div><img id="mgoa-playground-attachment-icon" src="" width="12" class="me-2">';
-        echo '<span id="mgoa-playground-attachment-name"></span></div>';
+        echo '<div><img id="buddybot-playground-attachment-icon" src="" width="12" class="me-2">';
+        echo '<span id="buddybot-playground-attachment-name"></span></div>';
 
-        echo '<div role="button" id="mgoa-playground-remove-attachment-btn">';
+        echo '<div role="button" id="buddybot-playground-remove-attachment-btn">';
         $this->moIcon('close');
         echo '</div>';
 
-        echo '<input id="mgoa-playground-attachment-url" type="text">';
-        echo '<input id="mgoa-playground-attachment-mime" type="text">';
+        echo '<input id="buddybot-playground-attachment-url" type="hidden">';
+        echo '<input id="buddybot-playground-attachment-mime" type="hidden">';
 
         echo '</div>';
 
-        echo '<textarea id="mgao-playground-new-message-text" data-mo-threadid="" class="w-100 form-control" rows="5">';
+        echo '<textarea id="mgao-playground-new-message-text" data-buddybot-threadid="" class="w-100 form-control" rows="5">';
         echo '</textarea>';
         
         echo '</div>';
@@ -188,7 +188,7 @@ class Playground extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
         echo '<div class="p-2">';
         echo '<button id="mgao-playground-send-message-btn" type="button"';
         echo 'class="btn btn-dark">';
-        esc_html_e('Send', 'metagauss-openai');
+        esc_html_e('Send', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</button>';
         echo '</div>';
     }
@@ -205,7 +205,7 @@ class Playground extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
                 $selected = ' selected';
             }
 
-            echo '<option' . $selected . '>' . $user->display_name . '</option>';
+            echo '<option' . esc_attr($selected) . '>' . esc_html($user->display_name) . '</option>';
         }
     }
 
@@ -214,11 +214,11 @@ class Playground extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
         $thread_id = '';
 
         if (!empty($_GET['thread_id'])) {
-            $thread_id = $_GET['thread_id'];
+            $thread_id = sanitize_text_field($_GET['thread_id']);
         }
 
         echo '<input id="mgao-playground-thread-id-input" ';
-        echo 'type="hidden" value="' . $thread_id . '">';
+        echo 'type="hidden" value="' . esc_attr($thread_id) . '">';
     }
 
     private function runIdInput()
@@ -232,15 +232,15 @@ class Playground extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
         $response = $this->sql->getThreadsByUserId();
 
         if ($response['success'] === false) {
-            esc_html_e('There was an error while fetching threads.', 'metagauss-openai');
+            esc_html_e('There was an error while fetching threads.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             echo ' ';
-            echo $response['message'];
+            echo esc_html($response['message']);
             return;
         }
 
         if (empty($response['result'])) {
             echo '<span class="text-muted">';
-            esc_html_e('No previous conversations.', 'metagauss-openai');
+            esc_html_e('No previous conversations.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             echo '</span>';
             return;
         }
@@ -253,32 +253,27 @@ class Playground extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
                 $label = $thread->thread_id;
             }
 
-            echo '<div class="mgoa-playground-threads-list-item mb-2 p-2 text-truncate small" data-mgoa-threadid="' . esc_attr($thread->thread_id) . '" role="button">';
+            echo '<div class="buddybot-playground-threads-list-item mb-2 p-2 text-truncate small" data-buddybot-threadid="' . esc_attr($thread->thread_id) . '" role="button">';
             echo esc_html($label);
             echo '</div>';
         }
     }
 
-    public function pageJs()
+    public function getInlineJs()
     {
-        echo '
-        <script>
-        $(document).ready(function(){' . PHP_EOL;
-
-        $this->openMediaWindowJs();
-        $this->selectAttachmentJs();
-        
-        echo 
-        PHP_EOL . '});
-        </script>';
+        $js = 'jQuery(document).ready(function($){';
+        $js .= $this->openMediaWindowJs();
+        $js .= $this->selectAttachmentJs();
+        $js .= '});';
+        return $js;
     }
 
     private function openMediaWindowJs()
     {
-        $title = __('Select a file to attach to your message', 'metagauss-openai');
-        $btn_label = __('Attach To Message', 'metagauss-openai');
+        $title = __('Select a file to attach to your message', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $btn_label = __('Attach To Message', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         
-        echo '
+        return '
         $("#mgao-playground-message-file-btn").click(function(e) {
 
             e.preventDefault();
@@ -311,34 +306,34 @@ class Playground extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
 
     private function selectAttachmentJs()
     {   
-        echo '
+        return '
         function selectAttachment(attachment) {
             if (
                 typeof attachment === "object" &&
                 !Array.isArray(attachment) &&
                 attachment !== null
             ) {
-                $("#mgoa-playground-attachment-wrapper").removeClass("visually-hidden");
+                $("#buddybot-playground-attachment-wrapper").removeClass("visually-hidden");
                 attachment = JSON.parse(JSON.stringify(attachment));
-                $("#mgao-playground-message-file-btn").attr("data-mgoa-fileid", attachment.id);
-                $("#mgoa-playground-attachment-icon").attr("src", attachment.icon);
-                $("#mgoa-playground-attachment-name").text(attachment.filename);
-                $("#mgoa-playground-attachment-url").val(attachment.url);
-                $("#mgoa-playground-attachment-mime").val(attachment.mime);
+                $("#mgao-playground-message-file-btn").attr("data-buddybot-fileid", attachment.id);
+                $("#buddybot-playground-attachment-icon").attr("src", attachment.icon);
+                $("#buddybot-playground-attachment-name").text(attachment.filename);
+                $("#buddybot-playground-attachment-url").val(attachment.url);
+                $("#buddybot-playground-attachment-mime").val(attachment.mime);
             } else {
                 deselectAttachment();
             }
         }
 
-        $("#mgoa-playground-remove-attachment-btn").click(deselectAttachment);
+        $("#buddybot-playground-remove-attachment-btn").click(deselectAttachment);
         
         function deselectAttachment() {
-            $("#mgoa-playground-attachment-wrapper").addClass("visually-hidden");
-            $("#mgao-playground-message-file-btn").attr("data-mgoa-fileid", "");
-            $("#mgoa-playground-attachment-icon").attr("src", "");
-            $("#mgoa-playground-attachment-name").text("");
-            $("#mgoa-playground-attachment-url").val("");
-            $("#mgoa-playground-attachment-mime").val("");
+            $("#buddybot-playground-attachment-wrapper").addClass("visually-hidden");
+            $("#mgao-playground-message-file-btn").attr("data-buddybot-fileid", "");
+            $("#buddybot-playground-attachment-icon").attr("src", "");
+            $("#buddybot-playground-attachment-name").text("");
+            $("#buddybot-playground-attachment-url").val("");
+            $("#buddybot-playground-attachment-mime").val("");
         }
         ';
     }

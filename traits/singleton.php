@@ -1,6 +1,6 @@
 <?php
 
-namespace MetagaussOpenAI\Traits;
+namespace BuddyBot\Traits;
 
 trait Singleton
 {
@@ -38,7 +38,7 @@ trait Singleton
         return $instances[$calledClass];
     }
     
-    final private function __clone()
+    private function __clone()
     {
     }
     

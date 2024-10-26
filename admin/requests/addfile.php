@@ -1,8 +1,8 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Requests;
+namespace BuddyBot\Admin\Requests;
 
-class AddFile extends \MetagaussOpenAI\Admin\Requests\MoRoot
+class AddFile extends \BuddyBot\Admin\Requests\MoRoot
 {
     public function requestJs()
     {
@@ -14,16 +14,16 @@ class AddFile extends \MetagaussOpenAI\Admin\Requests\MoRoot
         $nonce = wp_create_nonce('add_file');
         
         echo '
-        $("#metagauss-openai-file-upload-btn").click(addFile);
+        $("#buddybot-file-upload-btn").click(addFile);
 
         function addFile() {
 
-            let fileId = $("#metagauss-openai-file-selected").val();
+            let fileId = $("#buddybot-file-selected").val();
 
             const data = {
                 "action": "addFile",
                 "file_id": fileId,
-                "nonce": "' . $nonce . '"
+                "nonce": "' . esc_js($nonce) . '"
             };
   
             $.post(ajaxurl, data, function(response) {
@@ -31,7 +31,7 @@ class AddFile extends \MetagaussOpenAI\Admin\Requests\MoRoot
                 response = JSON.parse(response);
 
                 if (response.success) {
-                    $("#metagauss-openai-file-output").html(response.html);
+                    $("#buddybot-file-output").html(response.html);
                 }
             });
         }

@@ -1,12 +1,12 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Html\Views;
+namespace BuddyBot\Admin\Html\Views;
 
-final class AddFile extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
+final class AddFile extends \BuddyBot\Admin\Html\Views\MoRoot
 {
     public function getHtml()
     {
-        $heading = __('Add File', 'megaform-openai');
+        $heading = __('Add File', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $this->pageHeading($heading);
         $this->uploadArea();
     }
@@ -17,39 +17,35 @@ final class AddFile extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
 
         echo '<div class="p-4 border border bg-light rounded-3 w-50">';
 
-        echo '<div id="metagauss-openai-file-output" class="small mb-3">';
+        echo '<div id="buddybot-file-output" class="small mb-3">';
         echo '</div>';
 
-        echo '<input type="hidden" id="metagauss-openai-file-selected" class="form-control mb-2">';
+        echo '<input type="hidden" id="buddybot-file-selected" class="form-control mb-2">';
 
-        echo '<button class="btn btn-outline-dark btn-sm me-1" type="button" id="metagauss-openai-file-select-btn">';
-        echo esc_html(__('Select File', 'metagauss-openai'));
+        echo '<button class="btn btn-outline-dark btn-sm me-1" type="button" id="buddybot-file-select-btn">';
+        echo esc_html(__('Select File', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
         echo '</button>';
 
-        echo '<button class="btn btn-dark btn-sm ms-1" type="button" id="metagauss-openai-file-upload-btn">';
-        echo esc_html(__('Upload File', 'metagauss-openai'));
+        echo '<button class="btn btn-dark btn-sm ms-1" type="button" id="buddybot-file-upload-btn">';
+        echo esc_html(__('Upload File', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
         echo '</button>';
 
         echo '</div>';
     }
 
-    public function pageJs()
+    public function getInlineJs()
     {
-        echo '
-        <script>
-        $(document).ready(function(){' . PHP_EOL;
-
-        $this->openMediaWindow();
-        
-        echo 
-        PHP_EOL . '});
-        </script>';
+        $js = '
+        jQuery(document).ready(function($){' . PHP_EOL;
+        $js .= $this->openMediaWindow();
+        $js .= '});';
+        return $js;
     }
 
     private function openMediaWindow()
     {
-        echo '
-        $("#metagauss-openai-file-select-btn").click(function(e) {
+        return '
+        $("#buddybot-file-select-btn").click(function(e) {
 
             e.preventDefault();
 
@@ -72,8 +68,8 @@ final class AddFile extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
 
             file_frame.on("select",function() {
                 let selection =  file_frame.state().get("selection").first();
-                $("#metagauss-openai-file-selected").val(selection.id);
-                $("#metagauss-openai-file-output").html("You selected file ID " + selection.id);
+                $("#buddybot-file-selected").val(selection.id);
+                $("#buddybot-file-output").html("You selected file ID " + selection.id);
              });
 
         });

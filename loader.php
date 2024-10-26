@@ -1,16 +1,17 @@
 <?php
 
-namespace MetagaussOpenAI;
+namespace BuddyBot;
 
 class Loader
 {   
     public static function loadClass($class)
     {
-        $file = (plugin_dir_path(__DIR__) . strtolower(str_replace('\\', '/', $class)) . '.php');
-        $is_internal = strpos($file, 'metagaussopenai');
+        $is_buddybot_class = strpos($class, 'BuddyBot');
 
-        if ($is_internal !== false) {
-            include($file);
+        if ($is_buddybot_class === 0) {
+            $internal_class = str_replace('BuddyBot\\', '', $class);
+            $file = plugin_dir_path(__FILE__) . strtolower(str_replace('\\', '/', $internal_class)) . '.php';
+            include $file;
         }
     }
 }

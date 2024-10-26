@@ -1,10 +1,10 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Sql;
+namespace BuddyBot\Admin\Sql;
 
-use \MetagaussOpenAI\Traits\Singleton;
+use \BuddyBot\Traits\Singleton;
 
-class MoRoot extends \MetagaussOpenAI\Admin\MoRoot
+class MoRoot extends \BuddyBot\Admin\MoRoot
 {
     use Singleton;
     protected $table;

@@ -1,8 +1,8 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Html\Elements\Playground;
+namespace BuddyBot\Admin\Html\Elements\Playground;
 
-class ChatBubble extends \MetagaussOpenAI\Admin\Html\Elements\Playground\MoRoot
+class ChatBubble extends \BuddyBot\Admin\Html\Elements\Playground\MoRoot
 {
     private $message;
     protected $roles;
@@ -41,7 +41,7 @@ class ChatBubble extends \MetagaussOpenAI\Admin\Html\Elements\Playground\MoRoot
         $args = array('default' => 'retro');
         $img_url = get_avatar_url(get_current_user_id(), $args);
         
-        $html = '<div class="mgoa-playground-messages-list-item d-flex justify-content-end my-2" id="' . esc_attr($this->message->id) . '">';
+        $html = '<div class="buddybot-playground-messages-list-item d-flex justify-content-end my-2" id="' . esc_attr($this->message->id) . '">';
 
         $html .= $this->messageImage($img_url);
 
@@ -82,7 +82,7 @@ class ChatBubble extends \MetagaussOpenAI\Admin\Html\Elements\Playground\MoRoot
     {
         $img_url = $this->config->getRootUrl() . 'admin/html/images/third-party/openai/openai-logomark.svg';
         
-        $html = '<div class="mgoa-playground-messages-list-item d-flex justify-content-start my-2" id="' . esc_attr($this->message->id) . '">';
+        $html = '<div class="buddybot-playground-messages-list-item d-flex justify-content-start my-2" id="' . esc_attr($this->message->id) . '">';
 
         $html .= $this->messageImage($img_url);
 
@@ -132,11 +132,11 @@ class ChatBubble extends \MetagaussOpenAI\Admin\Html\Elements\Playground\MoRoot
         $current_day = wp_date('j');
 
         if ($message_day === $current_day) {
-            $message_date = __('Today', 'metagauss-openai');
+            $message_date = __('Today', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
 
         if ((absint($current_day) - absint($message_day)) === 1) {
-            $message_date = __('Yesterday', 'metagauss-openai');
+            $message_date = __('Yesterday', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
 
 
@@ -157,17 +157,20 @@ class ChatBubble extends \MetagaussOpenAI\Admin\Html\Elements\Playground\MoRoot
     protected function parseFile($file_id)
     {
         $url = 'https://api.openai.com/v1/files/' . $file_id;
-        
-        $ch = curl_init($url);
-        
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Authorization: Bearer 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'
-            )
-        );
 
-        $output = json_decode(curl_exec($ch));
+        $headers = array(
+            'Authorization' => 'Bearer ' . $this->options->getOption('openai_api_key'),
+        );
+    
+        $response = wp_remote_get($url, array(
+            'headers' => $headers,
+        ));
+    
+        if (is_wp_error($response)) {
+            return '';
+        }
+    
+        $output = json_decode(wp_remote_retrieve_body($response));
 
         $type = pathinfo($output->filename, PATHINFO_EXTENSION);
         
@@ -197,22 +200,25 @@ class ChatBubble extends \MetagaussOpenAI\Admin\Html\Elements\Playground\MoRoot
     protected function parseImage($image_id)
     {
         $url = 'https://api.openai.com/v1/files/' . $image_id . '/content';
-
-        $ch = curl_init($url);
-        
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Authorization: Bearer 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'
-            )
+    
+        $headers = array(
+            'Authorization' => 'Bearer ' . $this->options->getOption('openai_api_key'),
         );
-
-        $output = curl_exec($ch);
-        
+    
+        $response = wp_remote_get($url, array(
+            'headers' => $headers,
+        ));
+    
+        if (is_wp_error($response)) {
+            return;
+        }
+    
+        $output = wp_remote_retrieve_body($response);
+    
         $html = '<div class="mb-2 bg-secondary bg-opacity-10 p-3 rounded-3">';
-        $html .= '<img src="data:image/png;base64, ' . base64_encode($output) . '" width="96">';
+        $html .= '<img src="data:image/png;base64,' . base64_encode($output) . '" width="96">';
         $html .= '</div>';
-        
+    
         return $html;
     }
 }

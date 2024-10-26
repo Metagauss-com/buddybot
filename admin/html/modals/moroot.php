@@ -1,8 +1,8 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Html\Modals;
+namespace BuddyBot\Admin\Html\Modals;
 
-class MoRoot extends \MetagaussOpenAI\Admin\Html\MoRoot
+class MoRoot extends \BuddyBot\Admin\Html\MoRoot
 {
     protected $modal_id = '';
 
@@ -20,7 +20,7 @@ class MoRoot extends \MetagaussOpenAI\Admin\Html\MoRoot
     protected function modalHeader()
     {
         echo '<div class="modal-header border-0">';
-        echo '<div class="modal-title">';
+        echo '<div class="modal-title small fw-bold">';
         echo esc_html($this->modalTitle());
         echo '</div>';
         echo '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';

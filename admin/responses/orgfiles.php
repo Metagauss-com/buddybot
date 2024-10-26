@@ -1,61 +1,75 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Responses;
+namespace BuddyBot\Admin\Responses;
 
-class OrgFiles extends \MetagaussOpenAI\Admin\Responses\MoRoot
+class OrgFiles extends \BuddyBot\Admin\Responses\MoRoot
 {
     
     public function deleteOrgFile()
     {
         $this->checkNonce('delete_org_file');
-        $file_id = $_POST['file_id'];
-
+        $file_id = sanitize_text_field($_POST['file_id']);
+    
         $url = 'https://api.openai.com/v1/files/' . $file_id;
-
-        $ch = curl_init($url);
-
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Authorization: Bearer ' . $this->api_key
-            )
+    
+        $headers = array(
+            'Authorization' => 'Bearer ' . $this->api_key,
         );
-
-        $this->response['result'] = json_decode(curl_exec($ch));
-        
-        if ($this->response['result']->deleted) {
-            $this->response['success'] = true;
-        } else {
+    
+        $response = wp_remote_request($url, array(
+            'method' => 'DELETE',
+            'headers' => $headers,
+            'timeout' => 60,
+        ));
+    
+        if (is_wp_error($response)) {
             $this->response['success'] = false;
+            $this->response['result'] = $response->get_error_message();
+        } else {
+            $result = json_decode(wp_remote_retrieve_body($response));
+            $this->response['result'] = $result;
+    
+            if (!empty($result->deleted)) {
+                $this->response['success'] = true;
+            } else {
+                $this->response['success'] = false;
+            }
         }
-
-        echo json_encode($this->response);
+    
+        echo wp_json_encode($this->response);
         wp_die();
     }
 
     public function getOrgFiles()
     {
-        $nonce_status = wp_verify_nonce($_POST['nonce'], 'get_org_files');
-
-        if ($nonce_status === false) {
+        $this->checkNonce('get_org_files');
+    
+        $url = 'https://api.openai.com/v1/files';
+    
+        $headers = array(
+            'Authorization' => 'Bearer ' . $this->api_key,
+        );
+    
+        $response = wp_remote_get($url, array(
+            'headers' => $headers,
+        ));
+    
+        if (is_wp_error($response)) {
+            $this->response['success'] = false;
+            $this->response['message'] = $response->get_error_message();
+            echo wp_json_encode($this->response);
             wp_die();
         }
-
-        $url = 'https://api.openai.com/v1/files';
-
-        $ch = curl_init($url);
+    
+        $output = json_decode(wp_remote_retrieve_body($response));
         
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Authorization: Bearer ' . $this->api_key
-            )
-        );
-
-        $output = json_decode(curl_exec($ch));
-        $files = $output->data;
-        $this->filesTableHtml($files);
-        curl_close($ch);
-
+        if (isset($output->data)) {
+            $files = $output->data;
+            $this->filesTableHtml($files);
+        } else {
+            wp_die();
+        }
+    
         echo wp_kses_post($this->response['html']);
         wp_die();
     }
@@ -69,7 +83,7 @@ class OrgFiles extends \MetagaussOpenAI\Admin\Responses\MoRoot
         $html = '';
 
         foreach ($files as $index => $file) {
-            $html .= '<tr class="small" data-mo-itemid="' . esc_attr($file->id) . '">';
+            $html .= '<tr class="small" data-buddybot-itemid="' . esc_attr($file->id) . '">';
             $html .= '<th scope="row">' . absint($index) + 1 . '</th>';
             $html .= '<td>' . $this->fileIcon($file->filename) . '</td>';
             $html .= '<td>' . esc_html($file->filename) . '</td>';

@@ -1,37 +1,43 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Responses;
+namespace BuddyBot\Admin\Responses;
 
-class Playground extends \MetagaussOpenAI\Admin\Responses\MoRoot
+class Playground extends \BuddyBot\Admin\Responses\MoRoot
 {
     public function getAssistantOptions()
     {
         $this->checkNonce('get_assistants');
-
+    
         $url = 'https://api.openai.com/v1/assistants?limit=50';
-
-        $ch = curl_init($url);
-        
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'OpenAI-Beta: assistants=v1',
-            'Content-Type: application/json',
-            'Authorization: Bearer ' . $this->api_key
-            )
+    
+        $headers = array(
+            'OpenAI-Beta' => 'assistants=v1',
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer ' . $this->api_key,
         );
-
-        $output = $this->curlOutput($ch);
+    
+        $response = wp_remote_get($url, array(
+            'headers' => $headers,
+            'timeout' => 60,
+        ));
+    
+        if (is_wp_error($response)) {
+            $this->response['success'] = false;
+            $this->response['message'] = $response->get_error_message();
+            wp_die();
+        }
+    
+        $output = json_decode(wp_remote_retrieve_body($response));
         $this->checkError($output);
-
-        if ($output->object === 'list') {
+    
+        if (isset($output->object) && $output->object === 'list') {
             $this->response['success'] = true;
             $this->assistantOptionsHtml($output);
         } else {
             $this->response['success'] = false;
-            $this->response['message'] = __('Unable to fetch assistants list.', 'metagauss-openai');
+            $this->response['message'] = __('Unable to fetch assistants list.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
-
+    
         echo wp_json_encode($this->response);
         wp_die();
     }
@@ -60,38 +66,42 @@ class Playground extends \MetagaussOpenAI\Admin\Responses\MoRoot
     public function createThread()
     {
         $this->checkNonce('create_thread');
-        
+    
         $url = 'https://api.openai.com/v1/threads';
-
-        $ch = curl_init($url);
-        
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POST, true);
-        
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'OpenAI-Beta: assistants=v1',
-            'Content-Type: application/json',
-            'Authorization: Bearer ' . $this->api_key
-            )
+    
+        $headers = array(
+            'OpenAI-Beta' => 'assistants=v1',
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer ' . $this->api_key,
         );
-
+    
         $data = array(
             'metadata' => array(
                 'wp_user_id' => get_current_user_id(),
                 'wp_source' => 'wp_admin'
             )
         );
-
-        curl_setopt($ch, CURLOPT_POSTFIELDS, wp_json_encode($data));
-
-        $output = $this->curlOutput($ch);
+    
+        $response = wp_remote_post($url, array(
+            'headers' => $headers,
+            'body'    => wp_json_encode($data),
+            'timeout' => 60,
+        ));
+    
+        if (is_wp_error($response)) {
+            $this->response['success'] = false;
+            $this->response['message'] = $response->get_error_message();
+            wp_die();
+        }
+    
+        $output = json_decode(wp_remote_retrieve_body($response));    
         $this->checkError($output);
-
+    
         if ($this->response['success']) {
             $insert = $this->sql->saveThreadId($output->id);
             if ($insert === false) {
                 $this->response['success'] = false;
-                $this->response['message'] = __('Unable to save thread in the database', 'metagauss-openai');
+                $this->response['message'] = __('Unable to save thread in the database', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             }
         }
 
@@ -103,47 +113,58 @@ class Playground extends \MetagaussOpenAI\Admin\Responses\MoRoot
     {
         $this->checkNonce('create_message');
 
-        $thread_id = $_POST['thread_id'];
-        $message = wp_unslash($_POST['message']);
-        $file_url = $_POST['file_url'];
-        $file_mime = $_POST['file_mime'];
+        $thread_id = sanitize_text_field($_POST['thread_id']);
+        $message = sanitize_textarea_field(wp_unslash($_POST['message']));
+        $file_url = sanitize_text_field($_POST['file_url']);
+        $file_mime = sanitize_text_field($_POST['file_mime']);
 
         $file_id = '';
 
         if (filter_var($file_url, FILTER_VALIDATE_URL)) {
             $file_id = $this->uploadMessageFile($file_url, $file_mime);
         }
-        
+
         $url = 'https://api.openai.com/v1/threads/' . $thread_id . '/messages';
 
-        $ch = curl_init($url);
-        
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POST, true);
-        
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'OpenAI-Beta: assistants=v1',
-            'Content-Type: application/json',
-            'Authorization: Bearer ' . $this->api_key
-            )
+        // Prepare the headers
+        $headers = array(
+            'OpenAI-Beta' => 'assistants=v1',
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer ' . $this->api_key,
         );
 
+        // Prepare the data
         $data = array(
             'role' => 'user',
             'content' => $message,
             'metadata' => array(
                 'wp_user_id' => get_current_user_id(),
-                'wp_source' => 'wp_admin'
-            )
+                'wp_source' => 'wp_admin',
+            ),
         );
 
         if (!empty($file_id)) {
             $data['file_ids'] = array($file_id);
         }
 
-        curl_setopt($ch, CURLOPT_POSTFIELDS, wp_json_encode($data));
+        // Perform the POST request
+        $response = wp_remote_post($url, array(
+            'headers' => $headers,
+            'body'    => wp_json_encode($data),
+            'timeout' => 60,
+        ));
 
-        $output = $this->curlOutput($ch);
+        // Check for errors
+        if (is_wp_error($response)) {
+            $this->response['success'] = false;
+            $this->response['message'] = $response->get_error_message();
+            wp_die();
+        }
+
+        // Decode the response body
+        $output = json_decode(wp_remote_retrieve_body($response));
+
+        // Check for errors in the output
         $this->checkError($output);
 
         $this->sql->updateThreadName($thread_id, $message);
@@ -154,102 +175,164 @@ class Playground extends \MetagaussOpenAI\Admin\Responses\MoRoot
         wp_die();
     }
 
+
     private function uploadMessageFile($file_url, $file_mime)
     {
-        $cfile = curl_file_create(
-            $file_url,
-            $file_mime,
-            basename($file_url)
+        // Download the file temporarily
+        $temp_file = download_url($file_url);
+    
+        if (is_wp_error($temp_file)) {
+            // Handle the error if the download fails
+            $this->response['success'] = false;
+            $this->response['message'] .= $temp_file->get_error_message();
+            return '';
+        }
+    
+        // Prepare the boundary string
+        $boundary = wp_generate_password(24);
+        $eol = "\r\n";
+    
+        // Read the content of the temporary file
+        $file_content = file_get_contents($temp_file);
+    
+        // Prepare the body with multipart/form-data
+        $body = '';
+        $body .= '--' . $boundary . $eol;
+        $body .= 'Content-Disposition: form-data; name="purpose"' . $eol . $eol;
+        $body .= 'assistants' . $eol;
+    
+        $body .= '--' . $boundary . $eol;
+        $body .= 'Content-Disposition: form-data; name="file"; filename="' . basename($file_url) . '"' . $eol;
+        $body .= 'Content-Type: ' . $file_mime . $eol . $eol;
+        $body .= $file_content . $eol;
+        $body .= '--' . $boundary . '--' . $eol;
+    
+        // Set up the headers for the request
+        $headers = array(
+            'Authorization' => 'Bearer ' . $this->api_key,
+            'Content-Type'  => 'multipart/form-data; boundary=' . $boundary,
         );
-
-        $url = 'https://api.openai.com/v1/files';
-        $ch = curl_init($url);
-        
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Authorization: Bearer ' . $this->api_key
-            )
-        );
-
-        $data = array(
-            'purpose' => 'assistants',
-            'file' => $cfile
-        );
-
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-
-        $output = $this->curlOutput($ch);
+    
+        // Perform the POST request
+        $response = wp_remote_post('https://api.openai.com/v1/files', array(
+            'headers' => $headers,
+            'body'    => $body,
+            'timeout' => 60,
+        ));
+    
+        // Clean up the temporary file
+        wp_delete_file($temp_file);
+    
+        // Check for errors
+        if (is_wp_error($response)) {
+            $this->response['success'] = false;
+            $this->response['message'] .= $response->get_error_message();
+            return '';
+        }
+    
+        // Decode the response body
+        $output = json_decode(wp_remote_retrieve_body($response));
+    
+        // Check for errors in the output
         $this->checkError($output);
+    
         return $output->id;
     }
+    
 
     public function createRun()
     {
         $this->checkNonce('create_run');
-
-        $thread_id = $_POST['thread_id'];
-        $assistant_id = $_POST['assistant_id'];
+    
+        $thread_id = sanitize_text_field($_POST['thread_id']);
+        $assistant_id = sanitize_text_field($_POST['assistant_id']);
         
         $url = 'https://api.openai.com/v1/threads/' . $thread_id . '/runs';
-
-        $ch = curl_init($url);
-        
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POST, true);
-        
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'OpenAI-Beta: assistants=v1',
-            'Content-Type: application/json',
-            'Authorization: Bearer ' . $this->api_key
-            )
+    
+        // Prepare the headers
+        $headers = array(
+            'OpenAI-Beta' => 'assistants=v1',
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer ' . $this->api_key,
         );
-
+    
+        // Prepare the data
         $data = array(
             'assistant_id' => $assistant_id,
             'metadata' => array(
                 'wp_user_id' => get_current_user_id(),
-                'wp_source' => 'wp_admin'
-            )
+                'wp_source' => 'wp_admin',
+            ),
         );
-
-        curl_setopt($ch, CURLOPT_POSTFIELDS, wp_json_encode($data));
-
-        $output = $this->curlOutput($ch);
+    
+        // Perform the POST request
+        $response = wp_remote_post($url, array(
+            'headers' => $headers,
+            'body'    => wp_json_encode($data),
+            'timeout' => 60,
+        ));
+    
+        // Check for errors
+        if (is_wp_error($response)) {
+            $this->response['success'] = false;
+            $this->response['message'] = $response->get_error_message();
+            wp_die();
+        }
+    
+        // Decode the response body
+        $output = json_decode(wp_remote_retrieve_body($response));
+    
+        // Check for errors in the output
         $this->checkError($output);
-
+    
         echo wp_json_encode($this->response);
         wp_die();
     }
+    
 
     public function retrieveRun()
     {
         $this->checkNonce('retrieve_run');
-
-        $thread_id = $_POST['thread_id'];
-        $run_id = $_POST['run_id'];
+    
+        $thread_id = sanitize_text_field($_POST['thread_id']);
+        $run_id = sanitize_text_field($_POST['run_id']);
         
         $url = 'https://api.openai.com/v1/threads/' . $thread_id . '/runs/' . $run_id;
-
-        $ch = curl_init($url);
-        
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'OpenAI-Beta: assistants=v1',
-            'Content-Type: application/json',
-            'Authorization: Bearer ' . $this->api_key
-            )
+    
+        // Prepare the headers
+        $headers = array(
+            'OpenAI-Beta' => 'assistants=v1',
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer ' . $this->api_key,
         );
-
-        $output = $this->curlOutput($ch);
+    
+        // Perform the GET request
+        $response = wp_remote_get($url, array(
+            'headers' => $headers,
+            'timeout' => 60,
+        ));
+    
+        // Check for errors
+        if (is_wp_error($response)) {
+            $this->response['success'] = false;
+            $this->response['message'] = $response->get_error_message();
+            echo wp_json_encode($this->response);
+            wp_die();
+        }
+    
+        // Decode the response body
+        $output = json_decode(wp_remote_retrieve_body($response));
+    
+        // Check for errors in the output
         $this->checkError($output);
-
+    
         $this->tokensMessage();
-
+    
         echo wp_json_encode($this->response);
         wp_die();
     }
+    
+    
 
     private function tokensMessage()
     {
@@ -261,13 +344,12 @@ class Playground extends \MetagaussOpenAI\Admin\Responses\MoRoot
         $completion_tokens = absint($this->response['result']->usage->completion_tokens);
         $total_tokens = absint($this->response['result']->usage->total_tokens);
 
-        $message = __(
-            sprintf(
-                'Tokens Prompt: %1d. Completion: %2d. Total: %3d.',
-                $prompt_tokens, $completion_tokens, $total_tokens
-            ),
-            'metagauss-openai'
-        );
+        // Translators: %1d are number of tokens used by user prompt. %2d is number of tokens used in completition run. %3d are total tokens used in the run.
+        $message = sprintf(esc_html__('Tokens Prompt: %1$1d. Completion: %2$2d. Total: %3$3d.','buddybot-ai-custom-ai-assistant-and-chat-agent'),
+                absint($prompt_tokens),
+                absint($completion_tokens),
+                absint($total_tokens)
+            );
 
         $this->response['tokens'] = $message;
     }
@@ -275,42 +357,56 @@ class Playground extends \MetagaussOpenAI\Admin\Responses\MoRoot
     public function listMessages()
     {
         $this->checkNonce('list_messages');
-
-        $thread_id = $_POST['thread_id'];
-        $limit = $_POST['limit'];
-        $order = $_POST['order'];
+    
+        $thread_id = sanitize_text_field($_POST['thread_id']);
+        $limit = absint($_POST['limit']);
+        $order = sanitize_text_field($_POST['order']);
         $after = '';
         $before = '';
-
+    
         if (!empty($_POST['after'])) {
-            $after = '&after=' . $_POST['after'];
+            $after = '&after=' . sanitize_text_field($_POST['after']);
         }
-
+    
         if (!empty($_POST['before'])) {
-            $before = '&before=' . $_POST['before'];
+            $before = '&before=' . sanitize_text_field($_POST['before']);
         }
         
         $url = 'https://api.openai.com/v1/threads/' . $thread_id . '/messages?limit=' . $limit . '&order=' . $order . $after . $before;
-
-        $ch = curl_init($url);
-        
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'OpenAI-Beta: assistants=v1',
-            'Content-Type: application/json',
-            'Authorization: Bearer ' . $this->api_key
-            )
+    
+        // Prepare the headers
+        $headers = array(
+            'OpenAI-Beta' => 'assistants=v1',
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer ' . $this->api_key,
         );
-
-        $output = $this->curlOutput($ch);
+    
+        // Perform the GET request
+        $response = wp_remote_get($url, array(
+            'headers' => $headers,
+            'timeout' => 60,
+        ));
+    
+        // Check for errors
+        if (is_wp_error($response)) {
+            $this->response['success'] = false;
+            $this->response['message'] = $response->get_error_message();
+            echo wp_json_encode($this->response);
+            wp_die();
+        }
+    
+        // Decode the response body
+        $output = json_decode(wp_remote_retrieve_body($response));
+    
+        // Check for errors in the output
         $this->checkError($output);
-
+    
         $this->messagesHtml($output->data);
-
+    
         echo wp_json_encode($this->response);
         wp_die();
     }
+    
 
     private function messagesHtml($messages)
     {
@@ -325,7 +421,7 @@ class Playground extends \MetagaussOpenAI\Admin\Responses\MoRoot
 
     private function chatBubbleHtml($message)
     {
-        $chat_bubble = new \MetagaussOpenAI\Admin\Html\Elements\Playground\ChatBubble();
+        $chat_bubble = new \BuddyBot\Admin\Html\Elements\Playground\ChatBubble();
         $chat_bubble->setMessage($message);
         return $chat_bubble->getHtml();
     }
@@ -333,38 +429,50 @@ class Playground extends \MetagaussOpenAI\Admin\Responses\MoRoot
     public function deleteThread()
     {
         $this->checkNonce('delete_thread');
-        $thread_id = $_POST['thread_id'];
-
+        $thread_id = sanitize_text_field($_POST['thread_id']);
+    
         $url = 'https://api.openai.com/v1/threads/' . $thread_id;
-
-        $ch = curl_init($url);
-
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'DELETE');
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Content-Type: application/json',
-            'Authorization: Bearer ' . $this->api_key,
-            'OpenAI-Beta: assistants=v1'
-            )
+    
+        // Prepare the headers
+        $headers = array(
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer ' . $this->api_key,
+            'OpenAI-Beta' => 'assistants=v1'
         );
-
-        $output = $this->curlOutput($ch);
+    
+        // Perform the DELETE request
+        $response = wp_remote_request($url, array(
+            'method'  => 'DELETE',
+            'headers' => $headers,
+            'timeout' => 60,
+        ));
+    
+        // Check for errors
+        if (is_wp_error($response)) {
+            $this->response['success'] = false;
+            $this->response['message'] = $response->get_error_message();
+            echo wp_json_encode($this->response);
+            wp_die();
+        }
+    
+        // Decode the response body
+        $output = json_decode(wp_remote_retrieve_body($response));
+    
+        // Check for errors in the output
         $this->checkError($output);
-        
-        if ($this->response['result']->deleted) {
+    
+        if (isset($output->deleted) && $output->deleted) {
             $this->response['success'] = true;
+            $this->sql->deleteThread($thread_id);
         } else {
             $this->response['success'] = false;
-            $this->response['message'] = __('Unable to delete conversation.', 'metagauss-openai');
+            $this->response['message'] = __('Unable to delete conversation.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
-
-        if ($this->response['success']) {
-            $this->sql->deleteThread($thread_id);
-        }
-
+    
         echo wp_json_encode($this->response);
         wp_die();
     }
+    
 
     public function __construct()
     {

@@ -1,7 +1,7 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Html\Elements;
+namespace BuddyBot\Admin\Html\Elements;
 
-class MoRoot extends \MetagaussOpenAI\Admin\Html\MoRoot
+class MoRoot extends \BuddyBot\Admin\Html\MoRoot
 {
 }

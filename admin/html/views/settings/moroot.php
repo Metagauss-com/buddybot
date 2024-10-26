@@ -1,12 +1,12 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Html\Views\Settings;
+namespace BuddyBot\Admin\Html\Views\Settings;
 
-class MoRoot extends \MetagaussOpenAI\Admin\Html\Views\MoRoot
+class MoRoot extends \BuddyBot\Admin\Html\Views\MoRoot
 {
     protected function setSql()
     {
-        $this->sql = \MetagaussOpenAI\Admin\Sql\Settings::getInstance(); 
+        $this->sql = \BuddyBot\Admin\Sql\Settings::getInstance(); 
     }
     
     public function getHtml()

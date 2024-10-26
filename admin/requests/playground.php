@@ -1,8 +1,8 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Requests;
+namespace BuddyBot\Admin\Requests;
 
-final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
+final class Playground extends \BuddyBot\Admin\Requests\MoRoot
 {
     public function requestJs()
     {
@@ -32,25 +32,25 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
     {
         echo '
         let checkRun = "";
-        const gettingAssistants = "' . esc_html('Getting list of assistants.', 'metagauss-openai') . '";
-        const assistantsUpdated = "' . esc_html('Assistants updated.', 'metagauss-openai') . '";
-        const messageEmpty = "' . esc_html('Cannot send empty message.', 'metagauss-openai') . '";
-        const creatingThread = "' . esc_html('Starting new conversation.', 'metagauss-openai') . '";
-        const threadCreated = "' . esc_html('Conversation started.', 'metagauss-openai') . '";
-        const sendingMessage = "' . esc_html('Sending message to the Assistant.', 'metagauss-openai') . '";
-        const messageSent = "' . esc_html('Message sent.', 'metagauss-openai') . '";
-        const creatingRun = "' . esc_html('Asking assistant to read your message.', 'metagauss-openai') . '";
-        const runCreated = "' . esc_html('Assistant is processing your message.', 'metagauss-openai') . '";
-        const retrievingRun = "' . esc_html('Checking response to your message.', 'metagauss-openai') . '";
-        const runCancelled = "' . esc_html('The process was aborted.', 'metagauss-openai') . '";
-        const gettingResponse = "' . esc_html("Fetching Assistant response.", 'metagauss-openai') . '";
-        const responseUpdated = "' . esc_html("Assistant response received.", 'metagauss-openai') . '";
-        const gettingThreadMessages = "' . esc_html("Fetching conversation data.", 'metagauss-openai') . '";
-        const threadMessagesUpdated = "' . esc_html("Conversation data updated.", 'metagauss-openai') . '";
-        const gettingPastMessages = "' . esc_html("Loading previous messages.", 'metagauss-openai') . '";
-        const pastMessagesUpdated = "' . esc_html("Loaded previous messages.", 'metagauss-openai') . '";
-        const deletingThread = "' . esc_html("Deleting conversation.", 'metagauss-openai') . '";
-        const threadDeleted = "' . esc_html("Conversation deleted successfully!", 'metagauss-openai') . '";
+        const gettingAssistants = "' . esc_html__('Getting list of assistants.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const assistantsUpdated = "' . esc_html__('Assistants updated.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const messageEmpty = "' . esc_html__('Cannot send empty message.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const creatingThread = "' . esc_html__('Starting new conversation.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const threadCreated = "' . esc_html__('Conversation started.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const sendingMessage = "' . esc_html__('Sending message to the Assistant.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const messageSent = "' . esc_html__('Message sent.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const creatingRun = "' . esc_html__('Asking assistant to read your message.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const runCreated = "' . esc_html__('Assistant is processing your message.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const retrievingRun = "' . esc_html__('Checking response to your message.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const runCancelled = "' . esc_html__('The process was aborted.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const gettingResponse = "' . esc_html__("Fetching Assistant response.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const responseUpdated = "' . esc_html__("Assistant response received.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const gettingThreadMessages = "' . esc_html__("Fetching conversation data.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const threadMessagesUpdated = "' . esc_html__("Conversation data updated.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const gettingPastMessages = "' . esc_html__("Loading previous messages.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const pastMessagesUpdated = "' . esc_html__("Loaded previous messages.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const deletingThread = "' . esc_html__("Deleting conversation.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const threadDeleted = "' . esc_html__("Conversation deleted successfully!", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
         ';
     }
 
@@ -68,7 +68,7 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
     {
         echo '
         function updateStatus(text) {
-            $("#mgoa-playground-message-status").children("span").html(text);
+            $("#buddybot-playground-message-status").children("span").html(text);
         }
         ';
     }
@@ -85,14 +85,14 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
 
             const data = {
                 "action": "getAssistantOptions",
-                "nonce": "' . $nonce . '"
+                "nonce": "' . esc_js($nonce) . '"
             };
   
             $.post(ajaxurl, data, function(response) {
                 response = JSON.parse(response);
 
                 if (response.success) {
-                    $("#mgoa-playground-assistants-list").html(response.html);
+                    $("#buddybot-playground-assistants-list").html(response.html);
                     updateStatus(assistantsUpdated);
                     disableMessage(false);
                 } else {
@@ -146,7 +146,7 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
             
             const data = {
                 "action": "createThread",
-                "nonce": "' . $nonce . '"
+                "nonce": "' . esc_js($nonce) . '"
             };
   
             $.post(ajaxurl, data, function(response) {
@@ -180,9 +180,9 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
                 "action": "createMessage",
                 "thread_id": threadId,
                 "message": message,
-                "file_url": $("#mgoa-playground-attachment-url").val(),
-                "file_mime": $("#mgoa-playground-attachment-mime").val(),
-                "nonce": "' . $nonce . '"
+                "file_url": $("#buddybot-playground-attachment-url").val(),
+                "file_mime": $("#buddybot-playground-attachment-mime").val(),
+                "nonce": "' . esc_js($nonce) . '"
             };
   
             $.post(ajaxurl, data, function(response) {
@@ -190,8 +190,8 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
                 if (response.success) {
                     updateStatus(messageSent);
                     $("#mgao-playground-new-message-text").val("");
-                    $("#mgoa-playground-messages-list").append(response.html);
-                    $("#mgoa-playground-first-message-id").val(response.result.id);
+                    $("#buddybot-playground-messages-list").append(response.html);
+                    $("#buddybot-playground-first-message-id").val(response.result.id);
                     updateThreadName(message);
                     scrollToBottom(response.result.id);
                     createRun();
@@ -214,13 +214,13 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
             updateStatus(creatingRun);
 
             const threadId = $("#mgao-playground-thread-id-input").val();
-            const assistantId = $("#mgoa-playground-assistants-list").val();
+            const assistantId = $("#buddybot-playground-assistants-list").val();
 
             const data = {
                 "action": "createRun",
                 "thread_id": threadId,
                 "assistant_id": assistantId,
-                "nonce": "' . $nonce . '"
+                "nonce": "' . esc_js($nonce) . '"
             };
   
             $.post(ajaxurl, data, function(response) {
@@ -254,7 +254,7 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
                 "action": "retrieveRun",
                 "thread_id": threadId,
                 "run_id": runId,
-                "nonce": "' . $nonce . '"
+                "nonce": "' . esc_js($nonce) . '"
             };
   
             $.post(ajaxurl, data, function(response) {
@@ -319,10 +319,10 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
             const data = {
                 "action": "listMessages",
                 "thread_id": threadId,
-                "before": $("#mgoa-playground-first-message-id").val(),
+                "before": $("#buddybot-playground-first-message-id").val(),
                 "limit": 20,
                 "order": "desc",
-                "nonce": "' . $nonce . '"
+                "nonce": "' . esc_js($nonce) . '"
             };
   
             $.post(ajaxurl, data, function(response) {
@@ -331,8 +331,8 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
 
                 if (response.success) {
                     updateStatus(responseUpdated);
-                    $("#mgoa-playground-messages-list").append(response.html);
-                    $("#mgoa-playground-first-message-id").val(response.result.first_id);
+                    $("#buddybot-playground-messages-list").append(response.html);
+                    $("#buddybot-playground-first-message-id").val(response.result.first_id);
                     scrollToBottom(response.result.first_id);
                 } else {
                     updateStatus(response.message);
@@ -361,7 +361,7 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
                 "thread_id": threadId,
                 "limit": 5,
                 "order": "desc",
-                "nonce": "' . $nonce . '"
+                "nonce": "' . esc_js($nonce) . '"
             };
   
             $.post(ajaxurl, data, function(response) {
@@ -370,7 +370,7 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
 
                 if (response.success) {
                     updateStatus(threadMessagesUpdated);
-                    $("#mgoa-playground-messages-list").append(response.html);
+                    $("#buddybot-playground-messages-list").append(response.html);
                     storeThreadInfo(response.result);
                     scrollToBottom(response.result.first_id);
                 } else {
@@ -389,9 +389,9 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
         echo '
         function storeThreadInfo(thread)
         {
-            $("#mgoa-playground-first-message-id").val(thread.first_id);
-            $("#mgoa-playground-last-message-id").val(thread.last_id);
-            $("#mgoa-playground-has-more-messages").val(thread.has_more);
+            $("#buddybot-playground-first-message-id").val(thread.first_id);
+            $("#buddybot-playground-last-message-id").val(thread.last_id);
+            $("#buddybot-playground-has-more-messages").val(thread.has_more);
         }
         ';
     }
@@ -401,13 +401,13 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
         echo '
         function scrollToBottom(id) {
             let height = $("#" + id).outerHeight();
-            $("#mgoa-playground-messages-list").animate({
-                scrollTop: $("#mgoa-playground-messages-list")[0].scrollHeight - height - 200
+            $("#buddybot-playground-messages-list").animate({
+                scrollTop: $("#buddybot-playground-messages-list")[0].scrollHeight - height - 200
             }, 1000);
         }
 
         function scrollToTop() {
-            $("#mgoa-playground-messages-list").animate({
+            $("#buddybot-playground-messages-list").animate({
                 scrollTop: 0
             }, 1000);
         }
@@ -417,16 +417,16 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
     private function selectThreadJs()
     {
         echo '
-        $("#mgoa-playground-threads-list").on("click", ".mgoa-playground-threads-list-item", function() {
+        $("#buddybot-playground-threads-list").on("click", ".buddybot-playground-threads-list-item", function() {
             
-            const threadId = $(this).attr("data-mgoa-threadid");
+            const threadId = $(this).attr("data-buddybot-threadid");
             const highlightClass = "fw-bold text-primary";
             
             
             $("#mgao-playground-tokens-display").html("");
-            $("#mgoa-playground-messages-list").html("");
+            $("#buddybot-playground-messages-list").html("");
             $("#mgao-playground-thread-id-input").val(threadId);
-            $(".mgoa-playground-threads-list-item.fw-bold.text-primary").removeClass(highlightClass);
+            $(".buddybot-playground-threads-list-item.fw-bold.text-primary").removeClass(highlightClass);
             $(this).addClass(highlightClass);
             
             listMessages();
@@ -439,20 +439,20 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
         $nonce = wp_create_nonce('list_messages');
 
         echo '
-        $("#mgoa-playground-past-messages-btn").click(function(){
+        $("#buddybot-playground-past-messages-btn").click(function(){
 
             updateStatus(gettingPastMessages);
             disableMessage(true);
-            $("#mgoa-playground-past-messages-btn").children("span").addClass("mgoa-rotate-icon");
+            $("#buddybot-playground-past-messages-btn").children("span").addClass("buddybot-rotate-icon");
 
-            const hasMore = $("#mgoa-playground-has-more-messages").val();
+            const hasMore = $("#buddybot-playground-has-more-messages").val();
 
             if (hasMore == false) {
                 return;
             }
 
-            const firstId = $("#mgoa-playground-first-message-id").val();
-            const lastId = $("#mgoa-playground-last-message-id").val();
+            const firstId = $("#buddybot-playground-first-message-id").val();
+            const lastId = $("#buddybot-playground-last-message-id").val();
             const threadId = $("#mgao-playground-thread-id-input").val();
 
             const data = {
@@ -461,7 +461,7 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
                 "limit": 5,
                 "after": lastId,
                 "order": "desc",
-                "nonce": "' . $nonce . '"
+                "nonce": "' . esc_js($nonce) . '"
             };
   
             $.post(ajaxurl, data, function(response) {
@@ -470,14 +470,14 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
                 
                 if (response.success) {
                     updateStatus(pastMessagesUpdated);
-                    $("#mgoa-playground-messages-list").prepend(response.html);
+                    $("#buddybot-playground-messages-list").prepend(response.html);
                     storeThreadInfo(response.result);
                     scrollToTop();
                 } else {
                     updateStatus(response.message);
                 }
 
-                $("#mgoa-playground-past-messages-btn").children("span").removeClass("mgoa-rotate-icon");
+                $("#buddybot-playground-past-messages-btn").children("span").removeClass("buddybot-rotate-icon");
                 disableMessage(false);
                 toggleThreadBtns();
             });
@@ -502,9 +502,9 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
         function toggleDeleteThreadBtn() {
             let threadId = $("#mgao-playground-thread-id-input").val();
             if (threadId === "") {
-                $("#mgoa-playground-delete-thread-btn").css("opacity", 0);
+                $("#buddybot-playground-delete-thread-btn").css("opacity", 0);
             } else {
-                $("#mgoa-playground-delete-thread-btn").css("opacity", 100);
+                $("#buddybot-playground-delete-thread-btn").css("opacity", 100);
             }
         }
         ';
@@ -514,11 +514,11 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
     {
         echo '
         function togglePastMessagesBtn() {
-            let hasMore = $("#mgoa-playground-has-more-messages").val();
+            let hasMore = $("#buddybot-playground-has-more-messages").val();
             if (hasMore === "true") {
-                $("#mgoa-playground-past-messages-btn").css("opacity", 100);
+                $("#buddybot-playground-past-messages-btn").css("opacity", 100);
             } else {
-                $("#mgoa-playground-past-messages-btn").css("opacity", 0);
+                $("#buddybot-playground-past-messages-btn").css("opacity", 0);
             }
         }
         ';
@@ -528,13 +528,13 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
     {
         $nonce = wp_create_nonce('delete_thread');
         echo '
-        $("#mgoa-playground-delete-thread-btn").click(deleteThreadBtn);
+        $("#buddybot-playground-delete-thread-btn").click(deleteThreadBtn);
 
         function deleteThreadBtn() {
             
             disableMessage(true);
             updateStatus(deletingThread);
-            $("#mgoa-playground-messages-list").css("opacity", 0.5);
+            $("#buddybot-playground-messages-list").css("opacity", 0.5);
             let threadId = $("#mgao-playground-thread-id-input").val();
             
             if (threadId === "") {
@@ -544,16 +544,16 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
             const data = {
                 "action": "deleteThread",
                 "thread_id": threadId,
-                "nonce": "' . $nonce . '"
+                "nonce": "' . esc_js($nonce) . '"
             };
 
             $.post(ajaxurl, data, function(response) {
                 response = JSON.parse(response);
                 if (response.success) {
                     $("#mgao-playground-thread-id-input").val("");
-                    $("#mgoa-playground-messages-list").html("");
-                    $("#mgoa-playground-messages-list").css("opacity", 1);
-                    $("div[data-mgoa-threadid=" + threadId + "]").remove();
+                    $("#buddybot-playground-messages-list").html("");
+                    $("#buddybot-playground-messages-list").css("opacity", 1);
+                    $("div[data-buddybot-threadid=" + threadId + "]").remove();
                     updateStatus(threadDeleted);
                 } else {
                     updateStatus(response.message);
@@ -578,7 +578,7 @@ final class Playground extends \MetagaussOpenAI\Admin\Requests\MoRoot
                 message = $.trim(message).substring(0, 100);
             }
 
-            $("div[data-mgoa-threadid=" + threadId + "]").text(message);
+            $("div[data-buddybot-threadid=" + threadId + "]").text(message);
         }
         ';
     }

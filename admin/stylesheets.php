@@ -1,15 +1,15 @@
 <?php
-namespace MetagaussOpenAI\Admin;
+namespace BuddyBot\Admin;
 
-use MetagaussOpenAI\Traits\Singleton;
+use BuddyBot\Traits\Singleton;
 
-final class StyleSheets extends \MetagaussOpenAI\Admin\MoRoot
+final class StyleSheets extends \BuddyBot\Admin\MoRoot
 {
     use Singleton;
 
     protected function isInternalPage()
     {
-        if (key_exists('page', $_GET) and strpos($_GET['page'], 'metagaussopenai') == 0) {
+        if (!empty($_GET['page']) and strpos(sanitize_text_field($_GET['page']), 'buddybot') === 0) {
             return true;
         } else {
             return false;
@@ -18,17 +18,16 @@ final class StyleSheets extends \MetagaussOpenAI\Admin\MoRoot
 
     protected function pluginLevelScripts() 
     {
-        $bootstrap_css = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css';
-        $bootstrap_js = 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js';
-        $jquery_js = 'https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js';
-        $material_symbols = 'https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,300,0,0';
+        $bootstrap_css = $this->config->getRootUrl() . 'external/bootstrap/bootstrap.min.css';
+        $bootstrap_js = $this->config->getRootUrl() . 'external/bootstrap/bootstrap.min.js';
+        $material_symbols = $this->config->getRootUrl() . 'external/material-symbols/material-symbols.css';
         
         if ($this->isInternalPage()) {
-            wp_enqueue_style($this->config::PREFIX . '-material-symbols-css', $material_symbols);
-            wp_enqueue_style($this->config::PREFIX . '-bootstrap-css', $bootstrap_css);
-            wp_enqueue_script($this->config::PREFIX . '-bootstrap-js', $bootstrap_js);
-            wp_enqueue_script($this->config::PREFIX . '-jquery-js', $jquery_js);
-            wp_enqueue_style($this->config::PREFIX . '-global-css', $this->config->getRootUrl() . 'admin/css/metagauss-openai.css');
+            wp_enqueue_style($this->config::PREFIX . '-material-symbols-css', esc_url($material_symbols), array(), '1.0.0');
+            wp_enqueue_style($this->config::PREFIX . '-bootstrap-css', esc_url($bootstrap_css), array(), '5.3');
+            wp_enqueue_script($this->config::PREFIX . '-bootstrap-js', esc_url($bootstrap_js), array(), '5.3');
+            wp_enqueue_script('jquery');
+            wp_enqueue_style($this->config::PREFIX . '-global-css', $this->config->getRootUrl() . 'admin/css/buddybot.css', array(), '1.0.0');
 
         }
     }
@@ -36,9 +35,13 @@ final class StyleSheets extends \MetagaussOpenAI\Admin\MoRoot
     protected function pageLevelScripts()
     {
         if ($this->isInternalPage()) {
-            $css_file_name = str_replace('metagaussopenai-','', $_GET['page']);
+            $css_file_name = str_replace('buddybot-','', sanitize_text_field($_GET['page']));
             $css_file_url = $this->config->getRootUrl() . 'admin/css/' . $css_file_name . '.css';
-            wp_enqueue_style($_GET['page'], $css_file_url);
+            $css_file_path = $this->config->getRootPath() . 'admin/css/' . $css_file_name . '.css';
+
+            if (file_exists($css_file_path)) {
+                wp_enqueue_style(sanitize_text_field($_GET['page']), sanitize_url($css_file_url), array(), '1.0.0');
+            }
         }
     }
 

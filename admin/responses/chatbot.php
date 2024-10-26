@@ -1,8 +1,8 @@
 <?php
 
-namespace MetagaussOpenAI\Admin\Responses;
+namespace BuddyBot\Admin\Responses;
 
-class ChatBot extends \MetagaussOpenAI\Admin\Responses\MoRoot
+class ChatBot extends \BuddyBot\Admin\Responses\MoRoot
 {
     public function selectAssistantModal()
     {
@@ -15,22 +15,18 @@ class ChatBot extends \MetagaussOpenAI\Admin\Responses\MoRoot
         }
 
         $url = 'https://api.openai.com/v1/assistants?limit=10' . $after;
-
-        $ch = curl_init($url);
         
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'OpenAI-Beta: assistants=v1',
-            'Content-Type: application/json',
-            'Authorization: Bearer ' . $this->api_key
-            )
-        );
+        $headers = [
+            'OpenAI-Beta' => 'assistants=v1',
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer ' . $this->api_key
+        ];
 
-        $output = $this->curlOutput($ch);
-        $this->checkError($output);
+        $args = ['headers' => $headers];
+        $this->openai_response = wp_remote_get($url, $args);
+        $this->processResponse();
 
-        $this->response['html'] = $this->getAssistantListHtml($output->data);
+        $this->response['html'] = $this->getAssistantListHtml($this->openai_response_body->data);
 
         echo wp_json_encode($this->response);
         wp_die();
@@ -38,7 +34,7 @@ class ChatBot extends \MetagaussOpenAI\Admin\Responses\MoRoot
 
     private function getAssistantListHtml($list)
     {
-        $assisstant_list = new \MetagaussOpenAI\Admin\Html\Elements\Chatbot\AssistantList();
+        $assisstant_list = new \BuddyBot\Admin\Html\Elements\Chatbot\AssistantList();
 
         $html = '';
 
@@ -69,7 +65,7 @@ class ChatBot extends \MetagaussOpenAI\Admin\Responses\MoRoot
 
     private function cleanChatbotData()
     {
-        $secure = new \MetagaussOpenAI\Admin\Secure\Chatbot();
+        $secure = new \BuddyBot\Admin\Secure\Chatbot();
         
         $id= $secure->chatbotId();
         $name = $secure->chatbotName();
@@ -80,7 +76,7 @@ class ChatBot extends \MetagaussOpenAI\Admin\Responses\MoRoot
 
         if (!empty($errors)) {
             $this->response['success'] = false;
-            $this->response['message'] = __('There were errors in your data.', 'metagauss-openai');
+            $this->response['message'] = __('There were errors in your data.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             $this->response['errors'] = $errors;
             echo wp_json_encode($this->response);
             wp_die();
