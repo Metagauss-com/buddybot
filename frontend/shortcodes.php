@@ -18,7 +18,18 @@ final class ShortCodes extends \BuddyBot\Frontend\MoRoot
         $this->frontend_theme = 'bootstrap';
     }
 
-    private function addShortCodes()
+    public function addShortCodes()
+    {
+        foreach ($this->shortcodes as $shortcode) {
+            $class = str_replace('_', '', $shortcode);
+
+            $view_class = 'BuddyBot\Frontend\Views\\' . $this->frontend_theme . '\\' . $class;
+            $view = $view_class::getInstance();
+            add_shortcode($shortcode, array($view, 'shortcodeHtml'));
+        }
+    }
+
+    public function buddybotEnqueueScript()
     {
         foreach ($this->shortcodes as $shortcode) {
             $class = str_replace('_', '', $shortcode);
@@ -26,10 +37,6 @@ final class ShortCodes extends \BuddyBot\Frontend\MoRoot
             $this->enqueuePluginStyle();
             $this->enqueuePluginScript();
             $this->enqueueViewStyle($class);
-
-            $view_class = 'BuddyBot\Frontend\Views\\' . $this->frontend_theme . '\\' . $class;
-            $view = $view_class::getInstance();
-            add_shortcode($shortcode, array($view, 'shortcodeHtml'));
         }
     }
 
@@ -89,6 +96,7 @@ final class ShortCodes extends \BuddyBot\Frontend\MoRoot
     public function __construct()
     {
         $this->setAll();
+        add_action('wp_enqueue_scripts', array($this, 'buddybotEnqueueScript'));
         $this->addShortCodes();
     }
 }

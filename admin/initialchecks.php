@@ -1,4 +1,5 @@
 <?php
+
 namespace BuddyBot\Admin;
 
 final class InitialChecks extends \BuddyBot\Admin\MoRoot
@@ -16,12 +17,17 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
         $this->capabilities = array(
             'settings' => 'manage_options'
         );
+        $key = $this->options->getOption('openai_api_key', '');
+
+        if (!empty($key)) {
+            $this->capabilities['vectorstore'] = 'manage_options';
+        }
     }
 
     protected function addAlert($error_text = '')
     {
-        $this->html .= '<div class="alert alert-danger small mb-3" role="alert">';
-        $this->html .= $error_text;
+        $this->html .= '<div class="notice notice-error">';
+        $this->html .= '<p>' . $error_text . '</p>';
         $this->html .= '</div>';
     }
 
@@ -51,8 +57,25 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
             $this->errors += 1;
             $this->addAlert(
                 // Translators: %s is url to BuddyBot settings page in admin area. This should not be changed.
-                sprintf(wp_kses_post('OpenAI API Key Missing. Please save it <a href="%s">here.</a>', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_url(admin_url('admin.php?page=buddybot-settings')))
+                sprintf(wp_kses_post('<strong>BuddyBot Notice:</strong> OpenAI API Key is missing. Please configure your API Key to enable BuddyBot\'s features. <a href="%s">Go to Settings</a>.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_url(admin_url('admin.php?page=buddybot-settings')))
             );
+       }
+    }
+
+    private function vectorStoreCheck()
+    {
+        $vectorstore = get_option('buddybot_vectorstore_data');
+        $id = isset($vectorstore['id']) ? $vectorstore['id'] : '';
+        $key = $this->options->getOption('openai_api_key', '');
+
+        if (!empty($key)) {
+            if (empty($id)) {
+                $this->errors += 1;
+                $this->addAlert(
+                    // Translators: %s is url to Vector Store settings page in admin area. This should not be changed.
+                    sprintf(wp_kses_post('<strong>BuddyBot Notice:</strong> No vector store detected. A vector store is required for BuddyBot to function properly. Please create one by clicking <a href="%s">here</a>.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_url(admin_url('admin.php?page=buddybot-vectorstore')))
+                );
+            }
         }
     }
 
@@ -82,6 +105,7 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
         } else {
             $this->capabilityCheck();
             $this->openaiApikeyCheck();
+            $this->vectorStoreCheck();
         }
     }
 
