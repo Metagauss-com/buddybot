@@ -445,13 +445,12 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
         $vectorstore_id = isset($vectorstore_data['id']) ? $vectorstore_data['id'] : '';
         echo '
         checkFileStatusOnVectorStoreJs();
-        function checkFileStatusOnVectorStoreJs(retries = 3) {
+        function checkFileStatusOnVectorStoreJs() {
         $(".list-group-item").each(function(){
             let listItem = $(this);
             let dataType = listItem.attr("data-buddybot-type");
             let fileId = listItem.attr("data-buddybot-remote_file_id");
             let vectorStoreId = "' . esc_js($vectorstore_id) . '";
-            let retries = 3;
 
             if (fileId == 0) {
                 listItem.find(".buddybot-remote-file-status").text("Not syncronized.");

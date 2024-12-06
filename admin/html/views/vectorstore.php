@@ -32,7 +32,7 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
         $id = 'buddybot-vectorstore-create';
         echo '<div>';
 
-        $this->loaderBtn('dark btn-sm', $id, $btn_label);
+        $this->loaderBtn('dark btn-sm mb-1', $id, $btn_label);
         $this->createHiddenField('buddybot_vector_store_id');
 
         echo '</div>';

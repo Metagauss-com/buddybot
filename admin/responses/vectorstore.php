@@ -107,7 +107,7 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
 
         if (isset($output['id']) && !empty($output['id'])) {
             $this->response['success'] = false;
-            $this->response['message'] = esc_html__('Vector Store already created with ID: ', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . $output['id'];
+            $this->response['message'] = sprintf(esc_html__('A vector store with ID %s already exists. Please use the existing vector store or choose a different ID.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), $output['id']);
         } else {
             $this->response['success'] = true;
         }
@@ -522,16 +522,13 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
             $this->response['success'] = true;
             $deleted_files = '<span class="text-bg-success px-2 py-1 rounded-1 small fw-bold">' . implode('</span>, <span class="text-bg-success px-2 py-1 rounded-1 small fw-bold">', $deleted_files) . '</span>';
             // Translators: %s is replaced with a list of successfully deleted files.
-            $this->response['message'] = '<div class="text-success">' . sprintf(esc_html__('Successfully deleted the following files: %s', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), wp_kses_post($deleted_files)) . '</div>';
-        } else {
-            $this->response['success'] = false;
-            $this->response['message'] = '<div class="text-danger">' . esc_html__('No files were deleted.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
+            $this->response['message'] = '<div class="text-success">' . sprintf(esc_html__('The outdated file %s has been successfully deleted from the vector store.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), wp_kses_post($deleted_files)) . '</div>';
         }
         
         if (!empty($failed_files)) {
             $failed_files = '<span class="text-bg-danger px-2 py-1 rounded-1 small fw-bold">' . implode('</span>, <span class="text-bg-danger px-2 py-1 rounded-1 small fw-bold">', $failed_files) . '</span>';
             // Translators: %s is replaced with the list of files that failed to delete.
-            $this->response['message'] = '<div class="text-success">' . sprintf(esc_html__('The following files failed to delete: %s', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), wp_kses_post($failed_files)) . '</div>';
+            $this->response['message'] = '<div class="text-success">' . sprintf(esc_html__('The file %s could not be deleted. Please check the file permissions or try again.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), wp_kses_post($failed_files)) . '</div>';
         }
 
         echo wp_json_encode($this->response);
@@ -547,7 +544,7 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
 
         if (empty($_POST['file_id']) || empty($_POST['vectorstore_id'])) {
             $this->response['success'] = false;
-            $this->response['message'] = esc_html__('Missing file_id or vectorstore_id.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            $this->response['message'] = esc_html__('File synchronization failed. No vector store or file ID found. Please create a vector store before initiating synchronization.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             echo wp_json_encode($this->response);
             wp_die();
         }
@@ -577,10 +574,12 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
 
         if (isset($output->id) && $output->id === $file_id) {
             $this->response['success'] = true;
-            $this->response['message'] = '<div class="text-success">' . esc_html__('File successfully uploaded to vector store.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
+            $this->response['message'] = '<div class="text-success">' . esc_html__('File successfully uploaded to the vector store. The data is now ready for use.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
         } else {
             $this->response['success'] = false;
-            $this->response['message'] = '<div class="text-danger">' . esc_html__('File upload failed. The file_id was not found in the response.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
+            $file_id = '<span class="text-bg-success px-2 py-1 rounded-1 small fw-bold">' . $output->id . '</span>';
+            // Translators: %s is replaced with the list of files that failed to upload.
+            $this->response['message'] = '<div class="text-danger">' . sprintf(esc_html__('File synchronization failed. The file ID %s does not exist in OpenAI. Please re-upload the file to continue.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), wp_kses_post($file_id)) . '</div>';
         }
 
         echo wp_json_encode($this->response);
@@ -646,7 +645,7 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
 
         if (empty($_POST['file_id']) || empty($_POST['vectorstore_id'])) {
             $this->response['success'] = false;
-            $this->response['message'] = esc_html__('Missing file_id or vectorstore_id.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            $this->response['message'] = esc_html__('File synchronization failed. No vector store or file ID found. Please create a vector store before initiating synchronization.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             echo wp_json_encode($this->response);
             wp_die();
         }

@@ -589,13 +589,11 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
 
             $.post(ajaxurl, data, function(response) {
                 response = JSON.parse(response);
-                console.log(response)
 
                 if (!response.success) {
                     $("#buddybot-playground-threads-list").html(response.message);
                 } 
 
-                console.log(response.html)
                 $("#buddybot-playground-threads-list").html(response.html);
 
             });
@@ -612,7 +610,6 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
 
             $.post(ajaxurl, data, function(response) {
                 response = JSON.parse(response);
-                console.log(response)
 
                 if (response.success) {
                     $("#buddybot-playground-attachment-wrapper").css("display", "block");

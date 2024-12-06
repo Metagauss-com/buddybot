@@ -103,7 +103,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function deleteThreadBtn()
     {
-        echo '<button id="buddybot-playground-delete-thread-btn" type="button" class="btn btn-outline-danger btn-sm">';
+        echo '<button id="buddybot-playground-delete-thread-btn" type="button" class="btn btn-outline-danger btn-sm" style="opacity: 0;">';
         $this->moIcon('delete');
         // esc_html_e('Delete Thread', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</button>';
