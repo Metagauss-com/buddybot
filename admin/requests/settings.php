@@ -9,7 +9,7 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
         $this->pageVarsJs();
         $this->sectionToggleJs();
         $this->saveOptionsJs();
-        $this->getGeneralOptionsJs();
+        //$this->getGeneralOptionsJs();
         $this->toggleErrorsJs();
         $this->getOpenAiApiKeyJs();
     }
@@ -54,37 +54,8 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
         $("#buddybot-settings-update-btn").click(saveOptions);
 
         function saveOptions() {
-
-            const section = $("#mgao-settings-section-select").val();
-            getGeneralOptions();
-
-            if (dataErrors.length > 0) {
-                displayErrors();
-                disableFields(false);
-                hideBtnLoader("#mgao-chatbot-save-btn");
-                return;
-            }
-
-            const data = {
-                "action": "saveSettings",
-                "options_data": JSON.stringify(optionsData),
-                "section": section,
-                "nonce": "' . esc_js(wp_create_nonce('save_settings')) . '"
-            };
-
-            $.post(ajaxurl, data, function(response) {
-                response = JSON.parse(response);
-                if (response.success) {
-                    location.replace("' . esc_url(admin_url()) . 'admin.php?page=buddybot-settings&section=' . '" + section + "&success=1");
-                } else {
-                    $("#buddybot-settings-error-message").html(response.message);
-                    dataErrors = response.errors;
-                    displayErrors();
-                }
-
-                disableFields(false);
-                hideBtnLoader("#mgao-chatbot-save-btn");
-            });
+         showBtnLoader("#buddybot-settings-update-btn");
+           getOpenAiApiKey();
         }
         ';
     }
@@ -132,11 +103,60 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
             key = $.trim(key);
 
             if (key === "") {
-                dataErrors.push("' . esc_html(__('OpenAI API Key cannot be empty.', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '"); 
+                dataErrors.push("' . esc_html(__('OpenAI API Key cannot be empty.', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '");
+                displayErrors(); 
+                hideBtnLoader("#buddybot-settings-update-btn");
+            } else{ 
+                verifyOpenaiApiKey(key);
+            }
+                
+        }
+            function verifyOpenaiApiKey(apiKey) {
+
+                const data = {
+                    "action": "verifyApiKey",
+                    "api_key": apiKey,
+                    "nonce": "' . esc_js(wp_create_nonce('verify_api_key')) . '"
+                };
+
+                $.post(ajaxurl, data, function(response) {
+                    response = JSON.parse(response);
+                    if (response.success) {
+                        saveOpenaiApiKey(apiKey);
+                    }else{
+                        dataErrors.push(response.message);
+                        displayErrors();
+                    }
+                    hideBtnLoader("#buddybot-settings-update-btn");
+                });
             }
 
-            return key;
-        }
+            function saveOpenaiApiKey(apiKey){
+            const section = $("#mgao-settings-section-select").val();
+            
+             optionsData["openai_api_key"] = apiKey;
+
+            const data = {
+                "action": "saveSettings",
+                "options_data": JSON.stringify(optionsData),
+                "section": section,
+                "nonce": "' . esc_js(wp_create_nonce('save_settings')) . '"
+            };
+
+            $.post(ajaxurl, data, function(response) {
+                response = JSON.parse(response);
+                if (response.success) {
+                    location.replace("' . esc_url(admin_url()) . 'admin.php?page=buddybot-settings&section=' . '" + section + "&success=1");
+                } else {
+                    $("#buddybot-settings-error-message").html(response.message);
+                    dataErrors = response.errors;
+                    displayErrors();
+                }
+
+                disableFields(false);
+                hideBtnLoader("#buddybot-settings-update-btn");
+            });
+    }
         ';
     }
 }

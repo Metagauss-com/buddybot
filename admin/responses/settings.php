@@ -53,10 +53,36 @@ class Settings extends \BuddyBot\Admin\Responses\MoRoot
         wp_die();
     }
 
+    public function verifyApiKey()
+    {
+        $this->checkNonce('verify_api_key');
+
+        $api_key = sanitize_text_field($_POST['api_key']);
+
+        $url = 'https://api.openai.com/v1/models';
+
+        $headers = [
+            'Authorization' => 'Bearer ' . $api_key
+        ];
+
+        $args = ['headers' => $headers];
+
+        $this->openai_response = wp_remote_get($url, $args);
+        $this->processResponse();
+
+        if (!$this->openai_response_body->object === 'list') {
+            $this->response['success'] = false;
+            $this->response['message'] = __('Incorrect Api Key.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        }
+        echo wp_json_encode($this->response);
+        wp_die();
+    }
+
     public function __construct()
     {
         $this->setAll();
         add_action('wp_ajax_getOptions', array($this, 'getOptions'));
         add_action('wp_ajax_saveSettings', array($this, 'saveSettings'));
+        add_action('wp_ajax_verifyApiKey', array($this, 'verifyApiKey'));
     }
 }
