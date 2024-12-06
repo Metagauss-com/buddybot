@@ -11,8 +11,9 @@ final class AdminMenu extends \BuddyBot\Admin\MoRoot
         // $this->orgFilesSubmenuItem();
         $this->assistantsSubmenuItem();
         // $this->addFileSubmenuItem();
-        $this->dataSyncSubmenuItem();
+        //$this->dataSyncSubmenuItem();
         $this->settingsSubmenuItem();
+        $this->vectorStoreSubmenuItem();
     }
 
     public function hiddenMenu()
@@ -115,7 +116,7 @@ final class AdminMenu extends \BuddyBot\Admin\MoRoot
     public function editAssistantSubmenuItem()
     {
         add_submenu_page(
-            '',
+            'buddybot-hidden-page',
             __('Edit Assistant', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
             __('Edit Assistant', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
             'manage_options',
@@ -128,7 +129,7 @@ final class AdminMenu extends \BuddyBot\Admin\MoRoot
     public function defaultBuddyBotWizard()
     {
         add_submenu_page(
-            '',
+            'buddybot-hidden-page',
             __('Default Buddybot', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
             __('Default Buddybot', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
             'manage_options',
@@ -151,6 +152,18 @@ final class AdminMenu extends \BuddyBot\Admin\MoRoot
         );
     }
 
+    public function vectorStoreSubmenuItem()
+    {
+        add_submenu_page(
+            'buddybot-chatbot',
+            __('Vector Store', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            __('Vector Store', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            'manage_options',
+            'buddybot-vectorstore',
+            array($this, 'vectorStoreMenuPage'),
+            1
+        );
+    }
     public function appMenuPage()
     {
         include_once(plugin_dir_path(__FILE__) . 'pages/chatbot.php');
@@ -199,6 +212,11 @@ final class AdminMenu extends \BuddyBot\Admin\MoRoot
     public function settingsMenuPage()
     {
         include_once(plugin_dir_path(__FILE__) . 'pages/settings.php');
+    }
+
+    public function vectorStoreMenuPage()
+    {
+        include_once(plugin_dir_path(__FILE__) . 'pages/vectorstore.php');
     }
 
     public function __construct()
