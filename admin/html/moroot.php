@@ -27,12 +27,32 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
         echo '</button>';
     }
 
+    protected function wordpressLoaderBtn(string $type = 'primary', string $id = '', string $label = '')
+    {
+        $class = 'button button-' . $type;
+        echo '<button id="' . esc_attr($id) . '" class="' . esc_attr($class) . '" type="button" aria-label = "' . esc_html($label) . '" >';
+        
+        echo '<span class="buddybot-loaderbtn-label">';
+        echo esc_html($label);
+        echo '</span>';
+
+        echo '<span id ="spinner" class="spinner buddybot-loaderbtn-spinner" style="display: none;" aria-hidden="true"></span>';
+        
+        echo '</button>';
+
+    }
+
     protected function moIcon($icon)
     {
         echo '<span class="material-symbols-outlined" style="font-size:20px;vertical-align:sub;">';
         echo esc_html($icon);
         echo '</span>';
     }
+    
+    protected function createHiddenField($id) {
+        echo '<input type="hidden" id="' . esc_attr($id) . '" value=""></input>';
+    }
+
     public function getHtml()
     {
         

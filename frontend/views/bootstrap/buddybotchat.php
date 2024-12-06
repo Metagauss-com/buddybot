@@ -51,7 +51,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
 
     protected function alertsHtml()
     {
-        $html = '<div class="buddybot-chat-conversation-alert alert alert-danger small" data-bb-alert="danger" role="alert">';
+        $html = '<div class="buddybot-chat-conversation-alert alert alert-danger small" data-bb-alert="danger" role="alert" style="display:none;">';
         $html .= '</div>';
         return $html;
     }

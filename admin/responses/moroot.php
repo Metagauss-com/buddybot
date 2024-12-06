@@ -10,7 +10,7 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
     protected $api_key;
     protected $core_files;
     protected $sql;
-    
+
     protected function setSql()
     {
         $class_name = (new \ReflectionClass($this))->getShortName();
@@ -18,7 +18,7 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
 
         if (file_exists($file_path)) {
             $class_name = '\BuddyBot\Admin\Sql\\' . $class_name;
-            $this->sql = $class_name::getInstance(); 
+            $this->sql = $class_name::getInstance();
         }
     }
 
@@ -36,12 +36,13 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
     {
         $nonce_status = wp_verify_nonce(
             sanitize_text_field(wp_unslash($_POST['nonce'])),
-            $nonce);
+            $nonce
+        );
 
         if ($nonce_status === false) {
             $this->response['success'] = false;
-            $this->response['message'] = '<div>' . __('Nonce error.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
-            $this->response['errors'] = array(__('Nonce check failed.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
+            $this->response['message'] = '<div>' . esc_html__('Nonce error.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
+            $this->response['errors'] = array(esc_html__('Nonce check failed.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
             echo wp_json_encode($this->response);
             wp_die();
         }
@@ -51,7 +52,7 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
     {
         if (!(current_user_can('manage_options'))) {
             $this->response['success'] = false;
-            $this->response['message'] = __('You do not have permission to do this.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            $this->response['message'] = esc_html__('You do not have permission to do this.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             echo wp_json_encode($this->response);
             wp_die();
         }
@@ -61,12 +62,12 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
     {
         if (is_scalar($output)) {
             $this->response['success'] = false;
-            $this->response['message'] = __('Invalid data structure. ', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . ' ' . maybe_serialize($output);
+            $this->response['message'] = esc_html__('Invalid data structure. ', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . ' ' . maybe_serialize($output);
             echo wp_json_encode($this->response);
             wp_die();
         } elseif (!empty($output->error)) {
             $this->response['success'] = false;
-            $this->response['message'] = '<span class="text-danger">' . __('There was an error. ', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            $this->response['message'] = '<span class="text-danger">' . esc_html__('There was an error. ', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             $this->response['message'] .= $output->error->message . '</span>';
             echo wp_json_encode($this->response);
             wp_die();
@@ -79,7 +80,15 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
     protected function processResponse()
     {
         if (is_wp_error($this->openai_response)) {
-            $this->response['success'] = false; 
+
+                if ($this->openai_response->get_error_code() === 'http_request_failed') {
+                    $this->response['success'] = false;
+                    $this->response['message'] = esc_html__('Unable to verify file status due to a network timeout. Please try again later.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+                    echo wp_json_encode($this->response);
+                    wp_die();
+                }
+
+            $this->response['success'] = false;
             $this->response['message'] = $this->openai_response->get_error_message();
             echo wp_json_encode($this->response);
             wp_die();
@@ -90,17 +99,17 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
 
         if (!is_object($this->openai_response_body)) {
             $this->response['success'] = false;
-            $this->response['message'] = __('Output is not an object. ', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . ' ' . maybe_serialize($this->openai_response_body);
+            $this->response['message'] = esc_html__('Output is not an object. ', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . ' ' . maybe_serialize($this->openai_response_body);
             echo wp_json_encode($this->response);
             wp_die();
         } elseif (!empty($this->openai_response_body->error)) {
             $this->response['success'] = false;
-            $this->response['message'] = __('There was an error. ', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            $this->response['message'] = esc_html__('There was an error. ', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             $this->response['message'] .= $this->openai_response_body->error->message;
             echo wp_json_encode($this->response);
             wp_die();
         }
-            
+
         $this->response['success'] = true;
         $this->response['result'] = $this->openai_response_body;
     }
@@ -117,14 +126,14 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
     {
         $info_btn_class = 'buddybot-listbtn-' . $item_type . '-info';
         $delete_btn_class = 'buddybot-listbtn-' . $item_type . '-delete';
-        
+
         $html = '<div class="btn-group btn-group-sm me-2" role="group" aria-label="Basic example">';
         $html .= '<button type="button" class="' . esc_attr($info_btn_class) . ' btn btn-outline-dark">' . $this->moIcon('info') . '</button>';
         $html .= '<button type="button" class="' . esc_attr($delete_btn_class) . ' btn btn-outline-dark">' . $this->moIcon('delete') . '</button>';
         $html .= '</div>';
 
         $html .= $this->listSpinner();
-        
+
         return $html;
     }
 

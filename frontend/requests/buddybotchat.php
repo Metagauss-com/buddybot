@@ -189,7 +189,8 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
                 
                 if (response.success) {
                     hasMoreMessages(response.result);
-                    $("#buddybot-single-conversation-messages-wrapper").prepend(response.html);
+                    var cleanedHtml = response.html.replace(/【.*?†.*?】/g, "");
+                    $("#buddybot-single-conversation-messages-wrapper").prepend(cleanedHtml);
 
                     if (scroll === "bottom") {
                         scrollToBottom();
@@ -267,7 +268,8 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
                 
                 if (response.success) {
                     $("#buddybot-single-conversation-user-message").val("");
-                    $("#buddybot-single-conversation-messages-wrapper").append(response.html);
+                    var cleanedHtml = response.html.replace(/【.*?†.*?】/g, "");
+                    $("#buddybot-single-conversation-messages-wrapper").append(cleanedHtml);
                     sessionStorage.setItem("bbCurrentThreadId", response.result.thread_id);
                     $("#buddybot-single-conversation-delete-thread-btn").removeClass("visually-hidden");
                     sessionStorage.setItem("bbFirstId", response.result.id);
@@ -380,7 +382,8 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
                 response = JSON.parse(response);
 
                 if (response.success) {
-                    $("#buddybot-single-conversation-messages-wrapper").append(response.html);
+                    var cleanedHtml = response.html.replace(/【.*?†.*?】/g, "");
+                    $("#buddybot-single-conversation-messages-wrapper").append(cleanedHtml);
                     sessionStorage.setItem("bbFirstId", response.result.first_id);
                     animateMessageText(response.result.first_id);
                 } else {
