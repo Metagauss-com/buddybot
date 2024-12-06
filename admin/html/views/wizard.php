@@ -6,7 +6,7 @@ final class Wizard extends \BuddyBot\Admin\Html\Views\MoRoot
 {
     public function getHtml()
     {
-        $heading = __('Setup Wizard', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $heading = esc_html__('Setup Wizard', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $this->pageHeading($heading);
         $this->wizardBlocks();
     }

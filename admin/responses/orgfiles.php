@@ -8,7 +8,7 @@ class OrgFiles extends \BuddyBot\Admin\Responses\MoRoot
     public function deleteOrgFile()
     {
         $this->checkNonce('delete_org_file');
-        $file_id = sanitize_text_field($_POST['file_id']);
+        $file_id = isset($_POST['file_id']) && !empty($_POST['file_id']) ? sanitize_text_field($_POST['file_id']) : '';
     
         $url = 'https://api.openai.com/v1/files/' . $file_id;
     

@@ -76,7 +76,7 @@ class ChatBot extends \BuddyBot\Admin\Responses\MoRoot
 
         if (!empty($errors)) {
             $this->response['success'] = false;
-            $this->response['message'] = __('There were errors in your data.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            $this->response['message'] = esc_html__('There were errors in your data.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             $this->response['errors'] = $errors;
             echo wp_json_encode($this->response);
             wp_die();

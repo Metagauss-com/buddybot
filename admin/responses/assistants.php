@@ -10,11 +10,11 @@ class Assistants extends \BuddyBot\Admin\Responses\MoRoot
         $this->checkNonce('delete_assistant');
         $this->checkCapabilities();
 
-        $assistant_id = sanitize_text_field($_POST['assistant_id']);
+        $assistant_id = isset($_POST['assistant_id']) && !empty($_POST['assistant_id']) ? sanitize_text_field($_POST['assistant_id']) : '';
 
         if (empty($assistant_id)) {
             $this->response['success'] = false;
-            $this->response['message'] = __('Assistant ID cannot be empty.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            $this->response['message'] = esc_html__('Assistant ID cannot be empty.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             echo wp_json_encode($this->response);
             wp_die();
         }
@@ -34,10 +34,10 @@ class Assistants extends \BuddyBot\Admin\Responses\MoRoot
         
         if ($this->response['result']->deleted) {
             $this->response['success'] = true;
-            $this->response['message'] = __('Successfully deleted Assistant.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            $this->response['message'] = esc_html__('Successfully deleted Assistant.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         } else {
             $this->response['success'] = false;
-            $this->response['message'] = __('Unable to delete the Assistant.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            $this->response['message'] = esc_html__('Unable to delete the Assistant.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
 
         echo wp_json_encode($this->response);
@@ -57,7 +57,7 @@ class Assistants extends \BuddyBot\Admin\Responses\MoRoot
         $url = 'https://api.openai.com/v1/assistants?limit=10' . $after;
         
         $headers = [
-            'OpenAI-Beta' => 'assistants=v1',
+            'OpenAI-Beta' => 'assistants=v2',
             'Content-Type' => 'application/json',
             'Authorization' => 'Bearer ' . $this->api_key
         ];
@@ -72,7 +72,7 @@ class Assistants extends \BuddyBot\Admin\Responses\MoRoot
             $this->assistantsTableHtml(absint($_POST['current_count']));
         } else {
             $this->response['success'] = false;
-            $this->response['message'] = __('Unable to fetch assistants list.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            $this->response['message'] = esc_html__('Unable to fetch assistants list.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
 
         echo wp_json_encode($this->response);

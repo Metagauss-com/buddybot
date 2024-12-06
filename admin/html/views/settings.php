@@ -9,8 +9,8 @@ final class Settings extends \BuddyBot\Admin\Html\Views\MoRoot
     protected function setSections()
     {
         $this->sections = array(
-            'general' => __('General', 'buddybot-ai-custom-ai-assistant-and-chat-agent')
-            // 'extensions' => __('Extensions', 'buddybot-ai-custom-ai-assistant-and-chat-agent')
+            'general' => esc_html__('General', 'buddybot-ai-custom-ai-assistant-and-chat-agent')
+            // 'extensions' => esc_html__('Extensions', 'buddybot-ai-custom-ai-assistant-and-chat-agent')
         );
     }
 
@@ -19,7 +19,7 @@ final class Settings extends \BuddyBot\Admin\Html\Views\MoRoot
         $this->pageSuccessAlert();
         $this->pageErrors();
 
-        $heading = __('Settings', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $heading = esc_html__('Settings', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $this->pageHeading($heading);
         $this->sectionToggle();
         $this->optionsLoader();
@@ -40,9 +40,9 @@ final class Settings extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function pageErrors()
     {
-        echo '<div id="buddybot-settings-errors" class="notice notice-error settings-error mb-3 ms-0">';
+        echo '<div id="buddybot-settings-errors" class="notice notice-error settings-error mb-3 ms-0" style="display:none;">';
         echo '<p id="buddybot-settings-error-message" class="fw-bold">' . esc_html_e('Unable to update settings. Please fix errors.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
-        echo '<ul id="buddybot-settings-errors-list" class="small"></ul>';
+        echo '<ul id="buddybot-settings-errors-list" class="small mb-0"></ul>';
         echo '</div>';
     }
 

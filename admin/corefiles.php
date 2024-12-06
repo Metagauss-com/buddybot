@@ -28,7 +28,7 @@ final class CoreFiles
     protected function setComments()
     {
         $this->comments = array(
-            'local_path' => $this->config->getRootPath() . 'data/posts.txt',
+            'local_path' => $this->config->getRootPath() . 'data/comments.txt',
             'remote_name' => 'wp_comments.txt',
             'wp_option_name' => 'buddybot-comments-remote-file-id'
         );

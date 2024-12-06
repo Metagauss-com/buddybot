@@ -72,7 +72,7 @@ final class Assistants extends \BuddyBot\Admin\Html\Views\MoRoot
     private function loadMoreBtn()
     {
         echo '<div class="text-center">';
-        $this->loaderBtn('outline-dark btn-sm visually-hidden', 'buddybot-assistants-load-more-btn', __('Load More', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
+        $this->loaderBtn('outline-dark btn-sm visually-hidden', 'buddybot-assistants-load-more-btn', esc_html__('Load More', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
         echo '</div>';
     }
     
