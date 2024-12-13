@@ -78,7 +78,7 @@ class Messages extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
 
         $html .= '<div>';
 
-        $html .= '<div class="p-2" style="max-width: 500px;">';
+        $html .= '<div class="p-2 me-3" style="max-width: 500px;">';
         
         foreach ($this->message->content as $content) {
             
@@ -171,7 +171,7 @@ class Messages extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
         }
 
 
-        $html = '<div class="small text-start text-secondary ms-2">';
+        $html = '<div class="small text-start text-secondary ms-2 me-3">';
         $html .= esc_html($message_date . ', ' . $message_time);
         $html .= '</div>';
         return $html;

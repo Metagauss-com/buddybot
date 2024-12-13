@@ -32,7 +32,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
         function showAlert(type = "danger", text = "") {
             let alert = $(".buddybot-chat-conversation-alert[data-bb-alert=" + type + "]");
             alert.text(text);
-            alert.removeClass("visually-hidden");
+            alert.removeClass("visually-hidden").show();
         }
 
         function hideAlerts() {
@@ -247,6 +247,13 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
         echo '
         $("#buddybot-single-conversation-send-message-btn").click(sendUserMessage);
 
+        document.addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+              event.preventDefault();
+              sendUserMessage();
+            }
+          });
+
         function sendUserMessage() {
             let userMessage = $.trim($("#buddybot-single-conversation-user-message").val());
             
@@ -304,6 +311,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
                     checkRun = setInterval(retrieveRun, 2000);
                 } else {
                     showAlert("danger", response.message);
+                    lockUi(false);
                 }
             });
         }

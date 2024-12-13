@@ -60,6 +60,11 @@ final class MoConfig
             'gpt-4o-audio-preview',
             'gpt-4o-audio-preview-2024-10-01',
             'chatgpt-4o-latest',
+            'gpt-3.5-turbo-16k',
+            'omni-moderation-2024-09-26',
+            'omni-moderation-latest',
+            'gpt-4',
+            'gpt-4-0613',
         );
     }
 

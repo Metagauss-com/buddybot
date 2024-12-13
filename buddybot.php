@@ -47,7 +47,7 @@ if (is_admin()) {
     $buddybot_assistant_responses = new Admin\Responses\EditAssistant();
     $buddybot_playground_responses = new Admin\Responses\Playground();
     $buddybot_settings_responses = new Admin\Responses\Settings();
-    $buddybot_settings_responses = new Admin\Responses\VectorStore();
+    $buddybot_vectorstore_responses = new Admin\Responses\VectorStore();
 }
 
 //----------Public Code--------//
