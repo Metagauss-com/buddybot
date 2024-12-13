@@ -24,6 +24,7 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
         $this->assistantDataJs();
         $this->createAssistantJs();
         $this->loadAssistantValuesJs();
+        $this->backBtnJs();
     }
 
     private function setVarsJs()
@@ -314,6 +315,16 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
 
         //     });
         // }
+        ';
+    }
+
+    private function backBtnJs()
+    {
+        $path = 'admin.php?page=buddybot-assistants';
+        echo'
+        $("#buddybot-editassistant-back").on("click", function() {
+            window.location.href = "' . esc_url($path) . '";
+        });
         ';
     }
 }

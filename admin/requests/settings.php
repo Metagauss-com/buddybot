@@ -12,6 +12,7 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
         //$this->getGeneralOptionsJs();
         $this->toggleErrorsJs();
         $this->getOpenAiApiKeyJs();
+        $this->createVectorStore();
     }
 
     protected function pageVarsJs()
@@ -122,41 +123,87 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
                 $.post(ajaxurl, data, function(response) {
                     response = JSON.parse(response);
                     if (response.success) {
-                        saveOpenaiApiKey(apiKey);
+                        checkVectorStore(apiKey);
+                       // saveOpenaiApiKey(apiKey);
                     }else{
                         dataErrors.push(response.message);
                         displayErrors();
+                        hideBtnLoader("#buddybot-settings-update-btn");
                     }
-                    hideBtnLoader("#buddybot-settings-update-btn");
                 });
             }
 
             function saveOpenaiApiKey(apiKey){
-            const section = $("#mgao-settings-section-select").val();
-            
-             optionsData["openai_api_key"] = apiKey;
+                const section = $("#mgao-settings-section-select").val();
+                
+                optionsData["openai_api_key"] = apiKey;
 
-            const data = {
-                "action": "saveSettings",
-                "options_data": JSON.stringify(optionsData),
-                "section": section,
-                "nonce": "' . esc_js(wp_create_nonce('save_settings')) . '"
-            };
+                const data = {
+                    "action": "saveSettings",
+                    "options_data": JSON.stringify(optionsData),
+                    "section": section,
+                    "nonce": "' . esc_js(wp_create_nonce('save_settings')) . '"
+                };
 
-            $.post(ajaxurl, data, function(response) {
-                response = JSON.parse(response);
-                if (response.success) {
-                    location.replace("' . esc_url(admin_url()) . 'admin.php?page=buddybot-settings&section=' . '" + section + "&success=1");
-                } else {
-                    $("#buddybot-settings-error-message").html(response.message);
-                    dataErrors = response.errors;
-                    displayErrors();
-                }
+                $.post(ajaxurl, data, function(response) {
+                    response = JSON.parse(response);
+                    if (response.success) {
+                        location.replace("' . esc_url(admin_url()) . 'admin.php?page=buddybot-settings&section=' . '" + section + "&success=1");
+                    } else {
+                        $("#buddybot-settings-error-message").html(response.message);
+                        dataErrors = response.errors;
+                        displayErrors();
+                    }
 
-                disableFields(false);
-                hideBtnLoader("#buddybot-settings-update-btn");
-            });
+                    disableFields(false);
+                    hideBtnLoader("#buddybot-settings-update-btn");
+                });
+            }
+        ';
     }
+
+    private function createVectorStore()
+    {
+        $nonce = wp_create_nonce('create_vectorstore');
+        $vectorstore_data = get_option('buddybot_vectorstore_data');
+        $hostname = wp_parse_url(home_url(), PHP_URL_HOST);
+        echo '
+            //$("#buddybot-vectorstore-create").click(checkVectorStore);
+
+            function checkVectorStore(apiKey){
+                const vectorStoreData = ' . wp_json_encode($vectorstore_data) . ';
+                if (vectorStoreData && vectorStoreData.id) {
+                    saveOpenaiApiKey(apiKey);
+                } else {
+                    createVectorStore(apiKey);
+                }
+            }
+
+            function createVectorStore(apiKey){
+                let storeData = vectorstoreData();
+
+                const data = {
+                    "action": "createVectorStore",
+                    "api_key": apiKey,
+                    "vectorstore_data": JSON.stringify(storeData),
+                    "nonce": "' . esc_js($nonce) . '"
+                };
+        
+                $.post(ajaxurl, data, function(response) {
+                    response = JSON.parse(response);
+                    if (response.success) {
+                    } else {
+                    }
+                    saveOpenaiApiKey(apiKey);
+                });
+            }
+                function vectorstoreData() {
+                let vectorstoreData = {};
+                vectorstoreData["name"] = "' . esc_js($hostname) . '";
+
+                return vectorstoreData;
+            }
+
         ';
     }
 }

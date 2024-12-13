@@ -119,7 +119,7 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
     {
         $nonce = wp_create_nonce('get_vectorstore');
         echo '
-           // getVectorStore();
+            getVectorStore();
            function getVectorStore() {
                 hideAlert();
                 const data = {
@@ -180,7 +180,7 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
                 disableFields(true);
                 showBtnLoader("#buddybot-vectorstore-delete");
 
-                let vectorStoreId = "' . esc_js($vectorstore_id) . '";
+                let vectorStoreId = "vs_0hdprSpPqeZMlfvCfz6UeeBH"; //"' . esc_js($vectorstore_id) . '";
 
                 const data = {
                     "action": "deleteVectorStore",
@@ -406,8 +406,8 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
                     response = JSON.parse(response);
 
                     if (response.success) {
-                        checkFileStatusOnVectorStoreJs();
-                        location.reload();
+                        checkFileStatusOnVectorStoreJs(newFileId);
+                        //location.reload();
                     } 
 
                     $(".buddybot-msgs").append(response.message);
@@ -445,11 +445,11 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
         $vectorstore_id = isset($vectorstore_data['id']) ? $vectorstore_data['id'] : '';
         echo '
         checkFileStatusOnVectorStoreJs();
-        function checkFileStatusOnVectorStoreJs() {
+        function checkFileStatusOnVectorStoreJs(newFileId) {
         $(".list-group-item").each(function(){
             let listItem = $(this);
             let dataType = listItem.attr("data-buddybot-type");
-            let fileId = listItem.attr("data-buddybot-remote_file_id");
+            let fileId = newFileId || listItem.attr("data-buddybot-remote_file_id");
             let vectorStoreId = "' . esc_js($vectorstore_id) . '";
 
             if (fileId == 0) {

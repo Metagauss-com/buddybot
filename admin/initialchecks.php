@@ -55,10 +55,21 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
 
         if (empty($key)) {
             $this->errors += 1;
-            $this->addAlert(
-                // Translators: %s is url to BuddyBot settings page in admin area. This should not be changed.
-                sprintf(wp_kses_post('<strong>BuddyBot Notice:</strong> OpenAI API Key is missing. Please configure your API Key to enable BuddyBot\'s features. <a href="%s">Go to Settings</a>.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_url(admin_url('admin.php?page=buddybot-settings')))
-            );
+           
+            $this->html .= '<div class="banner card shadow-sm mb-4 bdb-banner-card">';
+            $this->html .= '<div class="banner-container card-body d-flex align-items-center">';
+            $this->html .= '<div class="banner-graphic me-3">';
+            $this->html .= '<img src="https://via.placeholder.com/70?text=%F0%9F%8E%89" alt="Excitement and Success Graphic">';
+            $this->html .= '</div>';
+            $this->html .= '<div class="banner-content">';
+            $this->html .= '<h3 class="h3 text-dark mb-2>BuddyBot is Ready to Work for You!</h3>';
+            $this->html .=  '<p class="text-muted mb-0">"' . sprintf(wp_kses_post('This is the final step before you can start using the plugin. Please add your OpenAI API key in the <a href="%s">BuddyBot Settings</a> area.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_url(admin_url('admin.php?page=buddybot-settings'))) .'" </p>';
+            $this->html .=   '</div></div></div>';
+
+            // $this->addAlert(
+            //     // Translators: %s is url to BuddyBot settings page in admin area. This should not be changed.
+            //     sprintf(wp_kses_post('<strong>BuddyBot Notice:</strong> OpenAI API Key is missing. Please configure your API Key to enable BuddyBot\'s features. <a href="%s">Go to Settings</a>.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_url(admin_url('admin.php?page=buddybot-settings')))
+            // );
        }
     }
 
@@ -117,3 +128,12 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
         echo wp_kses_post($this->html);
     }
 }
+
+?>
+<style>
+.bdb-banner-card{
+max-width: 100%;
+}
+</style>
+
+<?php

@@ -11,6 +11,7 @@ class ChatBot extends \BuddyBot\Admin\Requests\MoRoot
         $this->saveBtnJs();
         $this->getChatbotDataJs();
         $this->toggleErrorsJs();
+        $this->checkAssistantJs();
     }
 
     protected function chatbotId() {
@@ -203,7 +204,7 @@ class ChatBot extends \BuddyBot\Admin\Requests\MoRoot
                 if (response.success) {
                     location.replace("' . esc_url(admin_url()) . 'admin.php?page=buddybot-chatbot&chatbot_id=' . '" + response.chatbot_id + "&success=1");
                 } else {
-                    dataErrors = response.errors;
+                    dataErrors.push(response.message);
                     displayErrors();
                 }
 
@@ -287,6 +288,35 @@ class ChatBot extends \BuddyBot\Admin\Requests\MoRoot
             $("#buddybot-chatbot-errors-list").html(errorsHtml);
             $("#buddybot-chatbot-errors").show();
             dataErrors.length = 0;
+        }
+        ';
+    }
+
+    private function checkAssistantJs()
+    {
+        $chatbot_id = isset($_GET['chatbot_id']) && !empty($_GET['chatbot_id']) ? absint($_GET['chatbot_id']) : '';
+        echo '
+        checkAssistant();
+        function checkAssistant(){
+            let assistantId = $("#mgao-chatbot-assistant-id").val(); 
+            const data = {
+                "action": "checkAssistant",
+                "assistant_id": assistantId,
+                "chatbot_id":"'.$chatbot_id.'",
+                "nonce": "' . esc_js(wp_create_nonce('check_assistant')) . '"
+            };
+    
+            $.post(ajaxurl, data, function(response) {
+            response = JSON.parse(response);
+                if (response.success) {
+                    console.log("deleted_succesfully")
+                } else {
+                    dataErrors.push(response.message);
+                    displayErrors();
+                    $("#mgao-chatbot-selected-assistant-id").html("");
+                    $("#mgao-chatbot-assistant-id").val("");
+                }       
+            });
         }
         ';
     }

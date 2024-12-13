@@ -49,6 +49,7 @@ class EditAssistant extends \BuddyBot\Admin\Html\Views\MoRoot
         // echo '</div>';
 
         echo '<div class="col-md-12 p-3">';
+        $this->backBtn();
         $this->submitBtn();
         echo '</div>';
 
@@ -58,31 +59,31 @@ class EditAssistant extends \BuddyBot\Admin\Html\Views\MoRoot
     private function assistantName()
     {
         $id = 'buddybot-editassistant-assistantname';
-        $placeholder = esc_html(__('Example, Math Tutor', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
+        $placeholder = esc_html(__('e.g., Customer Support Bot, Order Tracking Assistant, Appointment Scheduler, Event Info Helper', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
         $label = esc_html(__('Assistant Name', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
         echo '<div class="mb-4">';
         echo '<label for="' . esc_attr($id) . '" class="form-label fw-bold">' . esc_html($label) . '</label>';
         echo '<input type="text" class="w-100 buddybot-item-field" id="' . esc_attr($id) . '" placeholder="' . esc_attr($placeholder) . '" size="256">';
-        echo '<p class="description text-dark">' . esc_html__('>Optional. Add a name to identify your assistant. Maximum 256 characters.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
+        echo '<p class="description text-dark">' . esc_html__('Add a name to identify your assistant. Maximum 256 characters.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
         echo '</div>';
     }
 
     private function assistantDescription()
     {
         $id = 'buddybot-editassistant-assistantdescription';
-        $placeholder = esc_html(__('Example, This assistant helps with math tutoring by explaining concepts clearly.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
+        $placeholder = esc_html(__('e.g., Helps customers with queries, Tracks orders and updates delivery status', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
         $label = esc_html(__('Assistant Description', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
         echo '<div class="mb-4">';
         echo '<label for="' . esc_attr($id) . '" class="form-label fw-bold">' . esc_html($label) . '</label>';
         echo '<textarea class="w-100 buddybot-item-field" id="' . esc_attr($id) . '" placeholder="' . esc_attr($placeholder) . '" rows="5" maxlength="512"></textarea>';
-        echo '<p class="description text-dark">' . esc_html__("Optional. Provide a brief description of the assistant's purpose. Maximum 512 characters.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
+        echo '<p class="description text-dark">' . esc_html__("Provide a brief description of the assistant's purpose. Maximum 512 characters.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
         echo '</div>';
     }
 
     private function assistantModel()
     {
         $id = 'buddybot-editassistant-assistantmodel';
-        $label = esc_html(__('Assistant Model', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
+        $label = esc_html(__('Assistant Model (Required)', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
         echo '<div class="mb-4">';
         echo '<label for="' . esc_attr($id) . '" class="form-label fw-bold">' . esc_html($label) . '</label>';
         echo '<div><select id="' . esc_attr($id) . '" class="small me-2 buddybot-item-field">';
@@ -90,20 +91,43 @@ class EditAssistant extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '</select>';
         $this->moSpinner();
         echo '</div>';
-        echo '<p class="description text-dark">' . esc_html__('Required. Select the AI model for your assistant. Advanced models like GPT-4 offer better accuracy and features.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
+        echo '<p class="description text-dark">' . esc_html__('Select the AI model for your assistant. Advanced models like GPT-4 offer better accuracy and features.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
         echo '</div>';
     }
 
     private function assistantInstructions()
     {
         $id = 'buddybot-editassistant-assistantinstructions';
-        $placeholder = esc_html__('Example, You are a personal math tutor. When asked a question, write and run Python code to answer the question.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $placeholder = esc_html__('e.g., You are a customer support assistant. Respond to queries about services and pricing.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $label = esc_html__('Assistant Instructions', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '<div class="mb-4">';
         echo '<label for="' . esc_attr($id) . '" class="form-label fw-bold">' . esc_html($label) . '</label>';
         echo '<textarea class="w-100 buddybot-item-field" id="' . esc_attr($id) . '" placeholder="' . esc_attr($placeholder) . '" rows="5" maxlength="32768"></textarea>';
-        echo '<p class="description text-dark">' . esc_html__("Optional but recommended. Provide detailed instructions to guide the assistant's behavior. Maximum 32,768 characters.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
+        echo '<p class="description text-dark">' . esc_html__("Provide detailed instructions to guide the assistant's behavior. Maximum 32,768 characters.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
         echo '</div>';
+        //$this->assistantNameInstructions();
+    }
+
+    private function assistantNameInstructions()
+    {
+        $id = 'buddybot-editassistant-assistant-nameinstruction';
+        $placeholder = esc_html(__('Example, Shane Walker', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
+        $label = esc_html(__('Assistant Name Instruction', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
+        echo '<div class="mb-4">';
+        echo '<label for="' . esc_attr($id) . '" class="form-label fw-bold">' . esc_html($label) . '</label>';
+        echo '<input type="text" class="w-100 buddybot-item-field" id="' . esc_attr($id) . '" placeholder="' . esc_attr($placeholder) . '">';
+        echo '<p class="description text-dark">' . esc_html__('Add a name to Instruct the assistant name.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
+        echo '</div>';
+    }
+
+    private function assistantGreetingsInstructions()
+    {
+        
+    }
+
+    private function assistantAdditionalInstructions()
+    {
+        
     }
 
     private function assistantTools()
@@ -123,35 +147,37 @@ class EditAssistant extends \BuddyBot\Admin\Html\Views\MoRoot
         echo esc_html__('FileSearch', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</label></div>';
 
-        echo '<p class="description text-dark">' . esc_html__('Optional. The tools enabled on the assistant.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
+        echo '<p class="description text-dark">' . esc_html__('The tools enabled on the assistant.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
         echo '</div>';
     }
 
     private function assistantTemperature()
     {
 
+        $default_value = 1;
         $id = 'buddybot-editassistant-assistanttemperature';
         $label = esc_html__('Response Temperature', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '<div class="mb-4 w-50">';
 
         echo '<label for="' . esc_attr($id) . '" class="form-label fw-bold">' . esc_html($label) . '</label>';
-        echo '<input type="range" class="form-range buddybot-item-field" min="0.0" max="2.0" step="0.1" id="'. esc_attr($id . '-range') .'">';
+        echo '<input type="range" class="form-range buddybot-item-field" min="0.0" max="2.0" step="0.1" id="'. esc_attr($id . '-range') .'" value="' . esc_attr($default_value) . '">';
         echo '<span id="'. esc_attr($id . '-value') . '" class="temperature-range-value buddybot-item-field">0</span>';
-        echo '<p class="description text-dark">' . esc_html__('Optional. Adjusts response randomness. Lower values provide more focused and accurate answers, while higher values produce creative responses.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
+        echo '<p class="description text-dark">' . esc_html__('Adjusts response randomness. Lower values provide more focused and accurate answers, while higher values produce creative responses.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
         echo '</div>';
     }
 
     private function assistantTop_P()
     {
 
+        $default_value = 1;
         $id = 'buddybot-editassistant-assistanttopp';
         $label = esc_html__('Top-p (Nucleus Sampling)', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '<div class="mb-4 w-50">';
 
         echo '<label for="' . esc_attr($id) . '" class="form-label fw-bold">' . esc_html($label) . '</label>';
-        echo '<input type="range" class="form-range buddybot-item-field" min="0.0" max="2.0" step="0.1" id="'. esc_attr($id . '-range') .'">';
+        echo '<input type="range" class="form-range buddybot-item-field" min="0.0" max="1.0" step="0.1" id="'. esc_attr($id . '-range') .'" value="' . esc_attr($default_value) . '">';
         echo '<span id="'. esc_attr($id . '-value') . '" class="topp-range-value buddybot-item-field">0</span>';
-        echo '<p class="description text-dark">' . esc_html__('Optional. Adjusts response diversity. Lower values result in more focused answers, while higher values increase response variability.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
+        echo '<p class="description text-dark">' . esc_html__('Adjusts response diversity. Lower values result in more focused answers, while higher values increase response variability.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
         echo '</div>';
     }
     
@@ -190,11 +216,27 @@ class EditAssistant extends \BuddyBot\Admin\Html\Views\MoRoot
         }
 
         $id = 'buddybot-editassistant-editassistant-submit';
-        echo '<div>';
         
         $this->loaderBtn('dark btn-sm', $id, $btn_label);
 
         echo '</div>';
+
+    }
+
+    private function backBtn()
+    {
+        echo '<div>';
+        $id = 'buddybot-editassistant-back';
+        $class = 'btn btn-dark btn-sm';
+        echo '<button id="' . esc_attr($id) . '" class="' . esc_attr($class) . ' me-2" type="button">';
+        
+        echo '<span class="buddybot-backbtn-label">';
+        echo esc_html__('Back', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        echo '</span>';
+
+        //echo '<span class="buddybot-loaderbtn-spinner spinner-border spinner-border-sm visually-hidden" aria-hidden="true"></span>';
+        
+        echo '</button>';
     }
     
 }

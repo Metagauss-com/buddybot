@@ -25,7 +25,7 @@ class SelectAssistant extends \BuddyBot\Admin\Html\Modals\MoRoot
 
     protected function assistantList()
     {
-        echo '<div class="px-3 mb-2" style="height: 600px; overflow: auto;">';
+        echo '<div class="px-3 mb-2">';
         echo '<div id="mgao-select-assistant-modal-list" class="list-group small">';
         echo '</div>';
         $this->loadingSpinner();
@@ -34,7 +34,7 @@ class SelectAssistant extends \BuddyBot\Admin\Html\Modals\MoRoot
 
     protected function loadingSpinner()
     {
-        echo '<div id="buddybot-selectassistant-spinner" class="d-flex align-items-center justify-content-center visually-hidden" style="min-height: 250px">';
+        echo '<div id="buddybot-selectassistant-spinner" class="d-flex align-items-center justify-content-center visually-hidden">';
         echo '<div class="spinner-border spinner-border-sm" role="status">';
         echo '<span class="visually-hidden">Loading...</span>';
         echo '</div>';

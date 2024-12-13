@@ -234,6 +234,8 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
         if (empty($vectorstore_id)) {
             $this->response['success'] = false;
             $this->response['message'] = '<div class="text-danger">' . esc_html__('No Vector Store Found', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
+            echo wp_json_encode($this->response);
+            wp_die();
         }
 
         WP_Filesystem();

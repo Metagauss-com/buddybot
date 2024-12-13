@@ -89,13 +89,13 @@ class Assistants extends \BuddyBot\Admin\Responses\MoRoot
 
         foreach ($this->openai_response_body->data as $index => $assistant) {
             $index = absint($current_count) + $index + 1;
-            $html .= '<tr class="small buddybot-assistant-table-row" data-buddybot-itemid="' . esc_attr($assistant->id) . '">';
+            $html .= '<tr class="small buddybot-assistant-table-row buddybot-col-no" data-buddybot-itemid="' . esc_attr($assistant->id) . '">';
             $html .= '<th class="buddybot-assistants-sr-no" scope="row">' . absint($index) . '</th>';
-            $html .= '<td>' . esc_html($assistant->name) . '</td>';
-            $html .= '<td>' . esc_html($assistant->description) . '</td>';
-            $html .= '<td>' . esc_html($assistant->model) . '</td>';
-            $html .= '<td><code>' . esc_html($assistant->id) . '</code></td>';
-            $html .= '<td>' . $this->assistantBtns($assistant->id) . '</td>';
+            $html .= '<td class="text-truncate buddybot-col-name">' . esc_html($assistant->name) . '</td>';
+            $html .= '<td class="text-truncate buddybot-col-description">' . esc_html($assistant->description) . '</td>';
+            $html .= '<td class="buddybot-col-model">' . esc_html($assistant->model) . '</td>';
+            $html .= '<td class="buddybot-col-id"><code>' . esc_html($assistant->id) . '</code></td>';
+            $html .= '<td class="buddybot-col-btn">' . $this->assistantBtns($assistant->id) . '</td>';
             $html .= '</tr>';
         }
 

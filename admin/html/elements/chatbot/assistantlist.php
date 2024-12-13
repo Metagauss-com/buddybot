@@ -30,7 +30,7 @@ class AssistantList extends \BuddyBot\Admin\Html\Elements\Chatbot\MoRoot
             $name = __('Unnamed', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
 
-        $html = '<div class="small fw-bold">';
+        $html = '<div class="small fw-bold text-break">';
         $html .= $name;
         $html .= '</div>';
         return $html;

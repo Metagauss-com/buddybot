@@ -9,7 +9,7 @@ class MoRoot extends \BuddyBot\Admin\Html\MoRoot
     public function getHtml()
     {
         echo '<div class="modal" tabindex="-1" id="' . esc_attr($this->modal_id) . '" style="z-index: 9999999;">';
-        echo '<div class="modal-dialog">';
+        echo '<div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">';
         echo '<div class="modal-content border-0 rounded-1">';
         $this->modalHeader();
         $this->modalBody();

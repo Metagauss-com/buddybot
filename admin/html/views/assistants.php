@@ -39,12 +39,12 @@ final class Assistants extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         echo '<thead>';
         echo '<tr>';
-        echo '<th scope="col">' . esc_html(__('No.', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '</th>';
-        echo '<th scope="col">' . esc_html(__('Name', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '</th>';
-        echo '<th scope="col">' . esc_html(__('Description', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '</th>';
-        echo '<th scope="col">' . esc_html(__('Model', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '</th>';
-        echo '<th scope="col">' . esc_html(__('ID', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '</th>';
-        echo '<th scope="col"></th>';
+        echo '<th class="col buddybot-col-no">' . esc_html(__('No.', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '</th>';
+        echo '<th class="col buddybot-col-name">' . esc_html(__('Name', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '</th>';
+        echo '<th class="col buddybot-col-description">' . esc_html(__('Description', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '</th>';
+        echo '<th class="col buddybot-col-model">' . esc_html(__('Model', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '</th>';
+        echo '<th class="col buddybot-col-id">' . esc_html(__('ID', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '</th>';
+        echo '<th class="col buddybot-col-btn"></th>';
         echo '</tr>';
         echo '</thead>';
     }

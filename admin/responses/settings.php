@@ -57,7 +57,7 @@ class Settings extends \BuddyBot\Admin\Responses\MoRoot
     {
         $this->checkNonce('verify_api_key');
 
-        $api_key = sanitize_text_field($_POST['api_key']);
+        $api_key = isset($_POST['api_key']) && !empty($_POST['api_key']) ? sanitize_text_field($_POST['api_key']) : '';
 
         $url = 'https://api.openai.com/v1/models';
 
@@ -78,11 +78,57 @@ class Settings extends \BuddyBot\Admin\Responses\MoRoot
         wp_die();
     }
 
+    public function createVectorStore()
+    {
+        $this->checkNonce('create_vectorstore');
+        $this->checkCapabilities();
+
+        $url = 'https://api.openai.com/v1/vector_stores';
+
+        $headers = [
+            'Content-Type' => 'application/json',
+            'OpenAI-Beta' => 'assistants=v2',
+            'Authorization' => 'Bearer ' . $this->api_key
+        ];
+
+        $vectorstore_data = json_decode(wp_unslash(sanitize_text_field($_POST['vectorstore_data'])), false);
+
+        $data = array(
+            'name' => $vectorstore_data->name,
+        );
+
+        $args = [
+            'headers' => $headers,
+            'body' => wp_json_encode($data),
+            'method' => 'POST'
+        ];
+
+        $this->openai_response = wp_remote_post($url, $args);
+        $this->processResponse();
+
+        if ($this->response['success'] == true) {
+            $response_body = json_decode(wp_remote_retrieve_body($this->openai_response), true);
+
+            if (isset($response_body['id']) && isset($response_body['name'])) {
+
+                $vectorstore_data = [
+                    'name' => $response_body['name'],
+                    'id' => $response_body['id']
+                ];
+                update_option('buddybot_vectorstore_data', $vectorstore_data);
+            }
+        }
+        echo wp_json_encode($this->response);
+        wp_die();
+    }
+
+
     public function __construct()
     {
         $this->setAll();
         add_action('wp_ajax_getOptions', array($this, 'getOptions'));
         add_action('wp_ajax_saveSettings', array($this, 'saveSettings'));
         add_action('wp_ajax_verifyApiKey', array($this, 'verifyApiKey'));
+        add_action('wp_ajax_createVectorStore', array($this, 'createVectorStore'));
     }
 }

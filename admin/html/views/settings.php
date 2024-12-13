@@ -41,14 +41,14 @@ final class Settings extends \BuddyBot\Admin\Html\Views\MoRoot
     private function pageErrors()
     {
         echo '<div id="buddybot-settings-errors" class="notice notice-error settings-error mb-3 ms-0" style="display:none;">';
-        echo '<p id="buddybot-settings-error-message" class="fw-bold">' . esc_html_e('Unable to update settings. Please fix errors.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
-        echo '<ul id="buddybot-settings-errors-list" class="small mb-0"></ul>';
+        echo '<p id="buddybot-settings-error-message" class="fw-bold">' . esc_html__('Unable to update settings. Please fix errors.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
+        echo '<ul id="buddybot-settings-errors-list" class="small mb-0 mx-0 px-0"></ul>';
         echo '</div>';
     }
 
     private function sectionToggle()
     {
-        echo '<label for="mgao-settings-section-select" class="small my-3">';
+        echo '<label for="mgao-settings-section-select" class="small my-3 visually-hidden">';
         echo esc_html(__('Select', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
         $this->sectionSelect();
         echo '</label>';

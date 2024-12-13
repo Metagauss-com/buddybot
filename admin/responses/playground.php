@@ -61,6 +61,10 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
 
             $this->response['html'] .= '<option value="' . $id . '">' . $name . ' (' . $model . ')</option>';
         }
+
+        if(empty($this->response['html'])){
+            $this->response['html'] .= '<option value="" disabled selected>' . esc_html__('No assistant found', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</option>';
+        }
     }
 
     public function createThread()

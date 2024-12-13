@@ -13,7 +13,7 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
         $this->alertContainer();
         $this->getVectorStore();
         $this->createVectorStoreBtn();
-        //$this->deleteVectorStoreBtn();
+        $this->deleteVectorStoreBtn();
         $this->itemsList();
         $this->msgArea();
     }
@@ -40,7 +40,7 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function getVectorStore()
     {
-        echo '<div id="buddybot-get-vectorstore" class="text-center small mb-4">';
+        echo '<div id="buddybot-get-vectorstore" class="small mb-4">';
 
         echo '<div id="buddybot-vectorstore-section">';
 
