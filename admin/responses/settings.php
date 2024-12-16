@@ -82,13 +82,14 @@ class Settings extends \BuddyBot\Admin\Responses\MoRoot
     {
         $this->checkNonce('create_vectorstore');
         $this->checkCapabilities();
+        $api_key = isset($_POST['api_key']) && !empty($_POST['api_key']) ? sanitize_text_field($_POST['api_key']) : '';
 
         $url = 'https://api.openai.com/v1/vector_stores';
 
         $headers = [
             'Content-Type' => 'application/json',
             'OpenAI-Beta' => 'assistants=v2',
-            'Authorization' => 'Bearer ' . $this->api_key
+            'Authorization' => 'Bearer ' . $api_key
         ];
 
         $vectorstore_data = json_decode(wp_unslash(sanitize_text_field($_POST['vectorstore_data'])), false);
