@@ -47,7 +47,7 @@ class ChatBubble extends \BuddyBot\Admin\Html\Elements\Playground\MoRoot
 
         $html .= '<div>';
 
-        $html .= '<div class="p-3 bg-primary text-white rounded-4 rounded-top-0 rounded-end-4" style="max-width: 500px;">';
+        $html .= '<div class="p-3 bg-primary text-white rounded-4 rounded-top-0 rounded-end-4 text-break" style="max-width: 500px;">';
         
         foreach ($this->message->content as $content) {
             

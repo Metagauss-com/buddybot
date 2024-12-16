@@ -6,11 +6,11 @@ class DataSync extends \BuddyBot\Admin\Requests\MoRoot
 {
     public function requestJs()
     {
-        $this->checkFileStatusJs();
-        $this->syncBtnJs();
-        $this->isFileWritableJs();
-        $this->addDataToFileJs();
-        $this->transferDataFileJs();
+        // $this->checkFileStatusJs();
+        // $this->syncBtnJs();
+        // $this->isFileWritableJs();
+        // $this->addDataToFileJs();
+        // $this->transferDataFileJs();
     }
 
     private function checkFileStatusJs()

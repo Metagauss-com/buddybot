@@ -78,7 +78,7 @@ class Messages extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
 
         $html .= '<div>';
 
-        $html .= '<div class="p-2" style="max-width: 500px;">';
+        $html .= '<div class="p-2 me-3" style="max-width: 500px;">';
         
         foreach ($this->message->content as $content) {
             
@@ -145,8 +145,8 @@ class Messages extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
 
     private function messageImage($img_url)
     {
-        $html = '<div class="me-2">';
-        $html .= '<img width="28" class="rounded-circle border" src="' . esc_url($img_url) . '">';
+        $html = '<div class="me-2 pt-2">';
+        $html .= '<img width="28" class="shadow-none rounded-circle border-0" src="' . esc_url($img_url) . '">';
         $html .= '</div>';
         return $html;
     }
@@ -171,7 +171,7 @@ class Messages extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
         }
 
 
-        $html = '<div class="small text-start text-secondary ms-2">';
+        $html = '<div class="small text-start text-secondary ms-2 me-3">';
         $html .= esc_html($message_date . ', ' . $message_time);
         $html .= '</div>';
         return $html;

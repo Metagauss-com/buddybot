@@ -10,7 +10,7 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
     {
         $this->checkNonce('check_file_status');
         
-        $file_id = sanitize_text_field($_POST['file_id']);
+        $file_id = isset($_POST['file_id']) && !empty($_POST['file_id']) ? sanitize_text_field($_POST['file_id']) : '';
 
         $url = 'https://api.openai.com/v1/files/' . sanitize_text_field($file_id);
         
@@ -23,7 +23,7 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
         $this->openai_response = wp_remote_get($url, $args);
         $this->processResponse();
         
-        $this->response['message'] = __('File syncronized!', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $this->response['message'] = esc_html__('File syncronized!', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
 
         echo wp_json_encode($this->response);
         wp_die();
@@ -32,7 +32,7 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
     public function isBbFileWritable()
     {
         $this->checkNonce('is_file_writable');
-        $data_type = sanitize_text_field($_POST['data_type']);
+        $data_type = isset($_POST['data_type']) && !empty($_POST['data_type']) ? sanitize_text_field($_POST['data_type']) : '';
         $file = $this->core_files->getLocalPath($data_type);
 
         WP_Filesystem();
@@ -40,10 +40,10 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
 
         if ($wp_filesystem->is_writable($file)) {
             $this->response['success'] = true;
-            $this->response['message'] = '<div class="text-success">' . __('The file is writable.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
+            $this->response['message'] = '<div class="text-success">' . esc_html__('The file is writable.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
         } else {
             $this->response['success'] = false;
-            $this->response['message'] = '<div class="text-danger">' . __('The file is not writable.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
+            $this->response['message'] = '<div class="text-danger">' . esc_html__('The file is not writable.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
         }
 
         echo wp_json_encode($this->response);
@@ -55,7 +55,7 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
         $this->checkNonce('add_data_to_file');
         $this->checkCapabilities();
         
-        $data_type = sanitize_text_field($_POST['data_type']);
+        $data_type = isset($_POST['data_type']) && !empty($_POST['data_type']) ? sanitize_text_field($_POST['data_type']) : '';
 
         $method = 'compile' . $data_type;
 
@@ -63,7 +63,7 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
             $this->$method();
         } else {
             $this->response['success'] = false;
-            $this->response['message'] = '<div class="text-danger">' . __('Data compile method undefined. Operation aborted.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
+            $this->response['message'] = '<div class="text-danger">' . esc_html__('Data compile method undefined. Operation aborted.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
             echo wp_json_encode($this->response);
             wp_die();
         }
@@ -71,7 +71,7 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
         $this->writeData($data_type);
         
         $this->response['success'] = true;
-        $this->response['message'] = '<div class="text-success">' . __('Added data to file.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
+        $this->response['message'] = '<div class="text-success">' . esc_html__('Added data to file.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
 
         echo wp_json_encode($this->response);
         wp_die();
@@ -151,7 +151,7 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
         $this->checkNonce('transfer_data_file');
         $this->checkCapabilities();
 
-        $data_type = sanitize_text_field($_POST['data_type']);
+        $data_type = isset($_POST['data_type']) && !empty($_POST['data_type']) ? sanitize_text_field($_POST['data_type']) : '';
 
         // Get the local file path
         $file_path = realpath($this->core_files->getLocalPath($data_type));
@@ -210,7 +210,7 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
             $this->response['message'] = '<div class="text-success">' . sprintf(esc_html__('Remote file name updated to %s', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), wp_kses_post($file_name)) . '</div>';
         } else {
             $this->response['success'] = false;
-            $this->response['message'] = '<div class="text-danger">' . __('Unable to update remote file name.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
+            $this->response['message'] = '<div class="text-danger">' . esc_html__('Unable to update remote file name.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
         }
 
         echo wp_json_encode($this->response);
@@ -219,9 +219,9 @@ class DataSync extends \BuddyBot\Admin\Responses\MoRoot
     public function __construct()
     {
         $this->setAll();
-        add_action('wp_ajax_checkFileStatus', array($this, 'checkFileStatus'));
-        add_action('wp_ajax_isBbFileWritable', array($this, 'isBbFileWritable'));
-        add_action('wp_ajax_addDataToFile', array($this, 'addDataToFile'));
-        add_action('wp_ajax_transferDataFile', array($this, 'transferDataFile'));
+        // add_action('wp_ajax_checkFileStatus', array($this, 'checkFileStatus'));
+        // add_action('wp_ajax_isBbFileWritable', array($this, 'isBbFileWritable'));
+        // add_action('wp_ajax_addDataToFile', array($this, 'addDataToFile'));
+        // add_action('wp_ajax_transferDataFile', array($this, 'transferDataFile'));
     }
 }

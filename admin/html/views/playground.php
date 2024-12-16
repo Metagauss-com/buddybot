@@ -6,7 +6,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
 {
     public function getHtml()
     {
-        $heading = __('Playground', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $heading = esc_html__('Playground', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $this->pageHeading($heading);
         $this->playgroundContainer();
     }
@@ -31,7 +31,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
         esc_html_e('Assistant', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '<label>';
         echo '<select id="buddybot-playground-assistants-list" class="form-select ms-2">';
-        echo '<option disabled>' . esc_html__('Loading...', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</option>';
+        echo '<option value="" disabled selected>' . esc_html__('Loading...', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</option>';
         echo '</select>';
         echo '</div>';
         
@@ -39,7 +39,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<label class="">';
         esc_html_e('User', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '<label>';
-        echo '<select id="" class="ms-2">';
+        echo '<select id="buddybot-user-select" class="ms-2">';
         $this->getUsers();
         echo '</select>';
         echo '</div>';
@@ -103,7 +103,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function deleteThreadBtn()
     {
-        echo '<button id="buddybot-playground-delete-thread-btn" type="button" class="btn btn-outline-danger btn-sm">';
+        echo '<button id="buddybot-playground-delete-thread-btn" type="button" class="btn btn-outline-danger btn-sm" style="opacity: 0;">';
         $this->moIcon('delete');
         // esc_html_e('Delete Thread', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</button>';
@@ -127,7 +127,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         echo '<div class="">';
         echo '<div id="buddybot-playground-message-status" class="text-center small">';
-        $this->statusBarMessage('creating-thread', __('Starting new conversation', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
+        $this->statusBarMessage('creating-thread', esc_html__('Starting new conversation', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
         echo '</div>';
         $this->openAiBadge();
         echo '</div>';
@@ -142,7 +142,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
     private function newMessageContainer()
     {
         echo '<div class="d-flex align-items-center mt-auto">';
-        $this->attachFileBtn();
+       // $this->attachFileBtn();
         $this->messageTextArea();
         $this->sendMessageBtn();
         echo '</div>';
@@ -177,7 +177,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
 
         echo '</div>';
 
-        echo '<textarea id="mgao-playground-new-message-text" data-buddybot-threadid="" class="w-100 form-control" rows="5">';
+        echo '<textarea id="mgao-playground-new-message-text" data-buddybot-threadid="" class="w-100 form-control" rows="5" placeholder="' . esc_attr( esc_html__( 'Type your question or message here...', 'buddybot-ai-custom-ai-assistant-and-chat-agent' ) ) . '">';
         echo '</textarea>';
         
         echo '</div>';
@@ -205,7 +205,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
                 $selected = ' selected';
             }
 
-            echo '<option' . esc_attr($selected) . '>' . esc_html($user->display_name) . '</option>';
+            echo '<option value="' . esc_attr($user->id) . '"' . esc_attr($selected) . '>' . esc_html($user->display_name) . '</option>';
         }
     }
 
@@ -270,8 +270,8 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function openMediaWindowJs()
     {
-        $title = __('Select a file to attach to your message', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-        $btn_label = __('Attach To Message', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $title = esc_html__('Select a file to attach to your message', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $btn_label = esc_html__('Attach To Message', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         
         return '
         $("#mgao-playground-message-file-btn").click(function(e) {

@@ -30,9 +30,9 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
     protected function setHeading()
     {
         if ($this->is_edit) {
-            $this->heading = __('Edit BuddyBot', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            $this->heading = esc_html(__('Edit BuddyBot', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
         } else {
-            $this->heading = __('New BuddyBot', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            $this->heading = esc_html(__('New BuddyBot', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
         }
     }
 
@@ -79,9 +79,9 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function pageErrors()
     {
-        echo '<div id="buddybot-chatbot-errors" class="notice notice-error settings-error mb-3 ms-0">';
-        echo '<p id="buddybot-chatbot-error-message" class="fw-bold">' . esc_html(__('Unable to save BuddyBot. Please fix errors.', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '</p>';
-        echo '<ul id="buddybot-chatbot-errors-list" class="small"></ul>';
+        echo '<div id="buddybot-chatbot-errors" class="notice notice-error settings-error mb-3 ms-0" style="display:none;">';
+        echo '<p id="buddybot-chatbot-error-message" class="fw-bold px-0 mx-0">' . esc_html(__('Unable to save BuddyBot. Please fix errors.', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '</p>';
+        echo '<ul id="buddybot-chatbot-errors-list" class="small mb-0 px-0 mx-0"></ul>';
         echo '</div>';
     }
 
@@ -127,9 +127,9 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<label for="mgao-chatbot-name">' . esc_html(__('Name (required)', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '</label>';
         echo '</th>';
         echo '<td>';
-        echo '<input type="text" id="mgao-chatbot-name" value="' . esc_html($value) . '" class="buddybot-item-field regular-text">';
-        echo '<p class="description" id="tagline-description">';
-        esc_html_e('Name of your BuddyBot. This is not visible to the user.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        echo '<input type="text" id="mgao-chatbot-name" value="' . esc_html($value) . '" class="buddybot-item-field regular-text" maxlength="256">';
+        echo '<p class="description">';
+        esc_html_e('Name of your BuddyBot. This is not visible to the user. Maximum 256 characters.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</p>';
         echo '</td>';
         echo '</tr>';
@@ -146,8 +146,8 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<textarea name="moderation_keys" rows="10" cols="50" id="mgao-chatbot-description" class="buddybot-item-field">';
         echo esc_textarea($value);
         echo '</textarea>';
-        echo '<p class="description" id="tagline-description">';
-        esc_html_e('Description for your BuddyBot. This is not visible to the user.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        echo '<p class="description">';
+        esc_html_e('Description for your BuddyBot. This is not visible to the user. Maximum 1024 characters.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</p>';
         echo '</td>';
         echo '</tr>';
@@ -159,9 +159,9 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
 
         echo '<tr>';
         echo '<th scope="row">';
-        echo '<label for="mgao-chatbot-name">' . esc_html(__('Connect Assistant', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '</label></th>';
+        echo '<label for="mgao-chatbot-name">' . esc_html(__('Connect Assistant (required)', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '</label></th>';
         echo '<td>';
-        echo '<div class="small fw-bold text-secondary" id="mgao-chatbot-selected-assistant-name"></div>';
+       // echo '<div class="small fw-bold text-secondary" id="mgao-chatbot-selected-assistant-name"></div>';
         echo '<div class="small mb-2 text-secondary" id="mgao-chatbot-selected-assistant-id">' . esc_html($value) . '</div>';
         echo '<input type="hidden" id="mgao-chatbot-assistant-id" value="' . esc_attr($value) . '">';
         echo '<button type="button" class="buddybot-item-field btn btn-outline-dark btn-sm" data-bs-toggle="modal" data-bs-target="#buddybot-select-assistant-modal">';
@@ -177,9 +177,9 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
 
 
         if ($this->is_edit) {
-            $label = __('Update BuddyBot', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            $label = esc_html(__('Update BuddyBot', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
         } else {
-            $label = __('Save BuddyBot', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            $label = esc_html(__('Save BuddyBot', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
         }
         
         $this->loaderBtn('dark btn-sm', 'mgao-chatbot-save-btn', $label);

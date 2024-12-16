@@ -11,7 +11,7 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
         $url = 'https://api.openai.com/v1/assistants?limit=50';
     
         $headers = array(
-            'OpenAI-Beta' => 'assistants=v1',
+            'OpenAI-Beta' => 'assistants=v2',
             'Content-Type' => 'application/json',
             'Authorization' => 'Bearer ' . $this->api_key,
         );
@@ -35,7 +35,7 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
             $this->assistantOptionsHtml($output);
         } else {
             $this->response['success'] = false;
-            $this->response['message'] = __('Unable to fetch assistants list.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            $this->response['message'] = esc_html__('Unable to fetch assistants list.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
     
         echo wp_json_encode($this->response);
@@ -61,6 +61,10 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
 
             $this->response['html'] .= '<option value="' . $id . '">' . $name . ' (' . $model . ')</option>';
         }
+
+        if(empty($this->response['html'])){
+            $this->response['html'] .= '<option value="" disabled selected>' . esc_html__('No assistant found', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</option>';
+        }
     }
 
     public function createThread()
@@ -70,14 +74,14 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
         $url = 'https://api.openai.com/v1/threads';
     
         $headers = array(
-            'OpenAI-Beta' => 'assistants=v1',
+            'OpenAI-Beta' => 'assistants=v2',
             'Content-Type' => 'application/json',
             'Authorization' => 'Bearer ' . $this->api_key,
         );
     
         $data = array(
             'metadata' => array(
-                'wp_user_id' => get_current_user_id(),
+                'wp_user_id' => (string)get_current_user_id(),
                 'wp_source' => 'wp_admin'
             )
         );
@@ -101,7 +105,7 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
             $insert = $this->sql->saveThreadId($output->id);
             if ($insert === false) {
                 $this->response['success'] = false;
-                $this->response['message'] = __('Unable to save thread in the database', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+                $this->response['message'] = esc_html__('Unable to save thread in the database', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             }
         }
 
@@ -113,10 +117,10 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
     {
         $this->checkNonce('create_message');
 
-        $thread_id = sanitize_text_field($_POST['thread_id']);
-        $message = sanitize_textarea_field(wp_unslash($_POST['message']));
-        $file_url = sanitize_text_field($_POST['file_url']);
-        $file_mime = sanitize_text_field($_POST['file_mime']);
+        $thread_id = isset($_POST['thread_id']) && !empty($_POST['thread_id']) ? sanitize_text_field($_POST['thread_id']) : '';
+        $message = isset($_POST['message']) && !empty($_POST['message']) ? sanitize_textarea_field(wp_unslash($_POST['message'])) : '';
+        $file_url = isset($_POST['file_url']) && !empty($_POST['file_url']) ? sanitize_text_field($_POST['file_url']) : '';
+        $file_mime = isset($_POST['file_mime']) && !empty($_POST['file_mime']) ? sanitize_text_field($_POST['file_mime']) : '';
 
         $file_id = '';
 
@@ -128,7 +132,7 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
 
         // Prepare the headers
         $headers = array(
-            'OpenAI-Beta' => 'assistants=v1',
+            'OpenAI-Beta' => 'assistants=v2',
             'Content-Type' => 'application/json',
             'Authorization' => 'Bearer ' . $this->api_key,
         );
@@ -138,7 +142,7 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
             'role' => 'user',
             'content' => $message,
             'metadata' => array(
-                'wp_user_id' => get_current_user_id(),
+                'wp_user_id' => (string)get_current_user_id(),
                 'wp_source' => 'wp_admin',
             ),
         );
@@ -244,14 +248,14 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
     {
         $this->checkNonce('create_run');
     
-        $thread_id = sanitize_text_field($_POST['thread_id']);
-        $assistant_id = sanitize_text_field($_POST['assistant_id']);
+        $thread_id = isset($_POST['thread_id']) && !empty($_POST['thread_id']) ? sanitize_text_field($_POST['thread_id']) : '';
+        $assistant_id = isset($_POST['assistant_id']) && !empty($_POST['assistant_id']) ? sanitize_text_field($_POST['assistant_id']) : '';
         
         $url = 'https://api.openai.com/v1/threads/' . $thread_id . '/runs';
     
         // Prepare the headers
         $headers = array(
-            'OpenAI-Beta' => 'assistants=v1',
+            'OpenAI-Beta' => 'assistants=v2',
             'Content-Type' => 'application/json',
             'Authorization' => 'Bearer ' . $this->api_key,
         );
@@ -260,7 +264,7 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
         $data = array(
             'assistant_id' => $assistant_id,
             'metadata' => array(
-                'wp_user_id' => get_current_user_id(),
+                'wp_user_id' => (string)get_current_user_id(),
                 'wp_source' => 'wp_admin',
             ),
         );
@@ -294,14 +298,14 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
     {
         $this->checkNonce('retrieve_run');
     
-        $thread_id = sanitize_text_field($_POST['thread_id']);
-        $run_id = sanitize_text_field($_POST['run_id']);
+        $thread_id = isset($_POST['thread_id']) && !empty($_POST['thread_id']) ? sanitize_text_field($_POST['thread_id']) : '';
+        $run_id = isset($_POST['run_id']) && !empty($_POST['run_id']) ? sanitize_text_field($_POST['run_id']) : '';
         
         $url = 'https://api.openai.com/v1/threads/' . $thread_id . '/runs/' . $run_id;
     
         // Prepare the headers
         $headers = array(
-            'OpenAI-Beta' => 'assistants=v1',
+            'OpenAI-Beta' => 'assistants=v2',
             'Content-Type' => 'application/json',
             'Authorization' => 'Bearer ' . $this->api_key,
         );
@@ -376,7 +380,7 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
     
         // Prepare the headers
         $headers = array(
-            'OpenAI-Beta' => 'assistants=v1',
+            'OpenAI-Beta' => 'assistants=v2',
             'Content-Type' => 'application/json',
             'Authorization' => 'Bearer ' . $this->api_key,
         );
@@ -437,7 +441,7 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
         $headers = array(
             'Content-Type' => 'application/json',
             'Authorization' => 'Bearer ' . $this->api_key,
-            'OpenAI-Beta' => 'assistants=v1'
+            'OpenAI-Beta' => 'assistants=v2'
         );
     
         // Perform the DELETE request
@@ -466,13 +470,71 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
             $this->sql->deleteThread($thread_id);
         } else {
             $this->response['success'] = false;
-            $this->response['message'] = __('Unable to delete conversation.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            $this->response['message'] = esc_html__('Unable to delete conversation.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
     
         echo wp_json_encode($this->response);
         wp_die();
     }
-    
+
+    public function showThreadByUserId()
+    {
+        $this->checkNonce('show_thread_by_user_id');
+        $user_id = sanitize_text_field($_POST['user_id']);
+
+        $response = $this->sql->getThreadsByUserId($user_id);
+
+        $html = '';
+        if ($response['success'] === false) {
+            $this->response['message'] = esc_html__('There was an error while fetching threads.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            echo wp_json_encode($this->response);
+            wp_die();
+        }
+
+        if (empty($response['result'])) {
+
+            $html .= '<span class="text-muted">';
+            $html .= esc_html__('No previous conversations.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            $html .= '</span>';
+            $html .= ob_get_clean(); 
+            $this->response['html'] = $html;
+            echo wp_json_encode( $this->response);
+            wp_die();
+        }
+
+        foreach ($response['result'] as $thread) {
+            
+            $label = $thread->thread_name;
+
+            if (empty($label)) {
+                $label = $thread->thread_id;
+            }
+
+            $html .= '<div class="buddybot-playground-threads-list-item mb-2 p-2 text-truncate small" data-buddybot-threadid="' . esc_attr($thread->thread_id) . '" role="button">';
+            $html .= esc_html($label);
+            $html .= '</div>';
+        }
+
+        $this->response['html'] = $html;
+        echo wp_json_encode( $this->response);
+        wp_die();
+    }
+
+    public function hideMsgArea()
+    {
+        $this->checkNonce('hide_msg_area');
+        $user_id = (int)sanitize_text_field($_POST['user_id']);
+        $current_user_id = (int)get_current_user_id();
+
+        if ($current_user_id === $user_id) {
+            $this->response['success'] = true;
+        } else{
+            $this->response['success'] = false;
+        }
+
+        echo wp_json_encode( $this->response);
+        wp_die();
+    }
 
     public function __construct()
     {
@@ -484,5 +546,7 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
         add_action('wp_ajax_retrieveRun', array($this, 'retrieveRun'));
         add_action('wp_ajax_listMessages', array($this, 'listMessages'));
         add_action('wp_ajax_deleteThread', array($this, 'deleteThread'));
+        add_action('wp_ajax_showThreadByUserId', array($this, 'showThreadByUserId'));
+        add_action('wp_ajax_hideMsgArea', array($this, 'hideMsgArea'));
     }
 }

@@ -44,7 +44,7 @@ final class Chatbot extends \BuddyBot\Admin\Secure\MoRoot
 
     public function chatbotDescription()
     {
-        $description = sanitize_textarea_field($_POST['chatbot_data']['description']);
+        $description = sanitize_textarea_field(wp_unslash($_POST['chatbot_data']['description']));
 
         if (strlen($description) > 2048) {
             $this->errors[] =  __('Chatbot description cannot be more than 2048 characters.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');

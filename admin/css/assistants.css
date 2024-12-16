@@ -1,3 +1,27 @@
 body {
     background: #fff !important;
 }
+
+.buddybot-org-assistants-table{
+    table-layout: fixed;
+}
+
+/* .buddybot-col-no{
+    width: 48px;
+}
+
+.buddybot-col-btn{
+    width: 82px;
+}
+
+.buddybot-col-model{
+    width: 160px;
+}
+
+.buddybot-col-description{
+    width: 350px;
+}
+
+.buddybot-col-name{
+    width: 200px; 
+} */

@@ -17,13 +17,14 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
     {
         $this->setVarsJs();
         $this->getModelsJs();
-        $this->getFilesJs();
-        $this->filesCountJs();
-        $this->updateFilesCountJs();
-        $this->toggleCheckboxesJs();
+        //$this->getFilesJs();
+        //$this->filesCountJs();
+        //$this->updateFilesCountJs();
+        //$this->toggleCheckboxesJs();
         $this->assistantDataJs();
         $this->createAssistantJs();
         $this->loadAssistantValuesJs();
+        $this->backBtnJs();
     }
 
     private function setVarsJs()
@@ -154,24 +155,26 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
             assistantData["description"] = $("#buddybot-editassistant-assistantdescription").val();
             assistantData["model"] = $("#buddybot-editassistant-assistantmodel").val();
             assistantData["instructions"] = $("#buddybot-editassistant-assistantinstructions").val();
-            assistantData["tools"] = assistantTools();
-            assistantData["file_ids"] = assistantFiles();
+            //assistantData["tools"] = assistantTools();
+            assistantData["temperature"] = parseFloat($("#buddybot-editassistant-assistanttemperature-range").val());
+            assistantData["top_p"] = parseFloat($("#buddybot-editassistant-assistanttopp-range").val());
+            
 
             return assistantData;
         }
 
-        function assistantTools() {
-            let assistantTools = [];
+        // function assistantTools() {
+        //     let assistantTools = [];
 
-            $("#buddybot-editassistant-assistanttools").find("input[type=checkbox]").each(function(){
-                if ($(this).is(":checked")) {
-                    let value = $(this).val();
-                    assistantTools.push(value);
-                }
-            });
+        //     $("#buddybot-editassistant-assistanttools").find("input[type=checkbox]").each(function(){
+        //         if ($(this).is(":checked")) {
+        //             let value = $(this).val();
+        //             assistantTools.push(value);
+        //         }
+        //     });
 
-            return assistantTools;
-        }
+        //     return assistantTools;
+        // }
 
         function assistantFiles() {
             let assistantFiles = [];
@@ -191,6 +194,8 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
     private function createAssistantJs()
     {
         $nonce = wp_create_nonce('create_assistant');
+        $vectorstore_data = get_option('buddybot_vectorstore_data');
+        $vectorstore_id = isset($vectorstore_data['id']) ? $vectorstore_data['id'] : '';
         echo '
         $("#buddybot-editassistant-editassistant-submit").click(createAssistant);
 
@@ -199,11 +204,13 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
             disableFields(true);
             showBtnLoader("#buddybot-editassistant-editassistant-submit");
             let aData = assistantData();
+            let vectorStoreId = "' . esc_js($vectorstore_id) . '";
 
             const data = {
                 "action": "createAssistant",
                 "assistant_id": "' . esc_js($this->assistant_id) . '",
                 "assistant_data": JSON.stringify(aData),
+                "vectorstore_id": vectorStoreId,
                 "nonce": "' . esc_js($nonce) . '"
             };
       
@@ -230,7 +237,7 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
         $nonce = wp_create_nonce('get_assistant_data');
         echo '
 
-        getAssistantData();
+
 
         function getAssistantData(){
             disableFields(true);
@@ -250,7 +257,7 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
                 }
 
                 disableFields(false);
-                recountFiles();
+                //recountFiles();
             });
         };
 
@@ -259,8 +266,12 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
             $("#buddybot-editassistant-assistantdescription").val(assistant.description);
             $("#buddybot-editassistant-assistantmodel").val(assistant.model);
             $("#buddybot-editassistant-assistantinstructions").val(assistant.instructions);
+            $("#buddybot-editassistant-assistanttemperature-range").val(assistant.temperature);
+            $("#buddybot-editassistant-assistanttemperature-value").text(assistant.temperature);
+            $("#buddybot-editassistant-assistanttopp-range").val(assistant.top_p);
+            $("#buddybot-editassistant-assistanttopp-value").text(assistant.top_p);
             checkEnabledTools(assistant.tools);
-            selectAttachedFiles(assistant.file_ids);
+           // selectAttachedFiles(assistant.file_ids);
         }
 
         function checkEnabledTools(tools) {
@@ -286,24 +297,34 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
             });
         }
 
-        function selectAttachedFiles(fileIds) {
+        // function selectAttachedFiles(fileIds) {
 
-            if (fileIds.length === 0 || !$.isArray(fileIds)) {
-                return;
-            }
+        //     if (fileIds.length === 0 || !$.isArray(fileIds)) {
+        //         return;
+        //     }
 
-            $("#buddybot-editassistant-assistantfiles").find("input[type=checkbox]").each(function(){
+        //     $("#buddybot-editassistant-assistantfiles").find("input[type=checkbox]").each(function(){
                 
-                let fileId = $(this).val();
+        //         let fileId = $(this).val();
                 
-                if ($.inArray(fileId, fileIds) > -1) {
-                    $(this).prop("checked", true);
-                }
+        //         if ($.inArray(fileId, fileIds) > -1) {
+        //             $(this).prop("checked", true);
+        //         }
 
-                filesCount();
+        //         filesCount();
 
-            });
-        }
+        //     });
+        // }
+        ';
+    }
+
+    private function backBtnJs()
+    {
+        $path = 'admin.php?page=buddybot-assistants';
+        echo'
+        $("#buddybot-editassistant-back").on("click", function() {
+            window.location.href = "' . esc_url($path) . '";
+        });
         ';
     }
 }

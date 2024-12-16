@@ -51,7 +51,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
 
     protected function alertsHtml()
     {
-        $html = '<div class="buddybot-chat-conversation-alert alert alert-danger small" data-bb-alert="danger" role="alert">';
+        $html = '<div class="buddybot-chat-conversation-alert alert alert-danger small" data-bb-alert="danger" role="alert" style="display:none;">';
         $html .= '</div>';
         return $html;
     }
@@ -108,7 +108,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
             echo '<li class="list-group-item list-group-item-action m-0 d-flex justify-content-between align-items-start bg-transparent"';
             echo 'data-bb-threadid="' . esc_html($conversation->thread_id) . '" role="button">';
             echo '<div class="ms-2 me-auto">';
-            echo '<div class="fw-bold">' . esc_html($conversation->thread_name) . '</div>';
+            echo '<div class="fw-bold text-break ">' . esc_html($conversation->thread_name) . '</div>';
             echo '<div class="text-muted small text-start">' . esc_html($this->conversationDate($conversation->created)) . '</div>';
             echo '</div>';
             echo '</li>';

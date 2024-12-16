@@ -61,4 +61,22 @@ class Chatbot extends \BuddyBot\Admin\Sql\MoRoot
         return $update;
 
     }
+
+    public function removeAssistantId($chatbot_id)
+    {
+        $where = array('id' => $chatbot_id);
+        $data = array('assistant_id' => NULL);
+
+        global $wpdb;
+        
+        $update = $wpdb->update(
+            $this->table, 
+            $data,     
+            $where,         
+            array('%s'),   
+            array('%d')   
+        );
+        
+        return $update;
+    }
 }

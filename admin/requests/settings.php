@@ -9,9 +9,10 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
         $this->pageVarsJs();
         $this->sectionToggleJs();
         $this->saveOptionsJs();
-        $this->getGeneralOptionsJs();
+        //$this->getGeneralOptionsJs();
         $this->toggleErrorsJs();
         $this->getOpenAiApiKeyJs();
+        $this->createVectorStore();
     }
 
     protected function pageVarsJs()
@@ -54,37 +55,8 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
         $("#buddybot-settings-update-btn").click(saveOptions);
 
         function saveOptions() {
-
-            const section = $("#mgao-settings-section-select").val();
-            getGeneralOptions();
-
-            if (dataErrors.length > 0) {
-                displayErrors();
-                disableFields(false);
-                hideBtnLoader("#mgao-chatbot-save-btn");
-                return;
-            }
-
-            const data = {
-                "action": "saveSettings",
-                "options_data": JSON.stringify(optionsData),
-                "section": section,
-                "nonce": "' . esc_js(wp_create_nonce('save_settings')) . '"
-            };
-
-            $.post(ajaxurl, data, function(response) {
-                response = JSON.parse(response);
-                if (response.success) {
-                    location.replace("' . esc_url(admin_url()) . 'admin.php?page=buddybot-settings&section=' . '" + section + "&success=1");
-                } else {
-                    $("#buddybot-settings-error-message").html(response.message);
-                    dataErrors = response.errors;
-                    displayErrors();
-                }
-
-                disableFields(false);
-                hideBtnLoader("#mgao-chatbot-save-btn");
-            });
+         showBtnLoader("#buddybot-settings-update-btn");
+           getOpenAiApiKey();
         }
         ';
     }
@@ -132,11 +104,106 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
             key = $.trim(key);
 
             if (key === "") {
-                dataErrors.push("' . esc_html(__('OpenAI API Key cannot be empty.', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '"); 
+                dataErrors.push("' . esc_html(__('OpenAI API Key cannot be empty.', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '");
+                displayErrors(); 
+                hideBtnLoader("#buddybot-settings-update-btn");
+            } else{ 
+                verifyOpenaiApiKey(key);
+            }
+                
+        }
+            function verifyOpenaiApiKey(apiKey) {
+
+                const data = {
+                    "action": "verifyApiKey",
+                    "api_key": apiKey,
+                    "nonce": "' . esc_js(wp_create_nonce('verify_api_key')) . '"
+                };
+
+                $.post(ajaxurl, data, function(response) {
+                    response = JSON.parse(response);
+                    if (response.success) {
+                        checkVectorStore(apiKey);
+                       // saveOpenaiApiKey(apiKey);
+                    }else{
+                        dataErrors.push(response.message);
+                        displayErrors();
+                        hideBtnLoader("#buddybot-settings-update-btn");
+                    }
+                });
             }
 
-            return key;
-        }
+            function saveOpenaiApiKey(apiKey){
+                const section = $("#mgao-settings-section-select").val();
+                
+                optionsData["openai_api_key"] = apiKey;
+
+                const data = {
+                    "action": "saveSettings",
+                    "options_data": JSON.stringify(optionsData),
+                    "section": section,
+                    "nonce": "' . esc_js(wp_create_nonce('save_settings')) . '"
+                };
+
+                $.post(ajaxurl, data, function(response) {
+                    response = JSON.parse(response);
+                    if (response.success) {
+                        location.replace("' . esc_url(admin_url()) . 'admin.php?page=buddybot-settings&section=' . '" + section + "&success=1");
+                    } else {
+                        $("#buddybot-settings-error-message").html(response.message);
+                        dataErrors = response.errors;
+                        displayErrors();
+                    }
+
+                    disableFields(false);
+                    hideBtnLoader("#buddybot-settings-update-btn");
+                });
+            }
+        ';
+    }
+
+    private function createVectorStore()
+    {
+        $nonce = wp_create_nonce('create_vectorstore');
+        $vectorstore_data = get_option('buddybot_vectorstore_data');
+        $hostname = wp_parse_url(home_url(), PHP_URL_HOST);
+        echo '
+            //$("#buddybot-vectorstore-create").click(checkVectorStore);
+
+            function checkVectorStore(apiKey){
+                const vectorStoreData = ' . wp_json_encode($vectorstore_data) . ';
+                if (vectorStoreData && vectorStoreData.id) {
+                    saveOpenaiApiKey(apiKey);
+                } else {
+                    createVectorStore(apiKey);
+                }
+            }
+
+            function createVectorStore(apiKey){
+                let storeData = vectorstoreData();
+
+                const data = {
+                    "action": "createVectorStore",
+                    "api_key": apiKey,
+                    "vectorstore_data": JSON.stringify(storeData),
+                    "nonce": "' . esc_js($nonce) . '"
+                };
+        
+                $.post(ajaxurl, data, function(response) {
+                    response = JSON.parse(response);
+                    if (response.success) {
+                    } else {
+                    }
+                    saveOpenaiApiKey(apiKey);
+                });
+            }
+                function vectorstoreData() {
+                let vectorstoreData = {};
+                vectorstoreData["name"] = "' . esc_js($hostname) . '";
+
+                return vectorstoreData;
+            }
+
         ';
     }
 }

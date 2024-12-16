@@ -50,7 +50,21 @@ final class MoConfig
             'gpt-4-vision-preview',
             'tts-1-1106',
             'text-embedding-ada-002',
-            'text-embedding-3-small'
+            'text-embedding-3-small',
+            'o1-mini-2024-09-12',
+            'o1-preview',
+            'o1-preview-2024-09-12',
+            'o1-mini',
+            'gpt-4o-realtime-preview',
+            'gpt-4o-realtime-preview-2024-10-01',
+            'gpt-4o-audio-preview',
+            'gpt-4o-audio-preview-2024-10-01',
+            'chatgpt-4o-latest',
+            'gpt-3.5-turbo-16k',
+            'omni-moderation-2024-09-26',
+            'omni-moderation-latest',
+            'gpt-4',
+            'gpt-4-0613',
         );
     }
 

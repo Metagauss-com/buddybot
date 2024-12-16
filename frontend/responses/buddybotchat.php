@@ -33,7 +33,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
     
         // Prepare the headers
         $headers = array(
-            'OpenAI-Beta' => 'assistants=v1',
+            'OpenAI-Beta' => 'assistants=v2',
             'Content-Type' => 'application/json',
             'Authorization' => 'Bearer ' . $this->api_key,
         );
@@ -100,7 +100,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
     
         // Prepare the headers
         $headers = array(
-            'OpenAI-Beta' => 'assistants=v1',
+            'OpenAI-Beta' => 'assistants=v2',
             'Content-Type' => 'application/json',
             'Authorization' => 'Bearer ' . $this->api_key,
         );
@@ -108,7 +108,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
         // Prepare the data
         $data = array(
             'metadata' => array(
-                'wp_user_id' => get_current_user_id(),
+                'wp_user_id' => (string)get_current_user_id(),
                 'wp_source' => 'frontend'
             )
         );
@@ -160,7 +160,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
 
         // Prepare the headers
         $headers = array(
-            'OpenAI-Beta' => 'assistants=v1',
+            'OpenAI-Beta' => 'assistants=v2',
             'Content-Type' => 'application/json',
             'Authorization' => 'Bearer ' . $this->api_key,
         );
@@ -170,7 +170,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
             'role' => 'user',
             'content' => $user_message,
             'metadata' => array(
-                'wp_user_id' => get_current_user_id(),
+                'wp_user_id' => (string)get_current_user_id(),
                 'wp_source' => 'frontend',
             ),
         );
@@ -213,7 +213,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
     
         // Prepare the headers
         $headers = array(
-            'OpenAI-Beta' => 'assistants=v1',
+            'OpenAI-Beta' => 'assistants=v2',
             'Content-Type' => 'application/json',
             'Authorization' => 'Bearer ' . $this->api_key,
         );
@@ -222,7 +222,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
         $data = array(
             'assistant_id' => $assistant_id,
             'metadata' => array(
-                'wp_user_id' => get_current_user_id(),
+                'wp_user_id' => (string)get_current_user_id(),
                 'wp_source' => 'frontend',
             ),
         );
@@ -264,7 +264,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
     
         // Prepare the headers
         $headers = array(
-            'OpenAI-Beta' => 'assistants=v1',
+            'OpenAI-Beta' => 'assistants=v2',
             'Content-Type' => 'application/json',
             'Authorization' => 'Bearer ' . $this->api_key,
         );
@@ -314,7 +314,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
         $headers = array(
             'Content-Type' => 'application/json',
             'Authorization' => 'Bearer ' . $this->api_key,
-            'OpenAI-Beta' => 'assistants=v1',
+            'OpenAI-Beta' => 'assistants=v2',
         );
     
         // Perform the DELETE request
@@ -349,7 +349,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
         echo wp_json_encode($this->response);
         wp_die();
     }
-    
+
 
     public function __construct()
     {

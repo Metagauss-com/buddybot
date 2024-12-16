@@ -1,4 +1,5 @@
 <?php
+
 namespace BuddyBot\Admin;
 
 final class InitialChecks extends \BuddyBot\Admin\MoRoot
@@ -16,12 +17,17 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
         $this->capabilities = array(
             'settings' => 'manage_options'
         );
+        $key = $this->options->getOption('openai_api_key', '');
+
+        if (!empty($key)) {
+            $this->capabilities['vectorstore'] = 'manage_options';
+        }
     }
 
     protected function addAlert($error_text = '')
     {
-        $this->html .= '<div class="alert alert-danger small mb-3" role="alert">';
-        $this->html .= $error_text;
+        $this->html .= '<div class="notice notice-error">';
+        $this->html .= '<p>' . $error_text . '</p>';
         $this->html .= '</div>';
     }
 
@@ -46,13 +52,42 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
     private function openaiApikeyCheck()
     {
         $key = $this->options->getOption('openai_api_key', '');
+        $img_url = $this->config->getRootUrl() . 'admin/html/images/third-party/openai/bb-progress-icon.svg';
 
         if (empty($key)) {
             $this->errors += 1;
-            $this->addAlert(
-                // Translators: %s is url to BuddyBot settings page in admin area. This should not be changed.
-                sprintf(wp_kses_post('OpenAI API Key Missing. Please save it <a href="%s">here.</a>', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_url(admin_url('admin.php?page=buddybot-settings')))
-            );
+           
+            $this->html .= '<div class="banner card shadow-sm mb-4 bdb-banner-card">';
+            $this->html .= '<div class="banner-container card-body d-flex align-items-center">';
+            $this->html .= '<div class="banner-graphic me-3">';
+            $this->html .= '<img width="72px" src="' . $img_url .'" alt="All works fine.">';
+            $this->html .= '</div>';
+            $this->html .= '<div class="banner-content">';
+            $this->html .= '<h3 class="h3 text-dark mb-2">' . esc_html__('BuddyBot is Ready to Work for You!', 'buddybot-ai-custom-ai-assistant-and-chat-agent') .'</h3>';
+            $this->html .=  '<p class="text-muted mb-0">' . sprintf(wp_kses_post(__('This is the final step before you can start using the plugin. Please add your OpenAI API key in the <a href="%s">BuddyBot Settings</a> area.', 'buddybot-ai-custom-ai-assistant-and-chat-agent')), esc_url(admin_url('admin.php?page=buddybot-settings'))) .' </p>';
+            $this->html .=   '</div></div></div>';
+
+            // $this->addAlert(
+            //     // Translators: %s is url to BuddyBot settings page in admin area. This should not be changed.
+            //     sprintf(wp_kses_post('<strong>BuddyBot Notice:</strong> OpenAI API Key is missing. Please configure your API Key to enable BuddyBot\'s features. <a href="%s">Go to Settings</a>.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_url(admin_url('admin.php?page=buddybot-settings')))
+            // );
+       }
+    }
+
+    private function vectorStoreCheck()
+    {
+        $vectorstore = get_option('buddybot_vectorstore_data');
+        $id = isset($vectorstore['id']) ? $vectorstore['id'] : '';
+        $key = $this->options->getOption('openai_api_key', '');
+
+        if (!empty($key)) {
+            if (empty($id)) {
+                $this->errors += 1;
+                $this->addAlert(
+                    // Translators: %s is url to Vector Store settings page in admin area. This should not be changed.
+                    sprintf(wp_kses_post('<strong>BuddyBot Notice:</strong> No vector store detected. A vector store is required for BuddyBot to function properly. Please create one by clicking <a href="%s">here</a>.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_url(admin_url('admin.php?page=buddybot-vectorstore')))
+                );
+            }
         }
     }
 
@@ -82,6 +117,7 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
         } else {
             $this->capabilityCheck();
             $this->openaiApikeyCheck();
+            $this->vectorStoreCheck();
         }
     }
 
@@ -93,3 +129,12 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
         echo wp_kses_post($this->html);
     }
 }
+
+?>
+<style>
+.bdb-banner-card{
+max-width: 100%;
+}
+</style>
+
+<?php

@@ -37,11 +37,11 @@ trait SingleConversation
         
         $html .= '<div class="d-flex align-items-center">';
         
-        $html .= '<button id="buddybot-single-conversation-load-messages-btn" class="bg-transparent border-0 shadow-0 text-dark p-0 mx-1" role="button">';
+        $html .= '<button id="buddybot-single-conversation-load-messages-btn" class="bg-transparent border-0 shadow-0 text-dark p-0 mx-1 mb-3" role="button">';
         $html .= $this->mIcon('refresh');
         $html .= '</button>';
 
-        $html .= '<button id="buddybot-single-conversation-delete-thread-btn" class="bg-transparent border-0 shadow-0 text-dark p-0 mx-1" role="button" ';
+        $html .= '<button id="buddybot-single-conversation-delete-thread-btn" class="bg-transparent border-0 shadow-0 text-dark p-0 mx-1 mb-3" role="button" ';
         $html .= 'data-bs-toggle="modal" data-bs-target="#buddybot-single-conversation-delete-modal">';
         $html .= $this->mIcon('delete');
         $html .= '</button>';
