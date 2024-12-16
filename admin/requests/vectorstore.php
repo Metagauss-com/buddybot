@@ -119,7 +119,7 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
     {
         $nonce = wp_create_nonce('get_vectorstore');
         echo '
-            getVectorStore();
+            //getVectorStore();
            function getVectorStore() {
                 hideAlert();
                 const data = {
@@ -180,7 +180,7 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
                 disableFields(true);
                 showBtnLoader("#buddybot-vectorstore-delete");
 
-                let vectorStoreId = "vs_0hdprSpPqeZMlfvCfz6UeeBH"; //"' . esc_js($vectorstore_id) . '";
+                let vectorStoreId = "' . esc_js($vectorstore_id) . '";
 
                 const data = {
                     "action": "deleteVectorStore",
@@ -407,7 +407,7 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
 
                     if (response.success) {
                         checkFileStatusOnVectorStoreJs(newFileId);
-                        //location.reload();
+                        location.reload();
                     } 
 
                     $(".buddybot-msgs").append(response.message);

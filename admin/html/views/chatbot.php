@@ -80,7 +80,7 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
     private function pageErrors()
     {
         echo '<div id="buddybot-chatbot-errors" class="notice notice-error settings-error mb-3 ms-0" style="display:none;">';
-        echo '<p id="buddybot-chatbot-error-message" class="fw-bold">' . esc_html(__('Unable to save BuddyBot. Please fix errors.', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '</p>';
+        echo '<p id="buddybot-chatbot-error-message" class="fw-bold px-0 mx-0">' . esc_html(__('Unable to save BuddyBot. Please fix errors.', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '</p>';
         echo '<ul id="buddybot-chatbot-errors-list" class="small mb-0 px-0 mx-0"></ul>';
         echo '</div>';
     }

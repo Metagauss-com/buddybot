@@ -52,6 +52,7 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
     private function openaiApikeyCheck()
     {
         $key = $this->options->getOption('openai_api_key', '');
+        $img_url = $this->config->getRootUrl() . 'admin/html/images/third-party/openai/bb-progress-icon.svg';
 
         if (empty($key)) {
             $this->errors += 1;
@@ -59,11 +60,11 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
             $this->html .= '<div class="banner card shadow-sm mb-4 bdb-banner-card">';
             $this->html .= '<div class="banner-container card-body d-flex align-items-center">';
             $this->html .= '<div class="banner-graphic me-3">';
-            $this->html .= '<img src="https://via.placeholder.com/70?text=%F0%9F%8E%89" alt="Excitement and Success Graphic">';
+            $this->html .= '<img width="72px" src="' . $img_url .'" alt="All works fine.">';
             $this->html .= '</div>';
             $this->html .= '<div class="banner-content">';
-            $this->html .= '<h3 class="h3 text-dark mb-2>BuddyBot is Ready to Work for You!</h3>';
-            $this->html .=  '<p class="text-muted mb-0">"' . sprintf(wp_kses_post('This is the final step before you can start using the plugin. Please add your OpenAI API key in the <a href="%s">BuddyBot Settings</a> area.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_url(admin_url('admin.php?page=buddybot-settings'))) .'" </p>';
+            $this->html .= '<h3 class="h3 text-dark mb-2">' . esc_html__('BuddyBot is Ready to Work for You!', 'buddybot-ai-custom-ai-assistant-and-chat-agent') .'</h3>';
+            $this->html .=  '<p class="text-muted mb-0">' . sprintf(wp_kses_post(__('This is the final step before you can start using the plugin. Please add your OpenAI API key in the <a href="%s">BuddyBot Settings</a> area.', 'buddybot-ai-custom-ai-assistant-and-chat-agent')), esc_url(admin_url('admin.php?page=buddybot-settings'))) .' </p>';
             $this->html .=   '</div></div></div>';
 
             // $this->addAlert(

@@ -162,7 +162,10 @@ class ChatBot extends \BuddyBot\Admin\Responses\MoRoot
         $chatbot_id = isset($_POST['chatbot_id']) ? absint($_POST['chatbot_id']) : '';
 
         if (empty($chatbot_id)) {
-            return;
+            $this->response['success'] = true;
+            $this->response['message'] = esc_html__('No assistant has been created. Please create a new assistant first.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            echo wp_json_encode($this->response);
+            wp_die();
         }
 
         if(empty($assistant_id) && !empty($chatbot_id) ){
@@ -188,7 +191,6 @@ class ChatBot extends \BuddyBot\Admin\Responses\MoRoot
              $this->removeAssistantId($chatbot_id);
         }else{
             $this->response['success'] = true;
-            $this->response['message'] = 'not worked';
         }
 
         echo wp_json_encode($this->response);

@@ -295,6 +295,9 @@ class ChatBot extends \BuddyBot\Admin\Requests\MoRoot
     private function checkAssistantJs()
     {
         $chatbot_id = isset($_GET['chatbot_id']) && !empty($_GET['chatbot_id']) ? absint($_GET['chatbot_id']) : '';
+        if (empty($chatbot_id)) {
+            return;
+        }
         echo '
         checkAssistant();
         function checkAssistant(){
@@ -309,7 +312,6 @@ class ChatBot extends \BuddyBot\Admin\Requests\MoRoot
             $.post(ajaxurl, data, function(response) {
             response = JSON.parse(response);
                 if (response.success) {
-                    console.log("deleted_succesfully")
                 } else {
                     dataErrors.push(response.message);
                     displayErrors();

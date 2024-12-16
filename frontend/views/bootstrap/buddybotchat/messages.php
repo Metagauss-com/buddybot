@@ -145,8 +145,8 @@ class Messages extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
 
     private function messageImage($img_url)
     {
-        $html = '<div class="me-2">';
-        $html .= '<img width="28" class="rounded-circle border" src="' . esc_url($img_url) . '">';
+        $html = '<div class="me-2 pt-2">';
+        $html .= '<img width="28" class="shadow-none rounded-circle border-0" src="' . esc_url($img_url) . '">';
         $html .= '</div>';
         return $html;
     }
