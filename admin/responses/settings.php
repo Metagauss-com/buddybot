@@ -80,7 +80,7 @@ class Settings extends \BuddyBot\Admin\Responses\MoRoot
 
     public function createVectorStore()
     {
-        $this->checkNonce('create_vectorstore');
+        $this->checkNonce('create_vectorstore_settings');
         $this->checkCapabilities();
         $api_key = isset($_POST['api_key']) && !empty($_POST['api_key']) ? sanitize_text_field($_POST['api_key']) : '';
 
@@ -130,6 +130,6 @@ class Settings extends \BuddyBot\Admin\Responses\MoRoot
         add_action('wp_ajax_getOptions', array($this, 'getOptions'));
         add_action('wp_ajax_saveSettings', array($this, 'saveSettings'));
         add_action('wp_ajax_verifyApiKey', array($this, 'verifyApiKey'));
-        add_action('wp_ajax_createVectorStore', array($this, 'createVectorStore'));
+        add_action('wp_ajax_create_Vector_Store', array($this, 'createVectorStore'));
     }
 }

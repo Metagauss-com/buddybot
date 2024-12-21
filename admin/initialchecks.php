@@ -87,6 +87,34 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
                     // Translators: %s is url to Vector Store settings page in admin area. This should not be changed.
                     sprintf(wp_kses_post('<strong>BuddyBot Notice:</strong> No vector store detected. A vector store is required for BuddyBot to function properly. Please create one by clicking <a href="%s">here</a>.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_url(admin_url('admin.php?page=buddybot-vectorstore')))
                 );
+            }else{
+                $url = 'https://api.openai.com/v1/vector_stores/' . $id;
+
+                $headers = array(
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $key,
+                    'OpenAI-Beta' => 'assistants=v2'
+                );
+
+                $response = wp_remote_get($url, array(
+                    'headers' => $headers,
+                    'timeout' => 60,
+                ));
+                if (is_wp_error($response)) {
+                    $this->addAlert(
+                        sprintf(wp_kses_post('<strong>BuddyBot Notice:</strong> Failed to connect to OpenAI API. Please try again later. <br>Error: %s'), $response->get_error_message())
+                    );
+                } else {
+                    $output = json_decode(wp_remote_retrieve_body($response), true);
+                    if (empty($output['id'])) {
+                        $this->errors += 1;
+                        $this->addAlert(
+                            // Translators: %s is url to Vector Store settings page in admin area. This should not be changed.
+                            sprintf(wp_kses_post('<strong>BuddyBot Notice:</strong> Vector Store Deleted. You have change the key or delete the vectorstore from openai server. Please create one by clicking <a href="%s">here</a>.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_url(admin_url('admin.php?page=buddybot-vectorstore')))
+                        );
+                        delete_option('buddybot_vectorstore_data');
+                    }
+                }
             }
         }
     }

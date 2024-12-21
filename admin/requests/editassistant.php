@@ -17,10 +17,6 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
     {
         $this->setVarsJs();
         $this->getModelsJs();
-        //$this->getFilesJs();
-        //$this->filesCountJs();
-        //$this->updateFilesCountJs();
-        //$this->toggleCheckboxesJs();
         $this->assistantDataJs();
         $this->createAssistantJs();
         $this->loadAssistantValuesJs();
@@ -69,83 +65,6 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
         ';
     }
 
-    private function getFilesJs()
-    {
-        $nonce = wp_create_nonce('get_files');
-        echo '
-        getFiles();
-        function getFiles(){
-            const data = {
-                "action": "getFiles",
-                "nonce": "' . esc_js($nonce) . '"
-            };
-      
-            $.post(ajaxurl, data, function(response) {
-                response = JSON.parse(response);
-                if (response.success) {
-                    $("#buddybot-editassistant-assistantfiles").html(response.html);
-                    recountFiles();
-                } else {
-                    showAlert(response.message);
-                }
-            });
-        };
-        ';
-    }
-
-    private function filesCountJs()
-    {
-        echo '
-        function filesCount() {
-            let count = 0;
-
-            $("#buddybot-editassistant-assistantfiles").find("input[type=checkbox]").each(function(){
-                if ($(this).is(":checked")) {
-                    count++;
-                }
-            });
-
-            $("#buddybot-editassistant-assistantfiles-filescount").text(count);
-            return count;
-        }
-        ';
-    }
-
-    private function updateFilesCountJs()
-    {
-        echo '
-        $("#buddybot-editassistant-assistantfiles").click(recountFiles);
-
-        function recountFiles() {
-            let count = filesCount();
-            if (count >= 20) {
-                disableCheckBoxes();
-            } else {
-                enableCheckBoxes();
-            }
-        };
-        ';
-    }
-
-    private function toggleCheckboxesJs()
-    {
-        echo '
-        function disableCheckBoxes() {
-            $("#buddybot-editassistant-assistantfiles").find("input[type=checkbox]").each(function(){
-                if (!$(this).is(":checked")) {
-                    $(this).prop("disabled", true);
-                }
-            });
-        }
-
-        function enableCheckBoxes() {
-            $("#buddybot-editassistant-assistantfiles").find("input[type=checkbox]").each(function(){
-                $(this).prop("disabled", false);
-            });
-        }
-        ';
-    }
-
     private function assistantDataJs()
     {
         echo '
@@ -154,8 +73,9 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
             assistantData["name"] = $("#buddybot-editassistant-assistantname").val();
             assistantData["description"] = $("#buddybot-editassistant-assistantdescription").val();
             assistantData["model"] = $("#buddybot-editassistant-assistantmodel").val();
-            assistantData["instructions"] = $("#buddybot-editassistant-assistantinstructions").val();
             //assistantData["tools"] = assistantTools();
+            assistantData["friendly_name"] = $("#buddybot-editassistant-nameinstruction").val();
+            assistantData["aditional_instructions"] = $("#buddybot-editassistant-aditionalinstructions").val();
             assistantData["temperature"] = parseFloat($("#buddybot-editassistant-assistanttemperature-range").val());
             assistantData["top_p"] = parseFloat($("#buddybot-editassistant-assistanttopp-range").val());
             
@@ -252,6 +172,7 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
                 
                 if (response.success) {
                     fillAssistantValues(response.result);
+                    console.log(response.result)
                 } else {
                     showAlert(response.message);
                 }
@@ -265,13 +186,18 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
             $("#buddybot-editassistant-assistantname").val(assistant.name);
             $("#buddybot-editassistant-assistantdescription").val(assistant.description);
             $("#buddybot-editassistant-assistantmodel").val(assistant.model);
-            $("#buddybot-editassistant-assistantinstructions").val(assistant.instructions);
+            //$("#buddybot-editassistant-assistantinstructions").val(assistant.instructions);
             $("#buddybot-editassistant-assistanttemperature-range").val(assistant.temperature);
             $("#buddybot-editassistant-assistanttemperature-value").text(assistant.temperature);
             $("#buddybot-editassistant-assistanttopp-range").val(assistant.top_p);
             $("#buddybot-editassistant-assistanttopp-value").text(assistant.top_p);
             checkEnabledTools(assistant.tools);
-           // selectAttachedFiles(assistant.file_ids);
+            // selectAttachedFiles(assistant.file_ids);
+
+            if (assistant.metadata) {
+                $("#buddybot-editassistant-nameinstruction").val(assistant.metadata.buddybot_friendly_name);
+                $("#buddybot-editassistant-aditionalinstructions").val(assistant.metadata.buddybot_user_instructions);
+            }
         }
 
         function checkEnabledTools(tools) {

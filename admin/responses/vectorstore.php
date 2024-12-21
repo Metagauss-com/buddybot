@@ -95,12 +95,7 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
             'headers' => $headers,
             'timeout' => 60,
         ));
-
-        if (is_wp_error($response)) {
-            $this->response['sucess'] = false;
-            $this->response['message'] = $response->get_error_message();
-            wp_die();
-        }
+        $this->processResponse();
 
         $output = json_decode(wp_remote_retrieve_body($response), true);
         $this->checkError($output);
@@ -189,7 +184,7 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
         if ($this->response['result']->deleted) {
             $this->response['success'] = true;
             $this->response['message'] = esc_html__('Successfully deleted Assistant.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-            delete_option('buddybot_vectorstore_data');
+            // delete_option('buddybot_vectorstore_data');
         } else {
             $this->response['success'] = false;
             $this->response['message'] = esc_html__('Unable to delete the Assistant.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
@@ -671,6 +666,24 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
         wp_die();
     }
 
+    public function deleteVectorStoreDatabase()
+    {
+        $this->checkNonce('delete_vectorstore_database');
+
+        $option_deleted = delete_option('buddybot_vectorstore_data');
+
+        if ($option_deleted) {
+            $this->response['success'] = true;
+            $this->response['message'] = wp_kses_post(__('<strong>Vector Store Deleted:</strong> You have change the key or deleted the vectorStore form openai server. Click the button below to create one.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
+        } else {
+            $this->response['success'] = false;
+            $this->response['message'] = esc_html__('Failed to delete vectorstore from Database.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        }
+
+        echo wp_json_encode($this->response);
+        wp_die();
+    }
+
     public function __construct()
     {
         $this->setAll();
@@ -687,5 +700,6 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
         add_action('wp_ajax_displayVectorStoreName', array($this, 'displayVectorStoreName'));
         add_action('wp_ajax_uploadFileIdsOnVectorStore', array($this, 'uploadFileIdsOnVectorStore'));
         add_action('wp_ajax_getVectorStoreFiles', array($this, 'getVectorStoreFiles'));
+        add_action('wp_ajax_deleteVectorStoreDatabase', array($this, 'deleteVectorStoreDatabase'));
     }
 }

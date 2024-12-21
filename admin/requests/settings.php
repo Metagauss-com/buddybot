@@ -164,7 +164,7 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
 
     private function createVectorStore()
     {
-        $nonce = wp_create_nonce('create_vectorstore');
+        $nonce = wp_create_nonce('create_vectorstore_settings');
         $vectorstore_data = get_option('buddybot_vectorstore_data');
         $hostname = wp_parse_url(home_url(), PHP_URL_HOST);
         echo '
@@ -183,7 +183,7 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
                 let storeData = vectorstoreData();
 
                 const data = {
-                    "action": "createVectorStore",
+                    "action": "create_Vector_Store",
                     "api_key": apiKey,
                     "vectorstore_data": JSON.stringify(storeData),
                     "nonce": "' . esc_js($nonce) . '"

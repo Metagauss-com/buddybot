@@ -19,7 +19,7 @@ class MoRoot extends \BuddyBot\Admin\Html\MoRoot
 
     protected function alertContainer()
     {
-        echo '<div id="buddybot-alert-container" class="alert alert-danger small w-75" role="alert" style="display:none;">';
+        echo '<div id="buddybot-alert-container" class="alert alert-danger small w-75 text-break" role="alert" style="display:none;">';
         echo '</div>';
     }
 
@@ -39,7 +39,7 @@ class MoRoot extends \BuddyBot\Admin\Html\MoRoot
     {
         $name = str_replace('buddybot-','', sanitize_text_field($_GET['page']));
         $js_file_url = $this->config->getRootUrl() . 'admin/js/' . $name . '.js';
-        wp_enqueue_script(sanitize_text_field($_GET['page']), sanitize_url($js_file_url), array('jquery'), '1.0.0');
+        wp_enqueue_script(sanitize_text_field($_GET['page']), sanitize_url($js_file_url), array('jquery'), BUDDYBOT_PLUGIN_VERSION);
 
         if (method_exists($this, 'getInlineJs')) {
             wp_add_inline_script(sanitize_text_field($_GET['page']), $this->getInlineJs());
