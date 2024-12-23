@@ -95,7 +95,13 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
             'headers' => $headers,
             'timeout' => 60,
         ));
-        $this->processResponse();
+       
+        if (is_wp_error($response)) {
+            $this->response['success'] = false;
+            $this->response['message'] = $response->get_error_message();
+            echo wp_json_encode($this->response);
+            wp_die();
+        }
 
         $output = json_decode(wp_remote_retrieve_body($response), true);
         $this->checkError($output);

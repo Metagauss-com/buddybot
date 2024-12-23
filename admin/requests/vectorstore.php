@@ -74,7 +74,7 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
                     if (response.success) {
                         if(pageReload){
                             deleteVectorStoreDatabase(); 
-                            displayVectorStoreName();
+                            // displayVectorStoreName();
                         }else{
                             createVectorStore();
                         }
@@ -102,6 +102,8 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
                         $("#buddybot-vectorstoreName").html(response.message);
                         $("#buddybot-vectorstore-section").addClass("notice notice-error").removeClass("notice-warning");
                         $("#buddybot-vectorstore-create").removeClass("visually-hidden"); 
+                    }else{
+                        displayVectorStoreName();
                     }
                 });
             }
