@@ -358,6 +358,8 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
 
         // Get the local file path
         $file_path = realpath($this->core_files->getLocalPath($data_type));
+        $hostname = wp_parse_url(home_url(), PHP_URL_HOST);
+        $file_name = $hostname . '.' . basename($file_path);
 
         // Read file content
         $file_content = file_get_contents($file_path);
@@ -372,7 +374,7 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
         $body .= 'assistants' . $eol;
 
         $body .= '--' . $boundary . $eol;
-        $body .= 'Content-Disposition: form-data; name="file"; filename="' . basename($file_path) . '"' . $eol;
+        $body .= 'Content-Disposition: form-data; name="file"; filename="' . $file_name . '"' . $eol;
         $body .= 'Content-Type: ' . mime_content_type($file_path) . $eol . $eol;
         $body .= $file_content . $eol;
         $body .= '--' . $boundary . '--';
@@ -472,12 +474,13 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
         $this->processResponse();
 
         $file_ids = [];
+        $domain = wp_parse_url(home_url(), PHP_URL_HOST);
 
         if (isset($this->openai_response_body->data)) {
             foreach ($this->openai_response_body->data as $file) {
 
                 // Check if the file name contains the data_type (e.g., 'comments' or 'posts')
-                if (isset($file->filename) && strpos($file->filename, $data_type) !== false) {
+                if (isset($file->filename) && strpos($file->filename, $domain) !== false && strpos($file->filename, $data_type) !== false) {
                     $file_ids[] = $file->id;
                 }
             }
