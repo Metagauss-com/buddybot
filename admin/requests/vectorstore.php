@@ -122,6 +122,7 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
                     response = JSON.parse(response);
                     if (response.success) {
                         displayVectorStoreName();
+                        console.log(response.result.id);
                         $("#buddybot_vector_store_id").val(response.result.id);
                         $("#buddybot-vectorstore-create").addClass("visually-hidden");
                     } else {
@@ -190,10 +191,10 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
     
                     if (response.success) {
                         $("#buddybot-vectorstoreName").html(response.message);
-                        $("#buddybot-vectorstore-section").addClass("notice notice-success").removeClass("notice-warning");
+                        $("#buddybot-vectorstore-section").addClass("notice notice-success").removeClass("notice-warning notice-error");
                     } else {
                         $("#buddybot-vectorstoreName").html(response.message);
-                        $("#buddybot-vectorstore-section").addClass("notice notice-warning").removeClass("notice-success");
+                        $("#buddybot-vectorstore-section").addClass("notice notice-warning").removeClass("notice-success notice-error");
                     }
                     $("#buddybot-assistants-loading-spinner").addClass("visually-hidden");
                     $("#buddybot-vectorstoreName").show();
@@ -296,7 +297,7 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
         $vectorstore_id = isset($vectorstore_data['id']) ? $vectorstore_data['id'] : '';
         $nonce = wp_create_nonce('is_file_writable');
         echo '
-        let vectorStoreId = $("#buddybot_vector_store_id").length ? $("#buddybot_vector_store_id").val() : "' . esc_js($vectorstore_id) . '";
+        let vectorStoreId =  $("#buddybot_vector_store_id").val() ? $("#buddybot_vector_store_id").val() : "' . esc_js($vectorstore_id) . '";
 
         function isFileWritable(dataType) {
             const data = {
@@ -428,7 +429,7 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
         echo '
             function uploadFileIdsOnVectorStore(newFileId, dataType){
 
-                let vectorStoreId = $("#buddybot_vector_store_id").length ? $("#buddybot_vector_store_id").val() : "' . esc_js($vectorstore_id) . '";
+                let vectorStoreId = $("#buddybot_vector_store_id").val() ? $("#buddybot_vector_store_id").val() : "' . esc_js($vectorstore_id) . '";
 
                 const data = {
                     "action": "uploadFileIdsOnVectorStore",
