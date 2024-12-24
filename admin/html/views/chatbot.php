@@ -4,6 +4,7 @@ namespace BuddyBot\Admin\Html\Views;
 
 final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
 {
+    protected $sql;
     protected $chatbot_id = 0;
     protected $is_edit = false;
     protected $chatbot;

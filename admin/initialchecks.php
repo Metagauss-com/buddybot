@@ -5,6 +5,7 @@ namespace BuddyBot\Admin;
 final class InitialChecks extends \BuddyBot\Admin\MoRoot
 {
 
+    public $options;
     private $data;
     private $errors = 0;
 
