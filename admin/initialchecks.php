@@ -111,7 +111,7 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
                         $this->errors += 1;
                         $this->addAlert(
                             // Translators: %s is url to Vector Store settings page in admin area. This should not be changed.
-                            sprintf(wp_kses_post('<strong>Unable to Access Vector Store:</strong> We couldn\'t access the vector store. This might happen if the vector store was deleted or the OpenAI API key was changed. Please verify the vector store exists and ensure the correct API key is configured in the <a href="%s">Settings</a>. Or to create a new vector store, please visit the <a href ="%s">Vector Store page.</a>', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_url(admin_url('admin.php?page=buddybot-vectorstore')), esc_url(admin_url('admin.php?page=buddybot-Settings')))
+                            sprintf(wp_kses_post('<strong>Unable to Access Vector Store:</strong> We couldn\'t access the vector store. This might happen if the vector store was deleted or the OpenAI API key was changed. Please verify the vector store exists and ensure the correct API key is configured in the <a href="%s">Settings</a>. Or to create a new vector store, please visit the <a href ="%s">Vector Store page.</a>', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_url(admin_url('admin.php?page=buddybot-settings')), esc_url(admin_url('admin.php?page=buddybot-vectorstore')))
                         );
                         delete_option('buddybot_vectorstore_data');
                     }

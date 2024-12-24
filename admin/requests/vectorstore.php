@@ -122,7 +122,6 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
                     response = JSON.parse(response);
                     if (response.success) {
                         displayVectorStoreName();
-                        console.log(response.result.id);
                         $("#buddybot_vector_store_id").val(response.result.id);
                         $("#buddybot-vectorstore-create").addClass("visually-hidden");
                     } else {

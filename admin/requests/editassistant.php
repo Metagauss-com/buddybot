@@ -172,7 +172,6 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
                 
                 if (response.success) {
                     fillAssistantValues(response.result);
-                    console.log(response.result)
                 } else {
                     showAlert(response.message);
                 }
