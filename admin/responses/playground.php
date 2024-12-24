@@ -128,6 +128,16 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
             $file_id = $this->uploadMessageFile($file_url, $file_mime);
         }
 
+        $last_user_id = $this->getLastMessageFromThread($thread_id);
+
+        if (!empty($last_user_id) && $last_user_id != get_current_user_id()) {
+            $this->response['success'] = false;
+            $this->response['message'] = esc_html__('This conversation belongs to another user. Please start a new conversation to continue.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            echo wp_json_encode($this->response);
+            wp_die();
+        }
+    
+
         $url = 'https://api.openai.com/v1/threads/' . $thread_id . '/messages';
 
         // Prepare the headers
@@ -177,6 +187,40 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
 
         echo wp_json_encode($this->response);
         wp_die();
+    }
+
+    private function getLastMessageFromThread($thread_id)
+    {
+        $url = 'https://api.openai.com/v1/threads/' . $thread_id . '/messages';
+    
+        $headers = array(
+            'OpenAI-Beta' => 'assistants=v2',
+            'Authorization' => 'Bearer ' . $this->api_key,
+            'Content-Type' => 'application/json',
+        );
+        
+        $response = wp_remote_get($url, array(
+            'headers' => $headers,
+            'timeout' => 60,
+        ));
+
+        if (is_wp_error($response)) {
+            return null;
+        }
+
+        $output = json_decode(wp_remote_retrieve_body($response), true);
+
+        if (empty($output['data'])) {
+            return null;
+        }
+        foreach ($output['data'] as $message) {
+            if (isset($message['metadata']['wp_user_id'])) {
+                return $message['metadata']['wp_user_id'];
+            }
+        }
+    
+        return null;
+
     }
 
 

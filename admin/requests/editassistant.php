@@ -189,8 +189,8 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
             //$("#buddybot-editassistant-assistantinstructions").val(assistant.instructions);
             $("#buddybot-editassistant-assistanttemperature-range").val(assistant.temperature);
             $("#buddybot-editassistant-assistanttemperature-value").text(assistant.temperature);
-            $("#buddybot-editassistant-assistanttopp-range").val(assistant.top_p);
-            $("#buddybot-editassistant-assistanttopp-value").text(assistant.top_p);
+            $("#buddybot-editassistant-assistanttopp-range").val(assistant.top_p.toFixed(1));
+            $("#buddybot-editassistant-assistanttopp-value").text(assistant.top_p.toFixed(1));
             checkEnabledTools(assistant.tools);
             // selectAttachedFiles(assistant.file_ids);
 

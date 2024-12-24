@@ -103,7 +103,7 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
                 ));
                 if (is_wp_error($response)) {
                     $this->addAlert(
-                        sprintf(wp_kses_post('<strong>BuddyBot Notice:</strong> Failed to connect to OpenAI API. Please try again later. <br>Error: %s'), $response->get_error_message())
+                        sprintf(wp_kses_post('<strong>BuddyBot Notice:</strong> Failed to connect to OpenAI. Please try again later. <br>Error: %s'), $response->get_error_message())
                     );
                 } else {
                     $output = json_decode(wp_remote_retrieve_body($response), true);
@@ -111,7 +111,7 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
                         $this->errors += 1;
                         $this->addAlert(
                             // Translators: %s is url to Vector Store settings page in admin area. This should not be changed.
-                            sprintf(wp_kses_post('<strong>BuddyBot Notice:</strong> Vector Store Deleted. You have change the key or delete the vectorstore from openai server. Please create one by clicking <a href="%s">here</a>.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_url(admin_url('admin.php?page=buddybot-vectorstore')))
+                            sprintf(wp_kses_post('<strong>Unable to Access Vector Store:</strong> We couldn\'t access the vector store. This might happen if the vector store was deleted or the OpenAI API key was changed. Please verify the vector store exists and ensure the correct API key is configured in the <a href="%s">Settings</a>. Or to create a new vector store, please visit the <a href ="%s">Vector Store page.</a>', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_url(admin_url('admin.php?page=buddybot-vectorstore')), esc_url(admin_url('admin.php?page=buddybot-Settings')))
                         );
                         delete_option('buddybot_vectorstore_data');
                     }

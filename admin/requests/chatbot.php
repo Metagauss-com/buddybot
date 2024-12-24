@@ -294,7 +294,10 @@ class ChatBot extends \BuddyBot\Admin\Requests\MoRoot
 
     private function checkAssistantJs()
     {
-        $chatbot_id = isset($_GET['chatbot_id']) && !empty($_GET['chatbot_id']) ? absint($_GET['chatbot_id']) : '';
+        $sql = \BuddyBot\Admin\Sql\Chatbot::getInstance();
+        $first_id = $sql->getFirstChatbotId();
+
+        $chatbot_id = $first_id;
         if (empty($chatbot_id)) {
             return;
         }

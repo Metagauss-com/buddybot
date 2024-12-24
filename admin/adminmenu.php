@@ -254,5 +254,60 @@ $base64_icon = base64_encode($icon);
     {
         add_action( 'admin_menu', array($this, 'topLevelMenu'));
         add_action( 'admin_menu', array($this, 'hiddenMenu'));
+        add_action( 'wp_ajax_bb_dismissible_notice', array($this,'bb_dismissible_notice_ajax') );
+		add_action( 'admin_notices',array($this,'bb_dismissible_notice') );
+        add_action( 'admin_enqueue_scripts', array($this,'enqueue_scripts' ));
+ 
     }
+
+    public function enqueue_scripts() 
+    {
+       
+        wp_enqueue_script( 'jquery' );
+        wp_enqueue_script( 'buddybotbanner', plugin_dir_url( __FILE__ ) . 'js/buddybotbanner.js', array( 'jquery' ),BUDDYBOT_PLUGIN_VERSION, true );
+        wp_localize_script(
+            'buddybotbanner',
+            'bb_ajax_object',
+            array(
+                'ajax_url' => admin_url( 'admin-ajax.php' ),
+                'nonce'    => wp_create_nonce( 'ajax-nonce' ),
+            )
+        );
+    }
+
+    public function bb_dismissible_notice()
+    {
+        
+		$notice_name = get_option( 'bb_dismissible_plugin', '0' );
+		if ( $notice_name == '1' ) {
+			return;
+        }
+		?>
+        <div class="notice notice-info is-dismissible bb-dismissible" id="bb_dismissible_plugin">
+        <p><?php esc_html_e( "BuddyBot lets you train ChatGPT Assistants using your WordPress pages and posts, all directly from your WordPress site BuddyBot isn't about admin efficiency or content generation—it's all about helping you connect with your users. It focuses on user engagement, simplifying interactions, and enhancing the customer journey by leveraging your content.", 'buddybot-ai-custom-ai-assistant-and-chat-agent' ); ?></p>
+        </div>
+        <?php
+    }
+
+    public function bb_dismissible_notice_ajax()
+    {
+        $nonce = filter_input( INPUT_POST, 'nonce' );
+		if ( ! isset( $nonce ) || ! wp_verify_nonce( $nonce, 'ajax-nonce' ) ) {
+			die( esc_html__( 'Failed security check', 'buddybot-ai-custom-ai-assistant-and-chat-agent' ) );
+		}
+
+        if ( current_user_can( 'manage_options' ) ) 
+        {
+            
+            
+            if ( isset($_POST['notice_name'] ) ) {
+                    $notice_name = sanitize_text_field($_POST['notice_name'] );
+                    update_option( $notice_name, '1' );
+
+            }
+        }
+
+        die;
+    }
+
 }

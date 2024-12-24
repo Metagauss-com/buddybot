@@ -65,6 +65,12 @@ final class MoConfig
             'omni-moderation-latest',
             'gpt-4',
             'gpt-4-0613',
+            'gpt-4o-realtime-preview-2024-12-17',
+            'gpt-4o-mini-realtime-preview',
+            'gpt-4o-mini-realtime-preview-2024-12-17',
+            'gpt-4o-audio-preview-2024-12-17',
+            'gpt-4o-mini-audio-preview',
+            'gpt-4o-mini-audio-preview-2024-12-17',
         );
     }
 

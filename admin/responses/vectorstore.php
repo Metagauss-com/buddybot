@@ -234,7 +234,7 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
 
         if (empty($vectorstore_id)) {
             $this->response['success'] = false;
-            $this->response['message'] = '<div class="text-danger">' . esc_html__('No Vector Store Found', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
+            $this->response['message'] = '<div class="text-danger">' . esc_html__('No Vector Store Found. Click the button above to create one.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
             echo wp_json_encode($this->response);
             wp_die();
         }
@@ -683,7 +683,7 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
 
         if ($option_deleted) {
             $this->response['success'] = true;
-            $this->response['message'] = wp_kses_post(__('<strong>Vector Store Deleted:</strong> You have change the key or deleted the vectorStore form openai server. Click the button below to create one.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
+            $this->response['message'] = sprintf(wp_kses_post(__('<strong>Unable to Access Vector Store:</strong> We couldn\'t access the vector store. This might happen if the vector store was deleted or the OpenAI API key was changed. Please verify the vector store exists and ensure the correct API key is configured in the <a href="%s">Settings</a>. Or, use the button below to create a new vector store.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_url(admin_url('admin.php?page=buddybot-settings'))));
         } else {
             $this->response['success'] = false;
             $this->response['message'] = esc_html__('Failed to delete vectorstore from Database.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
