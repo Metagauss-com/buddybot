@@ -97,37 +97,45 @@ class EditAssistant extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function assistantInstructions()
     {
-        $id = 'buddybot-editassistant-assistantinstructions';
-        $placeholder = esc_html__('e.g., You are a customer support assistant. Respond to queries about services and pricing.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-        $label = esc_html__('Assistant Instructions', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-        echo '<div class="mb-4">';
-        echo '<label for="' . esc_attr($id) . '" class="form-label fw-bold">' . esc_html($label) . '</label>';
-        echo '<textarea class="w-100 buddybot-item-field" id="' . esc_attr($id) . '" placeholder="' . esc_attr($placeholder) . '" rows="5" maxlength="32768"></textarea>';
-        echo '<p class="description text-dark">' . esc_html__("Provide detailed instructions to guide the assistant's behavior. Maximum 32,768 characters.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
-        echo '</div>';
-        //$this->assistantNameInstructions();
+        $this->assistantNameInstructions();
+        //$this->assistantGreetingsInstructions();
+        $this->assistantAdditionalInstructions();
     }
 
     private function assistantNameInstructions()
     {
-        $id = 'buddybot-editassistant-assistant-nameinstruction';
-        $placeholder = esc_html(__('Example, Shane Walker', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
-        $label = esc_html(__('Assistant Name Instruction', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
+        $id = 'buddybot-editassistant-nameinstruction';
+        $placeholder = esc_html(__('e.g., Sarah, Max, BuddyBot.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
+        $label = esc_html(__('Friendly Name', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
         echo '<div class="mb-4">';
         echo '<label for="' . esc_attr($id) . '" class="form-label fw-bold">' . esc_html($label) . '</label>';
         echo '<input type="text" class="w-100 buddybot-item-field" id="' . esc_attr($id) . '" placeholder="' . esc_attr($placeholder) . '">';
-        echo '<p class="description text-dark">' . esc_html__('Add a name to Instruct the assistant name.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
+        echo '<p class="description text-dark">' . esc_html__('Define a user-friendly name for the assistant. This name will be used during chat sessions.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
         echo '</div>';
     }
 
     private function assistantGreetingsInstructions()
     {
-        
+        $id = 'buddybot-editassistant-assistantgreeting';
+        $placeholder = esc_html__('e.g., Hi there! How can I assist you today?', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $label = esc_html__('Initial Greeting', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        echo '<div class="mb-4">';
+        echo '<label for="' . esc_attr($id) . '" class="form-label fw-bold">' . esc_html($label) . '</label>';
+        echo '<textarea class="w-100 buddybot-item-field" id="' . esc_attr($id) . '" placeholder="' . esc_attr($placeholder) . '" rows="5"></textarea>';
+        echo '<p class="description text-dark">' . esc_html__("Set the greeting message the assistant will use to welcome users in new chat threads.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
+        echo '</div>';
     }
 
     private function assistantAdditionalInstructions()
     {
-        
+        $id = 'buddybot-editassistant-aditionalinstructions';
+        $placeholder = esc_html__('e.g., You are a customer support assistant. Respond to queries about services and pricing.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $label = esc_html__('Additional Instructions', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        echo '<div class="mb-4">';
+        echo '<label for="' . esc_attr($id) . '" class="form-label fw-bold">' . esc_html($label) . '</label>';
+        echo '<textarea class="w-100 buddybot-item-field" id="' . esc_attr($id) . '" placeholder="' . esc_attr($placeholder) . '" rows="5"></textarea>';
+        echo '<p class="description text-dark">' . esc_html__("Provide detailed instructions to guide the assistant's behavior. Maximum 32,768 characters.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
+        echo '</div>';   
     }
 
     private function assistantTools()

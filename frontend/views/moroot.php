@@ -4,10 +4,12 @@ namespace BuddyBot\Frontend\Views;
 class MoRoot extends \BuddyBot\Frontend\MoRoot
 {
     protected $sql;
+    public $config;
 
     protected function setSql()
     {
         $class_name = (new \ReflectionClass($this))->getShortName();
+        $this->config = \BuddyBot\MoConfig::getInstance();
         $file_path = $this->config->getRootPath() . 'frontend/sql/' . strtolower($class_name) . '.php';
 
         if (file_exists($file_path)) {

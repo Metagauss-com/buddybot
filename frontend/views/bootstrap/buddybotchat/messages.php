@@ -72,7 +72,7 @@ class Messages extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
         $args = array('default' => 'retro');
         $img_url = get_avatar_url(get_current_user_id(), $args);
         
-        $html = '<div class="buddybot-chat-conversation-list-item d-flex justify-content-end text-dark" id="' . esc_attr($this->message->id) . '">';
+        $html = '<div class="buddybot-chat-conversation-list-item d-flex justify-content-end text-dark text-break" id="' . esc_attr($this->message->id) . '">';
 
         $html .= $this->messageImage($img_url);
 

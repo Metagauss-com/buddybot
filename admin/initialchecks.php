@@ -5,6 +5,7 @@ namespace BuddyBot\Admin;
 final class InitialChecks extends \BuddyBot\Admin\MoRoot
 {
 
+    public $options;
     private $data;
     private $errors = 0;
 
@@ -64,7 +65,7 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
             $this->html .= '</div>';
             $this->html .= '<div class="banner-content">';
             $this->html .= '<h3 class="h3 text-dark mb-2">' . esc_html__('BuddyBot is Ready to Work for You!', 'buddybot-ai-custom-ai-assistant-and-chat-agent') .'</h3>';
-            $this->html .=  '<p class="text-muted mb-0">' . sprintf(wp_kses_post(__('This is the final step before you can start using the plugin. Please add your OpenAI API key in the <a href="%s">BuddyBot Settings</a> area.', 'buddybot-ai-custom-ai-assistant-and-chat-agent')), esc_url(admin_url('admin.php?page=buddybot-settings'))) .' </p>';
+            $this->html .=  '<p class="text-muted mb-0">' . sprintf(wp_kses_post(__('To unlock BuddyBot’s AI capabilities, add your OpenAI API key in the <a href="%s">Settings</a>. BuddyBot will then be ready to assist your users!', 'buddybot-ai-custom-ai-assistant-and-chat-agent')), esc_url(admin_url('admin.php?page=buddybot-settings'))) .' </p>';
             $this->html .=   '</div></div></div>';
 
             // $this->addAlert(
@@ -87,6 +88,34 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
                     // Translators: %s is url to Vector Store settings page in admin area. This should not be changed.
                     sprintf(wp_kses_post('<strong>BuddyBot Notice:</strong> No vector store detected. A vector store is required for BuddyBot to function properly. Please create one by clicking <a href="%s">here</a>.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_url(admin_url('admin.php?page=buddybot-vectorstore')))
                 );
+            } else {
+                $url = 'https://api.openai.com/v1/vector_stores/' . $id;
+
+                $headers = array(
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $key,
+                    'OpenAI-Beta' => 'assistants=v2'
+                );
+
+                $response = wp_remote_get($url, array(
+                    'headers' => $headers,
+                    'timeout' => 60,
+                ));
+                if (is_wp_error($response)) {
+                    $this->addAlert(
+                        sprintf(wp_kses_post('<strong>BuddyBot Notice:</strong> Failed to connect to OpenAI. Please try again later. <br>Error: %s'), $response->get_error_message())
+                    );
+                } else {
+                    $output = json_decode(wp_remote_retrieve_body($response), true);
+                    if (empty($output['id'])) {
+                        $this->errors += 1;
+                        $this->addAlert(
+                            // Translators: %s is url to Vector Store settings page in admin area. This should not be changed.
+                            sprintf(wp_kses_post('<strong>Unable to Access Vector Store:</strong> We couldn\'t access the vector store. This might happen if the vector store was deleted or the OpenAI API key was changed. Please verify the vector store exists and ensure the correct API key is configured in the <a href="%s">Settings</a>. Or to create a new vector store, please visit the <a href ="%s">Vector Store page.</a>', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_url(admin_url('admin.php?page=buddybot-settings')), esc_url(admin_url('admin.php?page=buddybot-vectorstore')))
+                        );
+                        delete_option('buddybot_vectorstore_data');
+                    }
+                }
             }
         }
     }

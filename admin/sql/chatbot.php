@@ -4,6 +4,8 @@ namespace BuddyBot\Admin\Sql;
 
 class Chatbot extends \BuddyBot\Admin\Sql\MoRoot
 {
+    public $config;
+    
     protected function setTable()
     {
         $this->table = $this->config->getDbTable('chatbot');

@@ -4,6 +4,8 @@ namespace BuddyBot\Admin\Responses;
 
 class MoRoot extends \BuddyBot\Admin\MoRoot
 {
+    public $config;
+    protected $options;
     protected $openai_response = '';
     protected $openai_response_body = '';
     protected $response = array();

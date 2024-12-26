@@ -4,6 +4,7 @@ namespace BuddyBot\Admin\Secure;
 
 class MoRoot extends \BuddyBot\Admin\MoRoot
 {
+    public $config;
     protected $errors = array();
     protected $sql;
     

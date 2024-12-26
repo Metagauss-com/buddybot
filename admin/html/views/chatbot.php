@@ -4,6 +4,7 @@ namespace BuddyBot\Admin\Html\Views;
 
 final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
 {
+    protected $sql;
     protected $chatbot_id = 0;
     protected $is_edit = false;
     protected $chatbot;
@@ -12,9 +13,16 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
 
     protected function setChatbotId()
     {
+        $sql = \BuddyBot\Admin\Sql\Chatbot::getInstance();
+        $this->first_id = $sql->getFirstChatbotId();
+
         if (!empty($_GET['chatbot_id'])) {
             $this->chatbot_id = absint($_GET['chatbot_id']);
         }
+
+        // if (!empty($this->first_id)) {
+        //     $this->chatbot_id = $this->first_id;
+        // }
     }
 
     protected function setIsEdit()

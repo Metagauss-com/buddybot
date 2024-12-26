@@ -3,6 +3,8 @@ namespace BuddyBot\Frontend\Responses;
 
 class MoRoot extends \BuddyBot\Frontend\Moroot
 {
+    public $config;
+    protected $options;
     protected $sql;
 
     protected $response;

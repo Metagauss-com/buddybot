@@ -29,10 +29,10 @@ class ChatBot extends \BuddyBot\Admin\Responses\MoRoot
         if (!empty($this->openai_response_body->data)) {
             $this->response['success'] = true;
             $this->response['html'] = $this->getAssistantListHtml($this->openai_response_body->data);
-        }else{
+        } else {
             $this->response['success'] = false;
             $this->response['message'] = $this->createAssistantHtml();
-            }
+        }
 
         echo wp_json_encode($this->response);
         wp_die();
@@ -189,7 +189,7 @@ class ChatBot extends \BuddyBot\Admin\Responses\MoRoot
         $decoded_response = json_decode($json_response, true);
         if (empty($decoded_response['id'])) {
              $this->removeAssistantId($chatbot_id);
-        }else{
+        } else {
             $this->response['success'] = true;
         }
 

@@ -9,7 +9,7 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
     {
         $this->vectorStoreDataJs();
         $this->createVectorStoreJs();
-        $this->hideCreateButtonJs();
+        $this->checkVectorStoreJs();
         $this->getVectorStoreJs();
         $this->displayVectorStoreName();
         $this->deleteVectorStoreJs();
@@ -43,19 +43,26 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
         $nonce_retrieve = wp_create_nonce('retrieve_vectorstore');
         $vectorstore_data = get_option('buddybot_vectorstore_data');
         echo '
-            $("#buddybot-vectorstore-create").click(checkVectorStore);
+            let pageReload = true;
+            
+            $("#buddybot-vectorstore-create").click(function() {
+                hideAlert();
+                disableFields(true);
+                showBtnLoader("#buddybot-vectorstore-create");
+                pageReload = false;
+                checkVectorStore(pageReload);
+            });
 
-            function checkVectorStore(){
-                const vectorStoreData = ' . wp_json_encode($vectorstore_data) . ';
+            const vectorStoreData = ' . wp_json_encode($vectorstore_data) . ';
+            function checkVectorStore(pageReload){
                 if (vectorStoreData && vectorStoreData.id) {
-                    retrieveVectorStore(vectorStoreData.id);
+                    retrieveVectorStore(vectorStoreData.id, pageReload);
                 } else {
                     createVectorStore();
                 }
             }
-
-            function retrieveVectorStore(vectorstore_id){
-                hideAlert();
+             retrieveVectorStore(vectorStoreData.id, pageReload)
+            function retrieveVectorStore(vectorstore_id, pageReload){
                 const data = {
                     "action": "retrieveVectorStore",
                     "vectorstore_id": vectorstore_id,
@@ -63,20 +70,47 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
                 };
                 $.post(ajaxurl, data, function(response) {
                     response = JSON.parse(response);
-                    
+
                     if (response.success) {
-                        createVectorStore();
+                        if(pageReload){
+                            deleteVectorStoreDatabase(); 
+                            // displayVectorStoreName();
+                        } else {
+                            createVectorStore();
+                        }
                     } else {
-                        showAlert(response.message);
+                        if(!pageReload){
+                            showAlert(response.message);
+                        } else {
+                         displayVectorStoreName();
+                        }
                         
                     }
                 });
             }
 
+            function deleteVectorStoreDatabase(){
+               const data = {
+                    "action": "deleteVectorStoreDatabase",
+                    "nonce": "' . esc_js(wp_create_nonce('delete_vectorstore_database')) . '"
+                };
+
+                $.post(ajaxurl, data, function(response) {
+                    hideBtnLoader("#buddybot-vectorstore-create");
+                    response = JSON.parse(response);
+                    if (response.success) {
+                        $("#buddybot-assistants-loading-spinner").addClass("visually-hidden");
+                        $("#buddybot-vectorstoreName").show();
+                        $("#buddybot-vectorstoreName").html(response.message);
+                        $("#buddybot-vectorstore-section").addClass("notice notice-error").removeClass("notice-warning");
+                        $("#buddybot-vectorstore-create").removeClass("visually-hidden"); 
+                    } else {
+                        displayVectorStoreName();
+                    }
+                });
+            }
+
             function createVectorStore(){
-                hideAlert();
-                disableFields(true);
-                showBtnLoader("#buddybot-vectorstore-create");
                 let storeData = vectorstoreData();
 
                 const data = {
@@ -91,7 +125,7 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
                     if (response.success) {
                         displayVectorStoreName();
                         $("#buddybot_vector_store_id").val(response.result.id);
-                        hideCreateButton(response.result.id);
+                        $("#buddybot-vectorstore-create").addClass("visually-hidden");
                     } else {
                         showAlert(response.message);
                     }
@@ -102,14 +136,15 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
         ';
     }
 
-    private function hideCreateButtonJs()
+    private function checkVectorStoreJs()
     {
-        $vectorstoreData = get_option('buddybot_vectorstore_data');
+        $vectorstore_data = get_option('buddybot_vectorstore_data');
         echo '
-            function hideCreateButton(vectorstore_id) {
-    
-                if (vectorstore_id) {
-                    $("#buddybot-vectorstore-create").hide();
+            hideCreateButton();
+            function hideCreateButton() {
+                const vectorStoreData = ' . wp_json_encode($vectorstore_data) . ';
+                if (!vectorStoreData || !vectorStoreData.id) {
+               $("#buddybot-vectorstore-create").removeClass("visually-hidden");
                 }
             }
         ';
@@ -145,7 +180,7 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
     {
         $nonce = wp_create_nonce('display_vectorstore_name');
         echo '
-            displayVectorStoreName();
+            //displayVectorStoreName();
             function displayVectorStoreName() {
                 const data = {
                     "action": "displayVectorStoreName",
@@ -157,11 +192,13 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
     
                     if (response.success) {
                         $("#buddybot-vectorstoreName").html(response.message);
-                        $("#buddybot-vectorstore-section").addClass("notice notice-success").removeClass("notice-warning");
+                        $("#buddybot-vectorstore-section").addClass("notice notice-success").removeClass("notice-warning notice-error");
                     } else {
                         $("#buddybot-vectorstoreName").html(response.message);
-                        $("#buddybot-vectorstore-section").addClass("notice notice-warning").removeClass("notice-success");
+                        $("#buddybot-vectorstore-section").addClass("notice notice-warning").removeClass("notice-success notice-error");
                     }
+                    $("#buddybot-assistants-loading-spinner").addClass("visually-hidden");
+                    $("#buddybot-vectorstoreName").show();
                 });
             }
         ';
@@ -261,7 +298,7 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
         $vectorstore_id = isset($vectorstore_data['id']) ? $vectorstore_data['id'] : '';
         $nonce = wp_create_nonce('is_file_writable');
         echo '
-        let vectorStoreId = $("#buddybot_vector_store_id").length ? $("#buddybot_vector_store_id").val() : "' . esc_js($vectorstore_id) . '";
+        let vectorStoreId =  $("#buddybot_vector_store_id").val() ? $("#buddybot_vector_store_id").val() : "' . esc_js($vectorstore_id) . '";
 
         function isFileWritable(dataType) {
             const data = {
@@ -393,7 +430,7 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
         echo '
             function uploadFileIdsOnVectorStore(newFileId, dataType){
 
-                let vectorStoreId = $("#buddybot_vector_store_id").length ? $("#buddybot_vector_store_id").val() : "' . esc_js($vectorstore_id) . '";
+                let vectorStoreId = $("#buddybot_vector_store_id").val() ? $("#buddybot_vector_store_id").val() : "' . esc_js($vectorstore_id) . '";
 
                 const data = {
                     "action": "uploadFileIdsOnVectorStore",

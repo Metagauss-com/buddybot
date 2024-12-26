@@ -20,19 +20,13 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function createVectorStoreBtn()
     {
-        $vectorstore_data = get_option('buddybot_vectorstore_data');
-        $vectorstore_id = isset($vectorstore_data['id']) ? $vectorstore_data['id'] : '';
-
-        if (!empty($vectorstore_id)) {
-            return;
-        }
 
         $btn_label = esc_html__('Create Vector Store', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
 
         $id = 'buddybot-vectorstore-create';
         echo '<div>';
 
-        $this->loaderBtn('dark btn-sm mb-1', $id, $btn_label);
+        $this->loaderBtn('dark btn-sm mb-1 visually-hidden', $id, $btn_label);
         $this->createHiddenField('buddybot_vector_store_id');
 
         echo '</div>';
@@ -44,13 +38,18 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
 
         echo '<div id="buddybot-vectorstore-section">';
 
-        echo '<p id="buddybot-vectorstoreName">Loading...</p>';
-
+        echo '<p id="buddybot-vectorstoreName" style="display: none;">Loading...</p>'; 
+        echo '<div id="buddybot-assistants-loading-spinner" class="d-flex justify-content-center" style="display: block;">';
+        echo '<div class="spinner-border text-dark" role="status">';
+        echo '<span class="visually-hidden">Loading...</span>';
         echo '</div>';
-
         echo '</div>';
-
-        echo ' <div id = "buddybot-get-files"> </div>';
+        
+        echo '</div>';
+        
+        echo '</div>';
+        
+        echo ' <div id="buddybot-get-files"> </div>';
     }
 
     private function deleteVectorStoreBtn()
@@ -95,7 +94,7 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
 
         echo '</div>';
 
-        echo '<div class="buddybot-remote-file-status small" role="group">';
+        echo '<div class="buddybot-remote-file-status small text-break" role="group">';
         echo esc_html(__('Checking status...', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
         echo '</div>';
 

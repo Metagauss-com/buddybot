@@ -95,10 +95,11 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
             'headers' => $headers,
             'timeout' => 60,
         ));
-
+       
         if (is_wp_error($response)) {
-            $this->response['sucess'] = false;
+            $this->response['success'] = false;
             $this->response['message'] = $response->get_error_message();
+            echo wp_json_encode($this->response);
             wp_die();
         }
 
@@ -189,7 +190,7 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
         if ($this->response['result']->deleted) {
             $this->response['success'] = true;
             $this->response['message'] = esc_html__('Successfully deleted Assistant.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-            delete_option('buddybot_vectorstore_data');
+            // delete_option('buddybot_vectorstore_data');
         } else {
             $this->response['success'] = false;
             $this->response['message'] = esc_html__('Unable to delete the Assistant.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
@@ -233,7 +234,7 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
 
         if (empty($vectorstore_id)) {
             $this->response['success'] = false;
-            $this->response['message'] = '<div class="text-danger">' . esc_html__('No Vector Store Found', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
+            $this->response['message'] = '<div class="text-danger">' . esc_html__('No Vector Store Found. Click the button above to create one.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
             echo wp_json_encode($this->response);
             wp_die();
         }
@@ -357,6 +358,8 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
 
         // Get the local file path
         $file_path = realpath($this->core_files->getLocalPath($data_type));
+        $hostname = wp_parse_url(home_url(), PHP_URL_HOST);
+        $file_name = $hostname . '.' . basename($file_path);
 
         // Read file content
         $file_content = file_get_contents($file_path);
@@ -371,7 +374,7 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
         $body .= 'assistants' . $eol;
 
         $body .= '--' . $boundary . $eol;
-        $body .= 'Content-Disposition: form-data; name="file"; filename="' . basename($file_path) . '"' . $eol;
+        $body .= 'Content-Disposition: form-data; name="file"; filename="' . $file_name . '"' . $eol;
         $body .= 'Content-Type: ' . mime_content_type($file_path) . $eol . $eol;
         $body .= $file_content . $eol;
         $body .= '--' . $boundary . '--';
@@ -471,12 +474,13 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
         $this->processResponse();
 
         $file_ids = [];
+        $domain = wp_parse_url(home_url(), PHP_URL_HOST);
 
         if (isset($this->openai_response_body->data)) {
             foreach ($this->openai_response_body->data as $file) {
 
                 // Check if the file name contains the data_type (e.g., 'comments' or 'posts')
-                if (isset($file->filename) && strpos($file->filename, $data_type) !== false) {
+                if (isset($file->filename) && strpos($file->filename, $domain) !== false && strpos($file->filename, $data_type) !== false) {
                     $file_ids[] = $file->id;
                 }
             }
@@ -671,6 +675,24 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
         wp_die();
     }
 
+    public function deleteVectorStoreDatabase()
+    {
+        $this->checkNonce('delete_vectorstore_database');
+
+        $option_deleted = delete_option('buddybot_vectorstore_data');
+
+        if ($option_deleted) {
+            $this->response['success'] = true;
+            $this->response['message'] = sprintf(wp_kses_post('<strong>Unable to Access Vector Store:</strong> We couldn\'t access the vector store. This might happen if the vector store was deleted or the OpenAI API key was changed. Please verify the vector store exists and ensure the correct API key is configured in the <a href="%s">Settings</a>. Or, use the button below to create a new vector store.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_url(admin_url('admin.php?page=buddybot-settings')));
+        } else {
+            $this->response['success'] = false;
+            $this->response['message'] = esc_html__('Failed to delete vectorstore from Database.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        }
+
+        echo wp_json_encode($this->response);
+        wp_die();
+    }
+
     public function __construct()
     {
         $this->setAll();
@@ -687,5 +709,6 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
         add_action('wp_ajax_displayVectorStoreName', array($this, 'displayVectorStoreName'));
         add_action('wp_ajax_uploadFileIdsOnVectorStore', array($this, 'uploadFileIdsOnVectorStore'));
         add_action('wp_ajax_getVectorStoreFiles', array($this, 'getVectorStoreFiles'));
+        add_action('wp_ajax_deleteVectorStoreDatabase', array($this, 'deleteVectorStoreDatabase'));
     }
 }

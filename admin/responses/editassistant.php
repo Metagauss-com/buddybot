@@ -32,25 +32,6 @@ class EditAssistant extends \BuddyBot\Admin\Responses\MoRoot
         wp_die();
     }
 
-    // public function getFiles()
-    // {
-    //     $this->checkNonce('get_files');
-
-    //     $url = 'https://api.openai.com/v1/files';
-
-    //     $headers = ['Authorization' => 'Bearer ' . $this->api_key];
-
-    //     $args = ['headers' => $headers];
-
-    //     $this->openai_response = wp_remote_get($url, $args);
-    //     $this->processResponse();
-
-    //     $this->response['html'] = $this->filesListHtml($this->openai_response_body->data);
-
-    //     echo wp_json_encode($this->response);
-    //     wp_die();
-    // }
-
     public function createAssistant()
     {
         $this->checkNonce('create_assistant');
@@ -73,12 +54,24 @@ class EditAssistant extends \BuddyBot\Admin\Responses\MoRoot
         ];
 
         $assistant_data = json_decode(wp_unslash(sanitize_text_field($_POST['assistant_data'])), false);
+        $instructions = '';
+
+        if (!empty($assistant_data->friendly_name)) {
+            $instructions .= " Your name is " . $assistant_data->friendly_name . ". Introduce yourself as " . $assistant_data->friendly_name . " when initiating a conversation.";
+        }
+        
+        if (!empty($assistant_data->aditional_instructions)) {
+            $instructions .= $assistant_data->aditional_instructions;
+        }
+        if (empty($assistant_data->friendly_name) && empty($assistant_data->aditional_instructions)) {
+            $instructions .= 'You are a helpful assistant. Answer user queries to the best of your ability.';
+        }
 
         $data = array(
             'model' => $assistant_data->model,
             'name' => $assistant_data->name,
             'description' => $assistant_data->description,
-            'instructions' => $assistant_data->instructions,
+            'instructions' => $instructions,
             "tools" => array(
         array(
             "type" => "file_search"
@@ -86,7 +79,10 @@ class EditAssistant extends \BuddyBot\Admin\Responses\MoRoot
     ),
             'temperature' => $assistant_data->temperature,
             'top_p' => $assistant_data->top_p,
-            // 'file_ids' => $this->assistantFiles($assistant_data->file_ids)
+            'metadata' => array(
+                'buddybot_friendly_name' => $assistant_data->friendly_name,
+                'buddybot_user_instructions' => $assistant_data->aditional_instructions
+            ),
         );
 
         //if (in_array('file_search', $assistant_data->tools)) {
@@ -128,17 +124,6 @@ class EditAssistant extends \BuddyBot\Admin\Responses\MoRoot
         return $value;
     }
 
-    private function assistantFiles($file_ids)
-    {
-        $value = array();
-
-        foreach ($file_ids as $file_id) {
-            $value[] = $file_id;
-        }
-
-        return $value;
-    }
-
     private function modelsListHtml($list)
     {
         $unsupported_models = $this->config->getProp('unsupported_models');
@@ -155,51 +140,6 @@ class EditAssistant extends \BuddyBot\Admin\Responses\MoRoot
                 $html .= '<option value="' . esc_attr($model->id) . '">';
                 $html .= esc_html(strtoupper(str_replace('-', ' ', $model->id)));
                 $html .= '</option>';
-            }
-        }
-
-        return $html;
-    }
-
-    private function filesListHtml($list)
-    {
-        $remote_posts_file_id = $this->core_files->getRemoteFileId('posts');
-        $remote_comments_file_id = $this->core_files->getRemoteFileId('comments');
-
-        $html = '';
-
-        if (!is_array($list) or empty($list)) {
-            return $html;
-        }
-
-        foreach ($list as $file) {
-
-            $ext = pathinfo($file->filename, PATHINFO_EXTENSION);
-
-            if (empty($ext)) {
-                continue;
-            }
-
-            $badge = '';
-
-            if ($file->id === $remote_posts_file_id) {
-                $badge = '<span class="badge text-bg-success rounded-pill ms-1 text-uppercase">' . esc_html__('Latest Posts File', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</span>';
-            }
-
-            if ($file->id === $remote_comments_file_id) {
-                $badge = '<span class="badge text-bg-success rounded-pill ms-1 text-uppercase">' . esc_html__('Latest Comments File', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</span>';
-            }
-
-            if ($file->purpose === 'assistants' and absint($file->bytes) <= 536870912) {
-                $html .= '<div class="mb-2">';
-                $html .= '<label for="' . $file->id . '" title="' . $file->filename . '">';
-                $html .= '<input type="checkbox" class="me-2 buddybot-item-field" id="' . $file->id . '" value="' . $file->id . '">';
-                $html .= (strlen($file->filename) > 20) ? substr($file->filename, 0, 20) . '...' : $file->filename;
-                $html .= '<span class="font-monospace ms-1 text-muted"> / ' . $ext . '</span>';
-                $html .= '<span class="font-monospace ms-1 text-muted"> / ' . $this->fileSize($file->bytes) . '</span>';
-                $html .= $badge;
-                $html .= '</label>';
-                $html .= '</div>';
             }
         }
 
@@ -245,7 +185,6 @@ class EditAssistant extends \BuddyBot\Admin\Responses\MoRoot
     {
         $this->setAll();
         add_action('wp_ajax_getModels', array($this, 'getModels'));
-        //add_action('wp_ajax_getFiles', array($this, 'getFiles'));
         add_action('wp_ajax_createAssistant', array($this, 'createAssistant'));
         add_action('wp_ajax_getAssistantData', array($this, 'getAssistantData'));
     }

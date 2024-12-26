@@ -46,7 +46,7 @@ final class ShortCodes extends \BuddyBot\Frontend\MoRoot
             'buddybot-material-symbols',
             $this->config->getRootUrl() . 'external/material-symbols/material-symbols.css',
             array(),
-            '1.0.0'
+            BUDDYBOT_PLUGIN_VERSION
         );
 
         switch ($this->frontend_theme) {
@@ -83,13 +83,13 @@ final class ShortCodes extends \BuddyBot\Frontend\MoRoot
         
         if (file_exists($file_path)) {
             $file_url = $this->config->getRootUrl() . 'frontend/css/' . $file . '.css';
-            wp_enqueue_style('buddybot-style-' . $file, $file_url, array(), '1.0.0');
+            wp_enqueue_style('buddybot-style-' . $file, $file_url, array(), BUDDYBOT_PLUGIN_VERSION);
         }
 
         $file_path = $this->config->getRootPath() . 'frontend/css/' . $this->frontend_theme . '/' . $file . '.css';
         if (file_exists($file_path)) {
             $file_url = $this->config->getRootUrl() . 'frontend/css/'  . $this->frontend_theme . '/' . $file . '.css';
-            wp_enqueue_style('buddybot-style-' . $this->frontend_theme . '-' . $file, $file_url, array(), '1.0.0');
+            wp_enqueue_style('buddybot-style-' . $this->frontend_theme . '-' . $file, $file_url, array(), BUDDYBOT_PLUGIN_VERSION);
         }
     }
 
