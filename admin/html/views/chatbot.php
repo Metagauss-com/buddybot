@@ -16,13 +16,13 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
         $sql = \BuddyBot\Admin\Sql\Chatbot::getInstance();
         $this->first_id = $sql->getFirstChatbotId();
 
-        // if (!empty($_GET['chatbot_id'])) {
-        //     $this->chatbot_id = absint($_GET['chatbot_id']);
-        // }
-
-        if (!empty($this->first_id)) {
-            $this->chatbot_id = $this->first_id;
+        if (!empty($_GET['chatbot_id'])) {
+            $this->chatbot_id = absint($_GET['chatbot_id']);
         }
+
+        // if (!empty($this->first_id)) {
+        //     $this->chatbot_id = $this->first_id;
+        // }
     }
 
     protected function setIsEdit()
@@ -194,18 +194,18 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '</p>';
     }
     
-    // public function getInlineJs()
-    // {    
-    //     return '
-    //     jQuery(document).ready(function($){
+    public function getInlineJs()
+    {    
+        return '
+        jQuery(document).ready(function($){
     
-    //         loadFirstBuddyBot();
+            loadFirstBuddyBot();
     
-    //         function loadFirstBuddyBot() {
-    //             if (' . absint($this->chatbot_id) . ' !==  ' . absint($this->first_id) . ' ) {
-    //                 location.replace("' . esc_url(admin_url()) . 'admin.php?page=buddybot-chatbot&chatbot_id=' . absint($this->first_id) . '");
-    //             }
-    //         }
-    //     })';
-    // }  
+            function loadFirstBuddyBot() {
+                if (' . absint($this->chatbot_id) . ' !==  ' . absint($this->first_id) . ' ) {
+                    location.replace("' . esc_url(admin_url()) . 'admin.php?page=buddybot-chatbot&chatbot_id=' . absint($this->first_id) . '");
+                }
+            }
+        })';
+    }  
 }
