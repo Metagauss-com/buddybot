@@ -75,13 +75,15 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
                         if(pageReload){
                             deleteVectorStoreDatabase(); 
                             // displayVectorStoreName();
-                        }else{
+                        } else {
                             createVectorStore();
                         }
                     } else {
                         if(!pageReload){
                             showAlert(response.message);
-                        }else{displayVectorStoreName();}
+                        } else {
+                         displayVectorStoreName();
+                        }
                         
                     }
                 });
@@ -102,7 +104,7 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
                         $("#buddybot-vectorstoreName").html(response.message);
                         $("#buddybot-vectorstore-section").addClass("notice notice-error").removeClass("notice-warning");
                         $("#buddybot-vectorstore-create").removeClass("visually-hidden"); 
-                    }else{
+                    } else {
                         displayVectorStoreName();
                     }
                 });

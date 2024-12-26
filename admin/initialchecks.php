@@ -88,7 +88,7 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
                     // Translators: %s is url to Vector Store settings page in admin area. This should not be changed.
                     sprintf(wp_kses_post('<strong>BuddyBot Notice:</strong> No vector store detected. A vector store is required for BuddyBot to function properly. Please create one by clicking <a href="%s">here</a>.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_url(admin_url('admin.php?page=buddybot-vectorstore')))
                 );
-            }else{
+            } else {
                 $url = 'https://api.openai.com/v1/vector_stores/' . $id;
 
                 $headers = array(

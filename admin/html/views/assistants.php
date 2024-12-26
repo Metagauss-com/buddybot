@@ -29,7 +29,7 @@ final class Assistants extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function assistantsTable()
     {
-        echo '<table class="buddybot-org-assistants-table table">';
+        echo '<table class="buddybot-org-assistants-table table table-sm">';
         $this->tableHeader();
         $this->tableBody();
         echo '</table>';

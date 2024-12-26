@@ -572,7 +572,7 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
 
         if ($current_user_id === $user_id) {
             $this->response['success'] = true;
-        } else{
+        } else {
             $this->response['success'] = false;
         }
 

@@ -616,7 +616,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
                     $("#mgao-playground-new-message-text").css("display", "block");
                     $("#mgao-playground-send-message-btn").css("display", "block");
                     $("#mgao-playground-message-file-btn").css("display", "block");
-                } else{
+                } else {
                     $("#buddybot-playground-attachment-wrapper").css("display", "none");
                     $("#mgao-playground-new-message-text").css("display", "none");
                     $("#mgao-playground-send-message-btn").css("display", "none");

@@ -107,7 +107,7 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
                 dataErrors.push("' . esc_html(__('OpenAI API Key cannot be empty.', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '");
                 displayErrors(); 
                 hideBtnLoader("#buddybot-settings-update-btn");
-            } else{ 
+            } else { 
                 verifyOpenaiApiKey(key);
             }
                 
@@ -125,7 +125,7 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
                     if (response.success) {
                         checkVectorStore(apiKey);
                        // saveOpenaiApiKey(apiKey);
-                    }else{
+                    } else {
                         dataErrors.push(response.message);
                         displayErrors();
                         hideBtnLoader("#buddybot-settings-update-btn");
@@ -164,7 +164,7 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
 
     private function createVectorStore()
     {
-        $nonce = wp_create_nonce('create_vectorstore_settings');
+        $nonce = wp_create_nonce('auto_create_vectorstore');
         $vectorstore_data = get_option('buddybot_vectorstore_data');
         $hostname = wp_parse_url(home_url(), PHP_URL_HOST);
         echo '
@@ -183,7 +183,7 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
                 let storeData = vectorstoreData();
 
                 const data = {
-                    "action": "create_Vector_Store",
+                    "action": "autoCreateVectorStore",
                     "api_key": apiKey,
                     "vectorstore_data": JSON.stringify(storeData),
                     "nonce": "' . esc_js($nonce) . '"
