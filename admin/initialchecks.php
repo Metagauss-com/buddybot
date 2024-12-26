@@ -65,7 +65,7 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
             $this->html .= '</div>';
             $this->html .= '<div class="banner-content">';
             $this->html .= '<h3 class="h3 text-dark mb-2">' . esc_html__('BuddyBot is Ready to Work for You!', 'buddybot-ai-custom-ai-assistant-and-chat-agent') .'</h3>';
-            $this->html .=  '<p class="text-muted mb-0">' . sprintf(wp_kses_post(__('This is the final step before you can start using the plugin. Please add your OpenAI API key in the <a href="%s">BuddyBot Settings</a> area.', 'buddybot-ai-custom-ai-assistant-and-chat-agent')), esc_url(admin_url('admin.php?page=buddybot-settings'))) .' </p>';
+            $this->html .=  '<p class="text-muted mb-0">' . sprintf(wp_kses_post(__('To unlock BuddyBot’s AI capabilities, add your OpenAI API key in the <a href="%s">Settings</a>. BuddyBot will then be ready to assist your users!', 'buddybot-ai-custom-ai-assistant-and-chat-agent')), esc_url(admin_url('admin.php?page=buddybot-settings'))) .' </p>';
             $this->html .=   '</div></div></div>';
 
             // $this->addAlert(

@@ -15,10 +15,19 @@ class ChatBot extends \BuddyBot\Admin\Requests\MoRoot
     }
 
     protected function chatbotId() {
-        if (empty($_GET['chatbot_id'])) {
+        // if (empty($_GET['chatbot_id'])) {
+        //     return 0;
+        // } else {
+        //     return sanitize_text_field($_GET['chatbot_id']);
+        // }
+
+        $sql = \BuddyBot\Admin\Sql\Chatbot::getInstance();
+        $chatbot_id = $sql->getFirstChatbotId();
+
+        if (empty($chatbot_id)) {
             return 0;
         } else {
-            return sanitize_text_field($_GET['chatbot_id']);
+            return $chatbot_id;
         }
     }
 
@@ -294,10 +303,8 @@ class ChatBot extends \BuddyBot\Admin\Requests\MoRoot
 
     private function checkAssistantJs()
     {
-        $sql = \BuddyBot\Admin\Sql\Chatbot::getInstance();
-        $first_id = $sql->getFirstChatbotId();
 
-        $chatbot_id = $first_id;
+        $chatbot_id = $this->chatbotId();
         if (empty($chatbot_id)) {
             return;
         }
@@ -308,7 +315,7 @@ class ChatBot extends \BuddyBot\Admin\Requests\MoRoot
             const data = {
                 "action": "checkAssistant",
                 "assistant_id": assistantId,
-                "chatbot_id":"'.$chatbot_id.'",
+                "chatbot_id":"'. esc_js($chatbot_id) .'",
                 "nonce": "' . esc_js(wp_create_nonce('check_assistant')) . '"
             };
     
