@@ -651,7 +651,7 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
 
         if (empty($_POST['file_id']) || empty($_POST['vectorstore_id'])) {
             $this->response['success'] = false;
-            $this->response['message'] = esc_html__('File synchronization failed. No vector store or file ID found. Please create a vector store before initiating synchronization.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            $this->response['message'] = esc_html__('Not syncronized.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             echo wp_json_encode($this->response);
             wp_die();
         }

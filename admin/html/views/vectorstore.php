@@ -13,7 +13,7 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
         $this->alertContainer();
         $this->getVectorStore();
         $this->createVectorStoreBtn();
-        //$this->deleteVectorStoreBtn();
+        $this->deleteVectorStoreBtn();
         $this->itemsList();
         $this->msgArea();
     }
@@ -94,7 +94,7 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
 
         echo '</div>';
 
-        echo '<div class="buddybot-remote-file-status small text-break" role="group">';
+        echo '<div class="buddybot-remote-file-status buddybot-remote-file-status'.$type.' small text-break" role="group">';
         echo esc_html(__('Checking status...', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
         echo '</div>';
 
