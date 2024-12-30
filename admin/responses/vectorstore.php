@@ -496,6 +496,7 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
 
         $new_file_id = sanitize_text_field($_POST['file_Id']);
         $data_type = isset($_POST['data_type']) && !empty($_POST['data_type']) ? sanitize_text_field($_POST['data_type']) : '';
+        $this->cleanLocalFile($data_type);
 
         $file_ids = $this->fetchFilesByDataType($data_type);
 
@@ -539,6 +540,24 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
 
         echo wp_json_encode($this->response);
         wp_die();
+    }
+
+    private function cleanLocalFile($data_type)
+    {
+        if (!function_exists('WP_Filesystem')) {
+            require_once ABSPATH . 'wp-admin/includes/file.php';
+        }
+
+        WP_Filesystem();
+        global $wp_filesystem;
+
+        $file_path = $this->core_files->getLocalPath($data_type);
+
+        if (!$wp_filesystem->put_contents($file_path, '', FS_CHMOD_FILE)) {
+            return false;
+        }
+
+        return true;
     }
 
     public function uploadFileIdsOnVectorStore()
