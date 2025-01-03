@@ -55,7 +55,7 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
         $("#buddybot-settings-update-btn").click(saveOptions);
 
         function saveOptions() {
-         showBtnLoader("#buddybot-settings-update-btn");
+         showWordpressLoader("#buddybot-settings-update-btn");
            getOpenAiApiKey();
         }
         ';
@@ -106,7 +106,7 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
             if (key === "") {
                 dataErrors.push("' . esc_html(__('OpenAI API Key cannot be empty.', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '");
                 displayErrors(); 
-                hideBtnLoader("#buddybot-settings-update-btn");
+                hideWordpressLoader("#buddybot-settings-update-btn");
             } else { 
                 verifyOpenaiApiKey(key);
             }
@@ -128,7 +128,7 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
                     } else {
                         dataErrors.push(response.message);
                         displayErrors();
-                        hideBtnLoader("#buddybot-settings-update-btn");
+                        hideWordpressLoader("#buddybot-settings-update-btn");
                     }
                 });
             }
@@ -156,7 +156,7 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
                     }
 
                     disableFields(false);
-                    hideBtnLoader("#buddybot-settings-update-btn");
+                    hideWordpressLoader("#buddybot-settings-update-btn");
                 });
             }
         ';

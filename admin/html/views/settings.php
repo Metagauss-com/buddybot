@@ -97,9 +97,10 @@ final class Settings extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function updateOptions()
     {
-        echo '<p class="submit">';
+        echo '<div class="submit bb-settings-submit">';
         echo '<input type="submit" id="buddybot-settings-update-btn" ';
         echo 'class="button button-primary" value="' . esc_html__('Save Options', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '">';
-        echo '</p>';
+        echo '<span class="spinner is-active" style="display:none;" aria-hidden="true"></span>';
+        echo '</div>';
     }
 }

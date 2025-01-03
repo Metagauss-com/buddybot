@@ -261,22 +261,62 @@ $base64_icon = base64_encode($icon);
             array(
                 'ajax_url' => admin_url( 'admin-ajax.php' ),
                 'nonce'    => wp_create_nonce( 'ajax-nonce' ),
+                'bb_dismissed_modal' => get_option( 'buddybot_welcome_modal_dismissed', false )
             )
         );
+    }
+
+    public function buddybotActivationModel()
+    {
+
+        $buddybotModalLabel = 'buddybot-welcome-modal';
+        $buddybotModalHeading = esc_html__('Welcome to BuddyBot! ', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+
+        echo ' <div class="modal fade" id=' . esc_html($buddybotModalLabel) . ' data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby=' . esc_html($buddybotModalLabel) . 'aria-hidden="true">';
+        echo ' <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"> ';
+        echo ' <div class="modal-content"> ';
+        echo ' <div class="modal-header"> ';
+        echo ' <h1 class="modal-title fs-5" id=' . esc_html($buddybotModalLabel) . '-label>' . esc_html($buddybotModalHeading) . '</h1> ';
+        echo ' <button type="button" class="btn-close buddybot-dismiss-welcome-modal" data-bs-dismiss="modal" aria-label="Close"></button> ';
+        echo ' </div> ';
+        echo ' <div class="modal-body"> ';
+
+        echo "<p>" . esc_html__("BuddyBot is built to provide direct, AI-driven support to your website visitors. It uses your WordPress content to interact with users on your site, making your website more helpful and interactive. Let’s set up your first BuddyBot to enhance the frontend user experience!", "buddybot-ai-custom-ai-assistant-and-chat-agent") . "</p>";
+
+        echo ' </div> ';
+        echo ' <div class="modal-footer"> ';
+        echo ' <button type="button" class="buddybot-welcome-close-btn buddybot-dismiss-welcome-modal btn btn-secondary" data-bs-dismiss="modal">' .esc_html__('Close ', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</button> ';
+        echo ' <button type="button" class="buddybot-welcome-save-btn buddybot-dismiss-welcome-modal btn btn-primary" onclick="window.location.href=\'admin.php?page=buddybot-settings\'">' .esc_html__('Get Started ', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</button> ';
+        echo ' </div> ';
+        echo ' </div> ';
+        echo ' </div> ';
+        echo ' </div> ';
     }
 
     public function bb_dismissible_notice()
     {
         
-		$notice_name = get_option( 'bb_dismissible_plugin', '0' );
-		if ( $notice_name == '1' ) {
+		$notice_name = get_option( 'buddybot_welcome_modal_dismissed', false );
+		if ( $notice_name == true ) {
 			return;
         }
-		?>
-        <div class="notice notice-info is-dismissible bb-dismissible" id="bb_dismissible_plugin">
-        <p><?php esc_html_e( "BuddyBot lets you train ChatGPT Assistants using your WordPress pages and posts, all directly from your WordPress site BuddyBot isn't about admin efficiency or content generation—it's all about helping you connect with your users. It focuses on user engagement, simplifying interactions, and enhancing the customer journey by leveraging your content.", 'buddybot-ai-custom-ai-assistant-and-chat-agent' ); ?></p>
-        </div>
-        <?php
+        $screen = get_current_screen();
+
+        $allowed_screens = array(
+            'toplevel_page_buddybot-chatbot',
+            'buddybot_page_buddybot-playground',
+            'buddybot_page_buddybot-files',
+            'buddybot_page_buddybot-addfile',
+            'buddybot_page_buddybot-assistants',
+            'buddybot_page_buddybot-settings',
+            'buddybot_page_buddybot-vectorstore',
+        );
+
+        if (!in_array($screen->id, $allowed_screens)) {
+            return;
+        }
+        
+		$this->buddybotActivationModel();
     }
 
     public function bb_dismissible_notice_ajax()
@@ -292,7 +332,7 @@ $base64_icon = base64_encode($icon);
             
             if ( isset($_POST['notice_name'] ) ) {
                     $notice_name = sanitize_text_field($_POST['notice_name'] );
-                    update_option( $notice_name, '1' );
+                    update_option( $notice_name, true );
 
             }
         }
