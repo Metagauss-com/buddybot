@@ -273,42 +273,29 @@ $base64_icon = base64_encode($icon);
         $welcomeImage = plugin_dir_url(__FILE__) . 'html/images/bb-welcome-image.png';
         $buddybotModalHeading = esc_html__('Welcome to BuddyBot! ', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
 
-        ?>
-        <div class="modal fade" id="<?php echo esc_html($buddybotModalLabel); ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="<?php echo esc_html($buddybotModalLabel); ?>" aria-hidden="true">
-<div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content">
-        <div class="modal-body d-flex align-items-center p-4">
-            <!-- Left Section: Image -->
-            <div class="bb-modal-image">
-                <img src="<?php echo $welcomeImage ?>" alt="BuddyBot Welcome" class="bb-image">
-            </div>
+        echo ' <div class="modal fade" id=' . esc_html($buddybotModalLabel) . ' data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby=' . esc_html($buddybotModalLabel) . 'aria-hidden="true">';
+        echo ' <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"> ';
+        echo ' <div class="modal-content"> ';
+        echo ' <div class="modal-body d-flex align-items-center p-4">';
 
-            <!-- Right Section: Text and Actions -->
-            <div class="bb-modal-text">
-                <h1 class="bb-modal-title">
-                    Welcome to BuddyBot!
-                </h1>
-                <p class="bb-modal-description">
-                    BuddyBot is built to provide direct, AI-driven support to your website visitors. 
-                    It uses your WordPress content to interact with users on your site, making your website more helpful and interactive. 
-                    Let’s set up your first BuddyBot to enhance the frontend user experience!
-                </p>
-                <div class="bb-modal-actions">
-                    <button type="button" class="btn btn-outline-dark bb-dismiss-modal" data-bs-dismiss="modal">
-                        Close
-                    </button>
-                    <button type="button" class="btn btn-dark bb-get-started" onclick="window.location.href='admin.php?page=buddybot-settings'">
-                        Get Started
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+        // Left Section: Image
+        echo ' <div class="bb-modal-image">';
+        echo ' <img src="' . esc_url($welcomeImage) . '" alt="BuddyBot Welcome" class="bb-image">';
+        echo ' </div>';
 
-
-</div>
-<?php
+        //Right Section: Text and Actions    
+        echo ' <div class="bb-modal-text">';
+        echo ' <h1 class="bb-modal-title">' . esc_html($buddybotModalHeading) . '</h1>';
+        echo ' <p class="bb-modal-description">' . esc_html__("BuddyBot is built to provide direct, AI-driven support to your website visitors. It uses your WordPress content to interact with users on your site, making your website more helpful and interactive. Let's set up your first BuddyBot to enhance the frontend user experience!", "buddybot-ai-custom-ai-assistant-and-chat-agent") . '</p>';
+        echo ' <div class="bb-modal-actions">';
+        echo ' <button type="button" class="btn btn-outline-dark bb-dismiss-modal" data-bs-dismiss="modal">' .esc_html__('Close ', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</button> ';
+        echo ' <button type="button" class="btn btn-dark bb-get-started" onclick="window.location.href=\'admin.php?page=buddybot-settings\'">' .esc_html__('Get Started ', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</button> ';
+        echo ' </div>';
+        echo ' </div>';
+        echo ' </div>';
+        echo ' </div>';
+        echo ' </div>';
+        echo ' </div>';
     }
 
     public function bb_dismissible_notice()

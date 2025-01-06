@@ -6,7 +6,7 @@ jQuery( document ).ready(
         }
             jQuery('#buddybot-welcome-modal').modal('show');
 
-		jQuery( ".buddybot-dismiss-welcome-modal" ).click(
+		jQuery( ".bb-get-started, .bb-dismiss-modal" ).click(
             function()
             {
  
