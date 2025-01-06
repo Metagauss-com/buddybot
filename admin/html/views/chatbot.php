@@ -181,7 +181,7 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
 
     protected function saveBtn()
     {
-        echo '<div class="submit bb-settings-submit">';
+        echo '<div class="submit bb-buddybot-submit">';
 
 
         if ($this->is_edit) {

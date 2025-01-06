@@ -272,25 +272,33 @@ $base64_icon = base64_encode($icon);
         $buddybotModalLabel = 'buddybot-welcome-modal';
         $buddybotModalHeading = esc_html__('Welcome to BuddyBot! ', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
 
-        echo ' <div class="modal fade" id=' . esc_html($buddybotModalLabel) . ' data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby=' . esc_html($buddybotModalLabel) . 'aria-hidden="true">';
-        echo ' <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"> ';
-        echo ' <div class="modal-content"> ';
-        echo ' <div class="modal-header"> ';
-        echo ' <h1 class="modal-title fs-5" id=' . esc_html($buddybotModalLabel) . '-label>' . esc_html($buddybotModalHeading) . '</h1> ';
-        echo ' <button type="button" class="btn-close buddybot-dismiss-welcome-modal" data-bs-dismiss="modal" aria-label="Close"></button> ';
-        echo ' </div> ';
-        echo ' <div class="modal-body"> ';
-
-        echo "<p>" . esc_html__("BuddyBot is built to provide direct, AI-driven support to your website visitors. It uses your WordPress content to interact with users on your site, making your website more helpful and interactive. Let’s set up your first BuddyBot to enhance the frontend user experience!", "buddybot-ai-custom-ai-assistant-and-chat-agent") . "</p>";
-
-        echo ' </div> ';
-        echo ' <div class="modal-footer"> ';
-        echo ' <button type="button" class="buddybot-welcome-close-btn buddybot-dismiss-welcome-modal btn btn-secondary" data-bs-dismiss="modal">' .esc_html__('Close ', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</button> ';
-        echo ' <button type="button" class="buddybot-welcome-save-btn buddybot-dismiss-welcome-modal btn btn-primary" onclick="window.location.href=\'admin.php?page=buddybot-settings\'">' .esc_html__('Get Started ', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</button> ';
-        echo ' </div> ';
-        echo ' </div> ';
-        echo ' </div> ';
-        echo ' </div> ';
+        ?>
+        <div class="modal fade" id="<?php echo esc_html($buddybotModalLabel); ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="<?php echo esc_html($buddybotModalLabel); ?>" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="<?php echo esc_html($buddybotModalLabel); ?>-label">
+                    <?php echo esc_html($buddybotModalHeading); ?>
+                </h1>
+                <button type="button" class="btn-close buddybot-dismiss-welcome-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <?php echo esc_html__("BuddyBot is built to provide direct, AI-driven support to your website visitors. It uses your WordPress content to interact with users on your site, making your website more helpful and interactive. Let’s set up your first BuddyBot to enhance the frontend user experience!", "buddybot-ai-custom-ai-assistant-and-chat-agent"); ?>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="buddybot-welcome-close-btn buddybot-dismiss-welcome-modal btn btn-secondary" data-bs-dismiss="modal">
+                    <?php echo esc_html__('Close ', 'buddybot-ai-custom-ai-assistant-and-chat-agent'); ?>
+                </button>
+                <button type="button" class="buddybot-welcome-save-btn buddybot-dismiss-welcome-modal btn btn-primary" onclick="window.location.href='admin.php?page=buddybot-settings'">
+                    <?php echo esc_html__('Get Started ', 'buddybot-ai-custom-ai-assistant-and-chat-agent'); ?>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<?php
     }
 
     public function bb_dismissible_notice()
