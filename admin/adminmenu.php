@@ -337,7 +337,7 @@ $base64_icon = base64_encode($icon);
             
             if ( isset($_POST['notice_name'] ) ) {
                     $notice_name = sanitize_text_field($_POST['notice_name'] );
-                    //update_option( $notice_name, true );
+                    update_option( $notice_name, true );
 
             }
         }
