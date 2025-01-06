@@ -270,33 +270,42 @@ $base64_icon = base64_encode($icon);
     {
 
         $buddybotModalLabel = 'buddybot-welcome-modal';
+        $welcomeImage = plugin_dir_url(__FILE__) . 'html/images/bb-welcome-image.png';
         $buddybotModalHeading = esc_html__('Welcome to BuddyBot! ', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
 
         ?>
         <div class="modal fade" id="<?php echo esc_html($buddybotModalLabel); ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="<?php echo esc_html($buddybotModalLabel); ?>" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="<?php echo esc_html($buddybotModalLabel); ?>-label">
-                    <?php echo esc_html($buddybotModalHeading); ?>
+<div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-body d-flex align-items-center">
+            <!-- Left Section: Image -->
+            <div class="buddybot-modal-image" style="flex: 1;" >
+                <img src="<?php echo $welcomeImage ?>" alt="BuddyBot Welcome" style="max-width: 100%; height: auto; border-radius: 10px;">
+            </div>
+
+            <!-- Right Section: Text and Actions -->
+            <div class="buddybot-modal-text" style="flex: 2; padding: 30px;">
+                <h1 style="font-size: 2rem; font-weight: 700; color: #333; margin-bottom: 15px;">
+                    Welcome to BuddyBot!
                 </h1>
-                <button type="button" class="btn-close buddybot-dismiss-welcome-modal" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>
-                    <?php echo esc_html__("BuddyBot is built to provide direct, AI-driven support to your website visitors. It uses your WordPress content to interact with users on your site, making your website more helpful and interactive. Let’s set up your first BuddyBot to enhance the frontend user experience!", "buddybot-ai-custom-ai-assistant-and-chat-agent"); ?>
+                <p style="font-size: 1rem; color: #666; margin-bottom: 30px; line-height: 1.5;">
+                    BuddyBot is built to provide direct, AI-driven support to your website visitors. 
+                    It uses your WordPress content to interact with users on your site, making your website more helpful and interactive. 
+                    Let’s set up your first BuddyBot to enhance the frontend user experience!
                 </p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="buddybot-welcome-close-btn buddybot-dismiss-welcome-modal btn btn-secondary" data-bs-dismiss="modal">
-                    <?php echo esc_html__('Close ', 'buddybot-ai-custom-ai-assistant-and-chat-agent'); ?>
-                </button>
-                <button type="button" class="buddybot-welcome-save-btn buddybot-dismiss-welcome-modal btn btn-primary" onclick="window.location.href='admin.php?page=buddybot-settings'">
-                    <?php echo esc_html__('Get Started ', 'buddybot-ai-custom-ai-assistant-and-chat-agent'); ?>
-                </button>
+                <div>
+                    <button type="button" class="btn btn-outline-dark buddybot-dismiss-welcome-modal" data-bs-dismiss="modal" style="margin-right: 10px;">
+                        Close
+                    </button>
+                    <button type="button" class="btn btn-dark" onclick="window.location.href='admin.php?page=buddybot-settings'">
+                        Get Started
+                    </button>
+                </div>
             </div>
         </div>
     </div>
+</div>
+
 </div>
 <?php
     }
@@ -340,7 +349,7 @@ $base64_icon = base64_encode($icon);
             
             if ( isset($_POST['notice_name'] ) ) {
                     $notice_name = sanitize_text_field($_POST['notice_name'] );
-                    update_option( $notice_name, true );
+                    //update_option( $notice_name, true );
 
             }
         }
