@@ -252,7 +252,7 @@ $base64_icon = base64_encode($icon);
 
     public function enqueue_scripts() 
     {
-       
+       wp_enqueue_style('buddybotbanner', plugin_dir_url(__FILE__) . 'css/global.css', array(), BUDDYBOT_PLUGIN_VERSION);
         wp_enqueue_script( 'jquery' );
         wp_enqueue_script( 'buddybotbanner', plugin_dir_url( __FILE__ ) . 'js/buddybotbanner.js', array( 'jquery' ),BUDDYBOT_PLUGIN_VERSION, true );
         wp_localize_script(
@@ -277,27 +277,27 @@ $base64_icon = base64_encode($icon);
         <div class="modal fade" id="<?php echo esc_html($buddybotModalLabel); ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="<?php echo esc_html($buddybotModalLabel); ?>" aria-hidden="true">
 <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
-        <div class="modal-body d-flex align-items-center">
+        <div class="modal-body d-flex align-items-center p-4">
             <!-- Left Section: Image -->
-            <div class="buddybot-modal-image" style="flex: 1;" >
-                <img src="<?php echo $welcomeImage ?>" alt="BuddyBot Welcome" style="max-width: 100%; height: auto; border-radius: 10px;">
+            <div class="bb-modal-image">
+                <img src="<?php echo $welcomeImage ?>" alt="BuddyBot Welcome" class="bb-image">
             </div>
 
             <!-- Right Section: Text and Actions -->
-            <div class="buddybot-modal-text" style="flex: 2; padding: 30px;">
-                <h1 style="font-size: 2rem; font-weight: 700; color: #333; margin-bottom: 15px;">
+            <div class="bb-modal-text">
+                <h1 class="bb-modal-title">
                     Welcome to BuddyBot!
                 </h1>
-                <p style="font-size: 1rem; color: #666; margin-bottom: 30px; line-height: 1.5;">
+                <p class="bb-modal-description">
                     BuddyBot is built to provide direct, AI-driven support to your website visitors. 
                     It uses your WordPress content to interact with users on your site, making your website more helpful and interactive. 
                     Let’s set up your first BuddyBot to enhance the frontend user experience!
                 </p>
-                <div>
-                    <button type="button" class="btn btn-outline-dark buddybot-dismiss-welcome-modal" data-bs-dismiss="modal" style="margin-right: 10px;">
+                <div class="bb-modal-actions">
+                    <button type="button" class="btn btn-outline-dark bb-dismiss-modal" data-bs-dismiss="modal">
                         Close
                     </button>
-                    <button type="button" class="btn btn-dark" onclick="window.location.href='admin.php?page=buddybot-settings'">
+                    <button type="button" class="btn btn-dark bb-get-started" onclick="window.location.href='admin.php?page=buddybot-settings'">
                         Get Started
                     </button>
                 </div>
@@ -305,6 +305,7 @@ $base64_icon = base64_encode($icon);
         </div>
     </div>
 </div>
+
 
 </div>
 <?php
