@@ -5,3 +5,7 @@ body {
 /* #buddybot-chatbot-errors-list li {
     list-style: binary;
 } */
+
+.bb-settings-submit{
+    display:flex
+}
