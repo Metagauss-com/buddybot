@@ -298,9 +298,9 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
         $vectorstore_id = isset($vectorstore_data['id']) ? $vectorstore_data['id'] : '';
         $nonce = wp_create_nonce('is_file_writable');
         echo '
-        let vectorStoreId =  $("#buddybot_vector_store_id").val() ? $("#buddybot_vector_store_id").val() : "' . esc_js($vectorstore_id) . '";
 
         function isFileWritable(dataType) {
+        let vectorStoreId =  $("#buddybot_vector_store_id").val() ? $("#buddybot_vector_store_id").val() : "' . esc_js($vectorstore_id) . '";
             const data = {
                 "action": "isBbFileWritable",
                 "data_type": dataType,
