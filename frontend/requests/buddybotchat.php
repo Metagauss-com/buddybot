@@ -284,6 +284,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
                     createRun();
                 } else {
                     showAlert("danger", response.message);
+                    lockUi(false);
                 }
             });
         }
