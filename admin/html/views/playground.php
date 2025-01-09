@@ -58,7 +58,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
         $this->threatIdInput();
         $this->runIdInput();
         
-        echo '<div id="buddybot-playground-threads-list" class="p-3" style="height: 140px; overflow-y: auto;">';
+        echo '<div id="buddybot-playground-threads-list" class="p-3" style="height: 750px; overflow-y: auto;">';
         $this->threadList();
         echo '</div>';
         
@@ -111,7 +111,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function messagesListContainer()
     {
-        echo '<div id="buddybot-playground-messages-list" class="p-3" style="height:140px; overflow-y: auto;">';
+        echo '<div id="buddybot-playground-messages-list" class="p-3" style="height:600px; overflow-y: auto;">';
         echo '</div>';
     }
 
