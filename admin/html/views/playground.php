@@ -177,7 +177,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
 
         echo '</div>';
 
-        echo '<textarea id="mgao-playground-new-message-text" data-buddybot-threadid="" class="w-100 form-control" rows="5" placeholder="' . esc_attr( esc_html__( 'Type your question or message here...', 'buddybot-ai-custom-ai-assistant-and-chat-agent' ) ) . '">';
+        echo '<textarea id="mgao-playground-new-message-text" data-buddybot-threadid="" class="w-100 form-control" rows="4" placeholder="' . esc_attr( esc_html__( 'Type your question or message here...', 'buddybot-ai-custom-ai-assistant-and-chat-agent' ) ) . '">';
         echo '</textarea>';
         
         echo '</div>';
