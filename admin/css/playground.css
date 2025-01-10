@@ -14,3 +14,8 @@ body {
 #buddybot-playground-assistants-list {
     width: 250px;
 }
+
+#buddybot-playground-messages-list,
+#buddybot-playground-threads-list{
+    height: calc(100vh - 300px);
+}
