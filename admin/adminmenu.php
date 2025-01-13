@@ -289,7 +289,7 @@ $base64_icon = base64_encode($icon);
         echo ' <p class="bb-modal-description">' . esc_html__("BuddyBot is built to provide direct, AI-driven support to your website visitors. It uses your WordPress content to interact with users on your site, making your website more helpful and interactive. Let's set up your first BuddyBot to enhance the frontend user experience!", "buddybot-ai-custom-ai-assistant-and-chat-agent") . '</p>';
         echo ' <div class="bb-modal-actions">';
         echo ' <button type="button" class="btn btn-outline-dark bb-dismiss-modal" data-bs-dismiss="modal">' .esc_html__('Close ', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</button> ';
-        echo ' <button type="button" class="btn btn-dark bb-get-started" onclick="window.location.href=\'admin.php?page=buddybot-settings\'">' .esc_html__('Get Started ', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</button> ';
+        echo ' <button type="button" class="btn btn-dark bb-get-started">' .esc_html__('Get Started ', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</button> ';
         echo ' </div>';
         echo ' </div>';
         echo ' </div>';
