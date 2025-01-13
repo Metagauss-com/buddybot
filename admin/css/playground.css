@@ -17,5 +17,5 @@ body {
 
 #buddybot-playground-messages-list,
 #buddybot-playground-threads-list{
-    height: calc(100vh - 500px);
+    height: calc(100vh - 450px);
 }
