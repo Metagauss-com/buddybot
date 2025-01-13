@@ -27,18 +27,11 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
         echo '</button>';
     }
 
-    protected function wordpressLoaderBtn(string $type = 'primary', string $id = '', string $label = '')
+    protected function wordpressLoaderBtn( string $id = '', string $label = '')
     {
-        $class = 'button button-' . $type;
-        echo '<button id="' . esc_attr($id) . '" class="' . esc_attr($class) . '" type="button" aria-label = "' . esc_html($label) . '" >';
-        
-        echo '<span class="buddybot-loaderbtn-label">';
-        echo esc_html($label);
-        echo '</span>';
-
-        echo '<span id ="spinner" class="spinner buddybot-loaderbtn-spinner" style="display: none;" aria-hidden="true"></span>';
-        
-        echo '</button>';
+        echo '<input type="submit" id="' . esc_attr($id) . '" ';
+        echo 'class="button button-primary" value="' . esc_html($label) . '">';
+        echo '<span class="spinner is-active" style="display:none;" aria-hidden="true"></span>';
 
     }
 

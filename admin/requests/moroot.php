@@ -56,6 +56,16 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
             $(btnId).children(".buddybot-loaderbtn-label").removeClass("visually-hidden");
             $(btnId).children(".buddybot-loaderbtn-spinner").addClass("visually-hidden");
         }
+
+        function showWordpressLoader(btnId) {
+            $(btnId).prop("disabled", true);
+            $(btnId).next(".spinner").css("display", "inline-block");
+        }
+
+        function hideWordpressLoader(btnId) {
+            $(btnId).prop("disabled", false);
+            $(btnId).next(".spinner").css("display", "none");
+        }
         ';
     }
 

@@ -404,10 +404,11 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
     {
         echo '
         function scrollToBottom(id) {
-            let height = $("#" + id).outerHeight();
-            $("#buddybot-playground-messages-list").animate({
-                scrollTop: $("#buddybot-playground-messages-list")[0].scrollHeight - height - 200
-            }, 1000);
+            let messageList = $("#buddybot-playground-messages-list");
+            
+            messageList.animate({
+                scrollTop: messageList[0].scrollHeight // Scroll to the bottom of the message list
+            }, 1000); // Duration of the scroll
         }
 
         function scrollToTop() {

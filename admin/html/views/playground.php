@@ -58,7 +58,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
         $this->threatIdInput();
         $this->runIdInput();
         
-        echo '<div id="buddybot-playground-threads-list" class="p-3" style="height: 750px; overflow-y: auto;">';
+        echo '<div id="buddybot-playground-threads-list" class="p-3" style="overflow-y: auto;">';
         $this->threadList();
         echo '</div>';
         
@@ -111,7 +111,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function messagesListContainer()
     {
-        echo '<div id="buddybot-playground-messages-list" class="p-3" style="height:600px; overflow-y: auto;">';
+        echo '<div id="buddybot-playground-messages-list" class="p-3" style="overflow-y: auto;">';
         echo '</div>';
     }
 
@@ -177,7 +177,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
 
         echo '</div>';
 
-        echo '<textarea id="mgao-playground-new-message-text" data-buddybot-threadid="" class="w-100 form-control" rows="5" placeholder="' . esc_attr( esc_html__( 'Type your question or message here...', 'buddybot-ai-custom-ai-assistant-and-chat-agent' ) ) . '">';
+        echo '<textarea id="mgao-playground-new-message-text" data-buddybot-threadid="" class="w-100 form-control" rows="4" placeholder="' . esc_attr( esc_html__( 'Type your question or message here...', 'buddybot-ai-custom-ai-assistant-and-chat-agent' ) ) . '">';
         echo '</textarea>';
         
         echo '</div>';

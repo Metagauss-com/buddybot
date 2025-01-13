@@ -298,9 +298,9 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
         $vectorstore_id = isset($vectorstore_data['id']) ? $vectorstore_data['id'] : '';
         $nonce = wp_create_nonce('is_file_writable');
         echo '
-        let vectorStoreId =  $("#buddybot_vector_store_id").val() ? $("#buddybot_vector_store_id").val() : "' . esc_js($vectorstore_id) . '";
 
         function isFileWritable(dataType) {
+        let vectorStoreId =  $("#buddybot_vector_store_id").val() ? $("#buddybot_vector_store_id").val() : "' . esc_js($vectorstore_id) . '";
             const data = {
                 "action": "isBbFileWritable",
                 "data_type": dataType,
@@ -443,8 +443,7 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
                     response = JSON.parse(response);
 
                     if (response.success) {
-                        checkFileStatusOnVectorStoreJs(newFileId);
-                        location.reload();
+                        checkFileStatusOnVectorStoreJs(newFileId,dataType);
                     } 
 
                     $(".buddybot-msgs").append(response.message);
@@ -482,16 +481,13 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
         $vectorstore_id = isset($vectorstore_data['id']) ? $vectorstore_data['id'] : '';
         echo '
         checkFileStatusOnVectorStoreJs();
-        function checkFileStatusOnVectorStoreJs(newFileId) {
+        function checkFileStatusOnVectorStoreJs(newFileId,dataType="") {
         $(".list-group-item").each(function(){
             let listItem = $(this);
-            let dataType = listItem.attr("data-buddybot-type");
+           // let dataType = listItem.attr("data-buddybot-type");
             let fileId = newFileId || listItem.attr("data-buddybot-remote_file_id");
-            let vectorStoreId = "' . esc_js($vectorstore_id) . '";
+            let vectorStoreId =  $("#buddybot_vector_store_id").val() ? $("#buddybot_vector_store_id").val() : "' . esc_js($vectorstore_id) . '";
 
-            if (fileId == 0) {
-                listItem.find(".buddybot-remote-file-status").text("Not syncronized.");
-            } else {
                 const data = {
                     "action": "checkFileStatusOnVectorStoreJs",
                     "file_id": fileId,
@@ -501,9 +497,8 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
       
                 $.post(ajaxurl, data, function(response) {
                     response = JSON.parse(response);
-                    listItem.find(".buddybot-remote-file-status").text(response.message);   
+                    listItem.find(".buddybot-remote-file-status"+dataType).text(response.message); 
                 });
-            }
 
         });
         }
