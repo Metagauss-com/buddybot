@@ -81,4 +81,47 @@ class Chatbot extends \BuddyBot\Admin\Sql\MoRoot
         
         return $update;
     }
+
+    public function getAllChatbots($offset = 0, $limit = 10)
+    {
+        global $wpdb;
+
+        $query = $wpdb->prepare(
+            'SELECT * FROM ' . $this->table . ' LIMIT %d OFFSET %d',
+            $limit,
+            $offset
+        );
+
+        // Execute the query and return the results as an associative array
+        $results = $wpdb->get_results($query, ARRAY_A);
+
+        return $results;
+    }
+
+    public function getTotalChatbotsCount()
+    {
+        global $wpdb;
+
+        $query = $wpdb->prepare(
+            'SELECT COUNT(*) FROM ' . $this->table
+        );
+
+        $count = $wpdb->get_var($query);
+
+        return $count;
+    }
+
+    public function deleteChatbot($chatbot_id)
+    {
+        $where = array('id' => $chatbot_id);
+
+        global $wpdb;
+        $delete = $wpdb->delete(
+            $this->table,
+            $where,
+            array('%d')
+        );
+
+        return $delete;
+    }
 }

@@ -15,20 +15,20 @@ class ChatBot extends \BuddyBot\Admin\Requests\MoRoot
     }
 
     protected function chatbotId() {
-        // if (empty($_GET['chatbot_id'])) {
-        //     return 0;
-        // } else {
-        //     return sanitize_text_field($_GET['chatbot_id']);
-        // }
-
-        $sql = \BuddyBot\Admin\Sql\Chatbot::getInstance();
-        $chatbot_id = $sql->getFirstChatbotId();
-
-        if (empty($chatbot_id)) {
+        if (empty($_GET['chatbot_id'])) {
             return 0;
         } else {
-            return $chatbot_id;
+            return sanitize_text_field($_GET['chatbot_id']);
         }
+
+        // $sql = \BuddyBot\Admin\Sql\Chatbot::getInstance();
+        // $chatbot_id = $sql->getFirstChatbotId();
+
+        // if (empty($chatbot_id)) {
+        //     return 0;
+        // } else {
+        //     return $chatbot_id;
+        // }
     }
 
     protected function pageVarsJs()
