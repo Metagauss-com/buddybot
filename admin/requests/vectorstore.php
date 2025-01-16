@@ -436,6 +436,7 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
                     "action": "uploadFileIdsOnVectorStore",
                     "file_id": newFileId,
                     "vectorstore_id": vectorStoreId,
+                    "data_type": dataType,
                     "nonce": "' . esc_js($nonce) . '"
                 }; 
 
@@ -443,7 +444,7 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
                     response = JSON.parse(response);
 
                     if (response.success) {
-                        checkFileStatusOnVectorStoreJs(newFileId,dataType);
+                        checkFileStatusOnVectorStoreJs(newFileId,response.last_sync,dataType);
                     } 
 
                     $(".buddybot-msgs").append(response.message);
@@ -481,10 +482,12 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
         $vectorstore_id = isset($vectorstore_data['id']) ? $vectorstore_data['id'] : '';
         echo '
         checkFileStatusOnVectorStoreJs();
-        function checkFileStatusOnVectorStoreJs(newFileId,dataType="") {
+        function checkFileStatusOnVectorStoreJs(newFileId,last_sync,DataType="") {
         $(".list-group-item").each(function(){
             let listItem = $(this);
-           // let dataType = listItem.attr("data-buddybot-type");
+            let data_type = listItem.attr("data-buddybot-type");
+            let dataType = DataType || data_type;
+            console.log(dataType);
             let fileId = newFileId || listItem.attr("data-buddybot-remote_file_id");
             let vectorStoreId =  $("#buddybot_vector_store_id").val() ? $("#buddybot_vector_store_id").val() : "' . esc_js($vectorstore_id) . '";
 
@@ -492,12 +495,14 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
                     "action": "checkFileStatusOnVectorStoreJs",
                     "file_id": fileId,
                     "vectorstore_id": vectorStoreId,
+                    "last_sync": last_sync,
+                    "data_type": dataType,
                     "nonce": "' . esc_js($nonce) . '"
                 };
       
                 $.post(ajaxurl, data, function(response) {
                     response = JSON.parse(response);
-                    listItem.find(".buddybot-remote-file-status"+dataType).text(response.message); 
+                    listItem.find(".buddybot-remote-file-status"+dataType).html(response.message); 
                 });
 
         });

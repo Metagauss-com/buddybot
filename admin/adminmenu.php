@@ -60,8 +60,8 @@ $base64_icon = base64_encode($icon);
     {
         add_submenu_page(
             'buddybot-chatbot',
-            __('Playground', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
-            __('Playground', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            __('Test Area', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            __('Test Area', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
             'manage_options',
             'buddybot-playground',
             array($this, 'playgroundMenuPage'),
@@ -177,8 +177,8 @@ $base64_icon = base64_encode($icon);
     {
         add_submenu_page(
             'buddybot-chatbot',
-            __('Vector Store', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
-            __('Vector Store', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            __('AI Training', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            __('AI Training', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
             'manage_options',
             'buddybot-vectorstore',
             array($this, 'vectorStoreMenuPage'),

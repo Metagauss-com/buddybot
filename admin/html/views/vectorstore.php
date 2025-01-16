@@ -8,7 +8,7 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
     public function getHtml()
     {
 
-        $heading = esc_html__('Vector Store', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $heading = esc_html__('AI Training Knowledgebase.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $this->pageHeading($heading);
         $this->alertContainer();
         $this->getVectorStore();
@@ -21,7 +21,7 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
     private function createVectorStoreBtn()
     {
 
-        $btn_label = esc_html__('Create Vector Store', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $btn_label = esc_html__('Create AI Training Knowledgebase', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
 
         $id = 'buddybot-vectorstore-create';
         echo '<div>';
@@ -54,7 +54,7 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function deleteVectorStoreBtn()
     {
-        $btn_label = esc_html__('Delete Vector Store', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $btn_label = esc_html__('Delete AI Training Knowledgebase', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
 
         $id = 'buddybot-vectorstore-delete';
         echo '<div>';
@@ -121,16 +121,16 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
     private function postsItem()
     {
         $type = 'posts';
-        $heading = esc_html__('WP Posts', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-        $text = esc_html__('Syncronize WordPress Posts with OpenAI.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $heading = esc_html__('Posts', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $text = esc_html__('Train AI Assistant with your site Posts.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $this->listItem($type, $heading, $text);
     }
 
     private function commentsItem()
     {
         $type = 'comments';
-        $heading = esc_html__('Site Comments', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-        $text = esc_html__('Syncronize WordPress Comments with OpenAI.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $heading = esc_html__('Comments', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $text = esc_html__('Train AI Assistant with your site Comments.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $this->listItem($type, $heading, $text);
     }
 }
