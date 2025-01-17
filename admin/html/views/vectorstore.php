@@ -94,7 +94,7 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
 
         echo '</div>';
 
-        echo '<div class="buddybot-remote-file-status buddybot-remote-file-status'.$type.' text-break" role="group">';
+        echo '<div class="buddybot-remote-file-status buddybot-remote-file-status'. esc_attr($type) .' text-break" role="group">';
         echo esc_html(__('Checking status...', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
         echo '</div>';
 

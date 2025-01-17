@@ -108,7 +108,7 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
 
         if (isset($output['id']) && !empty($output['id'])) {
             $this->response['success'] = false;
-            $this->response['message'] = sprintf(esc_html__('An AI Training Knowledgebase with ID %s already exists. Please use the existing AI Training Knowledgebase or choose a different ID.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), $output['id']);
+            $this->response['message'] = sprintf(esc_html__('An AI Training Knowledgebase with ID %s already exists. Please use the existing AI Training Knowledgebase or choose a different ID.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_html($output['id']));
         } else {
             $this->response['success'] = true;
         }
@@ -128,7 +128,7 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
         if ($vectorstore_data && isset($vectorstore_data['name'])) {
             $this->response['success'] = true;
             /* translators: %s is the name of the vector store */
-            $this->response['message'] = wp_kses_post(sprintf(__('<strong>New AI Training Knowledgebase Created:</strong> The name of the knowledgebase is: <span class="vectorstore-name">%s</span>.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), $vectorstore_data['name']));
+            $this->response['message'] = wp_kses_post(sprintf(__('<strong>New AI Training Knowledgebase Created:</strong> The name of the knowledgebase is: <span class="vectorstore-name">%s</span>.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_html($vectorstore_data['name'])));
         } else {
             $this->response['success'] = false;
             $this->response['message'] = wp_kses_post(__('<strong>No AI Training Knowledgebase Found:</strong> BuddyBot requires a AI Training Knowledgebase to manage and retrieve contextual data. Click the button below to create one.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
