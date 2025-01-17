@@ -60,8 +60,8 @@ $base64_icon = base64_encode($icon);
     {
         add_submenu_page(
             'buddybot-chatbot',
-            __('Playground', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
-            __('Playground', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            esc_html__('Test Area', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            esc_html__('Test Area', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
             'manage_options',
             'buddybot-playground',
             array($this, 'playgroundMenuPage'),
@@ -73,8 +73,8 @@ $base64_icon = base64_encode($icon);
     {
         add_submenu_page(
             'buddybot-chatbot',
-            __('Wizard', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
-            __('Wizard', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            esc_html__('Wizard', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            esc_html__('Wizard', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
             'manage_options',
             'buddybot-wizard',
             array($this, 'wizardMenuPage'),
@@ -86,8 +86,8 @@ $base64_icon = base64_encode($icon);
     {
         add_submenu_page(
             'buddybot-chatbot',
-            __('Files', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
-            __('Files', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            esc_html__('Files', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            esc_html__('Files', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
             'manage_options',
             'buddybot-files',
             array($this, 'filesMenuPage'),
@@ -99,8 +99,8 @@ $base64_icon = base64_encode($icon);
     {
         add_submenu_page(
             'buddybot-chatbot',
-            __('Add File', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
-            __('Add File', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            esc_html__('Add File', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            esc_html__('Add File', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
             'manage_options',
             'buddybot-addfile',
             array($this, 'addFileMenuPage'),
@@ -112,8 +112,8 @@ $base64_icon = base64_encode($icon);
     {
         add_submenu_page(
             'buddybot-chatbot',
-            __('Data Sync', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
-            __('Data Sync', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            esc_html__('Data Sync', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            esc_html__('Data Sync', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
             'manage_options',
             'buddybot-datasync',
             array($this, 'dataSyncMenuPage'),
@@ -125,8 +125,8 @@ $base64_icon = base64_encode($icon);
     {
         add_submenu_page(
             'buddybot-chatbot',
-            __('Assistants', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
-            __('Assistants', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            esc_html__('Assistants', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            esc_html__('Assistants', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
             'manage_options',
             'buddybot-assistants',
             array($this, 'assistantsMenuPage'),
@@ -138,8 +138,8 @@ $base64_icon = base64_encode($icon);
     {
         add_submenu_page(
             'buddybot-hidden-page',
-            __('Edit Assistant', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
-            __('Edit Assistant', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            esc_html__('Edit Assistant', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            esc_html__('Edit Assistant', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
             'manage_options',
             'buddybot-editassistant',
             array($this, 'EditAssistantMenuPage'),
@@ -151,8 +151,8 @@ $base64_icon = base64_encode($icon);
     {
         add_submenu_page(
             'buddybot-hidden-page',
-            __('Default Buddybot', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
-            __('Default Buddybot', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            esc_html__('Default Buddybot', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            esc_html__('Default Buddybot', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
             'manage_options',
             'buddybot-defaultwizard',
             array($this, 'defaultBuddybotWizardMenuPage'),
@@ -164,8 +164,8 @@ $base64_icon = base64_encode($icon);
     {
         add_submenu_page(
             'buddybot-chatbot',
-            __('Settings', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
-            __('Settings', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            esc_html__('Settings', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            esc_html__('Settings', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
             'manage_options',
             'buddybot-settings',
             array($this, 'settingsMenuPage'),
@@ -177,8 +177,8 @@ $base64_icon = base64_encode($icon);
     {
         add_submenu_page(
             'buddybot-chatbot',
-            __('Vector Store', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
-            __('Vector Store', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            esc_html__('AI Training', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            esc_html__('AI Training', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
             'manage_options',
             'buddybot-vectorstore',
             array($this, 'vectorStoreMenuPage'),
@@ -289,7 +289,7 @@ $base64_icon = base64_encode($icon);
         echo ' <p class="bb-modal-description">' . esc_html__("BuddyBot is built to provide direct, AI-driven support to your website visitors. It uses your WordPress content to interact with users on your site, making your website more helpful and interactive. Let's set up your first BuddyBot to enhance the frontend user experience!", "buddybot-ai-custom-ai-assistant-and-chat-agent") . '</p>';
         echo ' <div class="bb-modal-actions">';
         echo ' <button type="button" class="btn btn-outline-dark bb-dismiss-modal" data-bs-dismiss="modal">' .esc_html__('Close ', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</button> ';
-        echo ' <button type="button" class="btn btn-dark bb-get-started" onclick="window.location.href=\'admin.php?page=buddybot-settings\'">' .esc_html__('Get Started ', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</button> ';
+        echo ' <button type="button" class="btn btn-dark bb-get-started">' .esc_html__('Get Started ', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</button> ';
         echo ' </div>';
         echo ' </div>';
         echo ' </div>';

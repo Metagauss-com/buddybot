@@ -86,7 +86,7 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
                 $this->errors += 1;
                 $this->addAlert(
                     // Translators: %s is url to Vector Store settings page in admin area. This should not be changed.
-                    sprintf(wp_kses_post('<strong>BuddyBot Notice:</strong> No vector store detected. A vector store is required for BuddyBot to function properly. Please create one by clicking <a href="%s">here</a>.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_url(admin_url('admin.php?page=buddybot-vectorstore')))
+                    sprintf(wp_kses_post('<strong>BuddyBot Notice:</strong> No AI Training Knowledgebase detected. A AI Training Knowledgebase is required for BuddyBot to function properly. Please create one by clicking <a href="%s">here</a>.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_url(admin_url('admin.php?page=buddybot-vectorstore')))
                 );
             } else {
                 $url = 'https://api.openai.com/v1/vector_stores/' . $id;
@@ -111,7 +111,7 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
                         $this->errors += 1;
                         $this->addAlert(
                             // Translators: %s is url to Vector Store settings page in admin area. This should not be changed.
-                            sprintf(wp_kses_post('<strong>Unable to Access Vector Store:</strong> We couldn\'t access the vector store. This might happen if the vector store was deleted or the OpenAI API key was changed. Please verify the vector store exists and ensure the correct API key is configured in the <a href="%s">Settings</a>. Or to create a new vector store, please visit the <a href ="%s">Vector Store page.</a>', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_url(admin_url('admin.php?page=buddybot-settings')), esc_url(admin_url('admin.php?page=buddybot-vectorstore')))
+                            sprintf(wp_kses_post('<strong>Unable to Access AI Training Knowledgebase:</strong> We couldn\'t access the AI Training Knowledgebase. This might happen if the AI Training Knowledgebase was deleted or the OpenAI API key was changed. Please verify the AI Training Knowledgebase exists and ensure the correct API key is configured in the <a href="%s">Settings</a>. Or to create a new AI Training Knowledgebase, please visit the <a href ="%s">AI Training Knowledgebase page.</a>', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_url(admin_url('admin.php?page=buddybot-settings')), esc_url(admin_url('admin.php?page=buddybot-vectorstore')))
                         );
                         delete_option('buddybot_vectorstore_data');
                     }

@@ -6,7 +6,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
 {
     public function getHtml()
     {
-        $heading = esc_html__('Playground', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $heading = esc_html__('Test Area', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $this->pageHeading($heading);
         $this->playgroundContainer();
     }
