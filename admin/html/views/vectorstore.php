@@ -8,7 +8,7 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
     public function getHtml()
     {
 
-        $heading = esc_html__('AI Training Knowledgebase.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $heading = esc_html__('AI Training', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $this->pageHeading($heading);
         $this->alertContainer();
         $this->getVectorStore();
