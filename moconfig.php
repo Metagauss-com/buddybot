@@ -19,7 +19,8 @@ final class MoConfig
         $this->db_tables = array(
             'threads' => $prefix . 'threads',
             'chatbot' => $prefix . 'chatbot',
-            'settings' => $prefix . 'settings'
+            'settings' => $prefix . 'settings',
+            'logs' => $prefix . 'logs'
         );
     }
 

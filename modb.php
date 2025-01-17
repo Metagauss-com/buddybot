@@ -65,11 +65,38 @@ class MoDb
         dbDelta($sql);
     }
     
+    private function addLogsTable()
+    {
+        $table_name = $this->config->getDbTable('logs');
+        $sql = "CREATE TABLE $table_name (
+            log_id INT NOT NULL AUTO_INCREMENT,
+            log_event ENUM('sync', 'error', 'training', 'system', 'custom') NOT NULL,
+            log_status ENUM('success', 'failure', 'pending', 'skipped') NOT NULL,
+            log_description TEXT,
+            log_bot_id INT NULL,
+            log_details JSON NULL,
+            log_ip_address VARCHAR(45) NULL,
+            log_severity ENUM('INFO', 'WARNING', 'ERROR') DEFAULT 'INFO',
+            log_component VARCHAR(50) NULL,
+            log_referrer_url TEXT NULL,
+            log_timestamp DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
+            PRIMARY KEY (log_id),
+            INDEX (log_event),
+            INDEX (log_status),
+            INDEX (log_severity),
+            INDEX (log_timestamp)
+        ) $this->charset;";
+
+        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+        dbDelta($sql);
+    }
+    
     public function addTables()
     {
         $this->addThreadsTable();
         $this->addChatbotTable();
         $this->addSettingsTable();
+        $this->addLogsTable();
     }
     
     public function installPlugin()
