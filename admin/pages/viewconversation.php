@@ -1,4 +1,4 @@
-<div class="p-5">
+<div class="px-5">
 
 <?php
 
@@ -16,3 +16,9 @@ $mo_chatbot_page->pageJs();
 ?>
 
 </div>
+
+<style>
+    body{
+        overflow: hidden;
+    }
+</style>
