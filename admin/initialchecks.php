@@ -45,7 +45,7 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
         if (!current_user_can($capability)) {
             $this->errors += 1;
             $this->addAlert(
-                __('You are not authorized to access this page.', 'buddybot-ai-custom-ai-assistant-and-chat-agent')
+                esc_html__('You are not authorized to access this page.', 'buddybot-ai-custom-ai-assistant-and-chat-agent')
             );
         }
     }
@@ -139,7 +139,7 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
                 } else {
                     $this->errors += 1;
                     $this->addAlert(
-                        __('Invalid custom check requested.', 'buddybot-ai-custom-ai-assistant-and-chat-agent')
+                        esc_html__('Invalid custom check requested.', 'buddybot-ai-custom-ai-assistant-and-chat-agent')
                     );
                 }
             }

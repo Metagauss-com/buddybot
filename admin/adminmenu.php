@@ -16,12 +16,14 @@ final class AdminMenu extends \BuddyBot\Admin\MoRoot
         //$this->dataSyncSubmenuItem();
         $this->settingsSubmenuItem();
         $this->vectorStoreSubmenuItem();
+        $this->conversationsSubmenuItem();
     }
 
     public function hiddenMenu()
     {
         $this->editAssistantSubmenuItem();
         $this->defaultBuddyBotWizard();
+        $this->ViewConversationsSubmenuItem();
     }
 
     public function mainMenuItem()
@@ -185,6 +187,33 @@ $base64_icon = base64_encode($icon);
             1
         );
     }
+
+    public function conversationsSubmenuItem()
+    {
+        add_submenu_page(
+            'buddybot-chatbot',
+            esc_html__('Conversation', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            esc_html__('Conversation', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            'manage_options',
+            'buddybot-conversations',
+            array($this, 'conversationsMenuPage'),
+            4
+        );
+    }
+
+    public function ViewConversationsSubmenuItem()
+    {
+        add_submenu_page(
+            'buddybot-hidden-page',
+            esc_html__('View Conversations', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            esc_html__('View Conversations', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            'manage_options',
+            'buddybot-viewconversation',
+            array($this, 'ViewConversationMenuPage'),
+            1
+        );
+    }
+
     public function appMenuPage()
     {
         include_once(plugin_dir_path(__FILE__) . 'pages/chatbot.php');
@@ -238,6 +267,16 @@ $base64_icon = base64_encode($icon);
     public function vectorStoreMenuPage()
     {
         include_once(plugin_dir_path(__FILE__) . 'pages/vectorstore.php');
+    }
+
+    public function conversationsMenuPage()
+    {
+        include_once(plugin_dir_path(__FILE__) . 'pages/conversations.php');
+    }
+
+    public function ViewConversationMenuPage()
+    {
+        include_once(plugin_dir_path(__FILE__) . 'pages/viewconversation.php');
     }
 
     public function __construct()

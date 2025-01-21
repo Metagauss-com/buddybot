@@ -50,6 +50,8 @@ if (is_admin()) {
     $buddybot_playground_responses = new Admin\Responses\Playground();
     $buddybot_settings_responses = new Admin\Responses\Settings();
     $buddybot_vectorstore_responses = new Admin\Responses\VectorStore();
+    $buddybot_conversations_responses = new Admin\Responses\Conversations();
+    $buddybot_conversation_responses = new Admin\Responses\ViewConversation();
 }
 
 //----------Public Code--------//
