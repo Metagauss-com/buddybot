@@ -4,24 +4,11 @@ namespace BuddyBot\Admin\Html\Views;
 
 class ViewConversation extends \BuddyBot\Admin\Html\Views\MoRoot
 {
-    // protected $thread_id;
-    // protected $user_id;
     protected $heading;
-
-    // protected function setconversationId()
-    // {
-    //     if (!empty($_GET['thread_id'])) {
-    //         $this->thread_id = sanitize_text_field($_GET['thread_id']);
-    //     }
-
-    //     if (!empty($_GET['user_id'])) {
-    //         $this->user_id = sanitize_text_field($_GET['user_id']);
-    //     }
-    // }
 
     protected function setHeading()
     {
-            $this->heading = esc_html(__('Conversation', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
+            $this->heading = __('Conversation', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
     }
 
     public function getHtml()
@@ -87,7 +74,7 @@ class ViewConversation extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         echo '<div>';
         echo '<p class=" text-start mt-3" id="buddybot-related-conversation-msg"></p>';
-        echo '<div id="buddybot-conversation-loading-spinner" class="spinner-border text-dark d-flex justify-content-center mx-auto" role="status">';
+        echo '<div id="buddybot-related-conversation-loading-spinner" class="spinner-border text-dark d-flex justify-content-center mx-auto" role="status">';
         echo '<span class="visually-hidden">Loading...</span>';
         echo '</div>';
         echo '</div>';
@@ -153,7 +140,10 @@ class ViewConversation extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function messagesListContainer()
     {
-        echo '<div id="buddybot-conversation-messages-list" class="p-3" style="overflow-y: auto; max-height: 400px;">';
+        echo '<div id="buddybot-conversation-messages-list" class="p-3" style="overflow-y: auto; min-height: 400px; max-height: 400px;">';
+        echo '</div>';
+        echo '<div id="buddybot-conversation-loading-spinner" class="spinner-border text-dark d-flex position-absolute top-50 start-50 mx-auto" role="status">';
+        echo '<span class="visually-hidden">Loading...</span>';
         echo '</div>';
     }
 }

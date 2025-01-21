@@ -38,9 +38,9 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
     protected function setHeading()
     {
         if ($this->is_edit) {
-            $this->heading = esc_html(__('Edit BuddyBot', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
+            $this->heading = __('Edit BuddyBot', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         } else {
-            $this->heading = esc_html(__('New BuddyBot', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
+            $this->heading = __('New BuddyBot', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
     }
 
@@ -185,9 +185,9 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
 
 
         if ($this->is_edit) {
-            $label = esc_html(__('Update BuddyBot', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
+            $label = __('Update BuddyBot', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         } else {
-            $label = esc_html(__('Save BuddyBot', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
+            $label = __('Save BuddyBot', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
         
         $this->wordpressLoaderBtn('mgao-chatbot-save-btn', $label);

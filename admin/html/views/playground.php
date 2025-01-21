@@ -6,7 +6,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
 {
     public function getHtml()
     {
-        $heading = esc_html__('Test Area', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $heading = __('Test Area', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $this->pageHeading($heading);
         $this->playgroundContainer();
     }
@@ -127,7 +127,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         echo '<div class="">';
         echo '<div id="buddybot-playground-message-status" class="text-center small">';
-        $this->statusBarMessage('creating-thread', esc_html__('Starting new conversation', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
+        $this->statusBarMessage('creating-thread', __('Starting new conversation', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
         echo '</div>';
         $this->openAiBadge();
         echo '</div>';

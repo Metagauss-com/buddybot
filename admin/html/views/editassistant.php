@@ -17,9 +17,9 @@ class EditAssistant extends \BuddyBot\Admin\Html\Views\MoRoot
     protected function setHeading()
     {
         if ($this->assistant_id !== null) {
-            $this->heading = esc_html(__('Edit Assistant', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
+            $this->heading = __('Edit Assistant', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         } else {
-            $this->heading = esc_html(__('New Assistant', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
+            $this->heading = __('New Assistant', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
     }
 
@@ -59,8 +59,8 @@ class EditAssistant extends \BuddyBot\Admin\Html\Views\MoRoot
     private function assistantName()
     {
         $id = 'buddybot-editassistant-assistantname';
-        $placeholder = esc_html(__('e.g., Customer Support Bot, Order Tracking Assistant, Appointment Scheduler, Event Info Helper', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
-        $label = esc_html(__('Assistant Name', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
+        $placeholder = __('e.g., Customer Support Bot, Order Tracking Assistant, Appointment Scheduler, Event Info Helper', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $label = __('Assistant Name', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '<div class="mb-4">';
         echo '<label for="' . esc_attr($id) . '" class="form-label fw-bold">' . esc_html($label) . '</label>';
         echo '<input type="text" class="w-100 buddybot-item-field" id="' . esc_attr($id) . '" placeholder="' . esc_attr($placeholder) . '" size="256">';
@@ -71,8 +71,8 @@ class EditAssistant extends \BuddyBot\Admin\Html\Views\MoRoot
     private function assistantDescription()
     {
         $id = 'buddybot-editassistant-assistantdescription';
-        $placeholder = esc_html(__('e.g., Helps customers with queries, Tracks orders and updates delivery status', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
-        $label = esc_html(__('Assistant Description', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
+        $placeholder = __('e.g., Helps customers with queries, Tracks orders and updates delivery status', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $label = __('Assistant Description', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '<div class="mb-4">';
         echo '<label for="' . esc_attr($id) . '" class="form-label fw-bold">' . esc_html($label) . '</label>';
         echo '<textarea class="w-100 buddybot-item-field" id="' . esc_attr($id) . '" placeholder="' . esc_attr($placeholder) . '" rows="5" maxlength="512"></textarea>';
@@ -83,7 +83,7 @@ class EditAssistant extends \BuddyBot\Admin\Html\Views\MoRoot
     private function assistantModel()
     {
         $id = 'buddybot-editassistant-assistantmodel';
-        $label = esc_html(__('Assistant Model (Required)', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
+        $label = __('Assistant Model (Required)', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '<div class="mb-4">';
         echo '<label for="' . esc_attr($id) . '" class="form-label fw-bold">' . esc_html($label) . '</label>';
         echo '<div><select id="' . esc_attr($id) . '" class="small me-2 buddybot-item-field">';
@@ -105,8 +105,8 @@ class EditAssistant extends \BuddyBot\Admin\Html\Views\MoRoot
     private function assistantNameInstructions()
     {
         $id = 'buddybot-editassistant-nameinstruction';
-        $placeholder = esc_html(__('e.g., Sarah, Max, BuddyBot.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
-        $label = esc_html(__('Friendly Name', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
+        $placeholder = __('e.g., Sarah, Max, BuddyBot.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $label = __('Friendly Name', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '<div class="mb-4">';
         echo '<label for="' . esc_attr($id) . '" class="form-label fw-bold">' . esc_html($label) . '</label>';
         echo '<input type="text" class="w-100 buddybot-item-field" id="' . esc_attr($id) . '" placeholder="' . esc_attr($placeholder) . '">';
@@ -117,8 +117,8 @@ class EditAssistant extends \BuddyBot\Admin\Html\Views\MoRoot
     private function assistantGreetingsInstructions()
     {
         $id = 'buddybot-editassistant-assistantgreeting';
-        $placeholder = esc_html__('e.g., Hi there! How can I assist you today?', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-        $label = esc_html__('Initial Greeting', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $placeholder = __('e.g., Hi there! How can I assist you today?', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $label = __('Initial Greeting', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '<div class="mb-4">';
         echo '<label for="' . esc_attr($id) . '" class="form-label fw-bold">' . esc_html($label) . '</label>';
         echo '<textarea class="w-100 buddybot-item-field" id="' . esc_attr($id) . '" placeholder="' . esc_attr($placeholder) . '" rows="5"></textarea>';
@@ -129,8 +129,8 @@ class EditAssistant extends \BuddyBot\Admin\Html\Views\MoRoot
     private function assistantAdditionalInstructions()
     {
         $id = 'buddybot-editassistant-aditionalinstructions';
-        $placeholder = esc_html__('e.g., You are a customer support assistant. Respond to queries about services and pricing.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-        $label = esc_html__('Additional Instructions', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $placeholder = __('e.g., You are a customer support assistant. Respond to queries about services and pricing.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $label = __('Additional Instructions', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '<div class="mb-4">';
         echo '<label for="' . esc_attr($id) . '" class="form-label fw-bold">' . esc_html($label) . '</label>';
         echo '<textarea class="w-100 buddybot-item-field" id="' . esc_attr($id) . '" placeholder="' . esc_attr($placeholder) . '" rows="5"></textarea>';
@@ -141,7 +141,7 @@ class EditAssistant extends \BuddyBot\Admin\Html\Views\MoRoot
     private function assistantTools()
     {
         $id = 'buddybot-editassistant-assistanttools';
-        $label = esc_html__('Tools', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $label = __('Tools', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '<div id="' . esc_attr($id) . '" class="mb-4">';
         echo '<div class="form-label fw-bold">' . esc_html($label) . '</div>';
 
@@ -164,7 +164,7 @@ class EditAssistant extends \BuddyBot\Admin\Html\Views\MoRoot
 
         $default_value = 1;
         $id = 'buddybot-editassistant-assistanttemperature';
-        $label = esc_html__('Response Temperature', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $label = __('Response Temperature', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '<div class="mb-4 w-50">';
 
         echo '<label for="' . esc_attr($id) . '" class="form-label fw-bold">' . esc_html($label) . '</label>';
@@ -179,7 +179,7 @@ class EditAssistant extends \BuddyBot\Admin\Html\Views\MoRoot
 
         $default_value = 1;
         $id = 'buddybot-editassistant-assistanttopp';
-        $label = esc_html__('Top-p (Nucleus Sampling)', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $label = __('Top-p (Nucleus Sampling)', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '<div class="mb-4 w-50">';
 
         echo '<label for="' . esc_attr($id) . '" class="form-label fw-bold">' . esc_html($label) . '</label>';

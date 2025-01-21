@@ -50,7 +50,6 @@ final class Conversations extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<th class="col buddybot-conversation-name" scope="col">' . esc_html(__('Thread Name', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '</th>';
         echo '<th class="col buddybot-conversation-User" scope="col">' . esc_html(__('User', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '</th>';
         echo '<th class="col buddybot-conversation-date" scope="col">' . esc_html(__('Created', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '</th>';
-        //echo '<th class="col buddybot-col-id" scope="col">' . esc_html(__('ID', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '</th>';
         echo '<th class="col buddybot-conversation-btn" scope="col"></th>';
         echo '</tr>';
         echo '</thead>';
@@ -79,7 +78,7 @@ final class Conversations extends \BuddyBot\Admin\Html\Views\MoRoot
     private function loadMoreBtn()
     {
         echo '<div class="text-center">';
-        $this->loaderBtn('outline-dark btn-sm visually-hidden', 'buddybot-conversations-load-more-btn', esc_html__('Load More', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
+        $this->loaderBtn('outline-dark btn-sm visually-hidden', 'buddybot-conversations-load-more-btn', __('Load More', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
         echo '</div>';
     }
 

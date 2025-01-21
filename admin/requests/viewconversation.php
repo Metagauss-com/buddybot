@@ -46,7 +46,7 @@ final class ViewConversation extends \BuddyBot\Admin\Requests\MoRoot
             $.post(ajaxurl, data, function(response) {
                 response = JSON.parse(response);
                 if (response.success) {
-                    $("#buddybot-conversation-loading-spinner").addClass("visually-hidden");
+                    $("#buddybot-related-conversation-loading-spinner").addClass("visually-hidden");
                     $("#buddybot-related-conversation-msg").text(response.message);
                 } else {
                     showAlert(response.message);
@@ -76,6 +76,7 @@ final class ViewConversation extends \BuddyBot\Admin\Requests\MoRoot
                 response = JSON.parse(response);
 
                 if (response.success) {
+                    $("#buddybot-conversation-loading-spinner").addClass("visually-hidden");
                     var cleanedHtml = response.html.replace(/【.*?†.*?】/g, "");
                     $("#buddybot-conversation-messages-list").append(cleanedHtml);
                     storeThreadInfo(response.result);
