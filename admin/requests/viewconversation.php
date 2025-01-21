@@ -120,9 +120,6 @@ final class ViewConversation extends \BuddyBot\Admin\Requests\MoRoot
                 } else {
                     showAlert(response.message);
                 }
-
-                disableMessage(false);
-                toggleThreadBtns();
             });
         });
 

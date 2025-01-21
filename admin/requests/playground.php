@@ -26,7 +26,6 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
         $this->togglePastMessagesBtnJs();
         $this->deleteThreadBtnJs();
         $this->updateThreadNameJs();
-        $this->showThreadByUserId();
     }
 
     private function setVarsJs()
@@ -570,64 +569,6 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
             });
 
         }
-        ';
-    }
-
-    private function showThreadByUserId()
-    {
-        $nonce = wp_create_nonce('show_thread_by_user_id');
-        echo'
-
-        $("#buddybot-user-select").on("change", function() {
-            var userId = $(this).val(); 
-            hideMsgArea(userId);
-           
-            const data = {
-                "action": "showThreadByUserId",
-                "user_id": userId,
-                "nonce": "' . esc_js($nonce) . '"  
-            };
-
-            $.post(ajaxurl, data, function(response) {
-                response = JSON.parse(response);
-
-                if (!response.success) {
-                    $("#buddybot-playground-threads-list").html(response.message);
-                } 
-
-                $("#buddybot-playground-threads-list").html(response.html);
-
-            });
-            
-        });
-
-        function hideMsgArea(userId){
-        
-            const data = {
-                "action": "hideMsgArea",
-                "user_id": userId,
-                "nonce": "' . esc_js(wp_create_nonce('hide_msg_area')) . '"
-            };
-
-            $.post(ajaxurl, data, function(response) {
-                response = JSON.parse(response);
-
-                if (response.success) {
-                    $("#buddybot-playground-attachment-wrapper").css("display", "block");
-                    $("#mgao-playground-new-message-text").css("display", "block");
-                    $("#mgao-playground-send-message-btn").css("display", "block");
-                    $("#mgao-playground-message-file-btn").css("display", "block");
-                } else {
-                    $("#buddybot-playground-attachment-wrapper").css("display", "none");
-                    $("#mgao-playground-new-message-text").css("display", "none");
-                    $("#mgao-playground-send-message-btn").css("display", "none");
-                    $("#mgao-playground-message-file-btn").css("display", "none");
-
-                }
-
-            });
-        }
-
         ';
     }
 

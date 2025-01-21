@@ -35,14 +35,14 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '</select>';
         echo '</div>';
         
-        echo '<div id="buddybot-playground-options-select-user" class="p-3">';
-        echo '<label class="">';
-        esc_html_e('User', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-        echo '<label>';
-        echo '<select id="buddybot-user-select" class="ms-2">';
-        $this->getUsers();
-        echo '</select>';
-        echo '</div>';
+        // echo '<div id="buddybot-playground-options-select-user" class="p-3">';
+        // echo '<label class="">';
+        // esc_html_e('User', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        // echo '<label>';
+        // echo '<select id="buddybot-user-select" class="ms-2">';
+        // $this->getUsers();
+        // echo '</select>';
+        // echo '</div>';
 
         echo '</div>';
     }

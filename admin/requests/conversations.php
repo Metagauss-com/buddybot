@@ -10,7 +10,8 @@ final class Conversations extends \BuddyBot\Admin\Requests\MoRoot
         $this->getUserJs();
         $this->saveConversationLimitPerPageJs();
         $this->loadMoreConversationsJs();
-        // $this->renumberRowsJs();
+        $this->deleteConversation();
+        $this->renumberRowsJs();
     }
 
     protected function userId() {
@@ -98,9 +99,17 @@ final class Conversations extends \BuddyBot\Admin\Requests\MoRoot
             $(this).find(".buddybot-loaderbtn-spinner").removeClass("visually-hidden");
             getConversations(lastConversation);
         });
+        ';
+    }
 
+    private function deleteConversation()
+    {
+        $nonce = wp_create_nonce('delete_conversation');
+        echo'
+
+        let threadId;
         $(".buddybot-org-conversations-table").on("click", ".buddybot-conversation-delete", function(){
-			chatbotId = $(this).attr("data-buddybot-itemid");
+			threadId = $(this).attr("data-buddybot-itemid");
 				
 			$(".buddybot-conversation-delete").prop("disabled", true);
 			$("#buddybot-delete-conversation-modal").modal("show");
@@ -108,9 +117,43 @@ final class Conversations extends \BuddyBot\Admin\Requests\MoRoot
 		});
 
         $("#buddybot-delete-conversation-cancel-btn").on("click", function() {
-
 			$(".buddybot-conversation-delete").prop("disabled", false);
-		});
+		}); 
+
+        $("#buddybot-confirm-conversation-delete-btn").click(function(){
+            $("#buddybot-delete-conversation-modal").modal("hide");
+
+            const data = {
+                "action": "deleteConversation",
+                "thread_id": threadId,
+                "nonce": "' . esc_js($nonce) . '"
+            };
+
+            $.post(ajaxurl, data, function(response) {
+                response = JSON.parse(response);
+                if (response.success) {
+                    $("tr.buddybot-conversations-table-row[data-buddybot-itemid=" + threadId + "]").remove();
+					$(".buddybot-conversation-delete").prop("disabled", false);
+                    renumberRows();
+                } else {
+                    showAlert(response.message);
+                }
+            });
+        });
+        ';
+    }
+
+    private function renumberRowsJs()
+    {
+        echo '
+        function renumberRows() {
+			let i = 1;
+            console.log("renumbering");
+			$("tr.buddybot-conversations-table-row").each(function() {
+				$(this).children("th.buddybot-conversations-sr-no").html(i);
+				i++;
+			});
+		}
         ';
     }
 

@@ -119,24 +119,14 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
 
         $thread_id = isset($_POST['thread_id']) && !empty($_POST['thread_id']) ? sanitize_text_field($_POST['thread_id']) : '';
         $message = isset($_POST['message']) && !empty($_POST['message']) ? sanitize_textarea_field(wp_unslash($_POST['message'])) : '';
-        $file_url = isset($_POST['file_url']) && !empty($_POST['file_url']) ? sanitize_text_field($_POST['file_url']) : '';
-        $file_mime = isset($_POST['file_mime']) && !empty($_POST['file_mime']) ? sanitize_text_field($_POST['file_mime']) : '';
+        // $file_url = isset($_POST['file_url']) && !empty($_POST['file_url']) ? sanitize_text_field($_POST['file_url']) : '';
+        // $file_mime = isset($_POST['file_mime']) && !empty($_POST['file_mime']) ? sanitize_text_field($_POST['file_mime']) : '';
 
-        $file_id = '';
+        //$file_id = '';
 
-        if (filter_var($file_url, FILTER_VALIDATE_URL)) {
-            $file_id = $this->uploadMessageFile($file_url, $file_mime);
-        }
-
-        $last_user_id = $this->getLastMessageFromThread($thread_id);
-
-        if (!empty($last_user_id) && $last_user_id != get_current_user_id()) {
-            $this->response['success'] = false;
-            $this->response['message'] = esc_html__('This conversation belongs to another user. Please start a new conversation to continue.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-            echo wp_json_encode($this->response);
-            wp_die();
-        }
-    
+        // if (filter_var($file_url, FILTER_VALIDATE_URL)) {
+        //     $file_id = $this->uploadMessageFile($file_url, $file_mime);
+        // }
 
         $url = 'https://api.openai.com/v1/threads/' . $thread_id . '/messages';
 
@@ -157,9 +147,9 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
             ),
         );
 
-        if (!empty($file_id)) {
-            $data['file_ids'] = array($file_id);
-        }
+        // if (!empty($file_id)) {
+        //     $data['file_ids'] = array($file_id);
+        // }
 
         // Perform the POST request
         $response = wp_remote_post($url, array(
@@ -189,103 +179,68 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
         wp_die();
     }
 
-    private function getLastMessageFromThread($thread_id)
-    {
-        $url = 'https://api.openai.com/v1/threads/' . $thread_id . '/messages';
+    // private function uploadMessageFile($file_url, $file_mime)
+    // {
+    //     // Download the file temporarily
+    //     $temp_file = download_url($file_url);
     
-        $headers = array(
-            'OpenAI-Beta' => 'assistants=v2',
-            'Authorization' => 'Bearer ' . $this->api_key,
-            'Content-Type' => 'application/json',
-        );
-        
-        $response = wp_remote_get($url, array(
-            'headers' => $headers,
-            'timeout' => 60,
-        ));
-
-        if (is_wp_error($response)) {
-            return null;
-        }
-
-        $output = json_decode(wp_remote_retrieve_body($response), true);
-
-        if (empty($output['data'])) {
-            return null;
-        }
-        foreach ($output['data'] as $message) {
-            if (isset($message['metadata']['wp_user_id'])) {
-                return $message['metadata']['wp_user_id'];
-            }
-        }
+    //     if (is_wp_error($temp_file)) {
+    //         // Handle the error if the download fails
+    //         $this->response['success'] = false;
+    //         $this->response['message'] .= $temp_file->get_error_message();
+    //         return '';
+    //     }
     
-        return null;
-
-    }
-
-
-    private function uploadMessageFile($file_url, $file_mime)
-    {
-        // Download the file temporarily
-        $temp_file = download_url($file_url);
+    //     // Prepare the boundary string
+    //     $boundary = wp_generate_password(24);
+    //     $eol = "\r\n";
     
-        if (is_wp_error($temp_file)) {
-            // Handle the error if the download fails
-            $this->response['success'] = false;
-            $this->response['message'] .= $temp_file->get_error_message();
-            return '';
-        }
+    //     // Read the content of the temporary file
+    //     $file_content = file_get_contents($temp_file);
     
-        // Prepare the boundary string
-        $boundary = wp_generate_password(24);
-        $eol = "\r\n";
+    //     // Prepare the body with multipart/form-data
+    //     $body = '';
+    //     $body .= '--' . $boundary . $eol;
+    //     $body .= 'Content-Disposition: form-data; name="purpose"' . $eol . $eol;
+    //     $body .= 'assistants' . $eol;
     
-        // Read the content of the temporary file
-        $file_content = file_get_contents($temp_file);
+    //     $body .= '--' . $boundary . $eol;
+    //     $body .= 'Content-Disposition: form-data; name="file"; filename="' . basename($file_url) . '"' . $eol;
+    //     $body .= 'Content-Type: ' . $file_mime . $eol . $eol;
+    //     $body .= $file_content . $eol;
+    //     $body .= '--' . $boundary . '--' . $eol;
     
-        // Prepare the body with multipart/form-data
-        $body = '';
-        $body .= '--' . $boundary . $eol;
-        $body .= 'Content-Disposition: form-data; name="purpose"' . $eol . $eol;
-        $body .= 'assistants' . $eol;
+    //     // Set up the headers for the request
+    //     $headers = array(
+    //         'Authorization' => 'Bearer ' . $this->api_key,
+    //         'Content-Type'  => 'multipart/form-data; boundary=' . $boundary,
+    //     );
     
-        $body .= '--' . $boundary . $eol;
-        $body .= 'Content-Disposition: form-data; name="file"; filename="' . basename($file_url) . '"' . $eol;
-        $body .= 'Content-Type: ' . $file_mime . $eol . $eol;
-        $body .= $file_content . $eol;
-        $body .= '--' . $boundary . '--' . $eol;
+    //     // Perform the POST request
+    //     $response = wp_remote_post('https://api.openai.com/v1/files', array(
+    //         'headers' => $headers,
+    //         'body'    => $body,
+    //         'timeout' => 60,
+    //     ));
     
-        // Set up the headers for the request
-        $headers = array(
-            'Authorization' => 'Bearer ' . $this->api_key,
-            'Content-Type'  => 'multipart/form-data; boundary=' . $boundary,
-        );
+    //     // Clean up the temporary file
+    //     wp_delete_file($temp_file);
     
-        // Perform the POST request
-        $response = wp_remote_post('https://api.openai.com/v1/files', array(
-            'headers' => $headers,
-            'body'    => $body,
-            'timeout' => 60,
-        ));
+    //     // Check for errors
+    //     if (is_wp_error($response)) {
+    //         $this->response['success'] = false;
+    //         $this->response['message'] .= $response->get_error_message();
+    //         return '';
+    //     }
     
-        // Clean up the temporary file
-        wp_delete_file($temp_file);
+    //     // Decode the response body
+    //     $output = json_decode(wp_remote_retrieve_body($response));
     
-        // Check for errors
-        if (is_wp_error($response)) {
-            $this->response['success'] = false;
-            $this->response['message'] .= $response->get_error_message();
-            return '';
-        }
+    //     // Check for errors in the output
+    //     $this->checkError($output);
     
-        // Decode the response body
-        $output = json_decode(wp_remote_retrieve_body($response));
-    
-        // Check for errors in the output
-        $this->checkError($output);
-    
-        return $output->id;
-    }
+    //     return $output->id;
+    // }
     
 
     public function createRun()
@@ -521,65 +476,6 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
         wp_die();
     }
 
-    public function showThreadByUserId()
-    {
-        $this->checkNonce('show_thread_by_user_id');
-        $user_id = sanitize_text_field($_POST['user_id']);
-
-        $response = $this->sql->getThreadsByUserId($user_id);
-
-        $html = '';
-        if ($response['success'] === false) {
-            $this->response['message'] = esc_html__('There was an error while fetching threads.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-            echo wp_json_encode($this->response);
-            wp_die();
-        }
-
-        if (empty($response['result'])) {
-
-            $html .= '<span class="text-muted">';
-            $html .= esc_html__('No previous conversations.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-            $html .= '</span>';
-            $html .= ob_get_clean(); 
-            $this->response['html'] = $html;
-            echo wp_json_encode( $this->response);
-            wp_die();
-        }
-
-        foreach ($response['result'] as $thread) {
-            
-            $label = $thread->thread_name;
-
-            if (empty($label)) {
-                $label = $thread->thread_id;
-            }
-
-            $html .= '<div class="buddybot-playground-threads-list-item mb-2 p-2 text-truncate small" data-buddybot-threadid="' . esc_attr($thread->thread_id) . '" role="button">';
-            $html .= esc_html($label);
-            $html .= '</div>';
-        }
-
-        $this->response['html'] = $html;
-        echo wp_json_encode( $this->response);
-        wp_die();
-    }
-
-    public function hideMsgArea()
-    {
-        $this->checkNonce('hide_msg_area');
-        $user_id = (int)sanitize_text_field($_POST['user_id']);
-        $current_user_id = (int)get_current_user_id();
-
-        if ($current_user_id === $user_id) {
-            $this->response['success'] = true;
-        } else {
-            $this->response['success'] = false;
-        }
-
-        echo wp_json_encode( $this->response);
-        wp_die();
-    }
-
     public function __construct()
     {
         $this->setAll();
@@ -590,7 +486,5 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
         add_action('wp_ajax_retrieveRun', array($this, 'retrieveRun'));
         add_action('wp_ajax_listMessages', array($this, 'listMessages'));
         add_action('wp_ajax_deleteThread', array($this, 'deleteThread'));
-        add_action('wp_ajax_showThreadByUserId', array($this, 'showThreadByUserId'));
-        add_action('wp_ajax_hideMsgArea', array($this, 'hideMsgArea'));
     }
 }
