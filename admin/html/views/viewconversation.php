@@ -28,18 +28,18 @@ class ViewConversation extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         $this->deleteConversationModal();
         $this->alertContainer();
-        // $this->ConversationsBtnsOutside();
-        $this->showRelatedconversationMsg();
-        $this->ConversationBox();
+        // $this->conversationsBtnsOutside();
+        $this->showRelatedConversationMsg();
+        $this->conversationBox();
     }
 
-    private function ConversationBox()
+    private function conversationBox()
     {
         echo '<div class="container-fluid mt-4">';
         echo '<div class="row justify-content-center">';
         echo '<div class="col-md-12">';
         echo '<div class="row border small bg-white">';
-        $this->ConversationsInside();
+        $this->conversationInside();
         $this->messagesListContainer();
         echo '</div>';
         echo '</div>';
@@ -64,14 +64,14 @@ class ViewConversation extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '</div> </div> </div> </div>';
     }
 
-    private function ConversationsBtns()
+    private function conversationBtns()
     {
         $user_id = '';
         if (!empty($_GET['user_id'])) {
             $user_id = sanitize_text_field($_GET['user_id']);
         }
 
-        echo '<div class="submit bb-Conversation-btns">';
+        echo '<div class="submit bb-conversation-btns">';
         echo '<a href="' . admin_url('admin.php?page=buddybot-conversations') . '" ';
         echo 'class="button button-primary me-2" role="button">' . esc_html__('Back', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</a>';
 
@@ -83,7 +83,7 @@ class ViewConversation extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '</div>';
     }
 
-    private function showRelatedconversationMsg()
+    private function showRelatedConversationMsg()
     {
         echo '<div>';
         echo '<p class=" text-start mt-3" id="buddybot-related-conversation-msg"></p>';
@@ -93,7 +93,7 @@ class ViewConversation extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '</div>';
     }
 
-//     private function ConversationsBtnInside()
+//     private function conversationBtnInside()
 // {
 //     echo '<div class="container">';
     
@@ -116,15 +116,23 @@ class ViewConversation extends \BuddyBot\Admin\Html\Views\MoRoot
 
 //     // Right section for any additional buttons or content (optional)
 //     echo '<div class="col-auto">';
-//     $this->ConversationsBtnsOutside();
+//     $this->conversationBtnsOutside();
 //     echo '</div>';
 
 //     echo '</div>';
 //     echo '</div>';
 // }
 
-    private function ConversationsInside()
+    private function conversationInside()
     {
+        echo '<div id="buddybot-conversation-thread-operations" class="d-flex p-3">';
+        echo '<input id="buddybot-conversation-first-message-id" type="hidden">';
+        echo '<input id="buddybot-conversation-last-message-id" type="hidden">';
+        echo '<input id="buddybot-conversation-has-more-messages" type="hidden">';
+        echo '<button id="buddybot-conversation-past-messages-btn" type="button" class="btn btn-outline-dark btn-sm" style="opacity:50;">';
+        $this->moIcon('arrow_upward');
+        echo '</button>';
+        echo '</div>';
         echo '<div class="container">';
         
         echo '<div class="row align-items-center justify-content-between border-bottom">';
@@ -136,7 +144,7 @@ class ViewConversation extends \BuddyBot\Admin\Html\Views\MoRoot
 
         // Right section for the function or buttons
         echo '<div class="col-auto">';
-        $this->ConversationsBtns();
+        $this->conversationBtns();
         echo '</div>';
 
         echo '</div>';
@@ -145,7 +153,7 @@ class ViewConversation extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function messagesListContainer()
     {
-        echo '<div id="buddybot-playground-messages-list" class="p-3" style="overflow-y: auto; max-height: 400px;">';
+        echo '<div id="buddybot-conversation-messages-list" class="p-3" style="overflow-y: auto; max-height: 400px;">';
         echo '</div>';
     }
 }

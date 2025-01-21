@@ -23,4 +23,13 @@ class ViewConversation extends \BuddyBot\Admin\Sql\MoRoot
 
         return $count;
     }
+
+    public function deleteConversation($thread_id)
+    {
+        $where = array('thread_id' => $thread_id);
+        $format = array('%s');
+
+        global $wpdb;
+        return $wpdb->delete($this->table, $where, $format);
+    }
 }

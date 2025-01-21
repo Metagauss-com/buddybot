@@ -41,7 +41,7 @@ class ViewConversation extends \BuddyBot\Admin\Responses\MoRoot
     {
         $this->checkNonce('list_conversation');
     
-        $thread_id = sanitize_text_field($_POST['thread_id']);
+        $thread_id = isset($_POST['thread_id']) ? sanitize_text_field($_POST['thread_id']) : '';
         $limit = absint($_POST['limit']);
         $order = sanitize_text_field($_POST['order']);
         $after = '';
@@ -110,8 +110,8 @@ class ViewConversation extends \BuddyBot\Admin\Responses\MoRoot
 
     public function deleteConversation()
     {
-        $this->checkNonce('delete_thread');
-        $thread_id = sanitize_text_field($_POST['thread_id']);
+        $this->checkNonce('delete_conversation');
+        $thread_id = isset($_POST['thread_id']) ? sanitize_text_field($_POST['thread_id']) : '';
     
         $url = 'https://api.openai.com/v1/threads/' . $thread_id;
     
@@ -145,7 +145,7 @@ class ViewConversation extends \BuddyBot\Admin\Responses\MoRoot
     
         if (isset($output->deleted) && $output->deleted) {
             $this->response['success'] = true;
-            $this->sql->deleteThread($thread_id);
+            $this->sql->deleteConversation($thread_id);
         } else {
             $this->response['success'] = false;
             $this->response['message'] = esc_html__('Unable to delete conversation.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
