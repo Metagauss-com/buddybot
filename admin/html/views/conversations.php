@@ -94,6 +94,7 @@ final class Conversations extends \BuddyBot\Admin\Html\Views\MoRoot
         echo esc_html__('Are you sure you want to delete this Conversation? This action cannot be undone.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</div>';
         echo '<div class="modal-footer">';
+        echo '<span id="buddybot-deleting-conversation-msg" class="text-danger small" style="display: none;">Deleting...</span>';
         echo '<button type="button" class="btn btn-secondary" id="buddybot-delete-conversation-cancel-btn" data-bs-dismiss="modal">' . esc_html__('Cancel', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</button>';
         echo '<button type="button" class="btn btn-danger" id="buddybot-confirm-conversation-delete-btn">' . esc_html__('Delete', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</button>';
         echo '</div> </div> </div> </div>';

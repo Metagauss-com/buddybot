@@ -34,7 +34,6 @@ final class ViewConversation extends \BuddyBot\Admin\Requests\MoRoot
     {
         $nonce = wp_create_nonce('get_related_conversation_msg');
         echo '
-        getRelatedConversationMsg();
         function getRelatedConversationMsg() {
             const data = {
                 "action": "getRelatedConversationMsg",
@@ -77,6 +76,7 @@ final class ViewConversation extends \BuddyBot\Admin\Requests\MoRoot
 
                 if (response.success) {
                     $("#buddybot-conversation-loading-spinner").addClass("visually-hidden");
+                    getRelatedConversationMsg();
                     var cleanedHtml = response.html.replace(/【.*?†.*?】/g, "");
                     $("#buddybot-conversation-messages-list").append(cleanedHtml);
                     storeThreadInfo(response.result);

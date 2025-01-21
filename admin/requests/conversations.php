@@ -121,7 +121,9 @@ final class Conversations extends \BuddyBot\Admin\Requests\MoRoot
 		}); 
 
         $("#buddybot-confirm-conversation-delete-btn").click(function(){
-            $("#buddybot-delete-conversation-modal").modal("hide");
+            $("#buddybot-delete-conversation-cancel-btn").prop("disabled", true);
+            $("#buddybot-confirm-conversation-delete-btn").prop("disabled", true);
+            $("#buddybot-deleting-conversation-msg").show();
 
             const data = {
                 "action": "deleteConversation",
@@ -133,6 +135,10 @@ final class Conversations extends \BuddyBot\Admin\Requests\MoRoot
                 response = JSON.parse(response);
                 if (response.success) {
                     $("tr.buddybot-conversations-table-row[data-buddybot-itemid=" + threadId + "]").remove();
+                    $("#buddybot-delete-conversation-modal").modal("hide");
+                    $("#buddybot-delete-conversation-cancel-btn").prop("disabled", false);
+                    $("#buddybot-confirm-conversation-delete-btn").prop("disabled", false);
+                    $("#buddybot-deleting-conversation-msg").hide();
 					$(".buddybot-conversation-delete").prop("disabled", false);
                     renumberRows();
                 } else {
