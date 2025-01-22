@@ -26,7 +26,11 @@ class ViewConversation extends \BuddyBot\Admin\Responses\MoRoot
 
         if (!empty($conversation)) {
             $this->response['success'] = true;
-            $this->response['message'] = esc_html__('There are ' . $conversation . ' more conversations related to this user. To check please click on filter button.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            $this->response['message'] = sprintf(
+                wp_kses_post(__('There are %d more conversations related to this user. To check please click <a href="%s">Here</a>.', 'buddybot-ai-custom-ai-assistant-and-chat-agent')),
+                intval($conversation), 
+                esc_url(admin_url('admin.php?page=buddybot-conversations&filter=true&user_id=' . $user_id))
+            );
         } else {
             $this->response['success'] = true;
             $this->response['disabled'] = true;

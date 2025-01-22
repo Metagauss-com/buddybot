@@ -45,8 +45,13 @@ final class ViewConversation extends \BuddyBot\Admin\Requests\MoRoot
             $.post(ajaxurl, data, function(response) {
                 response = JSON.parse(response);
                 if (response.success) {
-                    $("#buddybot-related-conversation-loading-spinner").addClass("visually-hidden");
-                    $("#buddybot-related-conversation-msg").text(response.message);
+                    if (response.disabled) {
+                        $("#buddybot-related-conversation-msg-container").addClass("notice notice-warning").removeClass("notice-success");
+                        $("#buddybot-related-conversation-msg").text(response.message);
+                    } else {
+                        $("#buddybot-related-conversation-msg-container").addClass("notice notice-success").removeClass("notice-warning");
+                        $("#buddybot-related-conversation-msg").html(response.message);
+                    }   
                 } else {
                     showAlert(response.message);
                 }
@@ -106,7 +111,9 @@ final class ViewConversation extends \BuddyBot\Admin\Requests\MoRoot
         });
 
         $("#buddybot-confirm-viewconversation-delete-btn").click(function(){
-            $("#buddybot-delete-viewconversation-modal").modal("hide");
+            $("#buddybot-delete-viewconversation-cancel-btn").prop("disabled", true);
+            $("#buddybot-confirm-viewconversation-delete-btn").prop("disabled", true);
+            $("#buddybot-deleting-viewconversation-msg").show();
 
             const data = {
                 "action": "deleteConversation",
@@ -117,6 +124,10 @@ final class ViewConversation extends \BuddyBot\Admin\Requests\MoRoot
             $.post(ajaxurl, data, function(response) {
                 response = JSON.parse(response);
                 if (response.success) {
+                    $("#buddybot-delete-viewconversation-modal").modal("hide");
+                    $("#buddybot-delete-viewconversation-cancel-btn").prop("disabled", false);
+                    $("#buddybot-confirm-viewconversation-delete-btn").prop("disabled", false);
+                    $("#buddybot-deleting-viewconversation-msg").hide();
                     window.location.href = "admin.php?page=buddybot-conversations";
                 } else {
                     showAlert(response.message);
