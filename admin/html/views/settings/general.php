@@ -19,7 +19,12 @@ class General extends \BuddyBot\Admin\Html\Views\Settings\MoRoot
         $control = '<form>';
         $control .= '<input type="password" id="' . esc_attr($id) . '" value="' . esc_attr($value) . '" class="regular-text" autocomplete="off">';
         $control .= '</form>';
-        $description = __('Enter your OpenAI API key. This key allows BuddyBot to access OpenAI services.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $description = 
+        sprintf(
+                wp_kses_post(__('Enter your OpenAI API key to enable BuddyBot to access services powered by ChatGPT. <a href="%s">Click here to create an OpenAI account</a> New users receive <em>free credits</em> to explore ChatGPT and other OpenAI services. After signing up, you can generate your API key from the <a href="%s">API keys page</a>', 'buddybot-ai-custom-ai-assistant-and-chat-agent')),
+                esc_url('https://platform.openai.com/signup/'), 
+                esc_url('https://platform.openai.com/account/api-keys')
+            );
 
         return $this->optionHtml($id, $label, $control, $description);
     }
