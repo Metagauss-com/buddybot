@@ -124,7 +124,11 @@ class ViewConversation extends \BuddyBot\Admin\Html\Views\MoRoot
 
         // Left section for the heading
         echo '<div class="col text-left">';
-        $this->pageHeading($this->heading);
+        echo '<div class="mb-0">';
+        echo '<h3 class="mb-0 bb-conversation-heading">';
+        echo esc_html($this->heading);
+        echo '</h3>';
+        echo '</div>';
         echo '</div>';
 
         // Right section for the function or buttons

@@ -87,6 +87,7 @@ final class ViewConversation extends \BuddyBot\Admin\Requests\MoRoot
                     storeThreadInfo(response.result);
                     scrollToBottom(response.result.first_id);
                 } else {
+                    $("#buddybot-conversation-loading-spinner").addClass("visually-hidden");
                     showAlert(response.message);
                 }
 
@@ -102,6 +103,7 @@ final class ViewConversation extends \BuddyBot\Admin\Requests\MoRoot
         $nonce = wp_create_nonce('delete_conversation');
         echo '
         $("#buddybot-conversation-delete-btn").click(function(){
+            hideAlert();
             $("#buddybot-conversation-delete-btn").prop("disabled", true);
             $("#buddybot-delete-viewconversation-modal").modal("show");
         });
@@ -124,14 +126,15 @@ final class ViewConversation extends \BuddyBot\Admin\Requests\MoRoot
             $.post(ajaxurl, data, function(response) {
                 response = JSON.parse(response);
                 if (response.success) {
-                    $("#buddybot-delete-viewconversation-modal").modal("hide");
-                    $("#buddybot-delete-viewconversation-cancel-btn").prop("disabled", false);
-                    $("#buddybot-confirm-viewconversation-delete-btn").prop("disabled", false);
-                    $("#buddybot-deleting-viewconversation-msg").hide();
                     window.location.href = "admin.php?page=buddybot-conversations";
                 } else {
                     showAlert(response.message);
                 }
+                $("#buddybot-delete-viewconversation-modal").modal("hide");
+                $("#buddybot-delete-viewconversation-cancel-btn").prop("disabled", false);
+                $("#buddybot-confirm-viewconversation-delete-btn").prop("disabled", false);
+                $("#buddybot-deleting-viewconversation-msg").hide();
+                $("#buddybot-conversation-delete-btn").prop("disabled", false);
             });
         });
 
@@ -157,9 +160,7 @@ final class ViewConversation extends \BuddyBot\Admin\Requests\MoRoot
         echo '
         $("#buddybot-conversation-past-messages-btn").click(function(){
 
-            //updateStatus(gettingPastMessages);
-            //disableMessage(true);
-           // $("#buddybot-playground-past-messages-btn").children("span").addClass("buddybot-rotate-icon");
+            hideAlert();
 
             const hasMore = $("#buddybot-conversation-has-more-messages").val();
 

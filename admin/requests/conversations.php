@@ -93,6 +93,7 @@ final class Conversations extends \BuddyBot\Admin\Requests\MoRoot
     {
         echo '
         $("#buddybot-conversations-load-more-btn").click(function() {
+            hideAlert();
             let lastConversation = $("tr.buddybot-conversations-table-row:last-child").attr("data-buddybot-pageid");
             $(this).prop("disabled", true);
             $(this).find(".buddybot-loaderbtn-label").addClass("visually-hidden");
@@ -109,6 +110,7 @@ final class Conversations extends \BuddyBot\Admin\Requests\MoRoot
 
         let threadId;
         $(".buddybot-org-conversations-table").on("click", ".buddybot-conversation-delete", function(){
+            hideAlert();
 			threadId = $(this).attr("data-buddybot-itemid");
 				
 			$(".buddybot-conversation-delete").prop("disabled", true);
@@ -135,15 +137,16 @@ final class Conversations extends \BuddyBot\Admin\Requests\MoRoot
                 response = JSON.parse(response);
                 if (response.success) {
                     $("tr.buddybot-conversations-table-row[data-buddybot-itemid=" + threadId + "]").remove();
-                    $("#buddybot-delete-conversation-modal").modal("hide");
-                    $("#buddybot-delete-conversation-cancel-btn").prop("disabled", false);
-                    $("#buddybot-confirm-conversation-delete-btn").prop("disabled", false);
-                    $("#buddybot-deleting-conversation-msg").hide();
-					$(".buddybot-conversation-delete").prop("disabled", false);
                     renumberRows();
                 } else {
+                    $("#buddybot-delete-conversation-modal").modal("hide");
                     showAlert(response.message);
                 }
+                $("#buddybot-delete-conversation-modal").modal("hide");
+                $("#buddybot-delete-conversation-cancel-btn").prop("disabled", false);
+                $("#buddybot-confirm-conversation-delete-btn").prop("disabled", false);
+                $("#buddybot-deleting-conversation-msg").hide();
+                $(".buddybot-conversation-delete").prop("disabled", false);
             });
         });
         ';
