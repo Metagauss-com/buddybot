@@ -59,9 +59,11 @@ class ViewConversation extends \BuddyBot\Admin\Html\Views\MoRoot
             $user_id = sanitize_text_field($_GET['user_id']);
         }
 
-        echo '<div class="submit bb-conversation-btns">';
+        echo '<div class="bb-submit bb-conversation-btns d-flex align-items-center">';
         echo '<a href="' . admin_url('admin.php?page=buddybot-conversations') . '" ';
-        echo 'class="me-2" role="button">' . esc_html__('Back', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</a>';
+        echo 'class="me-3 text-decoration-none" role="button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5"/>
+</svg>' . esc_html__('Back', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</a>';
 
         // echo '<a href="' . admin_url('admin.php?page=buddybot-conversations&filter=true&user_id=' . $user_id) . '" ';
         // echo 'class="button button-primary me-2" role="button">' . esc_html__('Filter', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</a>';
@@ -114,16 +116,13 @@ class ViewConversation extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<input id="buddybot-conversation-first-message-id" type="hidden">';
         echo '<input id="buddybot-conversation-last-message-id" type="hidden">';
         echo '<input id="buddybot-conversation-has-more-messages" type="hidden">';
-        ///echo '<button id="buddybot-conversation-past-messages-btn" type="button" class="btn btn-outline-dark btn-sm" style="opacity:50;">';
-        //$this->moIcon('arrow_upward');
-        //echo '</button>';
         echo '</div>';
         echo '<div class="container">';
         
         echo '<div class="row align-items-center justify-content-between border-bottom">';
 
         // Left section for the heading
-        echo '<div class="col text-left">';
+        echo '<div class="col-12 text-left border-bottom bg-light py-3 d-none">';
         echo '<div class="mb-0">';
         echo '<h3 class="mb-0 bb-conversation-heading">';
         echo esc_html($this->heading);
@@ -132,7 +131,7 @@ class ViewConversation extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '</div>';
 
         // Right section for the function or buttons
-        echo '<div class="col-auto">';
+        echo '<div class="col-12 d-flex align-items-center py-3">';
         $this->conversationBtns();
         echo '</div>';
 
@@ -142,7 +141,11 @@ class ViewConversation extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function messagesListContainer()
     {
-        echo '<div id="buddybot-conversation-messages-list" class="p-3" style="overflow-y: auto; min-height: 200px; max-height: 65vh;">';
+        echo '<div id="buddybot-conversation-messages-list" class="p-3 position-relative" style="overflow-y: auto; min-height: 200px; max-height: 65vh;">';
+        
+        echo '<button id="buddybot-conversation-past-messages-btn" type="button" class="btn btn-outline-dark btn-sm" style="opacity:50;">';
+        $this->moIcon('arrow_upward');
+        echo '</button>';
         echo '</div>';
         echo '<div id="buddybot-conversation-loading-spinner" class="spinner-border text-dark d-flex position-absolute top-50 start-50 mx-auto" role="status">';
         echo '<span class="visually-hidden">Loading...</span>';

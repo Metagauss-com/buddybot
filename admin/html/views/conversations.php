@@ -36,10 +36,12 @@ final class Conversations extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function conversationsTable()
     {
-        echo '<table class="buddybot-org-conversations-table table table-sm">';
+        echo '<div class="table-responsive">';
+        echo '<table class="buddybot-org-conversations-table table">';
         $this->tableHeader();
         $this->tableBody();
         echo '</table>';
+        echo '</div>';
     }
 
     private function tableHeader()

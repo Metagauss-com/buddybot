@@ -1,5 +1,9 @@
 #buddybot-conversation-delete-btn{
-    background-color: red;
-    border-color: red;
-    color: white;
+    color: red;
+    border: 1px solid red;
+    background-color: #fff;
+}
+
+#buddybot-conversation-past-messages-btn{
+    float:right;
 }
