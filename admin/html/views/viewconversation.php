@@ -138,7 +138,7 @@ class ViewConversation extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function messagesListContainer()
     {
-        echo '<div id="buddybot-conversation-messages-list" class="p-3" style="overflow-y: auto; min-height: 400px; max-height: 80vh;">';
+        echo '<div id="buddybot-conversation-messages-list" class="p-3" style="overflow-y: auto; min-height: 200px; max-height: 65vh;">';
         echo '</div>';
         echo '<div id="buddybot-conversation-loading-spinner" class="spinner-border text-dark d-flex position-absolute top-50 start-50 mx-auto" role="status">';
         echo '<span class="visually-hidden">Loading...</span>';
