@@ -25,7 +25,7 @@ class MoRoot extends \BuddyBot\Admin\Html\Views\MoRoot
 		$html .= '<td>';
 		$html .= $control;
 		$html .= '<p class="description">';
-		$html .= $description;
+		$html .= wp_kses_post($description);
         $html .= '</p>';
 		$html .= '</td>';
 	    $html .= '</tr>';

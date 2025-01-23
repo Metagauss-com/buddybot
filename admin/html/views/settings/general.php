@@ -21,7 +21,7 @@ class General extends \BuddyBot\Admin\Html\Views\Settings\MoRoot
         $control .= '</form>';
         $description = 
         sprintf(
-                wp_kses_post(__('Enter your OpenAI API key to enable BuddyBot to access services powered by ChatGPT. <a href="%s" target="_blank">Click here to create an OpenAI account</a> New users receive <em>free credits</em> to explore ChatGPT and other OpenAI services. After signing up, you can generate your API key from the <a href="%s" target="_blank">API keys page</a>', 'buddybot-ai-custom-ai-assistant-and-chat-agent')),
+                __('Enter your OpenAI API key to enable BuddyBot to access services powered by ChatGPT. <a href="%s" target="_blank">Click here to create an OpenAI account</a>. New users receive <em>free credits</em> to explore ChatGPT and other OpenAI services. After signing up, you can generate your API key from the <a href="%s" target="_blank">API keys page</a>.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
                 esc_url('https://platform.openai.com/signup/'), 
                 esc_url('https://platform.openai.com/account/api-keys')
             );
