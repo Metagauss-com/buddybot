@@ -26,7 +26,7 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
     {
         echo '
         function showAlert(message = "") {
-            $("#buddybot-alert-container").html(message);
+            $("#buddybot-alert-container p").html(message);
             $("#buddybot-alert-container").show();
         }
         ';
@@ -36,7 +36,7 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
     {
         echo '
         function hideAlert(message = "") {
-            $("#buddybot-alert-container").html("");
+            $("#buddybot-alert-container p").html("");
             $("#buddybot-alert-container").hide();
         }
         ';

@@ -7,6 +7,7 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
     public function createVectorStore()
     {
         $this->checkNonce('create_vectorstore');
+        $this->checkOpenaiKey('AI Training requires an OpenAI API key. Please configure your key in the BuddyBot settings to enable this feature.');
         $this->checkCapabilities();
 
         $url = 'https://api.openai.com/v1/vector_stores';

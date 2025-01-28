@@ -102,9 +102,7 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
                     'timeout' => 60,
                 ));
                 if (is_wp_error($response)) {
-                    $this->addAlert(
-                        sprintf(wp_kses_post('<strong>BuddyBot Notice:</strong> Failed to connect to OpenAI. Please try again later. <br>Error: %s'), $response->get_error_message())
-                    );
+                    return;
                 } else {
                     $output = json_decode(wp_remote_retrieve_body($response), true);
                     if (empty($output['id'])) {
@@ -145,7 +143,7 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
             }
         } else {
             $this->capabilityCheck();
-            $this->openaiApikeyCheck();
+            // $this->openaiApikeyCheck();
             $this->vectorStoreCheck();
         }
     }
