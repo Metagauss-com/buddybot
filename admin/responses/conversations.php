@@ -65,18 +65,18 @@ class Conversations extends \BuddyBot\Admin\Responses\MoRoot
             $html .= '<td class="text-truncate buddybot-conversations-user">' . esc_html($User_name) . '</td>';
             //$html .= '<td class="buddybot-conversations-shortcode"><code>' . esc_html('[buddybot_chat id=' . esc_attr($budybot['id']) . ']') . '</code></td>';
             $html .= '<td class="buddybot-conversations-creation">' . esc_html(get_date_from_gmt($conversation['created'],  $date_format . ' ' . $time_format)) . '</td>';
-            $html .= '<td class="buddybot-conversations-btn">' . $this->assistantBtns($conversation['thread_id'], $conversation['user_id']) . '</td>';
+            $html .= '<td class="buddybot-conversations-btn">' . $this->conversationBtns($conversation['thread_id'], $conversation['user_id']) . '</td>';
             $html .= '</tr>';
         }
 
         return $html;
     }
 
-    protected function assistantBtns($thread_id, $user_id)
+    protected function conversationBtns($thread_id, $user_id)
     {   
         $conversation_url = get_admin_url() . 'admin.php?page=buddybot-viewconversation&thread_id=' . $thread_id . '&user_id=' . $user_id;
         $html = '<div class="btn-group btn-group-sm me-2" role="group" aria-label="Basic example">';
-        $html .= '<a href="' . esc_url($conversation_url) . '" type="button" class="buddybot-listbtn-assistant-edit btn btn-outline-dark">' . $this->moIcon('visibility') . '</a>';
+        $html .= '<a href="' . esc_url($conversation_url) . '" type="button" class="buddybot-listbtn-conversation-view btn btn-outline-dark">' . $this->moIcon('visibility') . '</a>';
         $html .= '<button type="button" class="buddybot-conversation-delete btn btn-outline-dark" data-buddybot-itemid="' . esc_html($thread_id) . '">' . $this->moIcon('delete') . '</button>';
         $html .= '</div>';
 

@@ -60,7 +60,7 @@ final class Conversations extends \BuddyBot\Admin\Html\Views\MoRoot
     private function tableBody()
     {
         echo '<tbody>';
-        echo '<tr id="buddybot-assistants-loading-spinner">';
+        echo '<tr id="buddybot-conversations-loading-spinner">';
         echo '<td colspan="6" class="p-5">';
         echo '<div class="spinner-border text-dark d-flex justify-content-center mx-auto" role="status">';
         echo '<span class="visually-hidden">Loading...</span>';

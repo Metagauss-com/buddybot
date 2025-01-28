@@ -71,6 +71,16 @@ class ViewConversation extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<input type="submit" id="buddybot-conversation-delete-btn" ';
         echo 'class="button button-primary me-2" value="' . esc_html__('Delete', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '">';
         echo '</div>';
+
+        echo '<button type="button" class="button button-primary me-2" disabled id="buddybot-related-conversation-btn" onclick="location.href=\'' . admin_url('admin.php?page=buddybot-conversations&filter=true&user_id=' . $user_id) . '\';">';
+        echo esc_html__('Related Conversation', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        echo '</button>';
+        echo '<span id="buddybot-related-conversation-count" style="display: none;"></span>';
+        
+        echo '<button type="button" class="button button-primary me-2" disabled id="buddybot-past-conversation-btn">';
+        echo esc_html__('Load Previous chat', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        echo '</button>';
+        echo '<span id="buddybot-past-conversation-spinner" class="spinner is-active" style="display:none;" aria-hidden="true"></span>';
     }
 
     private function showRelatedConversationMsg()
@@ -143,9 +153,9 @@ class ViewConversation extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         echo '<div id="buddybot-conversation-messages-list" class="p-3 position-relative" style="overflow-y: auto; min-height: 200px; max-height: 65vh;">';
         
-        echo '<button id="buddybot-conversation-past-messages-btn" type="button" class="btn btn-outline-dark btn-sm" style="opacity:50;">';
-        $this->moIcon('arrow_upward');
-        echo '</button>';
+        // echo '<button id="buddybot-conversation-past-messages-btn" type="button" class="btn btn-outline-dark btn-sm" style="display: none;" title="' . esc_attr(__('View past messages', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '">';
+        // $this->moIcon('arrow_upward');
+        // echo '</button>';
         echo '</div>';
         echo '<div id="buddybot-conversation-loading-spinner" class="spinner-border text-dark d-flex position-absolute top-50 start-50 mx-auto" role="status">';
         echo '<span class="visually-hidden">Loading...</span>';

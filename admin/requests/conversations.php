@@ -41,7 +41,7 @@ final class Conversations extends \BuddyBot\Admin\Requests\MoRoot
                 response = JSON.parse(response);
 
 				if (response.success) {
-					$("#buddybot-assistants-loading-spinner").addClass("visually-hidden");
+					$("#buddybot-conversations-loading-spinner").addClass("visually-hidden");
 					$(".buddybot-org-conversations-table tbody").append(response.html);
 
 					if (response.has_more) {

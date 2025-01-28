@@ -45,12 +45,12 @@ final class ViewConversation extends \BuddyBot\Admin\Requests\MoRoot
             $.post(ajaxurl, data, function(response) {
                 response = JSON.parse(response);
                 if (response.success) {
+                    $("#buddybot-related-conversation-count").text(response.count);
+                    $("#buddybot-related-conversation-count").show();
                     if (response.disabled) {
-                        $("#buddybot-related-conversation-msg-container").addClass("notice notice-warning").removeClass("notice-success");
-                        $("#buddybot-related-conversation-msg").text(response.message);
+                        $("#buddybot-related-conversation-btn").prop("disabled", true);
                     } else {
-                        $("#buddybot-related-conversation-msg-container").addClass("notice notice-success").removeClass("notice-warning");
-                        $("#buddybot-related-conversation-msg").html(response.message);
+                        $("#buddybot-related-conversation-btn").prop("disabled", false);
                     }   
                 } else {
                     showAlert(response.message);
@@ -91,8 +91,7 @@ final class ViewConversation extends \BuddyBot\Admin\Requests\MoRoot
                     showAlert(response.message);
                 }
 
-                //disableMessage(false);
-                //toggleThreadBtns();
+                togglePastConversationBtn();
             });
         }
         ';
@@ -158,9 +157,11 @@ final class ViewConversation extends \BuddyBot\Admin\Requests\MoRoot
         $nonce = wp_create_nonce('list_conversation');
 
         echo '
-        $("#buddybot-conversation-past-messages-btn").click(function(){
+        $("#buddybot-past-conversation-btn").click(function(){
 
             hideAlert();
+            $("#buddybot-past-conversation-btn").prop("disabled", true);
+            $("#buddybot-past-conversation-spinner").show();
 
             const hasMore = $("#buddybot-conversation-has-more-messages").val();
 
@@ -185,7 +186,6 @@ final class ViewConversation extends \BuddyBot\Admin\Requests\MoRoot
                 response = JSON.parse(response);
                 
                 if (response.success) {
-                    //updateStatus(pastMessagesUpdated);
                     var cleanedHtml = response.html.replace(/【.*?†.*?】/g, "");
                     $("#buddybot-conversation-messages-list").prepend(cleanedHtml);
                     storeThreadInfo(response.result);
@@ -194,8 +194,7 @@ final class ViewConversation extends \BuddyBot\Admin\Requests\MoRoot
                     showAlert(response.message);
                 }
 
-                //$("#buddybot-playground-past-messages-btn").children("span").removeClass("buddybot-rotate-icon");
-                //disableMessage(false);
+                $("#buddybot-past-conversation-spinner").hide();
                 togglePastConversationBtn();
             });
           });
@@ -227,9 +226,9 @@ final class ViewConversation extends \BuddyBot\Admin\Requests\MoRoot
         function togglePastConversationBtn() {
             let hasMore = $("#buddybot-conversation-has-more-messages").val();
             if (hasMore === "true") {
-                $("#buddybot-conversation-past-messages-btn").css("opacity", 100);
+                $("#buddybot-past-conversation-btn").prop("disabled", false);
             } else {
-                $("#buddybot-conversation-past-messages-btn").css("opacity", 0);
+                $("#buddybot-past-conversation-btn").prop("disabled", true);
             }
         }
         ';

@@ -110,7 +110,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
         
         $("#mgao-playground-new-message-text").keypress(function(e) {
             let key = e.key;
-            if (key === "Enter") {
+            if (key === "Enter" && !e.shiftKey) {
                 e.preventDefault();
                 sendMessage();
             }
