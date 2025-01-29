@@ -86,7 +86,7 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
                 $this->errors += 1;
                 $this->addAlert(
                     // Translators: %s is url to Vector Store settings page in admin area. This should not be changed.
-                    sprintf(wp_kses_post('<strong>BuddyBot Notice:</strong> No AI Training Knowledgebase detected. A AI Training Knowledgebase is required for BuddyBot to function properly. Please create one by clicking <a href="%s">here</a>.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_url(admin_url('admin.php?page=buddybot-vectorstore')))
+                    sprintf(wp_kses_post('<strong>BuddyBot Notice:</strong> No AI Training Knowledgebase detected. An AI Training Knowledgebase is required for BuddyBot to function properly. Please create one by clicking <a href="%s">here</a>.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_url(admin_url('admin.php?page=buddybot-vectorstore')))
                 );
             } else {
                 $url = 'https://api.openai.com/v1/vector_stores/' . $id;
