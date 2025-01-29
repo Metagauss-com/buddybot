@@ -12,6 +12,7 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
         //$this->getGeneralOptionsJs();
         $this->toggleErrorsJs();
         $this->getOpenAiApiKeyJs();
+        $this->getDeepSeekApiKeyJs(); // P3138
         $this->createVectorStore();
     }
 
@@ -57,6 +58,7 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
         function saveOptions() {
          showWordpressLoader("#buddybot-settings-update-btn");
            getOpenAiApiKey();
+           getDeepSeekApiKey(); // P59dd
         }
         ';
     }
@@ -67,6 +69,7 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
         function getGeneralOptions() {
             if ($("#mgao-settings-section-select").val() === "general") {
                 optionsData["openai_api_key"] = getOpenAiApiKey();
+                optionsData["deepseek_api_key"] = getDeepSeekApiKey(); // P59dd
             }
         }
         ';
@@ -137,6 +140,72 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
                 const section = $("#mgao-settings-section-select").val();
                 
                 optionsData["openai_api_key"] = apiKey;
+
+                const data = {
+                    "action": "saveSettings",
+                    "options_data": JSON.stringify(optionsData),
+                    "section": section,
+                    "nonce": "' . esc_js(wp_create_nonce('save_settings')) . '"
+                };
+
+                $.post(ajaxurl, data, function(response) {
+                    response = JSON.parse(response);
+                    if (response.success) {
+                        location.replace("' . esc_url(admin_url()) . 'admin.php?page=buddybot-settings&section=' . '" + section + "&success=1");
+                    } else {
+                        $("#buddybot-settings-error-message").html(response.message);
+                        dataErrors = response.errors;
+                        displayErrors();
+                    }
+
+                    disableFields(false);
+                    hideWordpressLoader("#buddybot-settings-update-btn");
+                });
+            }
+        ';
+    }
+
+    private function getDeepSeekApiKeyJs() // P3138
+    {
+        echo '
+        function getDeepSeekApiKey() {
+            let key = $("#buddybot-settings-deepseek-api-key").val();
+            key = $.trim(key);
+
+            if (key === "") {
+                dataErrors.push("' . esc_html(__('DeepSeek API Key cannot be empty.', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '");
+                displayErrors(); 
+                hideWordpressLoader("#buddybot-settings-update-btn");
+            } else { 
+                verifyDeepSeekApiKey(key);
+            }
+                
+        }
+            function verifyDeepSeekApiKey(apiKey) {
+
+                const data = {
+                    "action": "verifyDeepSeekApiKey",
+                    "api_key": apiKey,
+                    "nonce": "' . esc_js(wp_create_nonce('verify_deepseek_api_key')) . '"
+                };
+
+                $.post(ajaxurl, data, function(response) {
+                    response = JSON.parse(response);
+                    if (response.success) {
+                        checkVectorStore(apiKey);
+                       // saveDeepSeekApiKey(apiKey);
+                    } else {
+                        dataErrors.push(response.message);
+                        displayErrors();
+                        hideWordpressLoader("#buddybot-settings-update-btn");
+                    }
+                });
+            }
+
+            function saveDeepSeekApiKey(apiKey){
+                const section = $("#mgao-settings-section-select").val();
+                
+                optionsData["deepseek_api_key"] = apiKey;
 
                 const data = {
                     "action": "saveSettings",
