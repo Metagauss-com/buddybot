@@ -58,6 +58,10 @@ final class EditAssistant extends \BuddyBot\Admin\Requests\MoRoot
                     }
 
                 } else {
+                    if(response.empty_key) {
+                        select.html(response.html);
+                    }
+                    select.siblings(".buddybot-dataload-spinner").hide();
                     showAlert(response.message);
                 }
             });

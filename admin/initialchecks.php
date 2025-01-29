@@ -86,7 +86,7 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
                 $this->errors += 1;
                 $this->addAlert(
                     // Translators: %s is url to Vector Store settings page in admin area. This should not be changed.
-                    sprintf(wp_kses_post('<strong>BuddyBot Notice:</strong> No AI Training Knowledgebase detected. A AI Training Knowledgebase is required for BuddyBot to function properly. Please create one by clicking <a href="%s">here</a>.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_url(admin_url('admin.php?page=buddybot-vectorstore')))
+                    sprintf(wp_kses_post('<strong>BuddyBot Notice:</strong> No AI Training Knowledgebase detected. An AI Training Knowledgebase is required for BuddyBot to function properly. Please create one by clicking <a href="%s">here</a>.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_url(admin_url('admin.php?page=buddybot-vectorstore')))
                 );
             } else {
                 $url = 'https://api.openai.com/v1/vector_stores/' . $id;
@@ -102,9 +102,7 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
                     'timeout' => 60,
                 ));
                 if (is_wp_error($response)) {
-                    $this->addAlert(
-                        sprintf(wp_kses_post('<strong>BuddyBot Notice:</strong> Failed to connect to OpenAI. Please try again later. <br>Error: %s'), $response->get_error_message())
-                    );
+                    return;
                 } else {
                     $output = json_decode(wp_remote_retrieve_body($response), true);
                     if (empty($output['id'])) {
@@ -145,7 +143,7 @@ final class InitialChecks extends \BuddyBot\Admin\MoRoot
             }
         } else {
             $this->capabilityCheck();
-            $this->openaiApikeyCheck();
+            // $this->openaiApikeyCheck();
             $this->vectorStoreCheck();
         }
     }

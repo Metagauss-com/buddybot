@@ -8,6 +8,15 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
     {
         $this->checkNonce('get_assistants');
     
+        if(empty($this->api_key)){
+            $this->response['success'] = false;
+            $this->response['message'] = esc_html__('Test area unavailable. Configure OpenAI API key in the BuddyBot settings.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            $this->response['empty_key'] = true;
+            $this->response['html'] = '<option value="" disabled selected>' . esc_html__('No API key configured', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</option>';
+            echo wp_json_encode($this->response);
+            wp_die();
+        }
+    
         $url = 'https://api.openai.com/v1/assistants?limit=50';
     
         $headers = array(
