@@ -84,7 +84,7 @@ Yes, BuddyBot AI uses the Bootstrap framework for its layout and design, providi
 == Changelog ==
 
 = 1.0.3.2: January 29, 2025 =
-* Improved: Options Helptexts
+* Improved: Initial workflow.
 
 = 1.0.3.1: January 23, 2025 =
 * Improved: Options Helptexts
