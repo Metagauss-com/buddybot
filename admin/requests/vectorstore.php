@@ -102,7 +102,7 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
                         $("#buddybot-assistants-loading-spinner").addClass("visually-hidden");
                         $("#buddybot-vectorstoreName").show();
                         $("#buddybot-vectorstoreName").html(response.message);
-                        $("#buddybot-vectorstore-section").addClass("notice notice-error").removeClass("notice-warning");
+                        $("#buddybot-vectorstore-section").addClass("notice notice-error ms-0").removeClass("notice-warning");
                         $("#buddybot-vectorstore-create").removeClass("visually-hidden"); 
                     } else {
                         displayVectorStoreName();
@@ -192,10 +192,10 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
     
                     if (response.success) {
                         $("#buddybot-vectorstoreName").html(response.message);
-                        $("#buddybot-vectorstore-section").addClass("notice notice-success").removeClass("notice-warning notice-error");
+                        $("#buddybot-vectorstore-section").addClass("notice notice-success ms-0").removeClass("notice-warning notice-error");
                     } else {
                         $("#buddybot-vectorstoreName").html(response.message);
-                        $("#buddybot-vectorstore-section").addClass("notice notice-warning").removeClass("notice-success notice-error");
+                        $("#buddybot-vectorstore-section").addClass("notice notice-warning ms-0").removeClass("notice-success notice-error");
                     }
                     $("#buddybot-assistants-loading-spinner").addClass("visually-hidden");
                     $("#buddybot-vectorstoreName").show();

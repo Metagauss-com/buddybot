@@ -98,6 +98,12 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
         ));
        
         if (is_wp_error($response)) {
+            if ($response->get_error_code() === 'http_request_failed') {
+                $this->response['success'] = false;
+                $this->response['message'] = esc_html__('Unable to verify file status due to a network timeout. Please try again later.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+                echo wp_json_encode($this->response);
+                wp_die();
+            }
             $this->response['success'] = false;
             $this->response['message'] = $response->get_error_message();
             echo wp_json_encode($this->response);
@@ -392,6 +398,12 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
         ));
 
         if (is_wp_error($response)) {
+            if ($response->get_error_code() === 'http_request_failed') {
+                $this->response['success'] = false;
+                $this->response['message'] = esc_html__('Unable to verify file status due to a network timeout. Please try again later.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+                echo wp_json_encode($this->response);
+                wp_die();
+            }
             $this->response['success'] = false;
             $this->response['message'] = $response->get_error_message();
             echo wp_json_encode($this->response);
