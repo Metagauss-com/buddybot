@@ -7,7 +7,7 @@ class ChatBot extends \BuddyBot\Admin\Responses\MoRoot
     public function selectAssistantModal()
     {
         $this->checkNonce('select_assistant_modal');
-        $this->checkOpenaiKey('Unable to fetch the list of Assistants. Please ensure your OpenAI API key is configured in the BuddyBot settings.');
+        $this->checkOpenaiKey(__('Unable to fetch the list of Assistants. Please ensure your OpenAI API key is configured in the BuddyBot settings.','buddybot-ai-custom-ai-assistant-and-chat-agent'));
 
         $after = '';
 

@@ -54,7 +54,7 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
     {
         if(empty($this->api_key)){
             $this->response['success'] = false;
-            $this->response['message'] = esc_html__($message, 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            $this->response['message'] = esc_html($message);
             $this->response['empty_key'] = true;
             echo wp_json_encode($this->response);
             wp_die();
