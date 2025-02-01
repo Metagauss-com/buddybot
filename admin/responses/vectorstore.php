@@ -67,15 +67,61 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
         $this->processResponse();
 
         if ($this->openai_response_body->object === 'list') {
-            $this->response['success'] = true;
-            $this->vectorStoreHtml();
+            $this->response = $this->matchAllVectorstore();
         } else {
             $this->response['success'] = false;
+            $this->response['create_vectorstore'] = true;
             $this->response['message'] = esc_html__('Unable to fetch VectorStore list.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
 
         echo wp_json_encode($this->response);
         wp_die();
+    }
+
+    private function matchAllVectorstore()
+    {
+        if (!is_array($this->openai_response_body->data)) {
+            return [
+                'success' => false,
+                'create_vectorstore' => true,
+                'message' => esc_html__('Output is not an Array.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            ];
+        }
+
+        $hostname = wp_parse_url(home_url(), PHP_URL_HOST);
+
+        if($hostname === 'localhost'){
+            $path = wp_parse_url(home_url(), PHP_URL_PATH) ?? '';
+            $hostname = $hostname . str_replace('/', '.', $path); 
+        }
+
+        $vectorstore_name = '';
+        $vectorstore_id = '';
+        foreach ($this->openai_response_body->data as $store) {
+            if (isset($store->name, $store->id) && $store->name === $hostname) {
+                $vectorstore_id = $store->id;
+                $vectorstore_name = $store->name;
+                break;
+            }
+        }
+
+        if(!empty($vectorstore_id) && !empty($vectorstore_name)) {
+            $vectorstore_data = [
+                'name' => $vectorstore_name,
+                'id' => $vectorstore_id
+            ];
+            update_option('buddybot_vectorstore_data', $vectorstore_data);
+            return [
+                'success' => true,
+                'data'    => $vectorstore_data,
+            ];
+        } else {
+            return [
+                'success' => false,
+                'create_vectorstore' => true,
+                'message' => esc_html__('No matching VectorStore found.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            ];
+        }
     }
 
     public function retrieveVectorStore()
@@ -143,28 +189,6 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
 
         echo wp_json_encode($this->response);
         wp_die();
-    }
-
-    private function vectorStoreHtml()
-    {
-        if (!is_array($this->openai_response_body->data)) {
-            return;
-        }
-
-        $html = '';
-
-        foreach ($this->openai_response_body->data as $store) {
-
-            if (isset($store->name) && isset($store->id)) {
-
-                $html .= '<div class="buddybot-vectorstore">';
-                $html .= '<h3> Your AI Training Knowledgebase is Created With name: ' . esc_html($store->name) . '</h3>';
-                $html .= '<p>ID: ' . esc_html($store->id) . '</p>';
-                $html .= '</div>';
-            }
-        }
-
-        $this->response['html'] = $html;
     }
 
     public function deleteVectorStore()

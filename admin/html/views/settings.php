@@ -21,6 +21,7 @@ final class Settings extends \BuddyBot\Admin\Html\Views\MoRoot
 
         $heading = esc_html__('Settings', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $this->pageHeading($heading);
+        $this->pageModals();
         $this->sectionToggle();
         $this->optionsLoader();
         $this->sectionOptions();
@@ -36,6 +37,12 @@ final class Settings extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<div id="buddybot-settings-success" class="notice notice-success mb-3 ms-0 py-2 small">';
         echo '<span id="buddybot-settings-success-message" class="fw-medium">' . esc_html('Settings updated successfully.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</span>';
         echo '</div>';
+    }
+
+    protected function pageModals()
+    {
+        $select_assistant = new \BuddyBot\Admin\Html\Modals\ChangeKeyConfirmation();
+        $select_assistant->getHtml();
     }
 
     private function pageErrors()

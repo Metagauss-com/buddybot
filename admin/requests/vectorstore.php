@@ -26,6 +26,10 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
     private function vectorStoreDataJs()
     {
         $hostname = wp_parse_url(home_url(), PHP_URL_HOST);
+        if($hostname === 'localhost'){
+            $path = wp_parse_url(home_url(), PHP_URL_PATH) ?? '';
+            $hostname = $hostname . str_replace('/', '.', $path); 
+        }
         echo '
             function vectorstoreData() {
                 let vectorstoreData = {};
@@ -58,7 +62,7 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
                 if (vectorStoreData && vectorStoreData.id) {
                     retrieveVectorStore(vectorStoreData.id, pageReload);
                 } else {
-                    createVectorStore();
+                    getVectorStore();
                 }
             }
              retrieveVectorStore(vectorStoreData.id, pageReload)
@@ -76,7 +80,7 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
                             deleteVectorStoreDatabase(); 
                             // displayVectorStoreName();
                         } else {
-                            createVectorStore();
+                            getVectorStore();
                         }
                     } else {
                         if(!pageReload){
@@ -154,9 +158,7 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
     {
         $nonce = wp_create_nonce('get_vectorstore');
         echo '
-            //getVectorStore();
            function getVectorStore() {
-                hideAlert();
                 const data = {
                     "action": "getVectorStore",
                     "nonce": "' . esc_js($nonce) . '"
@@ -165,11 +167,12 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
                 $.post(ajaxurl, data, function(response) {
                     response = JSON.parse(response);
 
-                    if (response.success) {
-                    $(".buddybot-msgs").removeClass("visually-hidden");
-                    $(".buddybot-msgs").append(response.html);
+                   if (response.success) {
+                        displayVectorStoreName();
+                        $("#buddybot_vector_store_id").val(response.data.id);
+                        $("#buddybot-vectorstore-create").addClass("visually-hidden");
                     } else {
-                        showAlert(response.message);
+                        createVectorStore();
                     }
                 });
             }
