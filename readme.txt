@@ -1,7 +1,4 @@
-# OpenAI-Plugin
-
-
-## BuddyBot AI - Custom AI Assistant and Chat Agent 
+=== BuddyBot – AI Chatbot and Chat Support Agent for WordPress === 
 
 Contributors: buddybot  
 Tags: AI, chatbot, OpenAI, AI assistant   
