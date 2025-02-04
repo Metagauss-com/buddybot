@@ -278,7 +278,8 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
     {
         echo'
         $(document).on("click", "#buddybot-settings-key-change-btn", function() {
-            $("#buddybot-change-key-confirmation-modal").modal("show");
+            $("#buddybot-change-key-confirmation-modal").modal("show").attr("aria-hidden", "false");
+            $("#buddybot-change-key-confirmation-modal").find("button").attr("tabindex", "0");
         });
 
         $(document).on("click", "#buddybot-change-key-confirm-btn", function() {
