@@ -91,9 +91,9 @@ final class Settings extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         echo '<div id="buddybot-settings-section-options-loader" class="text-center mt-5 visually-hidden">';
 
-        echo '<span>';
-        esc_html_e('Loading options...', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-        echo '</span>';
+        // echo '<span>';
+        // esc_html_e('Loading options...', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        // echo '</span>';
 
         echo '<div class="spinner-border spinner-border-sm ms-2" role="status">
                 <span class="visually-hidden">Loading...</span>

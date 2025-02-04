@@ -390,6 +390,10 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
         // Get the local file path
         $file_path = realpath($this->core_files->getLocalPath($data_type));
         $hostname = wp_parse_url(home_url(), PHP_URL_HOST);
+        if($hostname === 'localhost'){
+            $path = wp_parse_url(home_url(), PHP_URL_PATH) ?? '';
+            $hostname = $hostname . str_replace('/', '.', $path); 
+        }
         $file_name = $hostname . '.' . basename($file_path);
 
         // Read file content
@@ -512,6 +516,10 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
 
         $file_ids = [];
         $domain = wp_parse_url(home_url(), PHP_URL_HOST);
+        if($domain === 'localhost'){
+            $path = wp_parse_url(home_url(), PHP_URL_PATH) ?? '';
+            $domain = $domain . str_replace('/', '.', $path); 
+        }
 
         if (isset($this->openai_response_body->data)) {
             foreach ($this->openai_response_body->data as $file) {
