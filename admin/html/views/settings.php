@@ -16,12 +16,12 @@ final class Settings extends \BuddyBot\Admin\Html\Views\MoRoot
 
     public function getHtml()
     {
+        $this->pageModals();
         $this->pageSuccessAlert();
         $this->pageErrors();
 
         $heading = esc_html__('Settings', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $this->pageHeading($heading);
-        $this->pageModals();
         $this->sectionToggle();
         $this->optionsLoader();
         $this->sectionOptions();
