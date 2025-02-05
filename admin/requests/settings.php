@@ -13,6 +13,7 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
         $this->toggleErrorsJs();
         $this->getOpenAiApiKeyJs();
         $this->createVectorStore();
+        $this->changeKey();
     }
 
     protected function pageVarsJs()
@@ -54,9 +55,25 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
         echo '
         $("#buddybot-settings-update-btn").click(saveOptions);
 
+        $(document).on("keypress", "#buddybot-settings-openai-api-key", function(e) {
+            let key = e.key;
+            if (key === "Enter") {
+                saveOptions();
+            }
+        });
+
         function saveOptions() {
-         showWordpressLoader("#buddybot-settings-update-btn");
-           getOpenAiApiKey();
+            const hiddenKey = $("#buddybot-settings-hidden-key").val();
+            const textFieldValue = $("#buddybot-settings-openai-api-key").val();
+
+            if (hiddenKey === textFieldValue) {
+                showWordpressLoader("#buddybot-settings-update-btn");
+                const section = $("#mgao-settings-section-select").val();
+                location.replace("' . esc_url(admin_url()) . 'admin.php?page=buddybot-settings&section=' . '" + section + "&success=1");
+            } else {
+                showWordpressLoader("#buddybot-settings-update-btn");
+                getOpenAiApiKey();
+            }
         }
         ';
     }
@@ -108,7 +125,7 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
                 displayErrors(); 
                 hideWordpressLoader("#buddybot-settings-update-btn");
             } else { 
-                verifyOpenaiApiKey(key);
+                vectorStore(key);
             }
                 
         }
@@ -123,8 +140,8 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
                 $.post(ajaxurl, data, function(response) {
                     response = JSON.parse(response);
                     if (response.success) {
-                        checkVectorStore(apiKey);
-                       // saveOpenaiApiKey(apiKey);
+                        vectorStore(apiKey);
+                        saveOpenaiApiKey(apiKey);
                     } else {
                         dataErrors.push(response.message);
                         displayErrors();
@@ -170,12 +187,13 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
         echo '
             //$("#buddybot-vectorstore-create").click(checkVectorStore);
 
-            function checkVectorStore(apiKey){
+            function vectorStore(apiKey){
                 const vectorStoreData = ' . wp_json_encode($vectorstore_data) . ';
                 if (vectorStoreData && vectorStoreData.id) {
-                    saveOpenaiApiKey(apiKey);
+                    checkVectorStore(apiKey, vectorStoreData.id)
+                    //saveOpenaiApiKey(apiKey);
                 } else {
-                    createVectorStore(apiKey);
+                    checkAllVectorStore(apiKey)
                 }
             }
 
@@ -197,13 +215,82 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
                     saveOpenaiApiKey(apiKey);
                 });
             }
-                function vectorstoreData() {
+
+            function vectorstoreData() {
                 let vectorstoreData = {};
                 vectorstoreData["name"] = "' . esc_js($hostname) . '";
 
                 return vectorstoreData;
             }
 
+            function checkVectorStore(apiKey, vectorstore_id){
+                const data = {
+                    "action": "checkVectorStore",
+                    "api_key": apiKey,
+                    "vectorstore_id": vectorstore_id,
+                    "nonce": "' . esc_js($nonce) . '"
+                };
+                $.post(ajaxurl, data, function(response) {
+                    response = JSON.parse(response);
+
+                    if (response.success) {
+                        saveOpenaiApiKey(apiKey);
+                    } else {
+                        if(response.vectorstore_not_found){
+                            checkAllVectorStore(apiKey);
+                        } else {
+                            dataErrors.push(response.message);
+                            displayErrors();
+                            hideWordpressLoader("#buddybot-settings-update-btn");
+                        }
+                    }
+                });
+            }
+
+            function checkAllVectorStore(apiKey) {
+                hideAlert();
+                const data = {
+                    "action": "checkAllVectorStore",
+                    "api_key": apiKey,
+                    "nonce": "' . esc_js($nonce) . '"
+                };
+  
+                $.post(ajaxurl, data, function(response) {
+                    response = JSON.parse(response);
+
+                    if (response.success) {
+                        saveOpenaiApiKey(apiKey);
+                    } else {
+                        if(response.create_vectorstore) {
+                            createVectorStore(apiKey);
+                        } else {
+                            dataErrors.push(response.message);
+                            displayErrors();
+                            hideWordpressLoader("#buddybot-settings-update-btn");
+                        }
+                    }
+                });
+            }
+        ';
+    }
+
+    private function changeKey()
+    {
+        echo'
+        $(document).on("click", "#buddybot-settings-key-change-btn", function() {
+            $("#buddybot-change-key-confirmation-modal").modal("show");
+        });
+
+        $(document).on("click", "#buddybot-change-key-confirm-btn", function() {
+            $("#buddybot-settings-openai-api-key").prop("disabled", false); 
+            $("#buddybot-settings-key-change-btn").prop("disabled", true);
+            $("#buddybot-change-key-confirmation-modal").modal("hide");
+        });
+
+        $("#buddybot-change-key-confirmation-modal").on("hidden.bs.modal", function () {
+            $(this).find(":focus").blur(); // Remove focus from any element inside the modal
+            $("#buddybot-settings-key-change-btn").focus();
+        });
         ';
     }
 }

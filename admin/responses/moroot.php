@@ -119,6 +119,9 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
             $this->response['success'] = false;
             $this->response['message'] = esc_html__('There was an error. ', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             if (isset($this->openai_response_body->error->message)){
+                if (strpos($this->openai_response_body->error->message, 'No vector store found with id') !== false) {
+                    $this->response['vectorstore_not_found'] = true;
+                }
                 $this->response['message'] .= esc_html(str_replace('vector store', esc_html__('AI Training Knowledgebase', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), $this->openai_response_body->error->message));
             }
             echo wp_json_encode($this->response);

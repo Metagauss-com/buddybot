@@ -1,19 +1,17 @@
 === BuddyBot – AI Chatbot and Chat Support Agent for WordPress === 
 
-Contributors: buddybot  
-Tags: AI, chatbot, OpenAI, AI assistant   
-Requires at least: 6.7   
-Tested up to: 6.7   
-Requires PHP: 8.0 
-Stable tag: 1.0.3.2 
-License: GPLv2 or later   
-License URI: https://www.gnu.org/licenses/gpl-2.0.html 
+Contributors: buddybot 
+Tags: AI, chatbot, OpenAI, AI assistant  
+Requires at least: 6.7  
+Tested up to: 6.7  
+Requires PHP: 8.0
+Stable tag: 1.0.3.3
+License: GPLv2 or later  
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 Best AI chatbot and live chat plugin for WordPress to enhance online support and engagement. Discover AI for WordPress. 
 
-
 == Description == 
-
 
 BuddyBot is a powerful WordPress AI plugin that enables you to create custom AI Chatbots and deploy them as chat agents on your WordPress website. Leveraging OpenAI Assistant capabilities, these Chatbots are trained using your site's data, including posts and comments, to provide site-specific information to your visitors. 
 
@@ -82,11 +80,17 @@ When creating and training assistants, the data you choose to upload (such as si
 Yes, BuddyBot AI uses the Bootstrap framework for its layout and design, providing a responsive and modern user interface. 
 
 
+
 == Changelog == 
 
+= 1.0.3.3: february 05, 2025 =
+* Improved: OpenAI API key changing process.
+* Fixed: OpenAI API key is no longer visible in the Settings area.
+* Improved: Made helptext and notices more relevant and descriptive.
+* Improved: AI Training Knowledgebase creation workflow under the hood.
 
-= 1.0.3.2: January 29, 2025 = 
-* Improved: Initial workflow. 
+= 1.0.3.2: January 29, 2025 =
+* Improved: Initial workflow.
 
 = 1.0.3.1: January 23, 2025 = 
 * Improved: Options Helptexts 
@@ -104,12 +108,13 @@ Yes, BuddyBot AI uses the Bootstrap framework for its layout and design, providi
 * Fixed: Compatibility issues with the PHP 8.0. 
 * UI improvements. 
 
-= 1.0.0.0: December 18, 2024 = 
-* Initial release of BuddyBot AI. 
+== Upgrade Notice ==
 
-
-== Upgrade Notice == 
-
+= 1.0.3.3: february 05, 2025 =
+* Improved: OpenAI API key changing process.
+* Fixed: OpenAI API key is no longer visible in the Settings area.
+* Improved: Made helptext and notices more relevant and descriptive.
+* Improved: AI Training Knowledgebase creation workflow under the hood.
 
 = 1.0.3.2: January 29, 2025 = 
 * Improved: Initial workflow. 

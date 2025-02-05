@@ -123,6 +123,114 @@ class Settings extends \BuddyBot\Admin\Responses\MoRoot
         wp_die();
     }
 
+    public function checkVectorStore()
+    {
+        $this->checkNonce('auto_create_vectorstore');
+
+        $vectorstore_id = isset($_POST['vectorstore_id']) && !empty($_POST['vectorstore_id']) ? sanitize_text_field($_POST['vectorstore_id']) : '';
+        $api_key = isset($_POST['api_key']) && !empty($_POST['api_key']) ? sanitize_text_field($_POST['api_key']) : '';
+
+        $url = 'https://api.openai.com/v1/vector_stores/' . $vectorstore_id;
+
+        $headers = array(
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer ' . $api_key,
+            'OpenAI-Beta' => 'assistants=v2'
+        );
+
+        $this->openai_response = wp_remote_get($url, array(
+            'headers' => $headers,
+            'timeout' => 60,
+        ));
+       
+        $this->processResponse();
+
+        if (isset($this->openai_response_body->id) && !empty($this->openai_response_body->id)) {
+            $this->response['success'] = true;
+        } else {
+            $this->response['success'] = false;
+        }
+
+        echo wp_json_encode($this->response);
+        wp_die();
+    }
+
+    public function checkAllVectorStore()
+    {
+        $this->checkNonce('auto_create_vectorstore');
+        $api_key = isset($_POST['api_key']) && !empty($_POST['api_key']) ? sanitize_text_field($_POST['api_key']) : '';
+
+        $url = 'https://api.openai.com/v1/vector_stores?limit=10';
+
+        $headers = [
+            'OpenAI-Beta' => 'assistants=v2',
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer ' . $api_key
+        ];
+
+        $args = ['headers' => $headers];
+
+        $this->openai_response = wp_remote_get($url, $args);
+        $this->processResponse();
+
+        if ($this->openai_response_body->object === 'list') {
+            $this->response = $this->matchVectorDomain();
+        } else {
+            $this->response['success'] = false;
+            $this->response['create_vectorstore'] = true;
+            $this->response['message'] = esc_html__('Unable to fetch VectorStore list.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        }
+
+        echo wp_json_encode($this->response);
+        wp_die();
+    }
+
+    private function matchVectorDomain()
+    {
+        if (!is_array($this->openai_response_body->data)) {
+            return [
+                'success' => false,
+                'create_vectorstore' => true,
+                'message' => esc_html__('Output is not an Array.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            ];
+        }
+
+        $hostname = wp_parse_url(home_url(), PHP_URL_HOST);
+
+        if($hostname === 'localhost'){
+            $path = wp_parse_url(home_url(), PHP_URL_PATH) ?? '';
+            $hostname = $hostname . str_replace('/', '.', $path); 
+        }
+
+        $vectorstore_name = '';
+        $vectorstore_id = '';
+        foreach ($this->openai_response_body->data as $store) {
+            if (isset($store->name, $store->id) && $store->name === $hostname) {
+                $vectorstore_id = $store->id;
+                $vectorstore_name = $store->name;
+                break;
+            }
+        }
+
+        if(!empty($vectorstore_id) && !empty($vectorstore_name)) {
+            $vectorstore_data = [
+                'name' => $vectorstore_name,
+                'id' => $vectorstore_id
+            ];
+            update_option('buddybot_vectorstore_data', $vectorstore_data);
+            return [
+                'success' => true,
+                'data'    => $vectorstore_data,
+            ];
+        } else {
+            return [
+                'success' => false,
+                'create_vectorstore' => true,
+                'message' => esc_html__('No matching VectorStore found.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            ];
+        }
+    }
+
 
     public function __construct()
     {
@@ -130,6 +238,8 @@ class Settings extends \BuddyBot\Admin\Responses\MoRoot
         add_action('wp_ajax_getOptions', array($this, 'getOptions'));
         add_action('wp_ajax_saveSettings', array($this, 'saveSettings'));
         add_action('wp_ajax_verifyApiKey', array($this, 'verifyApiKey'));
+        add_action('wp_ajax_checkVectorStore', array($this, 'checkVectorStore'));
+        add_action('wp_ajax_checkAllVectorStore', array($this, 'checkAllVectorStore'));
         add_action('wp_ajax_autoCreateVectorStore', array($this, 'autoCreateVectorStore'));
     }
 }
