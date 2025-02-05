@@ -278,14 +278,18 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
     {
         echo'
         $(document).on("click", "#buddybot-settings-key-change-btn", function() {
-            $("#buddybot-change-key-confirmation-modal").modal("show").attr("aria-hidden", "false");
-            $("#buddybot-change-key-confirmation-modal").find("button").attr("tabindex", "0");
+            $("#buddybot-change-key-confirmation-modal").modal("show");
         });
 
         $(document).on("click", "#buddybot-change-key-confirm-btn", function() {
             $("#buddybot-settings-openai-api-key").prop("disabled", false); 
-             $("#buddybot-settings-key-change-btn").prop("disabled", true);
+            $("#buddybot-settings-key-change-btn").prop("disabled", true);
             $("#buddybot-change-key-confirmation-modal").modal("hide");
+        });
+
+        $("#buddybot-change-key-confirmation-modal").on("hidden.bs.modal", function () {
+            $(this).find(":focus").blur(); // Remove focus from any element inside the modal
+            $("#buddybot-settings-key-change-btn").focus();
         });
         ';
     }
