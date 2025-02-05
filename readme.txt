@@ -83,7 +83,7 @@ Yes, BuddyBot AI uses the Bootstrap framework for its layout and design, providi
 
 == Changelog == 
 
-= 1.0.3.3: february 05, 2025 =
+= 1.0.3.3: February 05, 2025 =
 * Improved: OpenAI API key changing process.
 * Fixed: OpenAI API key is no longer visible in the Settings area.
 * Improved: Made helptext and notices more relevant and descriptive.
@@ -110,7 +110,7 @@ Yes, BuddyBot AI uses the Bootstrap framework for its layout and design, providi
 
 == Upgrade Notice ==
 
-= 1.0.3.3: february 05, 2025 =
+= 1.0.3.3: February 05, 2025 =
 * Improved: OpenAI API key changing process.
 * Fixed: OpenAI API key is no longer visible in the Settings area.
 * Improved: Made helptext and notices more relevant and descriptive.
