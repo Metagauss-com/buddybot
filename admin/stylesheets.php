@@ -29,6 +29,11 @@ final class StyleSheets extends \BuddyBot\Admin\MoRoot
             wp_enqueue_script('jquery');
             wp_enqueue_style($this->config::PREFIX . '-global-css', $this->config->getRootUrl() . 'admin/css/buddybot.css', array(), BUDDYBOT_PLUGIN_VERSION);
 
+            if (isset($_GET['page']) && $_GET['page'] === 'buddybot-buddybots') {
+                wp_dequeue_style('buddybot-bootstrap-css');
+                wp_dequeue_script('buddybot-bootstrap-js');
+            }
+
         }
     }
 

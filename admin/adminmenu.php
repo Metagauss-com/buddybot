@@ -17,6 +17,7 @@ final class AdminMenu extends \BuddyBot\Admin\MoRoot
         $this->settingsSubmenuItem();
         $this->vectorStoreSubmenuItem();
         $this->conversationsSubmenuItem();
+        $this->BuddybotsSubmenuItem();
     }
 
     public function hiddenMenu()
@@ -55,6 +56,19 @@ $base64_icon = base64_encode($icon);
             array($this, 'appMenuPage'),
             'data:image/svg+xml;base64,' . $base64_icon,
             6
+        );
+    }
+
+    public function BuddybotsSubmenuItem()
+    {
+        add_submenu_page(
+            'buddybot-chatbot',
+            esc_html__('BuddyBot List', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            esc_html__('BuddyBots', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            'manage_options',
+            'buddybot-buddybots',
+            array($this, 'buddybotsMenuPage'),
+            1
         );
     }
 
@@ -212,6 +226,11 @@ $base64_icon = base64_encode($icon);
             array($this, 'ViewConversationMenuPage'),
             1
         );
+    }
+
+    public function buddybotsMenuPage()
+    {
+        include_once(plugin_dir_path(__FILE__) . 'pages/buddybots.php');
     }
 
     public function appMenuPage()

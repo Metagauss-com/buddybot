@@ -25,9 +25,61 @@ class EditAssistant extends \BuddyBot\Admin\Html\Views\MoRoot
 
     public function getHtml()
     {
-        $this->pageHeading($this->heading);
+        $this->customPageHeading($this->heading);
         $this->alertContainer();
-        $this->assistantFields();
+        $this->buddybotFieldsTable();
+        //$this->assistantFields();
+    }
+
+    private function customPageHeading($heading)
+    {
+        //echo '<div class="">';
+        echo '<h1>';
+        echo esc_html($heading);
+        echo '</h1>';
+        //echo '</div>';
+    }
+
+    private function buddybotFieldsTable()
+    {
+        echo '<table class="form-table" role="presentation">';
+        $this->tableBody();
+        echo '</table>';
+    }
+
+    private function tableBody()
+    {
+        echo '<tbody>';
+            $this->buddybotName();
+            $this->buddybotDescription();
+        echo '</tbody>';
+    }
+
+    private function buddybotName()
+    {
+        $id = 'buddybot-buddybotname';
+
+        echo '<tr>';
+        echo '<th scope="row"><label for="' . esc_attr($id) . '">' . esc_html__('BuddyBot Name (Required)', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</label></th>';
+        echo '<td>';
+        echo '<input name="' . esc_attr($id) . '" type="text" id="' . esc_attr($id) . '" value="" class="regular-text" maxlength="256" placeholder="' . esc_attr__('e.g., Customer Support Bot, Order Tracking Assistant', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '">';
+        echo '<p class="description">' . esc_html__('This is how you will recognize your BuddyBot. Maximum 256 characters.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
+        echo '</td>';
+        echo '</tr>';
+    }
+
+    private function buddybotDescription()
+    {
+        $id = 'buddybot-buddybotdescription';
+
+        echo '<tr>';
+        echo '<th scope="row"><label for="' . esc_attr($id) . '">' . esc_html__('BuddyBot Description', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</label></th>';
+        echo '<td>';
+        echo '<textarea name="' . esc_attr($id) . '" id="' . esc_attr($id) . '" class="large-text" rows="6" maxlength="512" placeholder="' . esc_attr__('Describe your assistant’s role and functionality...', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '"></textarea>';
+        echo '<p class="description">' . esc_html__('This description will help you recall the purpose of your BuddyBot. Maximum 1024 characters.', 'your-text-domain') . '</p>';
+        echo '</td>';
+        echo '</tr>';
+
     }
 
     private function assistantFields()
@@ -42,6 +94,7 @@ class EditAssistant extends \BuddyBot\Admin\Html\Views\MoRoot
         //$this->assistantTools();
         $this->assistantTemperature();
         $this->assistantTop_P();
+        $this->fallbackBehavior();
         echo '</div>';
 
         // echo '<div class="col-md-4 p-0 flex-column bg-light rounded-3 small overflow-hidden mt-4" style="max-height: 700px;">';
@@ -76,7 +129,7 @@ class EditAssistant extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<div class="mb-4">';
         echo '<label for="' . esc_attr($id) . '" class="form-label fw-bold">' . esc_html($label) . '</label>';
         echo '<textarea class="w-100 buddybot-item-field" id="' . esc_attr($id) . '" placeholder="' . esc_attr($placeholder) . '" rows="5" maxlength="512"></textarea>';
-        echo '<p class="description text-dark">' . esc_html__("Provide a brief description of the assistant's purpose. Maximum 512 characters.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
+        echo '<p class="description text-dark">' . esc_html__("This is how you will recognize your BuddyBot. Maximum 256 characters.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
         echo '</div>';
     }
 
@@ -189,29 +242,19 @@ class EditAssistant extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '</div>';
     }
     
-    private function orgFiles()
-    {
-        $id = 'buddybot-editassistant-assistantfiles';
-
-        echo '<div class="p-3 mb-4 bg-secondary bg-opacity-10">';
-
-        echo '<div class="fw-bold text-uppercase mb-3 small">';
-        echo esc_html__('Files Selected', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-        echo '<span class="ms-1 fw-normal font-monospace" id="' . esc_attr($id . '-filescount') . '">';
-        echo '</span>';
+    private function fallbackBehavior() {
+        $id = 'buddybot-fallback-behavior';
+    
+        $label = __('Fallback Behavior', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        echo '<div class="mb-4">';
+        echo '<label for="' . esc_attr($id) . '" class="form-label fw-bold">' . esc_html($label) . '</label>';
+        echo '<div><select id="' . esc_attr($id) . '" class="small me-2 buddybot-item-field">';
+        echo '<option value="ask">' . esc_html__('Ask for clarification', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</option>';
+        echo '<option value="generic">' . esc_html__('Provide a generic response', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</option>';
+        echo '<option value="escalate">' . esc_html__('Escalate to support', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</option>';
+        echo '</select>';
         echo '</div>';
-
-        echo '<p class="small text-dark">' . esc_html__(
-            'Optional. Select files to be attached to this Assistant. Maximum 20 files (not more than 512MB each) allowed. Requires RETRIEVAL tool.',
-            'buddybot-ai-custom-ai-assistant-and-chat-agent'
-        ) . '</p>';
-
-        echo '</div>';
-
-        echo '<div id="' . esc_attr($id) . '" class="ps-3 small" style="height:500px;overflow:auto;">';
-        echo '<div class="mt-5 text-center">';
-        $this->moSpinner();
-        echo '</div>';
+        echo '<p class="description text-dark">' . esc_html__('Choose how the assistant should respond when it doesn\'t know the answer.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
         echo '</div>';
     }
 

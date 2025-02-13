@@ -2,7 +2,7 @@
 
 namespace BuddyBot\Admin\Sql;
 
-class Chatbot extends \BuddyBot\Admin\Sql\MoRoot
+class BuddyBots extends \BuddyBot\Admin\Sql\MoRoot
 {
     public $config;
     
@@ -82,34 +82,64 @@ class Chatbot extends \BuddyBot\Admin\Sql\MoRoot
         return $update;
     }
 
-    public function getAllChatbots($offset = 0, $limit = 10)
+    public function getAllChatbots($offset = 0, $limit = 10, $orderby = 'created_on', $order = 'desc', $filter = [], $search = '')
     {
         global $wpdb;
 
-        $query = $wpdb->prepare(
-            'SELECT * FROM ' . $this->table . ' LIMIT %d OFFSET %d',
-            $limit,
-            $offset
-        );
+        $valid_columns = ['chatbot_name', 'created_on', 'edited_on'];
+        if (!in_array($orderby, $valid_columns)) {
+            $orderby = 'created_on';
+        }
+        $order = strtoupper($order) === 'ASC' ? 'ASC' : 'DESC';
 
-        // Execute the query and return the results as an associative array
-        $results = $wpdb->get_results($query, ARRAY_A);
+        $where_clauses = ['1=1']; // Ensures there is always a valid WHERE clause
+        $params = [];
 
-        return $results;
+        // Search by chatbot name
+        if (!empty($search)) {
+            $where_clauses[] = "chatbot_name LIKE %s";
+            $params[] = '%' . $wpdb->esc_like($search) . '%';
+        }
+
+        // Apply filters
+        if (!empty($filter)) {
+            $where_clauses[] = "chatbot_name = %s";
+            $params[] = $filter;
+        }
+
+        $where_sql = 'WHERE ' . implode(' AND ', $where_clauses);
+
+        // Construct query
+        $query = "SELECT * FROM {$this->table} $where_sql ORDER BY {$orderby} {$order} LIMIT %d OFFSET %d";
+
+        // Add a dummy placeholder
+        return $wpdb->get_results($wpdb->prepare($query, ...array_merge($params, [$limit, $offset])), ARRAY_A);
     }
 
-    public function getTotalChatbotsCount()
+
+    public function getTotalChatbotsCount($search = '', $filter = '')
     {
         global $wpdb;
 
-        $query = $wpdb->prepare(
-            'SELECT COUNT(*) FROM ' . $this->table
-        );
+        $where_clauses = ['1=1'];
+        $params = [];
 
-        $count = $wpdb->get_var($query);
+        if (!empty($search)) {
+            $where_clauses[] = "chatbot_name LIKE %s";
+            $params[] = '%' . $wpdb->esc_like($search) . '%';
+        }
 
-        return $count;
+        if (!empty($filter)) {
+            $where_clauses[] = "assistant_id = %s";
+            $params[] = $filter;
+        }
+
+        $where_sql = 'WHERE ' . implode(' AND ', $where_clauses);
+        $query = "SELECT COUNT(*) FROM {$this->table} $where_sql";
+
+        return empty($params) ? (int) $wpdb->get_var($query) : (int) $wpdb->get_var($wpdb->prepare($query, ...$params));
     }
+
 
     public function deleteChatbot($chatbot_id)
     {

@@ -44,6 +44,7 @@ if (is_admin()) {
     $buddybot_admin_menu = new Admin\AdminMenu();
     $buddybot_admin_stylesheets = new Admin\StyleSheets();
     $buddybot_chatbot_responses = new Admin\Responses\ChatBot();
+    $buddybot_chatbot_responses = new Admin\Responses\BuddyBots();
     $buddybot_datasync_responses = new Admin\Responses\DataSync();
     $buddybot_assistants_responses = new Admin\Responses\Assistants();
     $buddybot_assistant_responses = new Admin\Responses\EditAssistant();
