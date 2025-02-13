@@ -84,7 +84,7 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<div class="d-flex w-100 justify-content-between align-items-center">';
 
         echo '<div>';
-        echo '<h5 class="mb-1">' . esc_html($heading) . '</h5>';
+        echo '<h5 class="mb-1 fs-5 m-0">' . esc_html($heading) . '</h5>';
         echo '<p class="mb-1 fw-bold">' . esc_html($text) . '</p>';
         echo '</div>';
 

@@ -16,6 +16,7 @@ final class Settings extends \BuddyBot\Admin\Html\Views\MoRoot
 
     public function getHtml()
     {
+        $this->pageModals();
         $this->pageSuccessAlert();
         $this->pageErrors();
 
@@ -36,6 +37,12 @@ final class Settings extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<div id="buddybot-settings-success" class="notice notice-success mb-3 ms-0 py-2 small">';
         echo '<span id="buddybot-settings-success-message" class="fw-medium">' . esc_html('Settings updated successfully.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</span>';
         echo '</div>';
+    }
+
+    protected function pageModals()
+    {
+        $select_assistant = new \BuddyBot\Admin\Html\Modals\ChangeKeyConfirmation();
+        $select_assistant->getHtml();
     }
 
     private function pageErrors()
@@ -84,9 +91,9 @@ final class Settings extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         echo '<div id="buddybot-settings-section-options-loader" class="text-center mt-5 visually-hidden">';
 
-        echo '<span>';
-        esc_html_e('Loading options...', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-        echo '</span>';
+        // echo '<span>';
+        // esc_html_e('Loading options...', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        // echo '</span>';
 
         echo '<div class="spinner-border spinner-border-sm ms-2" role="status">
                 <span class="visually-hidden">Loading...</span>

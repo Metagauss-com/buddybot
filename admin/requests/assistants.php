@@ -45,6 +45,12 @@ final class Assistants extends \BuddyBot\Admin\Requests\MoRoot
 
                 } else {
                     showAlert(response.message);
+                    $("#buddybot-assistants-loading-spinner").addClass("visually-hidden");
+                    if(response.empty_key){
+                        $("#buddybot-assistants-no-more").text("");
+                        $("#buddybot-assistants-no-more").text("' . esc_html__('Assistants will be listed here once a valid OpenAI API key is saved in the settings.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '");
+                        $("#buddybot-assistants-no-more").removeClass("visually-hidden");
+                    }
                 }
             });
         }
@@ -88,7 +94,7 @@ final class Assistants extends \BuddyBot\Admin\Requests\MoRoot
                     $(".buddybot-listbtn-assistant-delete").prop("disabled", false);
                     renumberRows();
                 } else {
-                    alert(response.message);
+                    showAlert(response.message);
                 }
             });
         });

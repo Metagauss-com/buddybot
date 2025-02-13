@@ -96,6 +96,10 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
                     updateStatus(assistantsUpdated);
                     disableMessage(false);
                 } else {
+
+                    if(response.empty_key) { 
+                        $("#buddybot-playground-assistants-list").html(response.html);
+                    }
                     updateStatus(response.message);
                 }
             });

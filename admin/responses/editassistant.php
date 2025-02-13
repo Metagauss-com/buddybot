@@ -7,6 +7,15 @@ class EditAssistant extends \BuddyBot\Admin\Responses\MoRoot
     public function getModels()
     {
         $this->checkNonce('get_models');
+    
+        if(empty($this->api_key)){
+            $this->response['success'] = false;
+            $this->response['message'] = esc_html__('To create or edit an assistant, you need to configure your OpenAI API key in the BuddyBot settings.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            $this->response['empty_key'] = true;
+            $this->response['html'] = '<option value="" disabled selected>' . esc_html__('No API key configured', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</option>';
+            echo wp_json_encode($this->response);
+            wp_die();
+        }
 
         $url = 'https://api.openai.com/v1/models';
 
@@ -88,7 +97,7 @@ class EditAssistant extends \BuddyBot\Admin\Responses\MoRoot
         //if (in_array('file_search', $assistant_data->tools)) {
             if (empty($vectorstore_id)) {
                 $this->response['success'] = false;
-                $this->response['message'] = esc_html__('Missing Vectorstore_id or Vector Store Not Created.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+                $this->response['message'] = esc_html__('Missing AI Training Knowledgebase ID or AI Training Knowledgebase Not Created.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
                 echo wp_json_encode($this->response);
                 wp_die();
     }
