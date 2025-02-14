@@ -742,7 +742,7 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
             $last_sync = get_date_from_gmt($gmt_time,  $date_format . ' ' . $time_format);
 
             $this->response['success'] = true;
-            $this->response['message'] = sprintf(wp_kses_post('<strong>Status:</strong> Successfully trained on %s.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), $last_sync);
+            $this->response['message'] = sprintf(wp_kses_post('<strong>Status:</strong> Successfully trained on %s.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_html($last_sync));
         } else {
             $this->response['success'] = false;
             $this->response['message'] = wp_kses_post('<strong>' . __('Status:', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</strong> ' . __('Not Trained.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
