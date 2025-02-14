@@ -27,10 +27,10 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
         echo '</button>';
     }
 
-    protected function wordpressLoaderBtn( string $id = '', string $label = '')
+    protected function wordpressLoaderBtn( string $id = '', string $label = '',string $class="")
     {
         echo '<input type="submit" id="' . esc_attr($id) . '" ';
-        echo 'class="button button-primary" value="' . esc_html($label) . '">';
+        echo 'class="button button-primary ' . esc_attr($class) . '" " value="' . esc_html($label) . '">';
         echo '<span class="spinner is-active" style="display:none;" aria-hidden="true"></span>';
 
     }
@@ -42,8 +42,8 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
         echo '</span>';
     }
     
-    protected function createHiddenField($id) {
-        echo '<input type="hidden" id="' . esc_attr($id) . '" value=""></input>';
+    protected function createHiddenField($id, $data) {
+        echo '<input type="hidden" id="' . esc_attr($id) . '" value="' . $data . '">';
     }
 
     public function getHtml()

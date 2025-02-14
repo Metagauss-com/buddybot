@@ -265,7 +265,7 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
 
         if (empty($vectorstore_id)) {
             $this->response['success'] = false;
-            $this->response['message'] = '<div class="text-danger">' . esc_html__('File upload failed. No AI Training Knowledgebase found. Please create an AI Training Knowledgebase before initiating upload.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
+            $this->response['message'] = '<div class="small">' . esc_html__('Upload failed. No AI Training Knowledgebase found. Please create one before uploading.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
             echo wp_json_encode($this->response);
             wp_die();
         }
@@ -275,10 +275,10 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
 
         if ($wp_filesystem->is_writable($file)) {
             $this->response['success'] = true;
-            $this->response['message'] = '<div class="text-success">' . esc_html__('The file is writable.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
+            $this->response['message'] = '<div class="small">' . esc_html__('The file is writable.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
         } else {
             $this->response['success'] = false;
-            $this->response['message'] = '<div class="text-danger">' . esc_html__('The file is not writable.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
+            $this->response['message'] = '<div class="small">' . esc_html__('The file is not writable.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
         }
 
         echo wp_json_encode($this->response);
@@ -298,7 +298,7 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
             $this->$method();
         } else {
             $this->response['success'] = false;
-            $this->response['message'] = '<div class="text-danger">' . esc_html__('Data compile method undefined. Operation aborted.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
+            $this->response['message'] = '<div class="small">' . esc_html__('Data compile method undefined. Operation aborted.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
             echo wp_json_encode($this->response);
             wp_die();
         }
@@ -306,7 +306,7 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
         $this->writeData($data_type);
 
         $this->response['success'] = true;
-        $this->response['message'] = '<div class="text-success">' . esc_html__('Added data to file.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
+        $this->response['message'] = '<div class="small">' . esc_html__('Added data to file.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
 
         echo wp_json_encode($this->response);
         wp_die();
@@ -490,14 +490,14 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
         $update = update_option($this->core_files->getWpOptionName($data_type), $output->id, false);
 
         if ($update) {
-            $file_name = '<span class="text-bg-success px-2 py-1 rounded-1 small fw-bold">' . $output->id . '</span>';
+            //$file_name = '<span class="text-bg-success px-2 py-1 rounded-1 small fw-bold">' . $output->id . '</span>';
             $this->response['success'] = true;
             $this->response['id'] = $output->id;
             // Translators: %s is replaced with the file ID from OpenAI server.
-            $this->response['message'] = '<div class="text-success">' . sprintf(esc_html__('Remote file name updated to %s', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), wp_kses_post($file_name)) . '</div>';
+            $this->response['message'] = '<div class="small">' . sprintf(esc_html__('Remote file name updated to %s', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), wp_kses_post($output->id)) . '</div>';
         } else {
             $this->response['success'] = false;
-            $this->response['message'] = '<div class="text-danger">' . esc_html__('Unable to update remote file name.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
+            $this->response['message'] = '<div class="small">' . esc_html__('Unable to update remote file name.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
         }
 
         echo wp_json_encode($this->response);
@@ -572,15 +572,15 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
     
         if (!empty($deleted_files)) {
             $this->response['success'] = true;
-            $deleted_files = '<span class="text-bg-success px-2 py-1 rounded-1 small fw-bold">' . implode('</span>, <span class="text-bg-success px-2 py-1 rounded-1 small fw-bold">', $deleted_files) . '</span>';
+            $deleted_files = implode(', ', $deleted_files);
             // Translators: %s is replaced with a list of successfully deleted files.
-            $this->response['message'] = '<div class="text-success">' . sprintf(esc_html__('The outdated file %s has been successfully deleted from the AI Training Knowledgebase.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), wp_kses_post($deleted_files)) . '</div>';
+            $this->response['message'] = '<div class="small">' . sprintf(esc_html__('Outdated file %s deleted from the AI Training Knowledgebase.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), wp_kses_post($deleted_files)) . '</div>';
         }
         
         if (!empty($failed_files)) {
-            $failed_files = '<span class="text-bg-danger px-2 py-1 rounded-1 small fw-bold">' . implode('</span>, <span class="text-bg-danger px-2 py-1 rounded-1 small fw-bold">', $failed_files) . '</span>';
+            $failed_files = implode(', ', $failed_files);
             // Translators: %s is replaced with the list of files that failed to delete.
-            $this->response['message'] = '<div class="text-danger">' . sprintf(esc_html__('The file %s could not be deleted. Please check the file permissions or try again.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), wp_kses_post($failed_files)) . '</div>';
+            $this->response['message'] = '<div class="small">' . sprintf(esc_html__('The file %s could not be deleted. Please check the file permissions or try again.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), wp_kses_post($failed_files)) . '</div>';
         }
 
         echo wp_json_encode($this->response);
@@ -644,16 +644,13 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
         $this->checkError($output);
 
         if (isset($output->id) && $output->id === $file_id) {
-            $last_sync = gmdate('Y-m-d H:i:s');
-            update_option('buddybot_last_sync_ '. $data_type .'', gmdate('Y-m-d H:i:s'));
             $this->response['success'] = true;
-            $this->response['message'] = '<div class="text-success">' . esc_html__('File successfully uploaded to the AI Training Knowledgebase. The data will now be used by the AI Assistant.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
-            $this->response['last_sync'] =  $last_sync;
+            $this->response['message'] = '<div class="small">' . esc_html__('File uploaded to the AI Training Knowledgebase. Data will now be used by the AI Assistant.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
         } else {
             $this->response['success'] = false;
-            $file_id = '<span class="text-bg-success px-2 py-1 rounded-1 small fw-bold">' . $output->id . '</span>';
+           // $file_id = '<span class="text-bg-success px-2 py-1 rounded-1 small fw-bold">' . $output->id . '</span>';
             // Translators: %s is replaced with the list of files that failed to upload.
-            $this->response['message'] = '<div class="text-danger">' . sprintf(esc_html__('File upload failed. The file ID %s does not exist in OpenAI. Please re-upload the file to continue.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), wp_kses_post($file_id)) . '</div>';
+            $this->response['message'] = '<div class="small">' . sprintf(esc_html__('File upload failed. The file ID %s does not exist in OpenAI. Please re-upload the file to continue.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), wp_kses_post($output->id)) . '</div>';
         }
 
         echo wp_json_encode($this->response);
@@ -716,11 +713,8 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
 
         $file_id = isset($_POST['file_id']) && !empty($_POST['file_id']) ? sanitize_text_field($_POST['file_id']) : '';
         $vectorstore_id = isset($_POST['vectorstore_id']) && !empty($_POST['vectorstore_id']) ? sanitize_text_field($_POST['vectorstore_id']) : '';
-        $data_type = isset($_POST['data_type']) && !empty($_POST['data_type']) ? sanitize_text_field($_POST['data_type']) : '';
         $date_format = get_option('date_format');
         $time_format = get_option('time_format');
-        $last_sync = isset($_POST['last_sync']) && !empty($_POST['last_sync']) ? sanitize_text_field($_POST['last_sync']) : get_option('buddybot_last_sync_ '. $data_type .'');
-        $last_sync = get_date_from_gmt($last_sync,  $date_format . ' ' . $time_format);
 
         if (empty($_POST['file_id']) || empty($_POST['vectorstore_id'])) {
             $this->response['success'] = false;
@@ -742,7 +736,17 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
         $this->openai_response = wp_remote_get($url, $args);
         $this->processResponse();
 
-        $this->response['message'] = sprintf(wp_kses_post('<strong>Status:</strong> Successfully trained on %s.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), $last_sync);
+        if (!empty($this->openai_response_body) && isset($this->openai_response_body->created_at) && is_numeric($this->openai_response_body->created_at)) {
+
+            $gmt_time = gmdate('Y-m-d H:i:s', intval($this->openai_response_body->created_at));
+            $last_sync = get_date_from_gmt($gmt_time,  $date_format . ' ' . $time_format);
+
+            $this->response['success'] = true;
+            $this->response['message'] = sprintf(wp_kses_post('<strong>Status:</strong> Successfully trained on %s.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), $last_sync);
+        } else {
+            $this->response['success'] = false;
+            $this->response['message'] = wp_kses_post('<strong>' . __('Status:', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</strong> ' . __('Not Trained.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
+        }
 
         echo wp_json_encode($this->response);
         wp_die();
