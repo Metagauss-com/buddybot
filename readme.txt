@@ -83,7 +83,7 @@ Yes, BuddyBot AI uses the Bootstrap framework for its layout and design, providi
 
 == Changelog == 
 
-= 1.0.4.0: February 17, 2025 =
+= 1.0.4.0: February 18, 2025 =
 * Added: Progress bar feature for better tracking of ongoing processes.
 * Improved: Disappearing messages with icons for enhanced user interaction and experience.
 
@@ -114,7 +114,7 @@ Yes, BuddyBot AI uses the Bootstrap framework for its layout and design, providi
 
 == Upgrade Notice ==
 
-= 1.0.4.0: February 17, 2025 =
+= 1.0.4.0: February 18, 2025 =
 * Added: Progress bar feature for better tracking of ongoing processes.
 * Improved: Disappearing messages with icons for enhanced user interaction and experience.
 

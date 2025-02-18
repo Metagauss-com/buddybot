@@ -43,7 +43,7 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
     }
     
     protected function createHiddenField($id, $data) {
-        echo '<input type="hidden" id="' . esc_attr($id) . '" value="' . $data . '">';
+        echo '<input type="hidden" id="' . esc_attr($id) . '" value="' . esc_attr($data) . '">';
     }
 
     public function getHtml()
