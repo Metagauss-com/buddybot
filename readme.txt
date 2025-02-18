@@ -5,7 +5,7 @@ Tags: AI, chatbot, OpenAI, AI assistant
 Requires at least: 6.7  
 Tested up to: 6.7  
 Requires PHP: 8.0
-Stable tag: 1.0.3.3
+Stable tag: 1.0.4.0
 License: GPLv2 or later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -83,7 +83,11 @@ Yes, BuddyBot AI uses the Bootstrap framework for its layout and design, providi
 
 == Changelog == 
 
-= 1.0.3.3: february 05, 2025 =
+= 1.0.4.0: February 18, 2025 =
+* Added: Progress bar feature for better tracking of ongoing processes.
+* Improved: Disappearing messages with icons for enhanced user interaction and experience.
+
+= 1.0.3.3: February 05, 2025 =
 * Improved: OpenAI API key changing process.
 * Fixed: OpenAI API key is no longer visible in the Settings area.
 * Improved: Made helptext and notices more relevant and descriptive.
@@ -110,7 +114,11 @@ Yes, BuddyBot AI uses the Bootstrap framework for its layout and design, providi
 
 == Upgrade Notice ==
 
-= 1.0.3.3: february 05, 2025 =
+= 1.0.4.0: February 18, 2025 =
+* Added: Progress bar feature for better tracking of ongoing processes.
+* Improved: Disappearing messages with icons for enhanced user interaction and experience.
+
+= 1.0.3.3: February 05, 2025 =
 * Improved: OpenAI API key changing process.
 * Fixed: OpenAI API key is no longer visible in the Settings area.
 * Improved: Made helptext and notices more relevant and descriptive.
