@@ -11,48 +11,68 @@ class Conversations extends \BuddyBot\Admin\Sql\MoRoot
         $this->table = $this->config->getDbTable('threads');
     }
 
-    public function getAllConversations($offset = 0, $limit = 10, $user_id = 0)
+    public function getAllConversations($offset = 0, $limit = 10, $orderby = 'created', $order = 'desc', $user_id = 0, $search = '')
     {
         global $wpdb;
 
-        $query = 'SELECT * FROM ' . $this->table;
-
-        if ($user_id) {
-            $query .= ' WHERE user_id = %d';
+        $valid_columns = ['user_id', 'created', 'thread_name'];
+        if (!in_array($orderby, $valid_columns)) {
+            $orderby = 'created';
         }
 
-        $query .= ' LIMIT %d OFFSET %d';
+        $order = strtoupper($order) === 'ASC' ? 'ASC' : 'DESC';
 
-        if ($user_id) {
-            $query = $wpdb->prepare($query, $user_id, $limit, $offset);
-        } else {
-            $query = $wpdb->prepare($query, $limit, $offset);
+        $where_clauses = ['1=1'];
+        $params = [];
+
+        if (!empty($search)) {
+            $where_clauses[] = "thread_name LIKE %s";
+            $params[] = '%' . $wpdb->esc_like($search) . '%';
         }
 
-        // Execute the query and return the results as an associative array
-        $results = $wpdb->get_results($query, ARRAY_A);
+        if (!empty($user_id)) {
+            $where_clauses[] = "user_id = %d";
+            $params[] = $user_id;
+        }
 
-        return $results;
+        $where_sql = 'WHERE ' . implode(' AND ', $where_clauses);
+
+        $query = "SELECT * FROM {$this->table} $where_sql ORDER BY {$orderby} {$order} LIMIT %d OFFSET %d";
+
+        return $wpdb->get_results($wpdb->prepare($query, ...array_merge($params, [$limit, $offset])), ARRAY_A);
     }
 
-    public function getTotalConversationsCount($user_id = 0)
+    public function getTotalConversationsCount($user_id = 0, $search = '')
     {
         global $wpdb;
-    
-        $query = 'SELECT COUNT(*) FROM ' . $this->table;
 
-        if ($user_id) {
-            $query .= ' WHERE user_id = %d';
+        $where_clauses = ['1=1'];
+        $params = [];
+    
+        if (!empty($search)) {
+            $where_clauses[] = "thread_name LIKE %s";
+            $params[] = '%' . $wpdb->esc_like($search) . '%';
         }
     
-        if ($user_id) {
-            $query = $wpdb->prepare($query, $user_id);
-        } else {
-            $query = $wpdb->prepare($query);
-        }
 
-        $count = $wpdb->get_var($query);
+        if (!empty($user_id)) {
+            $where_clauses[] = "user_id = %d";
+            $params[] = $user_id;
+        }
     
-        return $count;
+        $where_sql = 'WHERE ' . implode(' AND ', $where_clauses);
+        $query = "SELECT COUNT(*) FROM {$this->table} $where_sql";
+
+        return empty($params) ? (int) $wpdb->get_var($query) : (int) $wpdb->get_var($wpdb->prepare($query, ...$params));
+    }
+
+    public function deleteConversation($thread_id)
+    {
+        $table = $this->config->getDbTable('threads');
+        $where = array('thread_id' => $thread_id);
+        $format = array('%s');
+
+        global $wpdb;
+        return $wpdb->delete($table, $where, $format);
     }
 }

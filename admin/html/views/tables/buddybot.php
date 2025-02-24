@@ -1,6 +1,6 @@
 <?php
 
-namespace BuddyBot\Admin\Html\Views;
+namespace BuddyBot\Admin\Html\Views\Tables;
 
 if (!class_exists('WP_List_Table')) {
     require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
@@ -10,7 +10,7 @@ use WP_List_Table;
 
 use BuddyBot\Admin\Sql\BuddyBots;
 
-class BbTable extends WP_List_Table 
+class BuddyBot extends WP_List_Table 
 {
     private $bot_db;
 
@@ -26,11 +26,11 @@ class BbTable extends WP_List_Table
 
     function get_columns() {
         return [
-            'chatbot_name' => __('BuddyBot Name', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
-            'assistant_id' => __('Assistant Model', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
-            'id'           => __('Shortcode', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
-            'created_on'   => __('Date Created', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
-            'edited_on'    => __('Last Updated', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            'chatbot_name'    => esc_html__('BuddyBot Name', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            'assistant_model' => esc_html__('Assistant Model', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            'id'              => esc_html__('Shortcode', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            'created_on'      => esc_html__('Date Created', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            'edited_on'       => esc_html__('Last Updated', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
         ];
     }
 
@@ -49,12 +49,13 @@ class BbTable extends WP_List_Table
         $sortable = $this->get_sortable_columns();
         $this->_column_headers = array($columns, $hidden, $sortable);
 
-        $per_page = get_option('buddybot_columns_per_page', 10);
-        $search = $_GET['s'] ?? '';
-        $filter = $_GET['buddybot-filter-model'] ?? '';
+        $per_page = intval(get_option('buddybot_columns_per_page', 10));
+        $search   = sanitize_text_field($_GET['s'] ?? '');
+        $filter   = sanitize_text_field($_GET['buddybot-filter-model'] ?? '');
 
         $current_page = $this->get_pagenum();
         $total_items  = $this->bot_db->getTotalChatbotsCount($search, $filter);
+        error_log("Total Items After Filtering: " . $total_items);
 
         $orderby = $_GET['orderby'] ?? 'created_on';
         $order   = $_GET['order'] ?? 'desc';
@@ -64,8 +65,8 @@ class BbTable extends WP_List_Table
             $per_page,
             $orderby,
             $order,
-            $search,
-            $filter
+            $filter,
+            $search
         );
 
         $this->set_pagination_args([
@@ -91,7 +92,7 @@ class BbTable extends WP_List_Table
     }
 
     function column_chatbot_name($item) {
-        $edit_link = get_admin_url() . 'admin.php?page=buddybot-chatbot&chatbot_id=' . intval($item['id']);
+        $edit_link = get_admin_url() . 'admin.php?page=buddybot-editbuddybot&chatbot_id=' . intval($item['id']);
         //$delete_link = '';
     
         $chatbot_name_link = sprintf(
@@ -101,11 +102,12 @@ class BbTable extends WP_List_Table
         );
     
         $actions = [
-            'edit'   => sprintf('<a href="%s">%s</a>', esc_url($edit_link), __('Edit', 'buddybot-ai-custom-ai-assistant-and-chat-agent')),
+            'edit'   => sprintf('<a href="%s">%s</a>', esc_url($edit_link), esc_html__('Edit', 'buddybot-ai-custom-ai-assistant-and-chat-agent')),
             'delete' => sprintf(
-                '<a href="javascript:void(0)" class="buddybot-column-delete" data-id="%d">%s</a>',
+                '<a href="javascript:void(0)" class="buddybot-chatbot-delete" data-modal="buddybot-del-confirmation-modal" chatbot-id="%d"  assistant-id="%s">%s</a>',
                 intval($item['id']),
-                __('Delete', 'buddybot-ai-custom-ai-assistant-and-chat-agent')
+                esc_attr($item['assistant_id']),
+                esc_html__('Delete', 'buddybot-ai-custom-ai-assistant-and-chat-agent')
             ),
         ];
     
@@ -116,10 +118,10 @@ class BbTable extends WP_List_Table
     {
         if ($which === 'top') {
             ?>
-            <label for="buddybot-filter-model" class="screen-reader-text"><?php _e('Filter by Model', 'buddybot-ai-custom-ai-assistant-and-chat-agent'); ?></label>
+            <label for="buddybot-filter-model" class="screen-reader-text"><?php esc_html_e('Filter by Model', 'buddybot-ai-custom-ai-assistant-and-chat-agent'); ?></label>
             <select name="buddybot-filter-model" id="buddybot-filter-model">
-                <option value=""><?php _e('All Models', 'buddybot-ai-custom-ai-assistant-and-chat-agent'); ?></option>
-                <option value="" disabled><?php _e('Loading models...', 'buddybot-ai-custom-ai-assistant-and-chat-agent'); ?></option>
+                <option value=""><?php esc_html_e('All Models', 'buddybot-ai-custom-ai-assistant-and-chat-agent'); ?></option>
+                <option value="" disabled><?php esc_html_e('Loading models...', 'buddybot-ai-custom-ai-assistant-and-chat-agent'); ?></option>
             </select>
             <?php
             submit_button(__('Filter'), '', 'filter_action', false);

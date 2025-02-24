@@ -7,20 +7,22 @@ final class ViewConversation extends \BuddyBot\Admin\Requests\MoRoot
     protected $thread_id = '';
     protected $user_id = '';
 
-    protected function threadId()
+    protected function setUserId()
     {
-        if (!empty($_GET['thread_id'])) {
-            $this->thread_id = sanitize_text_field($_GET['thread_id']);
-        }
-
         if (!empty($_GET['user_id'])) {
             $this->user_id = sanitize_text_field($_GET['user_id']);
         }
     }
 
+    protected function setThreadId()
+    {
+        if (!empty($_GET['thread_id'])) {
+            $this->thread_id = sanitize_text_field($_GET['thread_id']);
+        }
+    }
+
     public function requestJs()
     {
-        $this->threadId();
         $this->storeThreadInfoJs();
         $this->listConversationJs();
         $this->getRelatedConversationMsg();

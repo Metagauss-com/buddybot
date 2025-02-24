@@ -38,10 +38,18 @@ class MoDb
         chatbot_name varchar(256),
         chatbot_description varchar(1024),
         assistant_id varchar(100),
+        assistant_model VARCHAR(100) NOT NULL,
+        personalized_options BOOLEAN NOT NULL DEFAULT 0,
+        fallback_behavior VARCHAR(50) NOT NULL,
+        emotion_detection BOOLEAN NOT NULL DEFAULT 0,
+        greeting_message VARCHAR(256) NULL,
+        multilingual_support BOOLEAN NOT NULL DEFAULT 0,
+        supported_languages TEXT NULL,
+        openai_search BOOLEAN NOT NULL DEFAULT 0,
         author mediumint(9),
-        created_on datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+        created_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
         last_editor mediumint(9),
-        edited_on datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+        edited_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
         PRIMARY KEY  (id)
         )  $this->charset;";
         

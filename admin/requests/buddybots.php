@@ -7,21 +7,37 @@ class BuddyBots extends \BuddyBot\Admin\Requests\MoRoot
 
     public function requestJs()
     {
-        $this->getBuddyBotsJs();
+        $this->deleteBuddyBotJs();
         $this->paginationDropdownJs();
         $this->getModelsJs();
     }
 
-    private function getBuddyBotsJs()
+    private function deleteBuddyBotJs()
     {
-        $nonce = wp_create_nonce('get_buddybots');
+        $nonce = wp_create_nonce('delete_buddybot');
         echo '
-        //getBuddyBots();
-        function getBuddyBots(paged = 1){
+
+        let assistantId;
+        let chatbotId;
+
+        $(document).on("click", ".buddybot-chatbot-delete", function() {  
+			assistantId = $(this).attr("assistant-id");
+            chatbotId = $(this).attr("chatbot-id");
+        });
+
+        $("#buddybot-confirm-del-btn").on("click", function() {
+            $("#buddybot-cancel-del-btn").prop("disabled", true);
+            $("#buddybot-confirm-del-btn").prop("disabled", true);
+            $("#buddybot-del-msg").show();
+            deleteBuddyBot();
+        });
+
+        function deleteBuddyBot(){
 
             const data = {
-                "action": "getBuddyBots",
-                "paged": paged,
+                "action": "deleteBuddyBot",
+                "assistant_id": assistantId,
+                "chatbot_id": chatbotId,
                 "nonce": "' . esc_js($nonce) . '"
             };
   
@@ -29,22 +45,15 @@ class BuddyBots extends \BuddyBot\Admin\Requests\MoRoot
                 response = JSON.parse(response);
 
                 if (response.success) {
-                    $("#buddybot-assistants-loading-spinner").addClass("visually-hidden");
-                    $(".buddybot-org-buddybots-table tbody").append(response.html);
-
-                    // if (response.result.has_more) {
-                    //     $("#buddybot-assistants-load-more-btn").removeClass("visually-hidden");
-                    //     $("#buddybot-assistants-load-more-btn").prop("disabled", false);
-                    //     $("#buddybot-assistants-load-more-btn").find(".buddybot-loaderbtn-label").removeClass("visually-hidden");
-                    //     $("#buddybot-assistants-load-more-btn").find(".buddybot-loaderbtn-spinner").addClass("visually-hidden");
-                    // } else {
-                    //     $("#buddybot-assistants-load-more-btn").addClass("visually-hidden");
-                    //     $("#buddybot-assistants-no-more").removeClass("visually-hidden");
-                    // }
-
+                    showToast("success", response.message);
+                    $("a.buddybot-chatbot-delete[chatbot-id=" + chatbotId + "]").closest("tr").remove();
                 } else {
                     showAlert(response.message);
                 }
+                $(".buddybot-modal.show").removeClass("show");
+                $("#buddybot-cancel-del-btn").prop("disabled", false);
+                $("#buddybot-confirm-del-btn").prop("disabled", false);
+                $("#buddybot-del-msg").hide();
             });
         }
         ';
@@ -80,11 +89,14 @@ class BuddyBots extends \BuddyBot\Admin\Requests\MoRoot
 
     private function getModelsJs()
     {
+        $selected_model = isset($_GET['buddybot-filter-model']) ? sanitize_text_field($_GET['buddybot-filter-model']) : '';
         $nonce = wp_create_nonce('get_models');
         echo '
         getModels();
         function getModels(){
             const select = $("#buddybot-filter-model");
+            const selectedModel = "' . esc_js($selected_model) . '";
+
             const data = {
                 "action": "getModels",
                 "nonce": "' . esc_js($nonce) . '"
@@ -95,7 +107,11 @@ class BuddyBots extends \BuddyBot\Admin\Requests\MoRoot
                 if (response.success) {
                     select.find("option:disabled").remove();
                     select.append(response.html);
-                    // select.siblings(".buddybot-dataload-spinner").hide();
+
+                    if (selectedModel) {
+                        select.val(selectedModel);
+                    }
+
                 } else {
                     showAlert(response.message);
                 }
@@ -104,52 +120,4 @@ class BuddyBots extends \BuddyBot\Admin\Requests\MoRoot
         ';
     }
 
-    private function deleteBuddybot()
-    {
-        $nonce = wp_create_nonce('delete_buddybot');
-        echo'
-
-        //let threadId;
-        $("#buddybot-delete-conversation-cancel-btn").on("click", function() {
-            // hideAlert();
-			// threadId = $(this).attr("data-buddybot-itemid");
-				
-			$(".buddybot-conversation-delete").prop("disabled", true);
-			$("#buddybot-delete-conversation-modal").modal("show");
-			
-		});
-
-        $("#buddybot-delete-conversation-cancel-btn").on("click", function() {
-			$(".buddybot-conversation-delete").prop("disabled", false);
-		}); 
-
-        $("#buddybot-confirm-conversation-delete-btn").click(function(){
-            $("#buddybot-delete-conversation-cancel-btn").prop("disabled", true);
-            $("#buddybot-confirm-conversation-delete-btn").prop("disabled", true);
-            $("#buddybot-deleting-conversation-msg").show();
-
-            const data = {
-                "action": "deleteConversation",
-                "thread_id": threadId,
-                "nonce": "' . esc_js($nonce) . '"
-            };
-
-            $.post(ajaxurl, data, function(response) {
-                response = JSON.parse(response);
-                if (response.success) {
-                    $("tr.buddybot-conversations-table-row[data-buddybot-itemid=" + threadId + "]").remove();
-                    renumberRows();
-                } else {
-                    $("#buddybot-delete-conversation-modal").modal("hide");
-                    showAlert(response.message);
-                }
-                $("#buddybot-delete-conversation-modal").modal("hide");
-                $("#buddybot-delete-conversation-cancel-btn").prop("disabled", false);
-                $("#buddybot-confirm-conversation-delete-btn").prop("disabled", false);
-                $("#buddybot-deleting-conversation-msg").hide();
-                $(".buddybot-conversation-delete").prop("disabled", false);
-            });
-        });
-        ';
-    }
 }

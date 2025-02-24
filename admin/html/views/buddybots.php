@@ -7,16 +7,19 @@ final class BuddyBots extends \BuddyBot\Admin\Html\Views\MoRoot
 
     public function getHtml()
     {
-        $this->pageModals();
         $this->alertContainer();
+        echo '<div class="wrap">';
         $heading = __('BuddyBots', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $this->customPageHeading($heading);
         $this->assistantsTable();
+        echo '</div>';
+        $this->pageModals();
+        $this->toastContainer();
     }
 
     protected function pageModals()
     {
-        $deleteBuddybot = new \BuddyBot\Admin\Html\Modals\DeleteBuddyBot();
+        $deleteBuddybot = new \BuddyBot\Admin\Html\CustomModals\DeleteBuddyBot();
         $deleteBuddybot->getHtml();
     }
 
@@ -30,6 +33,7 @@ final class BuddyBots extends \BuddyBot\Admin\Html\Views\MoRoot
         echo esc_html($heading);
         echo '</h1>';
         $this->pageBtns();
+        echo '<hr class="wp-header-end">';
         if (!empty($search_query)) {
             printf(
                 '<span class="subtitle">' . esc_html__('Search results for: ', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '<strong>%s</strong></span>',
@@ -51,7 +55,7 @@ final class BuddyBots extends \BuddyBot\Admin\Html\Views\MoRoot
 
     public function pageBtns()
     {
-        $add_assistant_page = get_admin_url() . 'admin.php?page=buddybot-editassistant';
+        $add_assistant_page = get_admin_url() . 'admin.php?page=buddybot-editbuddybot';
         //echo '<div class="">';
         echo '<a href="' . esc_url($add_assistant_page) . '" class="page-title-action">';
         echo esc_html(__('Create New BuddyBot', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
@@ -88,8 +92,8 @@ final class BuddyBots extends \BuddyBot\Admin\Html\Views\MoRoot
         // $this->tableFooter();
         // echo '</table>';
         // $this->pagination();        
-        if (class_exists('\BuddyBot\Admin\Html\Views\BbTable')) {
-            $buddybots_table = new \BuddyBot\Admin\Html\Views\BbTable();
+        if (class_exists('\BuddyBot\Admin\Html\Views\Tables\BuddyBot')) {
+            $buddybots_table = new \BuddyBot\Admin\Html\Views\Tables\BuddyBot();
 
             $buddybots_table->prepare_items();
 

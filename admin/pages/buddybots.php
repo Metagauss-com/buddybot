@@ -1,4 +1,4 @@
-<div class="wrap">
+<!-- <div class="wrap"> -->
 
 <?php
 
@@ -15,4 +15,4 @@ $mo_chatbot_page->getHtml();
 $mo_chatbot_page->pageJs();
 ?>
 
-</div>
+<!-- </div> -->

@@ -103,7 +103,7 @@ class BuddyBots extends \BuddyBot\Admin\Sql\MoRoot
 
         // Apply filters
         if (!empty($filter)) {
-            $where_clauses[] = "chatbot_name = %s";
+            $where_clauses[] = "assistant_model = %s";
             $params[] = $filter;
         }
 
@@ -130,7 +130,7 @@ class BuddyBots extends \BuddyBot\Admin\Sql\MoRoot
         }
 
         if (!empty($filter)) {
-            $where_clauses[] = "assistant_id = %s";
+            $where_clauses[] = "assistant_model = %s";
             $params[] = $filter;
         }
 

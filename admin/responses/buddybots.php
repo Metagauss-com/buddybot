@@ -5,27 +5,55 @@ namespace BuddyBot\Admin\Responses;
 class BuddyBots extends \BuddyBot\Admin\Responses\MoRoot
 {
 
-    public function getBuddyBots()
+    public function deleteBuddyBot()
     {
-        $this->checkNonce('get_buddybots');
+        $this->checkNonce('delete_buddybot');
+        $this->checkCapabilities();
 
-        $response = $this->sql->getAllChatbots();
+        $assistant_id = isset($_POST['assistant_id']) && !empty($_POST['assistant_id']) ? sanitize_text_field($_POST['assistant_id']) : '';
+        $chatbot_id = isset($_POST['chatbot_id']) && !empty($_POST['chatbot_id']) ? intval($_POST['chatbot_id']) : 0;
 
-        if ($response === false) {
-            global $wpdb;
+        if (empty($assistant_id) || $chatbot_id <= 0) {
             $this->response['success'] = false;
-            $this->response['message'] = $wpdb->last_error;
+            $this->response['message'] = esc_html__('Assistant ID/ChatBot ID cannot be empty.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             echo wp_json_encode($this->response);
             wp_die();
         }
 
-        $buddybots = $this->buddybotTableHtml($response);
+        $url = 'https://api.openai.com/v1/assistants/' . $assistant_id;
 
-        $this->response['success'] = true;
-        $this->response['html'] = $buddybots;
+        $headers = [
+            'Content-Type' => 'application/json',
+            'OpenAI-Beta' => 'assistants=v2',
+            'Authorization' => 'Bearer ' . $this->api_key
+        ];
+
+        $args = ['headers' => $headers, 'method' => 'DELETE'];
+
+        $this->openai_response = wp_remote_post($url, $args);
+        $this->processResponse();
+        
+        if ($this->response['result']->deleted) {
+            
+            $response = $this->sql->deleteChatbot($chatbot_id);
+            if ($response === false) {
+                global $wpdb;
+                $this->response['success'] = false;
+                $this->response['message'] = $wpdb->last_error;
+                echo wp_json_encode($this->response);
+                wp_die();
+            } 
+            $this->response['success'] = true;
+            $this->response['message'] = esc_html__('Successfully deleted BuddyBot.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+
+        } else {
+            $this->response['success'] = false;
+            $this->response['message'] = esc_html__('Unable to delete the BuddyBot.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        }
 
         echo wp_json_encode($this->response);
         wp_die();
+
     }
 
     private function buddybotTableHtml($response)
@@ -138,7 +166,7 @@ class BuddyBots extends \BuddyBot\Admin\Responses\MoRoot
     public function __construct()
     {
         $this->setAll();
-        add_action('wp_ajax_getBuddyBots', array($this, 'getBuddyBots'));
+        add_action('wp_ajax_deleteBuddyBot', array($this, 'deleteBuddyBot'));
         add_action('wp_ajax_savePaginationLimit', array($this, 'savePaginationLimit'));
         add_action('wp_ajax_getModels', array($this, 'getModels'));
     }

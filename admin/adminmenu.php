@@ -11,18 +11,18 @@ final class AdminMenu extends \BuddyBot\Admin\MoRoot
         $this->playgroundSubmenuItem();
         // $this->wizardSubmenuItem();
         // $this->orgFilesSubmenuItem();
-        $this->assistantsSubmenuItem();
+        //$this->assistantsSubmenuItem();
         // $this->addFileSubmenuItem();
         //$this->dataSyncSubmenuItem();
         $this->settingsSubmenuItem();
         $this->vectorStoreSubmenuItem();
         $this->conversationsSubmenuItem();
-        $this->BuddybotsSubmenuItem();
+        $this->buddybotsSubmenuItem();
     }
 
     public function hiddenMenu()
     {
-        $this->editAssistantSubmenuItem();
+        $this->editBuddyBotSubmenuItem();
         $this->defaultBuddyBotWizard();
         $this->ViewConversationsSubmenuItem();
     }
@@ -59,7 +59,7 @@ $base64_icon = base64_encode($icon);
         );
     }
 
-    public function BuddybotsSubmenuItem()
+    public function buddybotsSubmenuItem()
     {
         add_submenu_page(
             'buddybot-chatbot',
@@ -150,15 +150,15 @@ $base64_icon = base64_encode($icon);
         );
     }
 
-    public function editAssistantSubmenuItem()
+    public function editBuddyBotSubmenuItem()
     {
         add_submenu_page(
             'buddybot-hidden-page',
             esc_html__('Edit Assistant', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
             esc_html__('Edit Assistant', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
             'manage_options',
-            'buddybot-editassistant',
-            array($this, 'EditAssistantMenuPage'),
+            'buddybot-editbuddybot',
+            array($this, 'EditBuddyBotMenuPage'),
             1
         );
     }
@@ -268,9 +268,9 @@ $base64_icon = base64_encode($icon);
         include_once(plugin_dir_path(__FILE__) . 'pages/assistants.php');
     }
 
-    public function editAssistantMenuPage()
+    public function EditBuddyBotMenuPage()
     {
-        include_once(plugin_dir_path(__FILE__) . 'pages/editassistant.php');
+        include_once(plugin_dir_path(__FILE__) . 'pages/editbuddybot.php');
     }
 
     public function defaultBuddyBotWizardMenuPage()
@@ -312,6 +312,7 @@ $base64_icon = base64_encode($icon);
     {
        wp_enqueue_style('buddybotbanner', plugin_dir_url(__FILE__) . 'css/global.css', array(), BUDDYBOT_PLUGIN_VERSION);
         wp_enqueue_script( 'jquery' );
+       // wp_enqueue_script('wp-notices');
         wp_enqueue_script( 'buddybotbanner', plugin_dir_url( __FILE__ ) . 'js/buddybotbanner.js', array( 'jquery' ),BUDDYBOT_PLUGIN_VERSION, true );
         wp_localize_script(
             'buddybotbanner',

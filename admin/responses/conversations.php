@@ -5,89 +5,70 @@ namespace BuddyBot\Admin\Responses;
 class Conversations extends \BuddyBot\Admin\Responses\MoRoot
 {
 
-    public function getConversations()
+    public function deleteConversation()
     {
-        $this->checkNonce('get_conversations');
+        $this->checkNonce('delete_conversation');
 
-        $paged = isset($_POST['paged']) ? absint($_POST['paged']) : 1;
-        $limit = get_option('buddybot_conversations_per_page', 10);
-        //$limit = 1;
-        $user_id = isset($_POST['user_id']) ? absint($_POST['user_id']) : 0;
+        $thread_id = isset($_POST['thread_id']) && !empty($_POST['thread_id']) ? sanitize_text_field($_POST['thread_id']) : '';
 
-        $offset =(int) ( $paged-1 ) * $limit;
-        $total_count = $this->sql->getTotalConversationsCount($user_id);
-        $response = $this->sql->getAllConversations($offset, $limit, $user_id);
-
-        if ($response === false) {
-            global $wpdb;
-            $response = array(
-                'success' => false,
-                'message' => $wpdb->last_error
-            );
-            echo wp_json_encode($response);
+        $url = 'https://api.openai.com/v1/threads/' . $thread_id;
+    
+        $headers = array(
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer ' . $this->api_key,
+            'OpenAI-Beta' => 'assistants=v2'
+        );
+    
+        $response = wp_remote_request($url, array(
+            'method'  => 'DELETE',
+            'headers' => $headers,
+            'timeout' => 60,
+        ));
+    
+        if (is_wp_error($response)) {
+            $this->response['success'] = false;
+            $this->response['message'] = $response->get_error_message();
+            echo wp_json_encode($this->response);
             wp_die();
         }
-        $paged++;
-        $conversations = $this->buddybotConversationsTableHtml($response, $offset, $paged);
-
-        $response = array(
-            'success' => true,
-            'html' => $conversations,
-        );
-
-        if ($total_count > ($offset + $limit)) {
-            $response['has_more'] = $total_count > ($offset + $limit);
-        }
-
-        echo wp_json_encode($response);
-        wp_die();
-    }
-
-    private function buddybotConversationsTableHtml($response, $offset, $paged)
-    {
-
-        $date_format = get_option('date_format');
-        $time_format = get_option('time_format');
-
-        $html = '';
-
-        foreach ($response as $index => $conversation) {
-            $index = absint($offset) + $index + 1;
-            $html .= '<tr class="small buddybot-conversations-table-row buddybot-col-no" data-buddybot-itemid="' . esc_attr($conversation['thread_id']) . '" data-buddybot-pageid="' . esc_attr($paged) . '">';
-            $html .= '<th class="buddybot-conversations-sr-no" scope="row">' . absint($index)  . '</th>';
-            $html .= '<td class="text-truncate buddybot-conversations-name">' . esc_html($conversation['thread_name']) . '</td>';
-            $user_info = get_userdata($conversation['user_id']);
-            if ($user_info) {
-            $User_name = $user_info->display_name;
-            } else {
-            $User_name = __('Unknown User', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+    
+        $output = json_decode(wp_remote_retrieve_body($response));
+        $notFound = false;
+        if (isset($output->error) && isset($output->error->message)) {
+            if (strpos(strtolower($output->error->message), 'no thread found') !== false) {
+                $notFound = true;
             }
-            $html .= '<td class="text-truncate buddybot-conversations-user">' . esc_html($User_name) . '</td>';
-            //$html .= '<td class="buddybot-conversations-shortcode"><code>' . esc_html('[buddybot_chat id=' . esc_attr($budybot['id']) . ']') . '</code></td>';
-            $html .= '<td class="buddybot-conversations-creation">' . esc_html(get_date_from_gmt($conversation['created'],  $date_format . ' ' . $time_format)) . '</td>';
-            $html .= '<td class="buddybot-conversations-btn">' . $this->conversationBtns($conversation['thread_id'], $conversation['user_id']) . '</td>';
-            $html .= '</tr>';
         }
+    
+        if (!$notFound) {
+            $this->checkError($output);
+        }
+    
+        if (isset($output->deleted) && $output->deleted || $notFound) {
 
-        return $html;
-    }
-
-    protected function conversationBtns($thread_id, $user_id)
-    {   
-        $conversation_url = get_admin_url() . 'admin.php?page=buddybot-viewconversation&thread_id=' . $thread_id . '&user_id=' . $user_id;
-        $html = '<div class="btn-group btn-group-sm me-2" role="group" aria-label="Basic example">';
-        $html .= '<a href="' . esc_url($conversation_url) . '" type="button" class="buddybot-listbtn-conversation-view btn btn-outline-dark">' . $this->moIcon('visibility') . '</a>';
-        $html .= '<button type="button" class="buddybot-conversation-delete btn btn-outline-dark" data-buddybot-itemid="' . esc_html($thread_id) . '">' . $this->moIcon('delete') . '</button>';
-        $html .= '</div>';
-
-        $html .= $this->listSpinner();
+            $response = $this->sql->deleteConversation($thread_id);
+            if ($response === false) {
+                global $wpdb;
+                $this->response['success'] = false;
+                $this->response['message'] = $wpdb->last_error;
+                echo wp_json_encode($this->response);
+                wp_die();
+            } 
+            $this->response['success'] = true;
+            $this->response['message'] = esc_html__('Conversation deleted Successfully.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        } else {
+            $this->response['success'] = false;
+            $this->response['message'] = esc_html__('Unable to delete conversation.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        }
+    
+        echo wp_json_encode($this->response);
+        wp_die();
         
-        return $html;
     }
 
-    public function saveConversationLimitPerPage()
+    public function saveConversationLimit()
     {
-        $this->checkNonce('save_conversation_limit_per_page');
+        $this->checkNonce('pagination_dropdown');
 
         $limit = isset($_POST['selected_value']) ? absint($_POST['selected_value']) : 10;
         if(!empty($limit)){
@@ -105,8 +86,8 @@ class Conversations extends \BuddyBot\Admin\Responses\MoRoot
     public function __construct()
     {
         $this->setAll();
-        add_action('wp_ajax_getConversations', array($this, 'getConversations'));
-        add_action('wp_ajax_saveConversationLimitPerPage', array($this, 'saveConversationLimitPerPage'));
+        add_action('wp_ajax_deleteConversation', array($this, 'deleteConversation'));
+        add_action('wp_ajax_saveConversationLimit', array($this, 'saveConversationLimit'));
         
     }
 

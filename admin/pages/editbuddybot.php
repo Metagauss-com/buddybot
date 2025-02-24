@@ -10,7 +10,7 @@ if ($buddybot_checks->hasErrors()) {
     return;
 }
 
-$mo_assistant_page = new \BuddyBot\Admin\Html\Views\EditAssistant();
+$mo_assistant_page = new \BuddyBot\Admin\Html\Views\EditBuddyBot();
 $mo_assistant_page->getHtml();
 $mo_assistant_page->pageJs();
 ?>

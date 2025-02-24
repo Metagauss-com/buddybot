@@ -16,6 +16,7 @@
 namespace BuddyBot;
 
 define( 'BUDDYBOT_PLUGIN_VERSION', '1.0.3.3' );
+define( 'BUDDYBOT_DATABASE_VERSION', '1.0' );
 
 //exit if the file is accessed directly.
 if (!defined('WPINC')) die;
@@ -35,8 +36,18 @@ if (is_readable(plugin_dir_path(__FILE__) . 'loader.php')) {
 
 spl_autoload_register(array(__NAMESPACE__ . '\Loader', 'loadClass'));
 
-$buddybot_db = new MoDb();
-register_activation_hook(__FILE__, array($buddybot_db, 'installPlugin'));
+// $buddybot_db = new MoDb();
+// register_activation_hook(__FILE__, array($buddybot_db, 'installPlugin'));
+
+add_action('init', function() {
+    $buddybot_db = new MoDb();
+    $stored_version = get_option('buddybot_db_version', '0.1');
+
+    if ((float) $stored_version < (float) BUDDYBOT_DATABASE_VERSION) {
+        $buddybot_db->installPlugin(); 
+        update_option('buddybot_db_version', BUDDYBOT_DATABASE_VERSION);
+    }
+});
 
 //----------Admin Code--------//
 
@@ -47,7 +58,7 @@ if (is_admin()) {
     $buddybot_chatbot_responses = new Admin\Responses\BuddyBots();
     $buddybot_datasync_responses = new Admin\Responses\DataSync();
     $buddybot_assistants_responses = new Admin\Responses\Assistants();
-    $buddybot_assistant_responses = new Admin\Responses\EditAssistant();
+    $buddybot_buddybot_responses = new Admin\Responses\EditBuddyBot();
     $buddybot_playground_responses = new Admin\Responses\Playground();
     $buddybot_settings_responses = new Admin\Responses\Settings();
     $buddybot_vectorstore_responses = new Admin\Responses\VectorStore();

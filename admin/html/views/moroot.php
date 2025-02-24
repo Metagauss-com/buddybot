@@ -21,7 +21,7 @@ class MoRoot extends \BuddyBot\Admin\Html\MoRoot
 
     protected function alertContainer()
     {
-        echo '<div id="buddybot-alert-container" class="notice notice-error mb-2 ms-0" style="display:none;">';
+        echo '<div id="buddybot-alert-container" class="notice-error" style="display:none;">';
         echo '<p></p>';
         echo '</div>';
     }
@@ -30,6 +30,17 @@ class MoRoot extends \BuddyBot\Admin\Html\MoRoot
     {
         echo '<div class="buddybot-dataload-spinner spinner-border spinner-border-sm text-dark" role="status">';
         echo '<span class="visually-hidden">Loading...</span>';
+        echo '</div>';
+    }
+
+    protected function toastContainer()
+    {
+        echo '<div id="buddybot-toast-container">';
+        echo '<div class="buddybot-toast">';
+        echo '<div class="buddybot-toast-content">';
+        echo '<span class="toast-message"></span>';
+        echo '</div>';
+        echo '</div>';
         echo '</div>';
     }
 

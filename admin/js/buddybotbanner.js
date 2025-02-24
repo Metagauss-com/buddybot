@@ -33,3 +33,26 @@ jQuery( document ).ready(
  
 	}
 );
+
+(function ($) {
+  'use strict';
+  $(document).ready(function() {
+      $("[data-modal]").on("click", function (event) {
+          event.preventDefault();
+          var modalId = $(this).attr("data-modal");
+          var $modal = $("#" + modalId);
+
+          if ($modal.hasClass("show")) {
+              $modal.removeClass("show");
+          } else {
+              $modal.addClass("show");
+          }
+      });
+
+      $(window).on("click", function (event) {
+          if ($(event.target).hasClass("buddybot-modal")) {
+              $(".buddybot-modal.show").removeClass("show");
+          }
+      });
+  });
+})(jQuery);

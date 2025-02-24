@@ -6,42 +6,87 @@ final class Conversations extends \BuddyBot\Admin\Html\Views\MoRoot
 {
     public function getHtml()
     {
-        $this->deleteConversationModal();
-        $heading = __('Conversations', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-        $this->pageHeading($heading);
-        $this->pageBtns();
         $this->alertContainer();
+        $heading = __('Conversations', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $this->customPageHeading($heading);
         $this->conversationsTable();
-        $this->noMoreConversations();
-        $this->loadMoreBtn();
+        $this->toastContainer();
+        $this->pageModals();
     }
 
-    private function pageBtns() {
-        $saved_value = get_option('buddybot_conversations_per_page', 10);
-        echo '<div id="buddybot-conversation-dropdown" class="mb-3 d-flex justify-content-end">';
-        echo '<label class="mb-0 me-2" style="white-space: nowrap;">';
-        esc_html_e('Results per page →', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-        echo '</label>';
-        echo '<select id="buddybot-conversation-load-more-limit" class="form-select ms-2 w-auto">';
-        
-        foreach ([10, 20, 30, 40, 50] as $option) {
-            echo '<option value="' . esc_attr($option) . '" ' . ($saved_value == $option ? 'selected' : '') . '>';
-            echo esc_html__('page 1-' . $option, 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-            echo '</option>';
+    protected function customPageHeading($heading)
+    {
+        $search_query = isset($_GET['s']) ? sanitize_text_field($_GET['s']) : '';
+
+        echo '<div class="buddybot-header-wrap">';
+        echo '<div class="buddybots-page-heading">';
+        echo '<h1 class="wp-heading-inline">';
+        echo esc_html($heading);
+        echo '</h1>';
+        //$this->pageBtns();
+        if (!empty($search_query)) {
+            printf(
+                '<span class="subtitle">' . esc_html__('Search results for: ', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '<strong>%s</strong></span>',
+                esc_html($search_query)
+            );
         }
-    
+        echo '</div>';
+        $this->paginationDropdown();
+        echo '</div>';
+    }
+
+    protected function pageModals()
+    {
+        $deleteConversation = new \BuddyBot\Admin\Html\CustomModals\DeleteConversation();
+        $deleteConversation->getHtml();
+    }
+
+    private function paginationDropdown()
+    {
+        
+        $saved_value = esc_attr(get_option('buddybot_conversations_per_page', 10));
+
+        echo '<div id="buddybot-conversation-dropdown">';
+        echo '<label>' . esc_html__('Results per page →', 'multiple-buddybots') . '</label>';
+        echo '<select id="buddybot-conversation-pagination">';
+        
+        $options = [10, 20, 30, 40, 50];
+        
+        foreach ($options as $option) {
+            $option_value = esc_attr($option);
+            $selected = ($saved_value == $option_value) ? 'selected' : '';
+            echo '<option value="' . $option_value . '" ' . esc_attr($selected) . '>' . esc_html__('page 1-' . $option_value, 'multiple-buddybots') . '</option>';
+        }
+        
         echo '</select>';
         echo '</div>';
     }
 
     private function conversationsTable()
     {
-        echo '<div class="table-responsive">';
-        echo '<table class="buddybot-org-conversations-table table">';
-        $this->tableHeader();
-        $this->tableBody();
-        echo '</table>';
-        echo '</div>';
+        // echo '<div class="table-responsive">';
+        // echo '<table class="buddybot-org-conversations-table table">';
+        // $this->tableHeader();
+        // $this->tableBody();
+        // echo '</table>';
+        // echo '</div>';
+
+        if (class_exists('\BuddyBot\Admin\Html\Views\Tables\Conversations')) {
+            $buddybots_table = new \BuddyBot\Admin\Html\Views\Tables\Conversations();
+
+            $buddybots_table->prepare_items();
+
+            $buddybots_table->views();
+            echo '<form method="get">';
+            echo '<input type="hidden" name="page" value="' . esc_attr($_GET['page'] ?? '') . '">';
+
+            $buddybots_table->search_box(esc_html__('Search', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), 's');
+            $buddybots_table->display();
+
+            echo '</form>';
+        } else {
+            echo '<p> '. esc_html__("Error: Class BbTable not found!", "buddybot-ai-custom-ai-assistant-and-chat-agent") .'</p>';
+        }
     }
 
     private function tableHeader()
