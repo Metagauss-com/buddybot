@@ -9,7 +9,6 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
         $this->setVarsJs();
         $this->disableMessageJs();
         $this->updateStatusJs();
-        $this->getAssistantsJs();
         $this->sendMessageBtnJs();
         $this->createThreadJs();
         $this->createMessageJs();
@@ -32,8 +31,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
     {
         echo '
         let checkRun = "";
-        const gettingAssistants = "' . esc_html__('Getting list of assistants.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
-        const assistantsUpdated = "' . esc_html__('Assistants updated.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const StartConversation = "' . esc_html__('Start new conversation.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
         const messageEmpty = "' . esc_html__('Cannot send empty message.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
         const creatingThread = "' . esc_html__('Starting new conversation.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
         const threadCreated = "' . esc_html__('Conversation started.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
@@ -69,40 +67,6 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
         echo '
         function updateStatus(text) {
             $("#buddybot-playground-message-status").children("span").html(text);
-        }
-        ';
-    }
-
-    private function getAssistantsJs()
-    {
-        $nonce = wp_create_nonce('get_assistants');
-        echo '
-        getAssistants();
-        function getAssistants() {
-
-            disableMessage();
-            updateStatus(gettingAssistants);
-
-            const data = {
-                "action": "getAssistantOptions",
-                "nonce": "' . esc_js($nonce) . '"
-            };
-  
-            $.post(ajaxurl, data, function(response) {
-                response = JSON.parse(response);
-
-                if (response.success) {
-                    $("#buddybot-playground-assistants-list").html(response.html);
-                    updateStatus(assistantsUpdated);
-                    disableMessage(false);
-                } else {
-
-                    if(response.empty_key) { 
-                        $("#buddybot-playground-assistants-list").html(response.html);
-                    }
-                    updateStatus(response.message);
-                }
-            });
         }
         ';
     }

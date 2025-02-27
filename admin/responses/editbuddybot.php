@@ -78,9 +78,9 @@ class EditBuddyBot extends \BuddyBot\Admin\Responses\MoRoot
         $instructions .= "Greeting message: " . (isset($buddybot_data["greeting_message"]) && !empty($buddybot_data["greeting_message"]) ? $buddybot_data["greeting_message"] : "") . ". ";
         $instructions .= "Allow assistant to seek answers from OpenAI: " . (isset($buddybot_data["openai_search"]) && !empty($buddybot_data["openai_search"]) ? "Enabled" : "Disabled") . ". ";
         if (!empty($buddybot_data["openai_search"])) {
-            $instructions .= "You must only provide answers from the uploaded files (vector store). Do not query OpenAI or any other sources. If an answer is not found in the uploaded files, provide a fallback response.";
+            $instructions .= "";
         } else {
-            //$instructions .= "If no answer is found in the vector store, Don't use the openai database to give answer." . esc_html($fallback_text) . ". ";
+            $instructions .= "You must only provide answers from the uploaded files (vector store). Do not query OpenAI or any other sources. If an answer is not found in the uploaded files, provide a fallback response.";
         }
         //$instructions .= $buddybot_data["additional_instruction"];
        // $instructions .= "Multilingual support: " . (isset($buddybot_data["multilingual_support"]) && !empty($buddybot_data["multilingual_support"]) ? "Enabled" : "Disabled.Respond only in English,Do not respond in any other language even if the user inputs in a different language") . ". ";

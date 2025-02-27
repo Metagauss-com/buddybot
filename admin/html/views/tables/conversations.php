@@ -116,20 +116,29 @@ class Conversations extends WP_List_Table
     function extra_tablenav($which)
 {
     if ($which === 'top') {
+        $user_ids = $this->bot_db->getUserIds();
         ?>
-        <label for="buddybot-filter-user" class="screen-reader-text"><?php _e('Filter by User', 'buddybot-ai-custom-ai-assistant-and-chat-agent'); ?></label>
+        <label for="buddybot-filter-user" class="screen-reader-text"><?php esc_html_e('Filter by User', 'buddybot-ai-custom-ai-assistant-and-chat-agent'); ?></label>
         <select name="buddybot-filter-user" id="buddybot-filter-user">
             <option value=""><?php _e('All Users', 'buddybot-ai-custom-ai-assistant-and-chat-agent'); ?></option>
             <?php
-            $users = get_users(['fields' => ['ID', 'display_name']]);
-            foreach ($users as $user) {
-                $selected = isset($_GET['buddybot-filter-user']) && $_GET['buddybot-filter-user'] == $user->ID ? 'selected' : '';
-                printf(
-                    '<option value="%d" %s>%s</option>',
-                    esc_attr($user->ID),
-                    $selected,
-                    esc_html($user->display_name)
-                );
+            if (!empty($user_ids)) {
+                $users = get_users([
+                    'include' => $user_ids,
+                    'fields'  => ['ID', 'display_name']
+                ]);
+
+                foreach ($users as $user) {
+                    $selected = isset($_GET['buddybot-filter-user']) && $_GET['buddybot-filter-user'] == $user->ID ? 'selected' : '';
+                    printf(
+                        '<option value="%d" %s>%s</option>',
+                        esc_attr($user->ID),
+                        $selected,
+                        esc_html($user->display_name)
+                    );
+                }
+            } else {
+                echo '<option disabled>' . esc_html__('No Users Found', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</option>';
             }
             ?>
         </select>

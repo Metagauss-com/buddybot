@@ -10,21 +10,23 @@ use WP_List_Table;
 
 use BuddyBot\Admin\Sql\BuddyBots;
 
-class BuddyBot extends WP_List_Table 
+class BuddyBot extends WP_List_Table
 {
     private $bot_db;
 
-    function __construct() {
+    function __construct()
+    {
         parent::__construct([
             'singular' => 'buddybot',
             'plural'   => 'buddybots',
             'ajax'     => false
         ]);
 
-        $this->bot_db = new BuddyBots($data="");
+        $this->bot_db = new BuddyBots($data = "");
     }
 
-    function get_columns() {
+    function get_columns()
+    {
         return [
             'chatbot_name'    => esc_html__('BuddyBot Name', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
             'assistant_model' => esc_html__('Assistant Model', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
@@ -34,7 +36,8 @@ class BuddyBot extends WP_List_Table
         ];
     }
 
-    function get_sortable_columns() {
+    function get_sortable_columns()
+    {
         return [
             'chatbot_name' => ['chatbot_name', false],
             'created_on'   => ['created_on', false],
@@ -84,23 +87,24 @@ class BuddyBot extends WP_List_Table
         if (in_array($column_name, ['created_on', 'edited_on'])) {
             $date_format = get_option('date_format');
             $time_format = get_option('time_format');
-    
+
             return esc_html(get_date_from_gmt($item[$column_name], $date_format . ' ' . $time_format));
         }
 
         return isset($item[$column_name]) ? esc_html($item[$column_name]) : '';
     }
 
-    function column_chatbot_name($item) {
+    function column_chatbot_name($item)
+    {
         $edit_link = get_admin_url() . 'admin.php?page=buddybot-editbuddybot&chatbot_id=' . intval($item['id']);
         //$delete_link = '';
-    
+
         $chatbot_name_link = sprintf(
             '<strong><a href="%s" class="row-title">%s</a></strong>',
             esc_url($edit_link),
             esc_html($item['chatbot_name'])
         );
-    
+
         $actions = [
             'edit'   => sprintf('<a href="%s">%s</a>', esc_url($edit_link), esc_html__('Edit', 'buddybot-ai-custom-ai-assistant-and-chat-agent')),
             'delete' => sprintf(
@@ -110,31 +114,42 @@ class BuddyBot extends WP_List_Table
                 esc_html__('Delete', 'buddybot-ai-custom-ai-assistant-and-chat-agent')
             ),
         ];
-    
+
         return sprintf('%1$s %2$s', $chatbot_name_link, $this->row_actions($actions));
     }
-    
+
     function extra_tablenav($which)
     {
         if ($which === 'top') {
+            $models = $this->bot_db->getModels();
+            $selected_model = isset($_GET['buddybot-filter-model']) ? sanitize_text_field($_GET['buddybot-filter-model']) : '';
             ?>
-            <label for="buddybot-filter-model" class="screen-reader-text"><?php esc_html_e('Filter by Model', 'buddybot-ai-custom-ai-assistant-and-chat-agent'); ?></label>
-            <select name="buddybot-filter-model" id="buddybot-filter-model">
-                <option value=""><?php esc_html_e('All Models', 'buddybot-ai-custom-ai-assistant-and-chat-agent'); ?></option>
-                <option value="" disabled><?php esc_html_e('Loading models...', 'buddybot-ai-custom-ai-assistant-and-chat-agent'); ?></option>
-            </select>
+                <label for="buddybot-filter-model" class="screen-reader-text"><?php esc_html_e('Filter by Model', 'buddybot-ai-custom-ai-assistant-and-chat-agent'); ?></label>
+                <select name="buddybot-filter-model" id="buddybot-filter-model">
+                <option value=""><?php _e('All Modals', 'buddybot-ai-custom-ai-assistant-and-chat-agent'); ?></option>
+                    <?php
+                        if (empty($models)) {
+                            echo '<option value="" disabled>' . esc_html__('No models found', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</option>';
+                        } else {
+                            foreach ($models as $model) {
+                                $selected = ($model === $selected_model) ? 'selected' : '';
+                                echo '<option value="' . esc_attr($model) . '" ' . $selected . '>' . esc_html($model) . '</option>';
+                            }
+                        }
+                    ?>
+                </select>
             <?php
             submit_button(__('Filter'), '', 'filter_action', false);
         }
     }
 
-    public function get_views() 
+    public function get_views()
     {
         $total_count = $this->bot_db->getTotalChatbotsCount();
         $views = [];
 
         $current_filter = isset($_GET['buddybot-filter-model']) ? sanitize_text_field($_GET['buddybot-filter-model']) : '';
-        $current_search = isset($_GET['s']) ? sanitize_text_field($_GET['s']) : ''; 
+        $current_search = isset($_GET['s']) ? sanitize_text_field($_GET['s']) : '';
         $current_orderby = isset($_GET['orderby']) ? sanitize_text_field($_GET['orderby']) : '';
 
         // If no filters or sorting are applied, mark "All" as current
@@ -143,7 +158,7 @@ class BuddyBot extends WP_List_Table
         // "All" should remove all query parameters and reset the view
         $views['all'] = sprintf(
             '<a href="%s" class="%s">%s <span class="count">(%d)</span></a>',
-            esc_url(remove_query_arg(['buddybot-filter-model', 'paged', 'orderby', 'order', 's'])), 
+            esc_url(remove_query_arg(['buddybot-filter-model', 'paged', 'orderby', 'order', 's'])),
             $is_all_current,
             __('All', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
             $total_count
@@ -151,5 +166,4 @@ class BuddyBot extends WP_List_Table
 
         return $views;
     }
-    
 }

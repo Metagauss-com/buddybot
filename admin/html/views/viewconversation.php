@@ -13,11 +13,16 @@ class ViewConversation extends \BuddyBot\Admin\Html\Views\MoRoot
 
     public function getHtml()
     {
-        $this->deleteConversationModal();
         $this->alertContainer();
-        // $this->conversationsBtnsOutside();
         $this->showRelatedConversationMsg();
         $this->conversationBox();
+        $this->pageModals();
+    }
+
+    protected function pageModals()
+    {
+        $deleteConversation = new \BuddyBot\Admin\Html\CustomModals\DeleteConversation();
+        $deleteConversation->getHtml();
     }
 
     private function conversationBox()
@@ -32,24 +37,6 @@ class ViewConversation extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '</div>';
         echo '</div>';
         echo '</div>';
-    }
-
-    private function deleteConversationModal()
-    {
-        echo '<div class="modal fade" id="buddybot-delete-viewconversation-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="buddybot-delete-viewconversation-modal-label" aria-hidden="true">';
-        echo '<div class="modal-dialog modal-dialog-centered">';
-        echo '<div class="modal-content">';
-        echo '<div class="modal-header">';
-        echo '<h1 class="modal-title fs-5" id="buddybot-delete-viewconversation-modal-label">' . esc_html__('Confirm Deletion', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</h1>';
-        echo '</div>';
-        echo '<div class="modal-body">';
-        echo esc_html__('Are you sure you want to delete this Conversation? This action cannot be undone.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-        echo '</div>';
-        echo '<div class="modal-footer">';
-        echo '<span id="buddybot-deleting-viewconversation-msg" class="text-danger small" style="display: none;">Deleting...</span>';
-        echo '<button type="button" class="btn btn-secondary" id="buddybot-delete-viewconversation-cancel-btn" data-bs-dismiss="modal">' . esc_html__('Cancel', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</button>';
-        echo '<button type="button" class="btn btn-danger" id="buddybot-confirm-viewconversation-delete-btn">' . esc_html__('Delete', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</button>';
-        echo '</div> </div> </div> </div>';
     }
 
     private function conversationBtns()
@@ -68,7 +55,7 @@ class ViewConversation extends \BuddyBot\Admin\Html\Views\MoRoot
         // echo '<a href="' . admin_url('admin.php?page=buddybot-conversations&filter=true&user_id=' . $user_id) . '" ';
         // echo 'class="button button-primary me-2" role="button">' . esc_html__('Filter', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</a>';
 
-        echo '<input type="submit" id="buddybot-conversation-delete-btn" ';
+        echo '<input type="submit" id="buddybot-conversation-delete-btn" data-modal="buddybot-del-conversation-modal"';
         echo 'class="button button-primary me-2" value="' . esc_html__('Delete', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '">';
         echo '</div>';
 

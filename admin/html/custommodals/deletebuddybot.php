@@ -23,4 +23,13 @@ class DeleteBuddyBot extends \BuddyBot\Admin\Html\CustomModals\MoRoot
         echo '<button type="button" class="buddybot-btn-danger" id="buddybot-confirm-del-btn">' . esc_html__('Delete', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</button>';
     }
 
+    protected function showCloseButton()
+    {
+        return true;
+    }
+
+    protected function modalSize()
+    {
+        return 'buddybot-modal-lg';
+    }
 }

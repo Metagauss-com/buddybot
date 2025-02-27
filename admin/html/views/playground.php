@@ -31,18 +31,20 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
         esc_html_e('Assistant', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '<label>';
         echo '<select id="buddybot-playground-assistants-list" class="form-select ms-2">';
-        echo '<option value="" disabled selected>' . esc_html__('Loading...', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</option>';
+
+        $models = $this->sql->getModels('chatbot');
+        if (!empty($models)) {
+            foreach ($models as $model) {
+                $display_text = esc_html($model['chatbot_name'] . ' (' . $model['assistant_model'] . ')');
+                $value = esc_attr($model['assistant_id']);
+                echo '<option value="' . $value . '">' . $display_text . '</option>';
+            }
+        } else {
+            echo '<option disabled>' . esc_html__('No Assistants Found', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</option>';
+        }
+
         echo '</select>';
         echo '</div>';
-        
-        // echo '<div id="buddybot-playground-options-select-user" class="p-3">';
-        // echo '<label class="">';
-        // esc_html_e('User', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-        // echo '<label>';
-        // echo '<select id="buddybot-user-select" class="ms-2">';
-        // $this->getUsers();
-        // echo '</select>';
-        // echo '</div>';
 
         echo '</div>';
     }
@@ -127,7 +129,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         echo '<div class="">';
         echo '<div id="buddybot-playground-message-status" class="text-center small">';
-        $this->statusBarMessage('creating-thread', __('Starting new conversation', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
+        $this->statusBarMessage('start-conversation', __('Start new Conversation.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
         echo '</div>';
         $this->openAiBadge();
         echo '</div>';

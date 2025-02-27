@@ -8,8 +8,8 @@ class MoRoot extends \BuddyBot\Admin\Html\MoRoot
 
     public function getHtml()
     {
-        echo '<div class="buddybot-modal fade" tabindex="-1" id="' . esc_attr($this->modal_id) . '">';
-        echo '<div class="buddybot-modal-dialog">';
+        echo '<div class="buddybot-modal" tabindex="-1" id="' . esc_attr($this->modal_id) . '">';
+        echo '<div class="buddybot-modal-dialog ' . esc_attr($this->modalSize()) . '">';
         echo '<div class="buddybot-modal-content">';
         $this->modalHeader();
         $this->modalBody();
@@ -23,7 +23,9 @@ class MoRoot extends \BuddyBot\Admin\Html\MoRoot
         echo '<h5 class="buddybot-modal-title">';
         echo esc_html($this->modalTitle());
         echo '</h5>';
-        //echo '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
+        if ($this->showCloseButton()) {
+            $this->closeButtonHtml();
+        }
         echo '</div>';
     }
 
@@ -40,6 +42,12 @@ class MoRoot extends \BuddyBot\Admin\Html\MoRoot
         $this->footerContent();
         echo '</div>';
     }
+    protected function closeButtonHtml()
+    {
+        echo '<button type="button" class="buddybot-close-btn" data-modal="buddybot-del-confirmation-modal" aria-label="Close">
+        <svg xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 -960 960 960" width="32px" fill="#1f1f1f"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+        </button>';
+    }
 
     protected function bodyContent()
     {
@@ -54,5 +62,14 @@ class MoRoot extends \BuddyBot\Admin\Html\MoRoot
     protected function modalTitle()
     {
         
+    }
+    protected function showCloseButton()
+    {
+
+    }
+
+    protected function modalSize()
+    {
+
     }
 }

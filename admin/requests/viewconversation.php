@@ -105,19 +105,16 @@ final class ViewConversation extends \BuddyBot\Admin\Requests\MoRoot
         echo '
         $("#buddybot-conversation-delete-btn").click(function(){
             hideAlert();
-            $("#buddybot-conversation-delete-btn").prop("disabled", true);
-            $("#buddybot-delete-viewconversation-modal").modal("show");
         });
 
-        $("#buddybot-delete-viewconversation-cancel-btn").click(function(){
-            $("#buddybot-conversation-delete-btn").prop("disabled", false);
+        $("#buddybot-confirm-del-conversation-btn").click(function(){
+            $("#buddybot-cancel-del-conversation-btn").prop("disabled", true);
+            $("#buddybot-confirm-del-conversation-btn").prop("disabled", true);
+            $("#buddybot-del-msg").show();
+            deleteConversation();
         });
 
-        $("#buddybot-confirm-viewconversation-delete-btn").click(function(){
-            $("#buddybot-delete-viewconversation-cancel-btn").prop("disabled", true);
-            $("#buddybot-confirm-viewconversation-delete-btn").prop("disabled", true);
-            $("#buddybot-deleting-viewconversation-msg").show();
-
+        function deleteConversation(){
             const data = {
                 "action": "deleteConversation",
                 "thread_id": "' . esc_js($this->thread_id) . '",
@@ -131,13 +128,12 @@ final class ViewConversation extends \BuddyBot\Admin\Requests\MoRoot
                 } else {
                     showAlert(response.message);
                 }
-                $("#buddybot-delete-viewconversation-modal").modal("hide");
-                $("#buddybot-delete-viewconversation-cancel-btn").prop("disabled", false);
-                $("#buddybot-confirm-viewconversation-delete-btn").prop("disabled", false);
-                $("#buddybot-deleting-viewconversation-msg").hide();
-                $("#buddybot-conversation-delete-btn").prop("disabled", false);
+                $(".buddybot-modal.show").removeClass("show");
+                $("#buddybot-cancel-del-conversation-btn").prop("disabled", false);
+                $("#buddybot-confirm-del-conversation-btn").prop("disabled", false);
+                $("#buddybot-del-msg").hide();
             });
-        });
+        }
 
         ';
     }

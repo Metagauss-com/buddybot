@@ -90,5 +90,4 @@ class Conversations extends \BuddyBot\Admin\Responses\MoRoot
         add_action('wp_ajax_saveConversationLimit', array($this, 'saveConversationLimit'));
         
     }
-
 }

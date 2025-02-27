@@ -9,7 +9,6 @@ class BuddyBots extends \BuddyBot\Admin\Requests\MoRoot
     {
         $this->deleteBuddyBotJs();
         $this->paginationDropdownJs();
-        $this->getModelsJs();
     }
 
     private function deleteBuddyBotJs()
@@ -84,39 +83,6 @@ class BuddyBots extends \BuddyBot\Admin\Requests\MoRoot
 			});
 
 		});
-        ';
-    }
-
-    private function getModelsJs()
-    {
-        $selected_model = isset($_GET['buddybot-filter-model']) ? sanitize_text_field($_GET['buddybot-filter-model']) : '';
-        $nonce = wp_create_nonce('get_models');
-        echo '
-        getModels();
-        function getModels(){
-            const select = $("#buddybot-filter-model");
-            const selectedModel = "' . esc_js($selected_model) . '";
-
-            const data = {
-                "action": "getModels",
-                "nonce": "' . esc_js($nonce) . '"
-            };
-      
-            $.post(ajaxurl, data, function(response) {
-                response = JSON.parse(response);
-                if (response.success) {
-                    select.find("option:disabled").remove();
-                    select.append(response.html);
-
-                    if (selectedModel) {
-                        select.val(selectedModel);
-                    }
-
-                } else {
-                    showAlert(response.message);
-                }
-            });
-        };
         ';
     }
 

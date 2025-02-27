@@ -75,4 +75,10 @@ class Conversations extends \BuddyBot\Admin\Sql\MoRoot
         global $wpdb;
         return $wpdb->delete($table, $where, $format);
     }
+
+    public function getUserIds()
+    {
+        global $wpdb;
+        return $wpdb->get_col("SELECT DISTINCT user_id FROM {$this->table} WHERE user_id IS NOT NULL");
+    }
 }

@@ -154,4 +154,10 @@ class BuddyBots extends \BuddyBot\Admin\Sql\MoRoot
 
         return $delete;
     }
+
+    public function getModels()
+    {
+        global $wpdb;
+        return $wpdb->get_col("SELECT DISTINCT assistant_model FROM {$this->table} WHERE assistant_model IS NOT NULL");
+    }
 }
