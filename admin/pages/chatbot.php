@@ -1,5 +1,3 @@
-<div class="p-5">
-
 <?php
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly 
@@ -13,6 +11,3 @@ if ($buddybot_checks->hasErrors()) {
 $mo_chatbot_page = new \BuddyBot\Admin\Html\Views\ChatBot();
 $mo_chatbot_page->getHtml();
 $mo_chatbot_page->pageJs();
-?>
-
-</div>

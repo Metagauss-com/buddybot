@@ -55,10 +55,7 @@ if (is_admin()) {
     $buddybot_admin_menu = new Admin\AdminMenu();
     $buddybot_admin_stylesheets = new Admin\StyleSheets();
     $buddybot_chatbot_responses = new Admin\Responses\ChatBot();
-    $buddybot_chatbot_responses = new Admin\Responses\BuddyBots();
-    $buddybot_datasync_responses = new Admin\Responses\DataSync();
-    $buddybot_assistants_responses = new Admin\Responses\Assistants();
-    $buddybot_buddybot_responses = new Admin\Responses\EditBuddyBot();
+    $buddybot_chatbot_responses = new Admin\Responses\EditChatBot();
     $buddybot_playground_responses = new Admin\Responses\Playground();
     $buddybot_settings_responses = new Admin\Responses\Settings();
     $buddybot_vectorstore_responses = new Admin\Responses\VectorStore();

@@ -2,7 +2,7 @@
 
 namespace BuddyBot\Admin\Html\CustomModals;
 
-class DeleteBuddyBot extends \BuddyBot\Admin\Html\CustomModals\MoRoot
+class DeleteChatBot extends \BuddyBot\Admin\Html\CustomModals\MoRoot
 {
     protected $modal_id = 'buddybot-del-confirmation-modal';
 
@@ -21,15 +21,5 @@ class DeleteBuddyBot extends \BuddyBot\Admin\Html\CustomModals\MoRoot
         echo '<span id="buddybot-del-msg" class="buddybot-text-danger" style="display: none;">Deleting...</span>';
         echo '<button type="button" class="buddybot-btn-dark" id="buddybot-cancel-del-btn" data-modal="buddybot-del-confirmation-modal">' . esc_html__('Cancel', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</button>';
         echo '<button type="button" class="buddybot-btn-danger" id="buddybot-confirm-del-btn">' . esc_html__('Delete', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</button>';
-    }
-
-    protected function showCloseButton()
-    {
-        return true;
-    }
-
-    protected function modalSize()
-    {
-        return 'buddybot-modal-lg';
     }
 }

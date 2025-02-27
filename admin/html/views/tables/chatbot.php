@@ -8,9 +8,7 @@ if (!class_exists('WP_List_Table')) {
 
 use WP_List_Table;
 
-use BuddyBot\Admin\Sql\BuddyBots;
-
-class BuddyBot extends WP_List_Table
+class ChatBot extends WP_List_Table
 {
     private $bot_db;
 
@@ -22,7 +20,7 @@ class BuddyBot extends WP_List_Table
             'ajax'     => false
         ]);
 
-        $this->bot_db = new BuddyBots($data = "");
+        $this->bot_db = new \BuddyBot\Admin\Sql\ChatBot($data = "");
     }
 
     function get_columns()
@@ -96,7 +94,7 @@ class BuddyBot extends WP_List_Table
 
     function column_chatbot_name($item)
     {
-        $edit_link = get_admin_url() . 'admin.php?page=buddybot-editbuddybot&chatbot_id=' . intval($item['id']);
+        $edit_link = get_admin_url() . 'admin.php?page=buddybot-editchatbot&chatbot_id=' . intval($item['id']);
         //$delete_link = '';
 
         $chatbot_name_link = sprintf(

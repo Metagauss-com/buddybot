@@ -2,7 +2,7 @@
 
 namespace BuddyBot\Admin\Responses;
 
-class EditBuddyBot extends \BuddyBot\Admin\Responses\MoRoot
+class EditChatBot extends \BuddyBot\Admin\Responses\MoRoot
 {
     public function getModels()
     {
@@ -69,6 +69,7 @@ class EditBuddyBot extends \BuddyBot\Admin\Responses\MoRoot
         ];
         $fallback_key = $buddybot_data["fallback_behavior"] ?? "generic";
         $fallback_text = $fallback_behavior_map[$fallback_key] ?? "Provide a generic response";
+        $fallback_msg = $buddybot_data["openaisearch_msg"];
 
         $instructions = '';
 
@@ -76,11 +77,11 @@ class EditBuddyBot extends \BuddyBot\Admin\Responses\MoRoot
        // $instructions .= "Fallback behavior: " . esc_html($fallback_text) . ". ";
         $instructions .= "Emotion detection: " . (isset($buddybot_data["emotion_detection"]) && !empty($buddybot_data["emotion_detection"]) ? "Enabled" : "Disabled") . ". ";
         $instructions .= "Greeting message: " . (isset($buddybot_data["greeting_message"]) && !empty($buddybot_data["greeting_message"]) ? $buddybot_data["greeting_message"] : "") . ". ";
-        $instructions .= "Allow assistant to seek answers from OpenAI: " . (isset($buddybot_data["openai_search"]) && !empty($buddybot_data["openai_search"]) ? "Enabled" : "Disabled") . ". ";
+        $instructions .= "Disallow assistant to seek answers from OpenAI: " . (isset($buddybot_data["openai_search"]) && !empty($buddybot_data["openai_search"]) ? "Enabled" : "Disabled") . ". ";
         if (!empty($buddybot_data["openai_search"])) {
-            $instructions .= "";
+            $instructions .= ' You must only provide answers from the uploaded files (vector store). Do not query OpenAI or any other sources. If an answer is not found in the uploaded files, provide response: ' . wp_unslash($fallback_msg) . '';
         } else {
-            $instructions .= "You must only provide answers from the uploaded files (vector store). Do not query OpenAI or any other sources. If an answer is not found in the uploaded files, provide a fallback response.";
+            $instructions .= "";      
         }
         //$instructions .= $buddybot_data["additional_instruction"];
        // $instructions .= "Multilingual support: " . (isset($buddybot_data["multilingual_support"]) && !empty($buddybot_data["multilingual_support"]) ? "Enabled" : "Disabled.Respond only in English,Do not respond in any other language even if the user inputs in a different language") . ". ";
@@ -98,7 +99,8 @@ class EditBuddyBot extends \BuddyBot\Admin\Responses\MoRoot
             'temperature' => $buddybot_data["assistant_temperature"],
             'top_p' => $buddybot_data["assistant_topp"],
             'metadata' => array(
-                'aditional_instructions' => $buddybot_data["additional_instruction"]
+                'aditional_instructions' => $buddybot_data["additional_instruction"],
+                'openaisearch_msg' => $buddybot_data["openaisearch_msg"]
             ),
         );
 
@@ -144,7 +146,7 @@ class EditBuddyBot extends \BuddyBot\Admin\Responses\MoRoot
 
     private function cleanBuddyBotData()
     {
-        $secure = new \BuddyBot\Admin\Secure\EditBuddyBot();
+        $secure = new \BuddyBot\Admin\Secure\EditChatBot();
         
         $id= $secure->buddybotId();
         $buddybot_name = $secure->buddybotName();
@@ -162,14 +164,21 @@ class EditBuddyBot extends \BuddyBot\Admin\Responses\MoRoot
         //$multilingual_support = $secure->multilingualSupport();
         $vectorstore_id = $secure->vectorstoreId();
         $assistant_id = $secure->assistantId();
+        $openaisearch_msg = $secure->openAiSearchMsg();
         
         $errors = $secure->dataErrors();
 
         //print_r($errors);die;
         if (!empty($errors)) {
             $this->response['success'] = false;
-            $this->response['message'] = esc_html__('There were errors in your data.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-            $this->response['message'] .= $errors;
+            $errorMessage = '<strong>' . esc_html__('There were errors in your data:', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</strong>';
+            $errorMessage .= '<ul>';
+            foreach ($errors as $error) {
+                $errorMessage .= '<li>' . esc_html($error) . '</li>'; 
+            }
+            $errorMessage .= '</ul>';
+
+            $this->response['message'] = $errorMessage;
             echo wp_json_encode($this->response);
             wp_die();
         }
@@ -184,6 +193,7 @@ class EditBuddyBot extends \BuddyBot\Admin\Responses\MoRoot
             'assistant_temperature' => $assistant_temperature,
             'assistant_topp' => $assistant_topp,
             'openai_search' => $openai_search,
+            'openaisearch_msg' => $openaisearch_msg,
             'personalized_options' => $personalized_options,
             'fallback_behavior' => $fallback_behavior,
             'emotion_detection' => $emotion_detection,

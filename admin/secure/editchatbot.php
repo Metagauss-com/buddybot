@@ -2,7 +2,7 @@
 
 namespace BuddyBot\Admin\Secure;
 
-final class EditBuddyBot extends \BuddyBot\Admin\Secure\MoRoot
+final class EditChatBot extends \BuddyBot\Admin\Secure\MoRoot
 {
     public function buddybotId()
     {
@@ -115,6 +115,27 @@ final class EditBuddyBot extends \BuddyBot\Admin\Secure\MoRoot
     public function openAiSearch()
     {
         return isset($_POST['buddybot_data']['openai_search']) ? (bool) $_POST['buddybot_data']['openai_search'] : false;
+    }
+
+    public function openAiSearchMsg()
+    {
+        if (!$this->openAiSearch()) {
+            return '';
+        }
+
+        $fallback_msg = isset($_POST['buddybot_data']['openaisearch_msg']) ? wp_unslash(sanitize_text_field($_POST['buddybot_data']['openaisearch_msg'])) : '';
+
+        if (empty($fallback_msg)) {
+            $this->errors[] = __('Fallback msg cannot be empty.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            return $fallback_msg;
+        }
+
+        if (strlen($fallback_msg) > 512) {
+            $this->errors[] = __('Fallback msg cannot be more than 512 characters.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            return $fallback_msg;
+        }
+
+        return $fallback_msg;
     }
 
     public function personalizedOptions()

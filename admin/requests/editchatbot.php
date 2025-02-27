@@ -2,7 +2,7 @@
 
 namespace BuddyBot\Admin\Requests;
 
-final class EditBuddyBot extends \BuddyBot\Admin\Requests\MoRoot
+final class EditChatBot extends \BuddyBot\Admin\Requests\MoRoot
 {
     protected $assistant_id = '';
     protected $buddybot_id = 0;
@@ -11,7 +11,7 @@ final class EditBuddyBot extends \BuddyBot\Admin\Requests\MoRoot
     {
         if (isset($_GET['chatbot_id'])) {
     
-            $sql = \BuddyBot\Admin\Sql\EditBuddyBot::getInstance();
+            $sql = \BuddyBot\Admin\Sql\EditChatBot::getInstance();
             $chatbot = $sql->getItemById('chatbot', absint($_GET['chatbot_id']));
 
             if (is_object($chatbot)) {
@@ -35,7 +35,7 @@ final class EditBuddyBot extends \BuddyBot\Admin\Requests\MoRoot
         $this->buddybotDataJs();
         $this->saveBuddyBotJs();
         $this->loadAssistantValuesJs();
-        $this->LanguageOptionsJs();
+        $this->openaiSearchMsgJs();
         $this->sampleInstructionsModalJs();
     }
 
@@ -55,10 +55,6 @@ final class EditBuddyBot extends \BuddyBot\Admin\Requests\MoRoot
     private function sampleInstructionsModalJs()
     {
         echo'
-        $("#buddybot-view-sample-btn").click(function () {
-            $("#buddybot-sample-instructions-modal").modal("show");
-        });
-
         $(".copy-btn").click(function () {
             let button = $(this);
             let originalIcon = button.html();
@@ -126,11 +122,12 @@ final class EditBuddyBot extends \BuddyBot\Admin\Requests\MoRoot
             buddybotData["assistant_temperature"] = $("#buddybot-assistanttemperature-range").val();
             buddybotData["assistant_topp"] = $("#buddybot-assistanttopp-range").val();
             buddybotData["openai_search"] = $("#buddybot-openaisearch").is(":checked") ? "1" : "0";
+            buddybotData["openaisearch_msg"] = $("#buddybot-openaisearch-msg").val();
             buddybotData["personalized_options"] = $("#buddybot-personalizedoptions").is(":checked") ? "1" : "0";
-            buddybotData["fallback_behavior"] = $("#buddybot-fallbackbehavior").val();
+            //buddybotData["fallback_behavior"] = $("#buddybot-fallbackbehavior").val();
             buddybotData["emotion_detection"] = $("#buddybot-emotiondetection").is(":checked") ? "1" : "0";
             buddybotData["greeting_message"] = $("#buddybot-greetingmessage").val();
-            buddybotData["multilingual_support"] = $("#buddybot-multilingualsupport").is(":checked") ? "1" : "0";
+            //buddybotData["multilingual_support"] = $("#buddybot-multilingualsupport").is(":checked") ? "1" : "0";
             buddybotData["assistant_id"] ="' . esc_js($this->assistant_id) . '";
             buddybotData["buddybot_id"] ="' . esc_js($this->buddybot_id) . '";
             buddybotData["vectorstore_id"] ="' . esc_js($vectorstore_id) . '";
@@ -162,7 +159,7 @@ final class EditBuddyBot extends \BuddyBot\Admin\Requests\MoRoot
             $.post(ajaxurl, data, function(response) {
                 response = JSON.parse(response);
                 if (response.success) {
-                    location.replace("' . esc_url(get_admin_url()) . 'admin.php?page=buddybot-editbuddybot&chatbot_id=' . '" + response.chatbot_id);
+                    location.replace("' . esc_url(get_admin_url()) . 'admin.php?page=buddybot-editchatbot&chatbot_id=' . '" + response.chatbot_id);
                 } else {
                     showAlert(response.message);
                 }
@@ -217,27 +214,28 @@ final class EditBuddyBot extends \BuddyBot\Admin\Requests\MoRoot
             $("#buddybot-assistanttopp-value").text(assistant.top_p);
             $("#buddybot-openaisearch").prop("checked", buddybot.openai_search == 1);
             $("#buddybot-personalizedoptions").prop("checked", buddybot.personalized_options == 1);
-            $("#buddybot-fallbackbehavior").val(buddybot.fallback_behavior);
+            //$("#buddybot-fallbackbehavior").val(buddybot.fallback_behavior);
             $("#buddybot-emotiondetection").prop("checked", buddybot.emotion_detection == 1);
             $("#buddybot-greetingmessage").val(buddybot.greeting_message);
            // $("#buddybot-multilingualsupport").prop("checked", buddybot.multilingual_support == 1);
 
             if (assistant.metadata) {
                 $("#buddybot-additionalinstructions").val(assistant.metadata.aditional_instructions);
+                $("#buddybot-openaisearch-msg").val(assistant.metadata.openaisearch_msg);
             }
 
-            if ($("#buddybot-multilingualsupport").is(":checked")) {
-                showHide($("#buddybot-multilingualsupport")[0], "buddybot-multilingualsupport-childfieldrow", "", "");
+            if ($("#buddybot-openaisearch").is(":checked")) {
+                showHide($("#buddybot-openaisearch")[0], "buddybot-openaisearch-childfieldrow", "", "");
             }
         }
         ';
     }
 
-    private function LanguageOptionsJs()
+    private function openaiSearchMsgJs()
     {
         echo'     
-        $("#buddybot-multilingualsupport").on("change", function () {
-            showHide(this, "buddybot-multilingualsupport-childfieldrow", "", "");
+        $("#buddybot-openaisearch").on("change", function () {
+            showHide(this, "buddybot-openaisearch-childfieldrow", "", "");
         });
         ';
     }

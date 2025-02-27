@@ -1,4 +1,4 @@
-<!-- <div class="wrap"> -->
+<div class="wrap">
 
 <?php
 
@@ -10,9 +10,9 @@ if ($buddybot_checks->hasErrors()) {
     return;
 }
 
-$mo_chatbot_page = new \BuddyBot\Admin\Html\Views\BuddyBots();
-$mo_chatbot_page->getHtml();
-$mo_chatbot_page->pageJs();
+$mo_assistant_page = new \BuddyBot\Admin\Html\Views\EditChatBot();
+$mo_assistant_page->getHtml();
+$mo_assistant_page->pageJs();
 ?>
 
-<!-- </div> -->
+</div>

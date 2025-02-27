@@ -1,8 +1,8 @@
 <?php
 
-namespace BuddyBot\Admin\Html\Modals;
+namespace BuddyBot\Admin\Html\CustomModals;
 
-class Instructions extends \BuddyBot\Admin\Html\Modals\MoRoot
+class Instructions extends \BuddyBot\Admin\Html\CustomModals\MoRoot
 {
     protected $modal_id = 'buddybot-sample-instructions-modal';
 
@@ -45,7 +45,17 @@ class Instructions extends \BuddyBot\Admin\Html\Modals\MoRoot
 
     protected function footerContent()
     {
-        echo '<button type="button" class="btn btn-secondary btn-sm" id="buddybot-cancel-instructions-btn" data-bs-dismiss="modal">' . esc_html__('Cancel', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</button>';
+        echo '<button type="button" class="btn btn-secondary btn-sm" data-modal="buddybot-sample-instructions-modal">' . esc_html__('Cancel', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</button>';
+    }
+
+    protected function showCloseButton()
+    {
+        return true;
+    }
+
+    protected function modalSize()
+    {
+        return 'buddybot-modal-lg';
     }
 
 }

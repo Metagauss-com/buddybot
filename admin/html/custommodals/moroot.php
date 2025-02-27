@@ -44,8 +44,8 @@ class MoRoot extends \BuddyBot\Admin\Html\MoRoot
     }
     protected function closeButtonHtml()
     {
-        echo '<button type="button" class="buddybot-close-btn" data-modal="buddybot-del-confirmation-modal" aria-label="Close">
-        <svg xmlns="http://www.w3.org/2000/svg" height="32px" viewBox="0 -960 960 960" width="32px" fill="#1f1f1f"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+        echo '<button type="button" class="buddybot-close-btn" data-modal="' . esc_attr($this->modal_id) . '" aria-label="Close">
+        <svg xmlns="http://www.w3.org/2000/svg" height="26px" viewBox="0 -960 960 960" width="26px" fill="#1f1f1f"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
         </button>';
     }
 

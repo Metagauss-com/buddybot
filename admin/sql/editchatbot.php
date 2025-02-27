@@ -2,7 +2,7 @@
 
 namespace BuddyBot\Admin\Sql;
 
-class EditBuddyBot extends \BuddyBot\Admin\Sql\MoRoot
+class EditChatBot extends \BuddyBot\Admin\Sql\MoRoot
 {
     public $config;
     

@@ -9,20 +9,14 @@ final class AdminMenu extends \BuddyBot\Admin\MoRoot
     {
         $this->mainMenuItem();
         $this->playgroundSubmenuItem();
-        // $this->wizardSubmenuItem();
-        // $this->orgFilesSubmenuItem();
-        //$this->assistantsSubmenuItem();
-        // $this->addFileSubmenuItem();
-        //$this->dataSyncSubmenuItem();
         $this->settingsSubmenuItem();
         $this->vectorStoreSubmenuItem();
         $this->conversationsSubmenuItem();
-        $this->buddybotsSubmenuItem();
     }
 
     public function hiddenMenu()
     {
-        $this->editBuddyBotSubmenuItem();
+        $this->editChatBotSubmenuItem();
         $this->defaultBuddyBotWizard();
         $this->ViewConversationsSubmenuItem();
     }
@@ -56,19 +50,6 @@ $base64_icon = base64_encode($icon);
             array($this, 'appMenuPage'),
             'data:image/svg+xml;base64,' . $base64_icon,
             6
-        );
-    }
-
-    public function buddybotsSubmenuItem()
-    {
-        add_submenu_page(
-            'buddybot-chatbot',
-            esc_html__('BuddyBot List', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
-            esc_html__('BuddyBots', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
-            'manage_options',
-            'buddybot-buddybots',
-            array($this, 'buddybotsMenuPage'),
-            1
         );
     }
 
@@ -124,41 +105,15 @@ $base64_icon = base64_encode($icon);
         );
     }
 
-    public function dataSyncSubmenuItem()
-    {
-        add_submenu_page(
-            'buddybot-chatbot',
-            esc_html__('Data Sync', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
-            esc_html__('Data Sync', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
-            'manage_options',
-            'buddybot-datasync',
-            array($this, 'dataSyncMenuPage'),
-            1
-        );
-    }
-
-    public function assistantsSubmenuItem()
-    {
-        add_submenu_page(
-            'buddybot-chatbot',
-            esc_html__('Assistants', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
-            esc_html__('Assistants', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
-            'manage_options',
-            'buddybot-assistants',
-            array($this, 'assistantsMenuPage'),
-            1
-        );
-    }
-
-    public function editBuddyBotSubmenuItem()
+    public function editchatBotSubmenuItem()
     {
         add_submenu_page(
             'buddybot-hidden-page',
-            esc_html__('Edit Assistant', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
-            esc_html__('Edit Assistant', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            esc_html__('Edit BuddyBot', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            esc_html__('Edit BuddyBot', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
             'manage_options',
-            'buddybot-editbuddybot',
-            array($this, 'EditBuddyBotMenuPage'),
+            'buddybot-editchatbot',
+            array($this, 'EditChatBotMenuPage'),
             1
         );
     }
@@ -235,6 +190,7 @@ $base64_icon = base64_encode($icon);
 
     public function appMenuPage()
     {
+        //include_once(plugin_dir_path(__FILE__) . 'pages/buddybots.php');
         include_once(plugin_dir_path(__FILE__) . 'pages/chatbot.php');
     }
 
@@ -258,19 +214,9 @@ $base64_icon = base64_encode($icon);
         include_once(plugin_dir_path(__FILE__) . 'pages/addfile.php');
     }
 
-    public function dataSyncMenuPage()
+    public function EditChatBotMenuPage()
     {
-        include_once(plugin_dir_path(__FILE__) . 'pages/datasync.php');
-    }
-
-    public function assistantsMenuPage()
-    {
-        include_once(plugin_dir_path(__FILE__) . 'pages/assistants.php');
-    }
-
-    public function EditBuddyBotMenuPage()
-    {
-        include_once(plugin_dir_path(__FILE__) . 'pages/editbuddybot.php');
+        include_once(plugin_dir_path(__FILE__) . 'pages/editchatbot.php');
     }
 
     public function defaultBuddyBotWizardMenuPage()
