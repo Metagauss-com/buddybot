@@ -55,18 +55,22 @@ final class EditChatBot extends \BuddyBot\Admin\Requests\MoRoot
     private function sampleInstructionsModalJs()
     {
         echo'
-        $(".buddybot-copy-btn").on("click", function () {
-        let button = $(this);
-        let textToCopy = button.attr("data-text");
+        $(".copy-btn").click(function () {
+            let button = $(this);
+            let originalIcon = button.html();
+            button.prop("disabled", true);
+            let textToCopy = button.attr("data-text");
+            let copiedText = "' . esc_html__("Copied!", "buddybot-ai-custom-ai-assistant-and-chat-agent") .'"; 
 
-        navigator.clipboard.writeText(textToCopy).then(() => {
-            button.addClass("buddybot-copied");
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                button.html(copiedText);
 
-            setTimeout(() => {
-                button.removeClass("buddybot-copied");
-            }, 1500);
+                setTimeout(() => {
+                    button.html(originalIcon);
+                    button.prop("disabled", false);
+                }, 2000);
+            });
         });
-    });
         ';
     }
 
