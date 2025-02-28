@@ -9,39 +9,50 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
     {
 
         $heading = __('AI Training', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-        $this->pageHeading($heading);
+        $this->customHeading($heading);
         $this->alertContainer();
         $this->getVectorStore();
-        $this->createVectorStoreBtn();
-        //$this->deleteVectorStoreBtn();
+        $this->ProgressBar();
         $this->itemsList();
         $this->msgArea();
     }
 
+    private function customHeading($heading)
+    {
+        echo '<div class="mb-1" style="display: flex; align-items: center;">';
+        echo '<h3>';
+        echo esc_html($heading);
+        echo '</h3>';
+        $this->createVectorStoreBtn();
+        echo '</div>';
+    }
+
     private function createVectorStoreBtn()
     {
+        $vectorstore_data = get_option('buddybot_vectorstore_data');
+        $vectorstore_id = !empty($vectorstore_data['id']) ? esc_attr($vectorstore_data['id']) : '';
 
         $btn_label = __('Create AI Training Knowledgebase', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
 
         $id = 'buddybot-vectorstore-create';
-        echo '<div>';
+        echo '<div class="ms-2">';
 
-        $this->loaderBtn('dark btn-sm mb-1 visually-hidden', $id, $btn_label);
-        $this->createHiddenField('buddybot_vector_store_id');
+        echo '<input type="submit" id="' . esc_attr($id) . '" ';
+        echo 'class="button button-outline visually-hidden" " value="' . esc_html($btn_label) . '">';
+        echo '<span class="spinner is-active" style="display:none;" aria-hidden="true"></span>';
+
+        //$this->wordpressLoaderBtn($id, $btn_label, 'visually-hidden');
+
+        $this->createHiddenField('buddybot_vector_store_id', $vectorstore_id);
 
         echo '</div>';
     }
 
     private function getVectorStore()
     {
-        echo '<div id="buddybot-get-vectorstore" class="small mb-4">';
-
+        echo '<div id="buddybot-get-vectorstore" class="small">';
         echo '<div id="buddybot-vectorstore-section">';
-
         echo '<p id="buddybot-vectorstoreName" style="display: none;">Loading...</p>'; 
-        echo '<div id="buddybot-assistants-loading-spinner" class="d-flex justify-content-center" style="display: block;">';
-        echo '<div class="spinner-border text-dark" role="status">';
-        echo '<span class="visually-hidden">Loading...</span>';
         echo '</div>';
         echo '</div>';
         
@@ -54,7 +65,7 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function deleteVectorStoreBtn()
     {
-        $btn_label = __('Delete AI Training Knowledgebase', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $btn_label = esc_html__('Delete AI Training Knowledgebase', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
 
         $id = 'buddybot-vectorstore-delete';
         echo '<div>';
@@ -70,6 +81,21 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
         $this->postsItem();
         $this->commentsItem();
         echo '</div>';
+    }
+
+    private function ProgressBar()
+    {
+        echo '<div class="mt-1 w-50 m-0" id="buddybot-progress-container">';
+        echo '<div class="d-flex align-items-center gap-1" id="buddybot-progress-wrapper">';
+        echo '<div id="buddybot-ProgressBar" class="progress flex-grow-1" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 5px; opacity:0;">';
+        echo '<div class="progress-bar bg-primary" style="width: 0%"></div>';
+        echo '</div>';
+        echo '<div id="buddybot-progressbar-percentage" style="opacity: 0;">0%</div>';
+        echo '</div>';
+        echo '<p id="buddybot-sync-msgs" class="d-flex align-items-center gap-1 mt-0" style="opacity: 0;">';
+        echo '<span id="buddybot-ProgressBar-icon" class="material-symbols-outlined fs-6"></span>';
+        echo '<span id="buddybot-message" class="flex-grow-1">' . esc_html__('Sync processing...', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</span>';
+        echo '</p></div>';
     }
 
     private function listItem($type, $heading, $text)

@@ -5,3 +5,11 @@
 .buddybot-remote-file-status{
     font-size: .7em;
 }
+
+/* .wp-die-message, p {
+    margin: 0.4em;
+} */
+
+#buddybot-progressbar-percentage{
+    font-size: .7em;
+}
