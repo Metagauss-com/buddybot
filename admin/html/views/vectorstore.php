@@ -55,24 +55,6 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<p id="buddybot-vectorstoreName" style="display: none;">Loading...</p>'; 
         echo '</div>';
         echo '</div>';
-        
-        echo '</div>';
-        
-        echo '</div>';
-        
-        echo ' <div id="buddybot-get-files"> </div>';
-    }
-
-    private function deleteVectorStoreBtn()
-    {
-        $btn_label = esc_html__('Delete AI Training Knowledgebase', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-
-        $id = 'buddybot-vectorstore-delete';
-        echo '<div>';
-
-        $this->loaderBtn('dark btn-sm', $id, $btn_label);
-
-        echo '</div>';
     }
 
     private function itemsList()
