@@ -14,10 +14,27 @@ class Instructions extends \BuddyBot\Admin\Html\CustomModals\MoRoot
     protected function bodyContent()
     {
         ?>
-        <div id="notification" class="alert alert-success d-none" role="alert">
-            <?php echo esc_html__('Instruction copied to clipboard!', 'buddybot-ai-custom-ai-assistant-and-chat-agent'); ?>
-        </div>
+        <style>
+.buddybot-copy-btn .buddybot-copied-text {
+    position: absolute;
+    top: -25px;
+    right: 0;
+    background: #000;
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    opacity: 0;
+    transform: translateY(5px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    pointer-events: none;
+}
 
+.buddybot-copy-btn.buddybot-copied .buddybot-copied-text {
+    opacity: 1;
+    transform: translateY(0);
+}
+</style>
         <div class="list-group">
             <?php 
             $instructions = [
@@ -32,7 +49,8 @@ class Instructions extends \BuddyBot\Admin\Html\CustomModals\MoRoot
                 ?>
                 <div class="d-flex justify-content-between align-items-center list-group-item">
                     <span><?php echo esc_html($instruction); ?></span>
-                    <button class="btn btn-light btn-sm copy-btn" data-text="<?php echo esc_attr($instruction); ?>">
+                    <button class="buddybot-copy-btn" data-text="<?php echo esc_attr($instruction); ?>">
+                    <span class="buddybot-copied-text"><?php esc_html_e("Copied!", "buddybot-ai-custom-ai-assistant-and-chat-agent"); ?></span>
                         <?php $this->moIcon('content_copy'); ?>
                     </button>
                 </div>
@@ -45,7 +63,7 @@ class Instructions extends \BuddyBot\Admin\Html\CustomModals\MoRoot
 
     protected function footerContent()
     {
-        echo '<button type="button" class="btn btn-secondary btn-sm" data-modal="buddybot-sample-instructions-modal">' . esc_html__('Cancel', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</button>';
+        echo '<button type="button" class="buddybot-btn-dark" data-modal="buddybot-sample-instructions-modal">' . esc_html__('Cancel', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</button>';
     }
 
     protected function showCloseButton()

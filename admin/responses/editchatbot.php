@@ -76,6 +76,7 @@ class EditChatBot extends \BuddyBot\Admin\Responses\MoRoot
         $instructions .= "Personalized options: " . (isset($buddybot_data["personalized_options"]) && !empty($buddybot_data["personalized_options"]) ? "Enabled" : "Disabled") . ". ";
        // $instructions .= "Fallback behavior: " . esc_html($fallback_text) . ". ";
         $instructions .= "Emotion detection: " . (isset($buddybot_data["emotion_detection"]) && !empty($buddybot_data["emotion_detection"]) ? "Enabled" : "Disabled") . ". ";
+        $instructions .= "Assistant Name: " . (isset($buddybot_data["assistant_name"]) && !empty($buddybot_data["assistant_name"]) ? $buddybot_data["assistant_name"] : "") . ". ";
         $instructions .= "Greeting message: " . (isset($buddybot_data["greeting_message"]) && !empty($buddybot_data["greeting_message"]) ? $buddybot_data["greeting_message"] : "") . ". ";
         $instructions .= "Disallow assistant to seek answers from OpenAI: " . (isset($buddybot_data["openai_search"]) && !empty($buddybot_data["openai_search"]) ? "Enabled" : "Disabled") . ". ";
         if (!empty($buddybot_data["openai_search"])) {

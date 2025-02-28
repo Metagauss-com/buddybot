@@ -62,7 +62,7 @@ $base64_icon = base64_encode($icon);
             'manage_options',
             'buddybot-playground',
             array($this, 'playgroundMenuPage'),
-            1
+            3
         );
     }
 
@@ -166,7 +166,7 @@ $base64_icon = base64_encode($icon);
             'manage_options',
             'buddybot-conversations',
             array($this, 'conversationsMenuPage'),
-            4
+            2
         );
     }
 
