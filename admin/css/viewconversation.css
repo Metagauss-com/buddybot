@@ -1,19 +1,14 @@
-#buddybot-conversation-delete-btn{
-    color: red;
-    border: 1px solid red;
-    background-color: #fff;
-    transition: all 0.3s ease;
+body{
+    background-color: #f0f0f1!important;
 }
-
-#buddybot-conversation-delete-btn:hover {
-    color: #fff;
-    background-color: red;
-    border-color: red;
-}
-
 #buddybot-conversation-past-messages-btn{
     float:right;
 }
+
+#buddybot-past-conversation-spinner{
+    float: left !important; 
+}
+
 
 .buddybot-rotate-icon {
     animation: icon-rotate 1s infinite linear;
@@ -22,4 +17,10 @@
 @keyframes icon-rotate {
     from {transform: rotate(0deg);}
     to {transform: rotate(360deg);}
+}
+
+
+
+.buddybot-playground-messages-list-item{
+    max-width: 50%;
 }

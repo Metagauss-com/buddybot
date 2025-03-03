@@ -39,10 +39,7 @@ class Instructions extends \BuddyBot\Admin\Html\CustomModals\MoRoot
         <?php
     }
 
-    protected function footerContent()
-    {
-        echo '<button type="button" class="buddybot-btn-dark" data-modal="buddybot-sample-instructions-modal">' . esc_html__('Cancel', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</button>';
-    }
+   
 
     protected function showCloseButton()
     {

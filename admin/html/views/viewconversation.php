@@ -56,18 +56,23 @@ class ViewConversation extends \BuddyBot\Admin\Html\Views\MoRoot
         // echo 'class="button button-primary me-2" role="button">' . esc_html__('Filter', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</a>';
 
         echo '<input type="submit" id="buddybot-conversation-delete-btn" data-modal="buddybot-del-conversation-modal"';
-        echo 'class="button button-primary me-2" value="' . esc_html__('Delete', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '">';
+        echo 'class="button me-2 buddybot-btn-danger" value="' . esc_html__('Delete', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '">';
         echo '</div>';
-
-        echo '<button type="button" class="button button-primary me-2" disabled id="buddybot-related-conversation-btn" onclick="location.href=\'' . admin_url('admin.php?page=buddybot-conversations&filter=true&user_id=' . $user_id) . '\';">';
-        echo esc_html__('Related Conversation', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-        echo '</button>';
-        echo '<span id="buddybot-related-conversation-count" style="display: none;"></span>';
         
+        echo '<div>';
+        
+        echo '<span id="buddybot-past-conversation-spinner" class="spinner is-active" style="display:none;" aria-hidden="true"></span>';
+
         echo '<button type="button" class="button button-primary me-2" disabled id="buddybot-past-conversation-btn">';
         echo esc_html__('Load Previous chat', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</button>';
-        echo '<span id="buddybot-past-conversation-spinner" class="spinner is-active" style="display:none;" aria-hidden="true"></span>';
+       
+        echo '<button type="button" class="button me-2 position-relative" disabled id="buddybot-related-conversation-btn" onclick="location.href=\'' . admin_url('admin.php?page=buddybot-conversations&filter=true&user_id=' . $user_id) . '\';">';
+        echo esc_html__('Related Conversation', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        echo '<span id="buddybot-related-conversation-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary" style="display: none;"></span>';
+        echo '</button>';
+         echo '</div>';
+    
     }
 
     private function showRelatedConversationMsg()
@@ -128,7 +133,7 @@ class ViewConversation extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '</div>';
 
         // Right section for the function or buttons
-        echo '<div class="col-12 d-flex align-items-center py-3">';
+        echo '<div class="col-12 d-flex align-items-center py-4 justify-content-between">';
         $this->conversationBtns();
         echo '</div>';
 
@@ -138,7 +143,7 @@ class ViewConversation extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function messagesListContainer()
     {
-        echo '<div id="buddybot-conversation-messages-list" class="p-3 position-relative" style="overflow-y: auto; min-height: 200px; max-height: 65vh;">';
+        echo '<div id="buddybot-conversation-messages-list" class="p-3 position-relative d-flex flex-column gap-3" style="overflow-y: auto; min-height: 200px; max-height: 65vh;">';
         
         // echo '<button id="buddybot-conversation-past-messages-btn" type="button" class="btn btn-outline-dark btn-sm" style="display: none;" title="' . esc_attr(__('View past messages', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '">';
         // $this->moIcon('arrow_upward');
