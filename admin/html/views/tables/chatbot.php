@@ -80,7 +80,7 @@ class ChatBot extends WP_List_Table
     public function column_default($item, $column_name)
     {
         if ($column_name === 'id') {
-            return '[buddybot id="' . esc_attr($item[$column_name]) . '"]';
+            return '[buddybot_chat id=' . esc_attr($item[$column_name]) . ']';
         }
         if (in_array($column_name, ['created_on', 'edited_on'])) {
             $date_format = get_option('date_format');

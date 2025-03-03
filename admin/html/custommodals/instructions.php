@@ -29,6 +29,7 @@ class Instructions extends \BuddyBot\Admin\Html\CustomModals\MoRoot
                 <div class="buddybot-d-flex buddybot-justify-content-between buddybot-align-items-center buddybot-list-group-item">
                     <span><?php echo esc_html($instruction); ?></span>
                     <button class="buddybot-btn buddybot-btn-light buddybot-btn-sm copy-btn" data-text="<?php echo esc_attr($instruction); ?>">
+                        <span class="buddybot-copied-text"><?php esc_html_e("Copied!", "buddybot-ai-custom-ai-assistant-and-chat-agent"); ?></span>
                         <?php $this->moIcon('content_copy'); ?>
                     </button>
                 </div>

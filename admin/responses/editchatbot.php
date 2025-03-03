@@ -84,7 +84,7 @@ class EditChatBot extends \BuddyBot\Admin\Responses\MoRoot
         } else {
             $instructions .= "";      
         }
-        //$instructions .= $buddybot_data["additional_instruction"];
+        $instructions .= $buddybot_data["additional_instruction"];
        // $instructions .= "Multilingual support: " . (isset($buddybot_data["multilingual_support"]) && !empty($buddybot_data["multilingual_support"]) ? "Enabled" : "Disabled.Respond only in English,Do not respond in any other language even if the user inputs in a different language") . ". ";
 
         $data = array(
