@@ -1,3 +1,21 @@
+
+/* General CSS---*/
+
+
+.buddybot-d-flex {
+    display: flex !important;
+}
+
+.buddybot-justify-content-between {
+    justify-content: space-between !important;
+}
+
+.buddybot-align-items-center {
+    align-items: center !important;
+}
+/* General CSS End---*/
+
+
 /* General Welcome Modal Styling */
 .bb-modal-image {
     flex: 1;
@@ -160,6 +178,32 @@
 
 /* General modal ends */
 
+
+/*---Buttons---*/
+
+.buddybot-btn{
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+
+/*---Buttons ends---*/
+
 /* Button color starts */
 .buddybot-btn-danger {
 background-color: #dc3545; 
@@ -205,6 +249,18 @@ transition: background-color 0.2s, border-color 0.2s;
 .buddybot-btn-dark:hover {
 background-color: #5a6268;
 border-color: #545b62;
+}
+
+.buddybot-btn-light {
+    color: #000;
+    background-color: #f8f9fa;
+    border-color: #f8f9fa;
+}
+
+.buddybot-btn-light:hover{    
+    color: #000;
+    background-color: #f9fafb;
+    border-color: #f9fafb;
 }
 
 .buddybot-btn-dark:disabled,
@@ -265,3 +321,40 @@ border-color: #545b62;
     justify-content: space-between;
     align-items: center;
 }
+
+/*-----List Group---*/
+
+.buddybot-list-group{
+    display: flex;
+    flex-direction: column;
+    padding-left: 0;
+    margin-bottom: 0;
+    border-radius: .25rem;
+}
+
+.buddybot-list-group .buddybot-list-group-item:first-child{
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+}
+
+
+
+.buddybot-list-group .buddybot-list-group-item:last-child {
+    border-bottom-right-radius: inherit;
+    border-bottom-left-radius: inherit;
+}
+
+.buddybot-list-group .buddybot-list-group-item{
+    position: relative;
+    display: block;
+    padding: .5rem 1rem;
+    color: #212529;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, .125);
+}
+.buddybot-list-group .buddybot-list-group-item+.buddybot-list-group-item {
+    border-top-width: 0;
+}
+
+/*-----List group Ends----*/
