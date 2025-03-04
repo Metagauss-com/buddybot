@@ -40,7 +40,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
                 echo '<option value="' . $value . '">' . $display_text . '</option>';
             }
         } else {
-            echo '<option disabled>' . esc_html__('No Assistants Found', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</option>';
+            echo '<option disabled selected>' . esc_html__('No Assistants Found', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</option>';
         }
 
         echo '</select>';

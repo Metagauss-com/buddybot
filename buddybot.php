@@ -36,14 +36,21 @@ if (is_readable(plugin_dir_path(__FILE__) . 'loader.php')) {
 
 spl_autoload_register(array(__NAMESPACE__ . '\Loader', 'loadClass'));
 
-// $buddybot_db = new MoDb();
-// register_activation_hook(__FILE__, array($buddybot_db, 'installPlugin'));
-
-add_action('init', function() {
-    $buddybot_db = new MoDb();
+register_activation_hook(__FILE__, function() {
     $stored_version = get_option('buddybot_db_version', '0.1');
 
     if ((float) $stored_version < (float) BUDDYBOT_DATABASE_VERSION) {
+        $buddybot_db = new MoDb();
+        $buddybot_db->installPlugin(); 
+        update_option('buddybot_db_version', BUDDYBOT_DATABASE_VERSION);
+    }
+});
+
+add_action('init', function() {
+    $stored_version = get_option('buddybot_db_version', '0.1');
+
+    if ((float) $stored_version < (float) BUDDYBOT_DATABASE_VERSION) {
+        $buddybot_db = new MoDb();
         $buddybot_db->installPlugin(); 
         update_option('buddybot_db_version', BUDDYBOT_DATABASE_VERSION);
     }

@@ -76,6 +76,7 @@ final class EditChatBot extends \BuddyBot\Admin\Requests\MoRoot
         echo '
         getModels();
         function getModels(){
+            disableTableFields("buddybot-table", true);
             const select = $("#buddybot-assistantmodel");
             const data = {
                 "action": "getModels",
@@ -86,12 +87,15 @@ final class EditChatBot extends \BuddyBot\Admin\Requests\MoRoot
                 response = JSON.parse(response);
                 if (response.success) {
                     select.html(response.html);
-                    select.siblings(".buddybot-dataload-spinner").hide();
+                    select.siblings("#buddybot-assistant-model-spinner").hide();
                     if (context === "update") {
                         getAssistantData();
+                    } else {
+                        disableTableFields("buddybot-table", false);
                     }
 
                 } else {
+                    disableTableFields("buddybot-table", false);
                     if(response.empty_key) {
                         select.html(response.html);
                     }
@@ -178,7 +182,6 @@ final class EditChatBot extends \BuddyBot\Admin\Requests\MoRoot
 
 
         function getAssistantData(){
-            disableFields(true);
             const data = {
                 "action": "getAssistantData",
                 "assistant_id": "' . esc_js($this->assistant_id) . '",
@@ -195,7 +198,7 @@ final class EditChatBot extends \BuddyBot\Admin\Requests\MoRoot
                     showAlert(response.message);
                 }
 
-                disableFields(false);
+                disableTableFields("buddybot-table", false);
             });
         };
 

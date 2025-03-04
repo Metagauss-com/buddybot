@@ -56,7 +56,7 @@ class ViewConversation extends \BuddyBot\Admin\Html\Views\MoRoot
         // echo 'class="button button-primary me-2" role="button">' . esc_html__('Filter', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</a>';
 
         echo '<input type="submit" id="buddybot-conversation-delete-btn" data-modal="buddybot-del-conversation-modal"';
-        echo 'class="button me-2 buddybot-btn-danger" value="' . esc_html__('Delete', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '">';
+        echo 'class="buddybot-btn-outline-danger bb-btn-sm" value="' . esc_html__('Delete', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '">';
         echo '</div>';
         
         echo '<div>';

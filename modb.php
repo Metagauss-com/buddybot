@@ -88,11 +88,7 @@ class MoDb
             log_component VARCHAR(50) NULL,
             log_referrer_url TEXT NULL,
             log_timestamp DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL,
-            PRIMARY KEY (log_id),
-            INDEX (log_event),
-            INDEX (log_status),
-            INDEX (log_severity),
-            INDEX (log_timestamp)
+            PRIMARY KEY (log_id)
         ) $this->charset;";
 
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');

@@ -41,7 +41,7 @@ class ChatBubble extends \BuddyBot\Admin\Html\Elements\Playground\MoRoot
         $args = array('default' => 'retro');
         $img_url = get_avatar_url(get_current_user_id(), $args);
         
-        $html = '<div class="buddybot-playground-messages-list-item d-flex justify-content-start align-items-start my-2 align-self-end" id="' . esc_attr($this->message->id) . '">';
+        $html = '<div class="buddybot-playground-messages-list-item d-flex justify-content-end align-items-start my-2 align-self-end" id="' . esc_attr($this->message->id) . '">';
 
         $html .= $this->messageImage($img_url);
 

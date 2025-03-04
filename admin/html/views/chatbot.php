@@ -18,7 +18,7 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
 
     protected function pageModals()
     {
-        $deleteBuddybot = new \BuddyBot\Admin\Html\CustomModals\DeleteChatBot();
+        $deleteBuddybot = new \BuddyBot\Admin\Html\CustomModals\Welcome();
         $deleteBuddybot->getHtml();
     }
 

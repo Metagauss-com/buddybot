@@ -231,6 +231,22 @@ border-color: #bd2130;
     pointer-events: none;
 }
 
+.buddybot-btn-outline-danger {
+    color: #dc3545;
+    border: 1px solid #dc3545;
+    background-color: transparent;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.buddybot-btn-outline-danger:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
 .buddybot-btn-dark {
 background-color: #6c757d;
 color: white;
@@ -269,6 +285,12 @@ border-color: #545b62;
     pointer-events: none;
 }
 
+.bb-btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    border-radius: 0.2rem;
+}
 /* button color Ends */
 
 /* text color start  */

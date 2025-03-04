@@ -98,6 +98,12 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
                 $(this).prop("disabled", isDisabled);
             });
         }
+            
+        function disableTableFields(tableId, isDisabled) {
+            $(`#${tableId} :input`).each(function () {
+                $(this).prop("disabled", isDisabled);
+            });
+        }
         ';
     }
 

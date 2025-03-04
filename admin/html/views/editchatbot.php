@@ -61,7 +61,7 @@ class EditChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function buddybotFieldsTable()
     {
-        echo '<table class="form-table" role="presentation">';
+        echo '<table class="form-table" id="buddybot-table" role="presentation">';
         $this->tableBody();
         echo '</table>';
     }
@@ -133,10 +133,12 @@ class EditChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<tr>';
         echo '<th scope="row">' . esc_html__('Assistant Model (Required)', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</th>';
         echo '<td>';
+        echo '<div class="buddybot-d-flex">';
         echo '<select id="' . esc_attr($id) . '" class="buddybot-item-field">';
         echo '<option value="" selected>' . esc_html__('Loading...', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</option>';
         echo '</select>';
-        $this->moSpinner();
+        echo '<span id="buddybot-assistant-model-spinner" class="spinner is-active" aria-hidden="true"></span>';
+        echo '</div>';
         echo '<p class="description">' . esc_html__('Select the AI model for your assistant. Advanced models like GPT-4 offer better accuracy and features.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
         echo '</td>';
         echo '</tr>';
@@ -317,7 +319,7 @@ class EditChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<input type="submit" id="' . esc_attr($id) . '" ';
         echo 'class="button button-primary" value="' . esc_html($btn_label) . '">';
 
-        echo ' <a href="' . esc_url(admin_url('admin.php?page=buddybot-buddybots')) . '" class="button">';
+        echo ' <a href="' . esc_url(admin_url('admin.php?page=buddybot-chatbot')) . '" class="button">';
         echo esc_html__('Back', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</a>';
         echo '<span class="spinner is-active" style="display:none;" aria-hidden="true"></span>';

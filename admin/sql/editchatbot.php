@@ -13,11 +13,12 @@ class EditChatBot extends \BuddyBot\Admin\Sql\MoRoot
 
     public function createBuddyBot($buddybot_data)
     {
-        $data = $buddybot_data;
+        $buddybot_data['created_on'] = current_time('mysql', 1);
+        $buddybot_data['edited_on'] = current_time('mysql', 1);
         global $wpdb;
         $insert = $wpdb->insert(
             $this->table,
-            $data,
+            $buddybot_data,
             array('%s', '%s', '%s')
         );
 
@@ -32,13 +33,13 @@ class EditChatBot extends \BuddyBot\Admin\Sql\MoRoot
     public function updateBuddyBot($buddybot_data)
     {
         $where = array('id'=> $buddybot_data['id']);
-        $data = $buddybot_data;
-        unset($data['id']);
-        
+        unset($buddybot_data['id']);
+
+        $buddybot_data['edited_on'] = current_time('mysql', 1);
         global $wpdb;
         $update = $wpdb->update(
             $this->table,
-            $data,
+            $buddybot_data,
             $where,
             array('%s', '%s', '%s'),
             array('%d')
@@ -65,5 +66,18 @@ class EditChatBot extends \BuddyBot\Admin\Sql\MoRoot
         } else {
             return $buddybot[0];
         }
+    }
+
+    public function getCreatedOnById($id)
+    {
+        global $wpdb;
+        $id = intval($id);
+
+        $query = $wpdb->prepare(
+            "SELECT created_on FROM {$this->table} WHERE id = %d LIMIT 1",
+            $id
+        );
+
+        return $wpdb->get_var($query);
     }
 }
