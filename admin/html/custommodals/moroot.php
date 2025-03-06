@@ -5,10 +5,13 @@ namespace BuddyBot\Admin\Html\CustomModals;
 class MoRoot extends \BuddyBot\Admin\Html\MoRoot
 {
     protected $modal_id = '';
+    protected $header_display = '';
+    protected $footer_display = '';
+    protected $close_outside = '';
 
     public function getHtml()
     {
-        echo '<div class="buddybot-modal" tabindex="-1" id="' . esc_attr($this->modal_id) . '">';
+        echo '<div class="buddybot-modal" tabindex="-1" id="' . esc_attr($this->modal_id) . '" ' . $this->close_outside . '>';
         echo '<div class="buddybot-modal-dialog ' . esc_attr($this->modalSize()) . '">';
         echo '<div class="buddybot-modal-content">';
         $this->modalHeader();
@@ -19,7 +22,7 @@ class MoRoot extends \BuddyBot\Admin\Html\MoRoot
 
     protected function modalHeader()
     {
-        echo '<div class="buddybot-modal-header">';
+        echo '<div class="buddybot-modal-header"' . $this->header_display . '>';
         echo '<h5 class="buddybot-modal-title">';
         echo esc_html($this->modalTitle());
         echo '</h5>';
@@ -38,7 +41,7 @@ class MoRoot extends \BuddyBot\Admin\Html\MoRoot
 
     protected function modalFooter()
     {
-        echo '<div class="buddybot-modal-footer">';
+        echo '<div class="buddybot-modal-footer"' . $this->footer_display . '>';
         $this->footerContent();
         echo '</div>';
     }

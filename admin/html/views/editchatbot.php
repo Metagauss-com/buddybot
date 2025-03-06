@@ -40,10 +40,22 @@ class EditChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
     public function getHtml()
     {
         $this->customPageHeading($this->heading);
+        $this->pageSuccessAlert();
         $this->alertContainer();
         $this->buddybotFieldsTable();
         $this->pageBtns();
         $this->pageModals();
+    }
+
+    private function pageSuccessAlert()
+    {
+        if (empty($_GET['success']) or absint($_GET['success']) != 1) {
+            return;
+        }
+
+        echo '<div id="buddybot-settings-success" class="notice notice-success buddybot-mb-3 buddybot-ms-0 buddybot-py-2">';
+        echo '<span id="buddybot-settings-success-message">' . esc_html('BuddyBot updated successfully.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</span>';
+        echo '</div>';
     }
 
     protected function pageModals()

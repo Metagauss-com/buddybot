@@ -4,7 +4,7 @@ jQuery( document ).ready(
         if (dismissed) {
             return;
         }
-        jQuery('#buddybot-welcome-modal').modal('show');
+        jQuery("#buddybot-welcome-modal").addClass("show");
 
         jQuery(".bb-get-started").click(function() {
             DismissModal(true);
@@ -49,10 +49,12 @@ jQuery( document ).ready(
           }
       });
 
-      $(window).on("click", function (event) {
-          if ($(event.target).hasClass("buddybot-modal")) {
-              $(".buddybot-modal.show").removeClass("show");
-          }
-      });
-  });
+        $(window).on("click", function (event) {
+            var $modal = $(event.target);
+
+            if ($modal.hasClass("buddybot-modal") && $modal.is("[data-close-outside]")) {
+                $modal.removeClass("show");
+            }
+        });
+    });
 })(jQuery);

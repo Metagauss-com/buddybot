@@ -34,11 +34,6 @@ final class EditChatBot extends \BuddyBot\Admin\Secure\MoRoot
             return $name;
         }
 
-        if (!preg_match('/^[\w\s\-]+$/u', $name)) {
-            $this->errors[] = __('BuddyBot name contains invalid characters.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-            return $name;
-        }
-
         return $name;
     }
 
@@ -64,11 +59,6 @@ final class EditChatBot extends \BuddyBot\Admin\Secure\MoRoot
 
         if (strlen($name) > 256) {
             $this->errors[] = __('Assistant name cannot be more than 256 characters.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-            return $name;
-        }
-
-        if (!preg_match('/^[\w\s\-]+$/u', $name)) {
-            $this->errors[] = __('Assistant name contains invalid characters.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             return $name;
         }
 

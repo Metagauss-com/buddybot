@@ -4,7 +4,10 @@ namespace BuddyBot\Admin\Html\CustomModals;
 
 class Welcome extends \BuddyBot\Admin\Html\CustomModals\MoRoot
 {
-    protected $modal_id = 'buddybot-del-confirmation-modal';
+    protected $modal_id = 'buddybot-welcome-modal';
+    protected $header_display = 'style="display: none;"';
+    protected $footer_display = 'style="display: none;"';
+    // protected $close_outside = 'data-close-outside';
 
     protected function bodyContent()
     {
@@ -16,11 +19,11 @@ class Welcome extends \BuddyBot\Admin\Html\CustomModals\MoRoot
         echo ' </div>';
 
         echo ' <div class="bb-modal-text">';
-        echo ' <h1 class="bb-modal-title">' . esc_html($buddybotModalHeading) . '</h1>';
+        echo ' <h1 class="bb-modal-title buddybot-mt-0">' . esc_html($buddybotModalHeading) . '</h1>';
         echo ' <p class="bb-modal-description">' . esc_html__("BuddyBot is built to provide direct, AI-driven support to your website visitors. It uses your WordPress content to interact with users on your site, making your website more helpful and interactive. Let's set up your first BuddyBot to enhance the frontend user experience!", "buddybot-ai-custom-ai-assistant-and-chat-agent") . '</p>';
         echo ' <div class="bb-modal-actions">';
-        echo ' <button type="button" class="button button-seconday bb-dismiss-modal" data-bs-dismiss="modal">' .esc_html__('Close ', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</button> ';
-        echo ' <button type="button" class="button button-primary bb-get-started">' .esc_html__('Get Started ', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</button> ';
+        echo ' <button type="button" class="buddybot-btn-outline-black bb-dismiss-modal" data-modal="buddybot-welcome-modal">' .esc_html__('Close ', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</button> ';
+        echo ' <button type="button" class="buddybot-btn-black bb-get-started">' .esc_html__('Get Started ', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</button> ';
         echo ' </div>';
         echo ' </div>';
         echo ' </div>';

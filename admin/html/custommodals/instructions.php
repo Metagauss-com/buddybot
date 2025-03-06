@@ -5,6 +5,7 @@ namespace BuddyBot\Admin\Html\CustomModals;
 class Instructions extends \BuddyBot\Admin\Html\CustomModals\MoRoot
 {
     protected $modal_id = 'buddybot-sample-instructions-modal';
+    protected $close_outside = 'data-close-outside';
 
     protected function modalTitle()
     {

@@ -18,7 +18,7 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
 
     protected function pageModals()
     {
-        $deleteBuddybot = new \BuddyBot\Admin\Html\CustomModals\Welcome();
+        $deleteBuddybot = new \BuddyBot\Admin\Html\CustomModals\DeleteChatBot();
         $deleteBuddybot->getHtml();
     }
 
@@ -32,7 +32,6 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
         echo esc_html($heading);
         echo '</h1>';
         $this->pageBtns();
-        echo '<hr class="wp-header-end">';
         if (!empty($search_query)) {
             printf(
                 '<span class="subtitle">' . esc_html__('Search results for: ', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '<strong>%s</strong></span>',

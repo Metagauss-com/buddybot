@@ -128,6 +128,7 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
                 'wp_user_id' => (string)get_current_user_id(),
                 'wp_source' => 'wp_admin',
             ),
+            'tool_choice' => array('type' => 'file_search'),
         );
     
         // Perform the POST request
@@ -162,7 +163,7 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
         $thread_id = isset($_POST['thread_id']) && !empty($_POST['thread_id']) ? sanitize_text_field($_POST['thread_id']) : '';
         $run_id = isset($_POST['run_id']) && !empty($_POST['run_id']) ? sanitize_text_field($_POST['run_id']) : '';
         
-        $url = 'https://api.openai.com/v1/threads/' . $thread_id . '/runs/' . $run_id;
+        $url = 'https://api.openai.com/v1/threads/' . $thread_id . '/runs/' . $run_id . '?include[]=step_details.tool_calls[*].file_search.results[*].content';
     
         // Prepare the headers
         $headers = array(

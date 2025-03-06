@@ -159,7 +159,7 @@ final class EditChatBot extends \BuddyBot\Admin\Requests\MoRoot
             $.post(ajaxurl, data, function(response) {
                 response = JSON.parse(response);
                 if (response.success) {
-                    location.replace("' . esc_url(get_admin_url()) . 'admin.php?page=buddybot-editchatbot&chatbot_id=' . '" + response.chatbot_id);
+                    location.replace("' . esc_url(get_admin_url()) . 'admin.php?page=buddybot-editchatbot&chatbot_id=' . '" + response.chatbot_id + "&success=1");
                 } else {
                     showAlert(response.message);
                 }

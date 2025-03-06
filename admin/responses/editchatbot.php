@@ -82,7 +82,7 @@ class EditChatBot extends \BuddyBot\Admin\Responses\MoRoot
         if (!empty($buddybot_data["openai_search"])) {
             $instructions .= ' You must only provide answers from the uploaded files (vector store). Do not query OpenAI or any other sources. If an answer is not found in the uploaded files, provide response: ' . wp_unslash($fallback_msg) . '';
         } else {
-            $instructions .= "";      
+            $instructions .= "First, search for answers in the uploaded files (vector store). If no relevant answer is found, then use OpenAI to generate a response.";      
         }
         $instructions .= $buddybot_data["additional_instruction"];
        // $instructions .= "Multilingual support: " . (isset($buddybot_data["multilingual_support"]) && !empty($buddybot_data["multilingual_support"]) ? "Enabled" : "Disabled.Respond only in English,Do not respond in any other language even if the user inputs in a different language") . ". ";

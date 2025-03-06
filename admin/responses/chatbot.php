@@ -62,6 +62,7 @@ class ChatBot extends \BuddyBot\Admin\Responses\MoRoot
             } 
             $this->response['success'] = true;
             $this->response['message'] = esc_html__('Successfully deleted BuddyBot.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            $this->response['count'] = $this->sql->getTotalChatbotsCount();
 
         } else {
             $this->response['success'] = false;

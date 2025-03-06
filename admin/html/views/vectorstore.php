@@ -76,7 +76,7 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '</div>';
         echo '<p id="buddybot-sync-msgs" class="d-flex align-items-center gap-1 mt-0" style="opacity: 0;">';
         echo '<span id="buddybot-ProgressBar-icon" class="material-symbols-outlined fs-6"></span>';
-        echo '<span id="buddybot-message" class="flex-grow-1">' . esc_html__('Sync processing...', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</span>';
+        echo '<span id="buddybot-message" class="flex-grow-1 small">' . esc_html__('Sync processing...', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</span>';
         echo '</p></div>';
     }
 
