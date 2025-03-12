@@ -64,11 +64,11 @@ class ViewConversation extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<span id="buddybot-past-conversation-spinner" class="spinner is-active" style="display:none;" aria-hidden="true"></span>';
 
         echo '<button type="button" class="button button-primary me-2" disabled id="buddybot-past-conversation-btn">';
-        echo esc_html__('Load Previous chat', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        echo esc_html__('Load Older', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</button>';
        
         echo '<button type="button" class="button me-2 position-relative" disabled id="buddybot-related-conversation-btn" onclick="location.href=\'' . admin_url('admin.php?page=buddybot-conversations&filter=true&user_id=' . $user_id) . '\';">';
-        echo esc_html__('Related Conversation', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        echo esc_html__('Related', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '<span id="buddybot-related-conversation-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-primary" style="display: none;"></span>';
         echo '</button>';
          echo '</div>';

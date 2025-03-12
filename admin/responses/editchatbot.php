@@ -10,7 +10,10 @@ class EditChatBot extends \BuddyBot\Admin\Responses\MoRoot
     
         if(empty($this->api_key)){
             $this->response['success'] = false;
-            $this->response['message'] = esc_html__('To create or edit an assistant, you need to configure your OpenAI API key in the BuddyBot settings.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            $this->response['message'] = sprintf(
+                esc_html__('To create or edit an assistant, you need to configure your OpenAI API key in the %s.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+                '<a href="admin.php?page=buddybot-settings">' . esc_html__('settings', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</a>'
+            );
             $this->response['empty_key'] = true;
             $this->response['html'] = '<option value="" disabled selected>' . esc_html__('No API key configured', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</option>';
             echo wp_json_encode($this->response);
@@ -80,9 +83,9 @@ class EditChatBot extends \BuddyBot\Admin\Responses\MoRoot
         $instructions .= "Greeting message: " . (isset($buddybot_data["greeting_message"]) && !empty($buddybot_data["greeting_message"]) ? $buddybot_data["greeting_message"] : "") . ". ";
         $instructions .= "Disallow assistant to seek answers from OpenAI: " . (isset($buddybot_data["openai_search"]) && !empty($buddybot_data["openai_search"]) ? "Enabled" : "Disabled") . ". ";
         if (!empty($buddybot_data["openai_search"])) {
-            $instructions .= ' You must only provide answers from the uploaded files (vector store). Do not query OpenAI or any other sources. If an answer is not found in the uploaded files, provide response: ' . wp_unslash($fallback_msg) . '';
+            $instructions .= ' You must only provide answers from the uploaded files (vector store). Do not query OpenAI or any other sources. If no answer is found in the uploaded files, respond with: ' . wp_unslash($fallback_msg) . '';
         } else {
-            $instructions .= "First, search for answers in the uploaded files (vector store). If no relevant answer is found, then use OpenAI to generate a response.";      
+            $instructions .= "Search for answers in the uploaded files (vector store) first. If no relevant answer is found, then use OpenAI to generate a response. Prioritize answers from the vector store over OpenAI responses.";      
         }
         $instructions .= $buddybot_data["additional_instruction"];
        // $instructions .= "Multilingual support: " . (isset($buddybot_data["multilingual_support"]) && !empty($buddybot_data["multilingual_support"]) ? "Enabled" : "Disabled.Respond only in English,Do not respond in any other language even if the user inputs in a different language") . ". ";
@@ -172,7 +175,7 @@ class EditChatBot extends \BuddyBot\Admin\Responses\MoRoot
         //print_r($errors);die;
         if (!empty($errors)) {
             $this->response['success'] = false;
-            $errorMessage = '<strong>' . esc_html__('There were errors in your data:', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</strong>';
+            $errorMessage = '<strong>' . esc_html__('There was an error with your submission. Please fix the following errors:', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</strong>';
             $errorMessage .= '<ul>';
             foreach ($errors as $error) {
                 $errorMessage .= '<li>' . esc_html($error) . '</li>'; 

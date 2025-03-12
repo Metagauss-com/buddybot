@@ -26,10 +26,10 @@ class Conversations extends WP_List_Table
 
     function get_columns() {
         return [
-            'thread_name' => esc_html__('Conversation Name', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
-            'thread_id'   => esc_html__('Conversation ID', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
-            'user_name'   => esc_html__('User Name', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
-            'created'     => esc_html__('Date Created', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            'thread_name' => esc_html__('Name', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            'thread_id'   => esc_html__('ID', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            'user_name'   => esc_html__('User', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            'created'     => esc_html__('Date', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
         ];
     }
 
@@ -50,6 +50,9 @@ class Conversations extends WP_List_Table
         $per_page = intval(get_option('buddybot_conversations_per_page', 10));
         $search   = sanitize_text_field($_GET['s'] ?? '');
         $user_id   = sanitize_text_field($_GET['buddybot-filter-user'] ?? '');
+        if (empty($user_id) && isset($_GET['user_id']) && !empty($_GET['user_id'])) {
+            $user_id = sanitize_text_field($_GET['user_id']);
+        }
 
         $current_page = $this->get_pagenum();
         $total_items  = $this->bot_db->getTotalConversationsCount($user_id, $search);

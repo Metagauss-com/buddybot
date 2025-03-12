@@ -25,7 +25,7 @@ final class EditChatBot extends \BuddyBot\Admin\Secure\MoRoot
         $name = isset($_POST['buddybot_data']['buddybot_name']) ? sanitize_text_field($_POST['buddybot_data']['buddybot_name']) : '';
 
         if (empty($name)) {
-            $this->errors[] = __('BuddyBot name cannot be empty.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            $this->errors[] = __('BuddyBot Name is required.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             return $name;
         }
 
@@ -53,7 +53,7 @@ final class EditChatBot extends \BuddyBot\Admin\Secure\MoRoot
         $name = isset($_POST['buddybot_data']['assistant_name']) ? sanitize_text_field($_POST['buddybot_data']['assistant_name']) : '';
 
         if (empty($name)) {
-            $this->errors[] = __('Assistant name cannot be empty.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            $this->errors[] = __('Assistant Name is required.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             return $name;
         }
 
@@ -116,12 +116,12 @@ final class EditChatBot extends \BuddyBot\Admin\Secure\MoRoot
         $fallback_msg = isset($_POST['buddybot_data']['openaisearch_msg']) ? wp_unslash(sanitize_text_field($_POST['buddybot_data']['openaisearch_msg'])) : '';
 
         if (empty($fallback_msg)) {
-            $this->errors[] = __('Fallback msg cannot be empty.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            $this->errors[] = __('Fallback Message is required.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             return $fallback_msg;
         }
 
         if (strlen($fallback_msg) > 512) {
-            $this->errors[] = __('Fallback msg cannot be more than 512 characters.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            $this->errors[] = __('Fallback Message cannot be more than 512 characters.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             return $fallback_msg;
         }
 

@@ -99,7 +99,7 @@ final class EditChatBot extends \BuddyBot\Admin\Requests\MoRoot
                     if(response.empty_key) {
                         select.html(response.html);
                     }
-                    select.siblings(".buddybot-dataload-spinner").hide();
+                    select.siblings("#buddybot-assistant-model-spinner").hide();
                     showAlert(response.message);
                 }
             });

@@ -8,7 +8,7 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         $this->alertContainer();
         echo '<div class="wrap">';
-        $heading = __('BuddyBot', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $heading = __('BuddyBots', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $this->customPageHeading($heading);
         $this->assistantsTable();
         echo '</div>';
@@ -55,7 +55,7 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         $add_assistant_page = get_admin_url() . 'admin.php?page=buddybot-editchatbot';
         echo '<a href="' . esc_url($add_assistant_page) . '" class="page-title-action">';
-        echo esc_html(__('Create New BuddyBot', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
+        echo esc_html(__('Add New', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
         echo '</a>';
     }
 

@@ -130,7 +130,7 @@ class EditChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         $id = 'buddybot-assistantname';
         echo '<tr>';
-        echo '<th scope="row"><label for="' . esc_attr($id) . '">' . esc_html__('Assistant Name (Friendly Name) (Required)', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</label></th>';
+        echo '<th scope="row"><label for="' . esc_attr($id) . '">' . esc_html__('Assistant Name (Required)', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</label></th>';
         echo '<td>';
         echo '<input name="' . esc_attr($id) . '" type="text" id="' . esc_attr($id) . '" value="" class="regular-text" maxlength="256" placeholder="' . esc_attr__('e.g., Max, Sarah, EventBot', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '">';
         echo '<p class="description">' . esc_html__('This is the name that users will see during interactions (e.g., Max, BuddyBot).', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
@@ -151,7 +151,7 @@ class EditChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '</select>';
         echo '<span id="buddybot-assistant-model-spinner" class="spinner is-active" aria-hidden="true"></span>';
         echo '</div>';
-        echo '<p class="description">' . esc_html__('Select the AI model for your assistant. Advanced models like GPT-4 offer better accuracy and features.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
+        echo '<p class="description">' . esc_html__('Select the AI model for your assistant. Advanced models like GPT-4 offer better accuracy and features, but may consume more tokens per request.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
         echo '</td>';
         echo '</tr>';
     }
@@ -206,12 +206,12 @@ class EditChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
         $id = 'buddybot-openaisearch';
 
         echo '<tr>';
-        echo '<th scope="row">' . esc_html__('Disallow Assistant to Seek Answers from OpenAI', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</th>';
+        echo '<th scope="row">' . esc_html__('Disallow External Search Option', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</th>';
         echo '<td>';
         echo '<fieldset>';
         echo '<label for="' . esc_attr($id) . '">';
         echo '<input type="checkbox" name="' . esc_attr($id) . '" id="' . esc_attr($id) . '" value="1">';
-        echo esc_html__('Disallow Openai Search', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        echo esc_html__('Disallow OpenAI Search', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</label>';
         echo '<p class="description">' . esc_html__('If enabled, the assistant will not query the main OpenAI model (e.g., GPT-4) if it cannot find an answer in the vector store.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
         echo '</fieldset>';
@@ -224,10 +224,10 @@ class EditChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
         $id = 'buddybot-openaisearch-msg';
 
         echo '<tr id="buddybot-openaisearch-childfieldrow" style="display: none;">';
-        echo '<th scope="row"><label for="' . esc_attr($id) . '">' . esc_html__('Fallback Msg', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</label></th>';
+        echo '<th scope="row"><label for="' . esc_attr($id) . '">' . esc_html__('Fallback Message (Required)', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</label></th>';
         echo '<td>';
-        echo '<textarea name="' . esc_attr($id) . '" id="' . esc_attr($id) . '" class="large-text" rows="5" maxlength="512" placeholder="' . esc_attr__('e.g., Be polite and provide helpful responses regarding events and bookings.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '"></textarea>';
-        echo '<p class="description">' . esc_html__('Provide instructions to guide the assistant\'s behavior (e.g., tone, manner of speech).  Maximum 512 characters.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
+        echo '<textarea name="' . esc_attr($id) . '" id="' . esc_attr($id) . '" class="large-text" rows="5" maxlength="512" placeholder="' . esc_attr__('Enter a message to show when the assistant cannot find an answer.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '"></textarea>';
+        echo '<p class="description">' . esc_html__('The message the assistant will show when no answer is found in the vector store, and external searches are disallowed.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
         echo '</td>';
         echo '</tr>';
     }
@@ -318,11 +318,11 @@ class EditChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function pageBtns()
     {
-        if ($this->is_edit) {
-            $btn_label = __('Update BuddyBot', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-        } else {
-            $btn_label = __('Save BuddyBot', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-        }
+        // if ($this->is_edit) {
+        //     $btn_label = __('Update BuddyBot', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        // } else {
+            $btn_label = __('Save', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+       // }
 
         $id = 'buddybot-buddybotsubmit';
 

@@ -66,8 +66,7 @@ final class Conversations extends \BuddyBot\Admin\Requests\MoRoot
             $.post(ajaxurl, data, function(response) {
                 response = JSON.parse(response);
                 if (response.success) {
-                    showToast("success", response.message);
-                    $("a.buddybot-conversation-delete[thread-id=" + threadId + "]").closest("tr").remove();
+                    location.reload();
                 } else {
                     showAlert(response.message);
                 }

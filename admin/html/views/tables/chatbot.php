@@ -26,11 +26,11 @@ class ChatBot extends WP_List_Table
     function get_columns()
     {
         return [
-            'chatbot_name'    => esc_html__('BuddyBot Name', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
-            'assistant_model' => esc_html__('Assistant Model', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            'chatbot_name'    => esc_html__('Name', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            'assistant_model' => esc_html__('Model', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
             'id'              => esc_html__('Shortcode', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
-            'created_on'      => esc_html__('Date Created', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
-            'edited_on'       => esc_html__('Last Updated', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            'created_on'      => esc_html__('Date', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            'edited_on'       => esc_html__('Modified', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
         ];
     }
 
