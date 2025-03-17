@@ -53,15 +53,17 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         echo '<div id="buddybot-playground-threads-container" class="col-md-2 flex-column border-end bg-light">';
         
-        echo '<div id="buddybot-playground-threads-header" class="fs-6 p-4">';
+        echo '<div id="buddybot-playground-threads-header" class="fs-6 px-4 py-2">';
         esc_html_e('History', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</div>';
 
         $this->threatIdInput();
         $this->runIdInput();
         
-        echo '<div id="buddybot-playground-threads-list" class="p-3" style="overflow-y: auto;">';
+        echo '<div id="buddybot-playground-threads-list" class="px-3">';
+        echo '<div id="buddybot-playground-threads-list-inner" style="overflow-y: auto; height: 100%;">';
         $this->threadList();
+        echo '</div>';
         echo '</div>';
         
         echo '</div>';

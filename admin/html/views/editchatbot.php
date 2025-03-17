@@ -90,7 +90,7 @@ class EditChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
             $this->assistantTopP();
             $this->openaiSearch();
             $this->openaiSearchMsg();
-            $this->personalizedOptions();
+            //$this->personalizedOptions();
             //$this->assistantFallbackBehavior();
             $this->emotionDetection();
             $this->greetingMessage();

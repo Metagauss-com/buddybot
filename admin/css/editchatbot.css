@@ -43,3 +43,8 @@
     opacity: 1;
     transform: translateY(0);
 }
+
+#buddybot-sample-instructions-modal .buddybot-list-group {
+    height: 70vh;
+    overflow: auto;
+}

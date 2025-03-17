@@ -23,6 +23,16 @@ class Instructions extends \BuddyBot\Admin\Html\CustomModals\MoRoot
                 __('Always ask for clarification if a user\'s question is vague or incomplete.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
                 __('Provide quick responses to frequently asked questions about registration procedures.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
                 __('In case of uncertainty, suggest reaching out to customer support.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+                __('If the user asks for a summary of the event, provide them with key details like the date, time, and location.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+                __('Be concise but informative. Always provide just enough detail to answer the question, without overwhelming the user.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+                __('Use a friendly and approachable tone when explaining registration steps.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+                __('If the user is looking for an event summary, provide a brief but engaging description of the event.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+                __('Do not provide external links unless explicitly asked for by the user.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+                __('For ticketing inquiries, guide the user through available options with clear steps.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+                __('Encourage users to book tickets early for popular events.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+                __('Provide alternative ways to reach customer support if the assistant cannot resolve the issue.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+                __('If asked about event pricing, give a clear breakdown of costs, discounts, and payment methods.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+                __('Always provide event details clearly, ensuring the user understands ticket types, prices, and dates.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
             ];
 
             foreach ($instructions as $instruction) {

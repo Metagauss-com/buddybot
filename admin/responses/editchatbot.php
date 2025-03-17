@@ -176,7 +176,7 @@ class EditChatBot extends \BuddyBot\Admin\Responses\MoRoot
         if (!empty($errors)) {
             $this->response['success'] = false;
             $errorMessage = '<strong>' . esc_html__('There was an error with your submission. Please fix the following errors:', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</strong>';
-            $errorMessage .= '<ul>';
+            $errorMessage .= '<ul style="list-style-type: disc; padding-left: 20px;">';
             foreach ($errors as $error) {
                 $errorMessage .= '<li>' . esc_html($error) . '</li>'; 
             }
