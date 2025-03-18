@@ -6,7 +6,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
 {
     public function getHtml()
     {
-        $heading = esc_html__('Test Area', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $heading = __('Test Area', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $this->pageHeading($heading);
         $this->playgroundContainer();
     }
@@ -31,16 +31,18 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
         esc_html_e('Assistant', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '<label>';
         echo '<select id="buddybot-playground-assistants-list" class="form-select ms-2">';
-        echo '<option value="" disabled selected>' . esc_html__('Loading...', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</option>';
-        echo '</select>';
-        echo '</div>';
-        
-        echo '<div id="buddybot-playground-options-select-user" class="p-3">';
-        echo '<label class="">';
-        esc_html_e('User', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-        echo '<label>';
-        echo '<select id="buddybot-user-select" class="ms-2">';
-        $this->getUsers();
+
+        $models = $this->sql->getModels('chatbot');
+        if (!empty($models)) {
+            foreach ($models as $model) {
+                $display_text = esc_html($model['chatbot_name'] . ' (' . $model['assistant_model'] . ')');
+                $value = esc_attr($model['assistant_id']);
+                echo '<option value="' . $value . '">' . $display_text . '</option>';
+            }
+        } else {
+            echo '<option disabled selected>' . esc_html__('No Assistants Found', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</option>';
+        }
+
         echo '</select>';
         echo '</div>';
 
@@ -51,15 +53,17 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         echo '<div id="buddybot-playground-threads-container" class="col-md-2 flex-column border-end bg-light">';
         
-        echo '<div id="buddybot-playground-threads-header" class="fs-6 p-4">';
+        echo '<div id="buddybot-playground-threads-header" class="fs-6 px-4 py-2">';
         esc_html_e('History', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</div>';
 
         $this->threatIdInput();
         $this->runIdInput();
         
-        echo '<div id="buddybot-playground-threads-list" class="p-3" style="overflow-y: auto;">';
+        echo '<div id="buddybot-playground-threads-list" class="px-3">';
+        echo '<div id="buddybot-playground-threads-list-inner" style="overflow-y: auto; height: 100%;">';
         $this->threadList();
+        echo '</div>';
         echo '</div>';
         
         echo '</div>';
@@ -127,7 +131,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         echo '<div class="">';
         echo '<div id="buddybot-playground-message-status" class="text-center small">';
-        $this->statusBarMessage('creating-thread', esc_html__('Starting new conversation', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
+        $this->statusBarMessage('start-conversation', __('Start new Conversation.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
         echo '</div>';
         $this->openAiBadge();
         echo '</div>';

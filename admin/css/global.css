@@ -1,4 +1,76 @@
-/* General Modal Styling */
+
+/* General CSS---*/
+
+
+.buddybot-d-flex {
+    display: flex !important;
+}
+
+.buddybot-justify-content-between {
+    justify-content: space-between !important;
+}
+
+.buddybot-align-items-center {
+    align-items: center !important;
+}
+/* General CSS End---*/
+
+/*---Margins and Padding---*/
+
+.buddybot-mb-0 {
+    margin-bottom: 0 !important;
+}
+
+.buddybot-mb-1 {
+    margin-bottom: 0.25rem !important;
+}
+
+.buddybot-mb-2 {
+    margin-bottom: 0.5rem !important;
+}
+
+.buddybot-mb-3 {
+    margin-bottom: 1rem !important;
+}
+
+.buddybot-mb-4 {
+    margin-bottom: 1.5rem !important;
+}
+
+.buddybot-mb-5 {
+    margin-bottom: 3rem !important;
+}
+
+.buddybot-mt-0 {
+    margin-top: 0 !important;
+}
+
+.buddybot-ms-0 {
+    margin-left: 0 !important;
+}
+
+.buddybot-py-0 {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.buddybot-py-1 {
+    padding-top: 0.25rem !important;
+    padding-bottom: 0.25rem !important;
+}
+
+.buddybot-py-2 {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+}
+
+.buddybot-fw-medium {
+    font-weight: 500;
+}
+
+
+
+/* General Welcome Modal Styling */
 .bb-modal-image {
     flex: 1;
 }
@@ -41,3 +113,360 @@
     background-color: #000;
     color: #fff;
 }
+
+/* Welcome Modal Ends */
+
+/* General modal starts */
+.buddybot-modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    z-index: 1050;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.buddybot-modal.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.buddybot-modal-dialog {
+    position: relative;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(-100px); /* Higher start position */
+    transition: transform 0.5s ease-out;
+}
+
+/* Large Modal */
+.buddybot-modal-dialog.buddybot-modal-lg {
+    max-width: 800px;
+}
+
+/* Extra Large Modal */
+.buddybot-modal-dialog.buddybot-modal-xl {
+    max-width: 1140px;
+}
+
+.buddybot-modal.show .buddybot-modal-dialog {
+    transform: translateY(0);
+}
+
+.buddybot-modal-content {
+    background-color: #fff;
+    border-radius: 0.3rem;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.buddybot-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: none;
+    padding: 1rem;
+}
+
+.buddybot-modal-title {
+    margin: 0;
+    font-size: 1.25rem;
+    /* font-weight: bold; */
+}
+
+.buddybot-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #000;
+    cursor: pointer;
+}
+
+.buddybot-modal-body {
+    padding: 1rem;
+}
+
+.buddybot-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem;
+    gap: 5px;
+    align-items: baseline;
+}
+
+.buddybot-modal-footer .btn {
+    margin-left: 0.5rem;
+}
+
+.buddybot-close-btn {
+    background: transparent;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.5;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.buddybot-close-btn:hover {
+    opacity: 1;
+}
+
+.buddybot-close-btn svg{
+    width: 26px; /* Matches Bootstrap */
+    height: 26px;
+}
+
+/* General modal ends */
+
+
+/*---Buttons---*/
+
+.buddybot-btn{
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+
+/*---Buttons ends---*/
+
+/* Button color starts */
+.buddybot-btn-danger {
+background-color: #dc3545; 
+color: white;
+border: 1px solid #dc3545;
+padding: 0.375rem 0.75rem;
+font-size: 1rem;
+font-weight: 400;
+text-align: center;
+text-decoration: none;
+display: inline-block;
+border-radius: 0.25rem;
+cursor: pointer;
+transition: background-color 0.2s, border-color 0.2s;
+}
+
+.buddybot-btn-danger:hover {
+background-color: #c82333;
+border-color: #bd2130;
+}
+
+.buddybot-btn-danger:disabled,
+.buddybot-btn-danger[disabled] {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.buddybot-btn-outline-danger {
+    color: #dc3545;
+    border: 1px solid #dc3545;
+    background-color: transparent;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.buddybot-btn-outline-danger:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+.buddybot-btn-dark {
+background-color: #6c757d;
+color: white;
+border: 1px solid #6c757d;
+padding: 0.375rem 0.75rem;
+font-size: 1rem;
+font-weight: 400;
+text-align: center;
+text-decoration: none;
+display: inline-block;
+border-radius: 0.25rem;
+cursor: pointer;
+transition: background-color 0.2s, border-color 0.2s;
+}
+
+.buddybot-btn-dark:hover {
+background-color: #5a6268;
+border-color: #545b62;
+}
+
+.buddybot-btn-black {
+    background-color: #000;
+    color: white;
+    border: 1px solid #000;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.buddybot-btn-black:hover {
+    background-color: #333;
+    border-color: #222;
+}
+
+.buddybot-btn-outline-black {
+    color: #000;
+    border: 1px solid #000;
+    background-color: transparent;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.buddybot-btn-outline-black:hover {
+    background-color: #000;
+    color: white;
+}
+
+.buddybot-btn-light {
+    color: #000;
+    background-color: #f8f9fa;
+    border-color: #f8f9fa;
+}
+
+.buddybot-btn-light:hover{    
+    color: #000;
+    background-color: #f9fafb;
+    border-color: #f9fafb;
+}
+
+.buddybot-btn-dark:disabled,
+.buddybot-btn-dark[disabled] {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.bb-btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    border-radius: 0.2rem;
+}
+/* button color Ends */
+
+/* text color start  */
+.buddybot-text-danger {
+    color: #dc3545 !important;
+}
+
+/* text color Ends */
+
+/* toast css start  */
+#buddybot-toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    width: auto;
+    max-width: 300px;
+}
+
+.buddybot-toast {
+    visibility: hidden;
+    padding: 10px 20px;
+    margin: 10px 0;
+    border-radius: 4px;
+    color: white;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: opacity 0.5s ease, transform 0.5s ease, visibility 0s 1s;
+}
+
+.buddybot-toast-success {
+    background-color: #28a745;
+}
+
+.buddybot-toast-error {
+    background-color: #dc3545;
+}
+
+.buddybot-toast.show {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 0.5s ease, transform 0.5s ease, visibility 0s;
+}
+
+/* toast css Ends */
+
+.buddybot-header-wrap{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/*-----List Group---*/
+
+.buddybot-list-group{
+    display: flex;
+    flex-direction: column;
+    padding-left: 0;
+    margin-bottom: 0;
+    border-radius: .25rem;
+}
+
+.buddybot-list-group .buddybot-list-group-item:first-child{
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
+}
+
+
+
+.buddybot-list-group .buddybot-list-group-item:last-child {
+    border-bottom-right-radius: inherit;
+    border-bottom-left-radius: inherit;
+}
+
+.buddybot-list-group .buddybot-list-group-item{
+    position: relative;
+    display: block;
+    padding: .5rem 1rem;
+    color: #212529;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, .125);
+}
+.buddybot-list-group .buddybot-list-group-item+.buddybot-list-group-item {
+    border-top-width: 0;
+}
+
+/*-----List group Ends----*/

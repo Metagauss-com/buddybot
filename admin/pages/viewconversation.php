@@ -1,3 +1,5 @@
+<div class="px-5">
+
 <?php
 
 if (!defined('ABSPATH')) exit; // Exit if accessed directly 
@@ -8,6 +10,15 @@ if ($buddybot_checks->hasErrors()) {
     return;
 }
 
-$mo_chatbot_page = new \BuddyBot\Admin\Html\Views\ChatBot();
+$mo_chatbot_page = new \BuddyBot\Admin\Html\Views\ViewConversation();
 $mo_chatbot_page->getHtml();
 $mo_chatbot_page->pageJs();
+?>
+
+</div>
+
+<style>
+    body{
+        overflow: hidden;
+    }
+</style>

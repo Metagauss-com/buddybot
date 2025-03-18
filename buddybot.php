@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       BuddyBot AI - Custom AI Assistant and Chat Agent
  * Description:       Create and connect BuddyBot with AI Assistant, syncronize site data and publish on the frontend.
- * Version:           1.0.4.0
+ * Version:           1.1.0.0
  * Requires at least: 6.7
  * Requires PHP:      8.0
  * Author URI:        https://profiles.wordpress.org/buddybot/
@@ -15,7 +15,8 @@
 
 namespace BuddyBot;
 
-define( 'BUDDYBOT_PLUGIN_VERSION', '1.0.4.0' );
+define( 'BUDDYBOT_PLUGIN_VERSION', '1.1.0.0' );
+define( 'BUDDYBOT_DATABASE_VERSION', '1.0' );
 
 //exit if the file is accessed directly.
 if (!defined('WPINC')) die;
@@ -35,8 +36,25 @@ if (is_readable(plugin_dir_path(__FILE__) . 'loader.php')) {
 
 spl_autoload_register(array(__NAMESPACE__ . '\Loader', 'loadClass'));
 
-$buddybot_db = new MoDb();
-register_activation_hook(__FILE__, array($buddybot_db, 'installPlugin'));
+register_activation_hook(__FILE__, function() {
+    $stored_version = get_option('buddybot_db_version', '0.1');
+
+    if ((float) $stored_version < (float) BUDDYBOT_DATABASE_VERSION) {
+        $buddybot_db = new MoDb();
+        $buddybot_db->installPlugin(); 
+        update_option('buddybot_db_version', BUDDYBOT_DATABASE_VERSION);
+    }
+});
+
+add_action('init', function() {
+    $stored_version = get_option('buddybot_db_version', '0.1');
+
+    if ((float) $stored_version < (float) BUDDYBOT_DATABASE_VERSION) {
+        $buddybot_db = new MoDb();
+        $buddybot_db->installPlugin(); 
+        update_option('buddybot_db_version', BUDDYBOT_DATABASE_VERSION);
+    }
+});
 
 //----------Admin Code--------//
 
@@ -44,12 +62,12 @@ if (is_admin()) {
     $buddybot_admin_menu = new Admin\AdminMenu();
     $buddybot_admin_stylesheets = new Admin\StyleSheets();
     $buddybot_chatbot_responses = new Admin\Responses\ChatBot();
-    $buddybot_datasync_responses = new Admin\Responses\DataSync();
-    $buddybot_assistants_responses = new Admin\Responses\Assistants();
-    $buddybot_assistant_responses = new Admin\Responses\EditAssistant();
+    $buddybot_chatbot_responses = new Admin\Responses\EditChatBot();
     $buddybot_playground_responses = new Admin\Responses\Playground();
     $buddybot_settings_responses = new Admin\Responses\Settings();
     $buddybot_vectorstore_responses = new Admin\Responses\VectorStore();
+    $buddybot_conversations_responses = new Admin\Responses\Conversations();
+    $buddybot_conversation_responses = new Admin\Responses\ViewConversation();
 }
 
 //----------Public Code--------//

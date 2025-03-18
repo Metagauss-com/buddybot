@@ -1,8 +1,0 @@
-.bb-btn-sync-start > span {
-    animation: btnSyncStart 2s forwards linear normal infinite;
-}
-
-@keyframes btnSyncStart {
-    from {transform: rotate(0deg);}
-    to {transform: rotate(360deg);}
-}

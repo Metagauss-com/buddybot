@@ -42,7 +42,7 @@ trait Singleton
     {
     }
     
-    protected function __construct($data)
+    public function __construct($data)
     {
     	$this->data = $data;
         $this->setAll();

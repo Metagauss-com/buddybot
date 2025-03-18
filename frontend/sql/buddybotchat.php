@@ -13,17 +13,17 @@ class BuddybotChat extends \BuddyBot\Frontend\Sql\Moroot
     
         $id = wp_cache_get($cache_key, 'buddybot');
     
-        if ($id === false) {
-            // If the cache does not have the value, query the database
-            $id = $wpdb->get_var(
-                $wpdb->prepare(
-                    'SELECT id FROM %i LIMIT 1', $table
-                )
-            );
+        // if ($id === false) {
+        //     // If the cache does not have the value, query the database
+        //     $id = $wpdb->get_var(
+        //         $wpdb->prepare(
+        //             'SELECT id FROM %i LIMIT 1', $table
+        //         )
+        //     );
     
-            // Cache the result for future use with an expiry time
-            wp_cache_set($cache_key, $id, 'buddybot', $cache_expiry);
-        }
+        //     // Cache the result for future use with an expiry time
+        //     wp_cache_set($cache_key, $id, 'buddybot', $cache_expiry);
+        // }
     
         return $id;
     }

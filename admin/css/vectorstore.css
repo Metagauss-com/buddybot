@@ -2,6 +2,10 @@
     margin : 5px 4px 2px;
 } */
 
+body{
+    background-color: #f0f0f1!important;
+}
+
 .buddybot-remote-file-status{
     font-size: .7em;
 }

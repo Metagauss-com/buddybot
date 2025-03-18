@@ -9,19 +9,16 @@ final class AdminMenu extends \BuddyBot\Admin\MoRoot
     {
         $this->mainMenuItem();
         $this->playgroundSubmenuItem();
-        // $this->wizardSubmenuItem();
-        // $this->orgFilesSubmenuItem();
-        $this->assistantsSubmenuItem();
-        // $this->addFileSubmenuItem();
-        //$this->dataSyncSubmenuItem();
         $this->settingsSubmenuItem();
         $this->vectorStoreSubmenuItem();
+        $this->conversationsSubmenuItem();
     }
 
     public function hiddenMenu()
     {
-        $this->editAssistantSubmenuItem();
+        $this->editChatBotSubmenuItem();
         $this->defaultBuddyBotWizard();
+        $this->ViewConversationsSubmenuItem();
     }
 
     public function mainMenuItem()
@@ -65,7 +62,7 @@ $base64_icon = base64_encode($icon);
             'manage_options',
             'buddybot-playground',
             array($this, 'playgroundMenuPage'),
-            1
+            3
         );
     }
 
@@ -108,41 +105,15 @@ $base64_icon = base64_encode($icon);
         );
     }
 
-    public function dataSyncSubmenuItem()
-    {
-        add_submenu_page(
-            'buddybot-chatbot',
-            esc_html__('Data Sync', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
-            esc_html__('Data Sync', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
-            'manage_options',
-            'buddybot-datasync',
-            array($this, 'dataSyncMenuPage'),
-            1
-        );
-    }
-
-    public function assistantsSubmenuItem()
-    {
-        add_submenu_page(
-            'buddybot-chatbot',
-            esc_html__('Assistants', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
-            esc_html__('Assistants', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
-            'manage_options',
-            'buddybot-assistants',
-            array($this, 'assistantsMenuPage'),
-            1
-        );
-    }
-
-    public function editAssistantSubmenuItem()
+    public function editchatBotSubmenuItem()
     {
         add_submenu_page(
             'buddybot-hidden-page',
-            esc_html__('Edit Assistant', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
-            esc_html__('Edit Assistant', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            esc_html__('Edit BuddyBot', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            esc_html__('Edit BuddyBot', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
             'manage_options',
-            'buddybot-editassistant',
-            array($this, 'EditAssistantMenuPage'),
+            'buddybot-editchatbot',
+            array($this, 'EditChatBotMenuPage'),
             1
         );
     }
@@ -185,8 +156,41 @@ $base64_icon = base64_encode($icon);
             1
         );
     }
+
+    public function conversationsSubmenuItem()
+    {
+        add_submenu_page(
+            'buddybot-chatbot',
+            esc_html__('Conversation', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            esc_html__('Conversation', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            'manage_options',
+            'buddybot-conversations',
+            array($this, 'conversationsMenuPage'),
+            2
+        );
+    }
+
+    public function ViewConversationsSubmenuItem()
+    {
+        add_submenu_page(
+            'buddybot-hidden-page',
+            esc_html__('View Conversations', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            esc_html__('View Conversations', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+            'manage_options',
+            'buddybot-viewconversation',
+            array($this, 'ViewConversationMenuPage'),
+            1
+        );
+    }
+
+    public function buddybotsMenuPage()
+    {
+        include_once(plugin_dir_path(__FILE__) . 'pages/buddybots.php');
+    }
+
     public function appMenuPage()
     {
+        //include_once(plugin_dir_path(__FILE__) . 'pages/buddybots.php');
         include_once(plugin_dir_path(__FILE__) . 'pages/chatbot.php');
     }
 
@@ -210,19 +214,9 @@ $base64_icon = base64_encode($icon);
         include_once(plugin_dir_path(__FILE__) . 'pages/addfile.php');
     }
 
-    public function dataSyncMenuPage()
+    public function EditChatBotMenuPage()
     {
-        include_once(plugin_dir_path(__FILE__) . 'pages/datasync.php');
-    }
-
-    public function assistantsMenuPage()
-    {
-        include_once(plugin_dir_path(__FILE__) . 'pages/assistants.php');
-    }
-
-    public function editAssistantMenuPage()
-    {
-        include_once(plugin_dir_path(__FILE__) . 'pages/editassistant.php');
+        include_once(plugin_dir_path(__FILE__) . 'pages/editchatbot.php');
     }
 
     public function defaultBuddyBotWizardMenuPage()
@@ -240,6 +234,16 @@ $base64_icon = base64_encode($icon);
         include_once(plugin_dir_path(__FILE__) . 'pages/vectorstore.php');
     }
 
+    public function conversationsMenuPage()
+    {
+        include_once(plugin_dir_path(__FILE__) . 'pages/conversations.php');
+    }
+
+    public function ViewConversationMenuPage()
+    {
+        include_once(plugin_dir_path(__FILE__) . 'pages/viewconversation.php');
+    }
+
     public function __construct()
     {
         add_action( 'admin_menu', array($this, 'topLevelMenu'));
@@ -254,6 +258,7 @@ $base64_icon = base64_encode($icon);
     {
        wp_enqueue_style('buddybotbanner', plugin_dir_url(__FILE__) . 'css/global.css', array(), BUDDYBOT_PLUGIN_VERSION);
         wp_enqueue_script( 'jquery' );
+       // wp_enqueue_script('wp-notices');
         wp_enqueue_script( 'buddybotbanner', plugin_dir_url( __FILE__ ) . 'js/buddybotbanner.js', array( 'jquery' ),BUDDYBOT_PLUGIN_VERSION, true );
         wp_localize_script(
             'buddybotbanner',
@@ -268,34 +273,8 @@ $base64_icon = base64_encode($icon);
 
     public function buddybotActivationModel()
     {
-
-        $buddybotModalLabel = 'buddybot-welcome-modal';
-        $welcomeImage = plugin_dir_url(__FILE__) . 'html/images/bb-welcome-image.png';
-        $buddybotModalHeading = esc_html__('Welcome to BuddyBot! ', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-
-        echo ' <div class="modal fade" id=' . esc_html($buddybotModalLabel) . ' data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby=' . esc_html($buddybotModalLabel) . 'aria-hidden="true">';
-        echo ' <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"> ';
-        echo ' <div class="modal-content"> ';
-        echo ' <div class="modal-body d-flex align-items-center p-4">';
-
-        // Left Section: Image
-        echo ' <div class="bb-modal-image">';
-        echo ' <img src="' . esc_url($welcomeImage) . '" alt="BuddyBot Welcome" class="bb-image">';
-        echo ' </div>';
-
-        //Right Section: Text and Actions    
-        echo ' <div class="bb-modal-text">';
-        echo ' <h1 class="bb-modal-title">' . esc_html($buddybotModalHeading) . '</h1>';
-        echo ' <p class="bb-modal-description">' . esc_html__("BuddyBot is built to provide direct, AI-driven support to your website visitors. It uses your WordPress content to interact with users on your site, making your website more helpful and interactive. Let's set up your first BuddyBot to enhance the frontend user experience!", "buddybot-ai-custom-ai-assistant-and-chat-agent") . '</p>';
-        echo ' <div class="bb-modal-actions">';
-        echo ' <button type="button" class="btn btn-outline-dark bb-dismiss-modal" data-bs-dismiss="modal">' .esc_html__('Close ', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</button> ';
-        echo ' <button type="button" class="btn btn-dark bb-get-started">' .esc_html__('Get Started ', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</button> ';
-        echo ' </div>';
-        echo ' </div>';
-        echo ' </div>';
-        echo ' </div>';
-        echo ' </div>';
-        echo ' </div>';
+        $welcomeModal = new \BuddyBot\Admin\Html\CustomModals\Welcome();
+        $welcomeModal->getHtml();
     }
 
     public function bb_dismissible_notice()
@@ -311,7 +290,7 @@ $base64_icon = base64_encode($icon);
             'toplevel_page_buddybot-chatbot',
             'buddybot_page_buddybot-playground',
             'buddybot_page_buddybot-files',
-            'buddybot_page_buddybot-addfile',
+            'buddybot_page_buddybot-conversations',
             'buddybot_page_buddybot-assistants',
             'buddybot_page_buddybot-settings',
             'buddybot_page_buddybot-vectorstore',

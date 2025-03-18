@@ -76,7 +76,7 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '</div>';
         echo '<p id="buddybot-sync-msgs" class="d-flex align-items-center gap-1 mt-0" style="opacity: 0;">';
         echo '<span id="buddybot-ProgressBar-icon" class="material-symbols-outlined fs-6"></span>';
-        echo '<span id="buddybot-message" class="flex-grow-1">' . esc_html__('Sync processing...', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</span>';
+        echo '<span id="buddybot-message" class="flex-grow-1 small">' . esc_html__('Sync processing...', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</span>';
         echo '</p></div>';
     }
 
@@ -129,16 +129,16 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
     private function postsItem()
     {
         $type = 'posts';
-        $heading = esc_html__('Posts', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-        $text = esc_html__('Train AI Assistant with your site Posts.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $heading = __('Posts', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $text = __('Train AI Assistant with your site Posts.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $this->listItem($type, $heading, $text);
     }
 
     private function commentsItem()
     {
         $type = 'comments';
-        $heading = esc_html__('Comments', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-        $text = esc_html__('Train AI Assistant with your site Comments.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $heading = __('Comments', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $text = __('Train AI Assistant with your site Comments.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $this->listItem($type, $heading, $text);
     }
 }

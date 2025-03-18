@@ -19,3 +19,8 @@ body {
 #buddybot-playground-threads-list{
     height: calc(100vh - 450px);
 }
+
+#buddybot-playground-threads-list{
+    height: calc(100vh - 234px);
+    min-height: 150px;
+}

@@ -76,4 +76,15 @@ class Playground extends \BuddyBot\Admin\Sql\MoRoot
         global $wpdb;
         return $wpdb->delete($table, $where, $format);
     }
+
+    public function getModels()
+    {
+        $table = $this->config->getDbTable('chatbot');
+        global $wpdb;
+
+        return $wpdb->get_results(
+            "SELECT assistant_id, assistant_model, chatbot_name FROM {$table}",
+            ARRAY_A
+        );
+    }
 }

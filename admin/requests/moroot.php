@@ -15,11 +15,32 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
         $this->hideAlertJs();
         $this->loaderBtnJs();
         $this->disableFieldsJs();
+        $this->showHideJs();
         $this->requestJs();
+        $this->showToastjs();
         
         echo '});';
 
         return ob_get_clean();
+    }
+
+    protected function showHideJs()
+    {
+        echo'
+        function showHide(obj, primary, secondary, trinary) {
+            var isChecked = jQuery(obj).is(":checked");
+        
+            if (isChecked) {
+                jQuery("#" + primary).show(500);
+                if (secondary !== "") jQuery("#" + secondary).hide(500);
+                if (trinary !== "") jQuery("#" + trinary).hide(500);
+            } else {
+                jQuery("#" + primary).hide(500);
+                if (secondary !== "") jQuery("#" + secondary).show(500);
+                if (trinary !== "") jQuery("#" + trinary).show(500);
+            }
+        }
+        ';
     }
 
     protected function showAlertJs()
@@ -27,7 +48,7 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
         echo '
         function showAlert(message = "") {
             $("#buddybot-alert-container p").html(message);
-            $("#buddybot-alert-container").show();
+            $("#buddybot-alert-container").addClass("notice").show();
         }
         ';
     }
@@ -37,7 +58,7 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
         echo '
         function hideAlert(message = "") {
             $("#buddybot-alert-container p").html("");
-            $("#buddybot-alert-container").hide();
+            $("#buddybot-alert-container").removeClass("notice").hide();
         }
         ';
     }
@@ -77,7 +98,39 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
                 $(this).prop("disabled", isDisabled);
             });
         }
+            
+        function disableTableFields(tableId, isDisabled) {
+            $(`#${tableId} :input`).each(function () {
+                $(this).prop("disabled", isDisabled);
+            });
+        }
         ';
+    }
+
+    protected function showToastjs()
+    {
+        echo'
+        function showToast(type, message) {
+            var toastContainer = $("#buddybot-toast-container .buddybot-toast");
+            var toastMessage = $(".toast-message");
+
+            toastMessage.text(message);
+            toastContainer.removeClass("buddybot-toast-success buddybot-toast-error");
+
+            if (type === "success") {
+                toastContainer.addClass("buddybot-toast-success");
+            } else if (type === "error") {
+                toastContainer.addClass("buddybot-toast-error");
+            }
+
+            toastContainer.addClass("show");
+
+            setTimeout(function () {
+                toastContainer.removeClass("show");
+            }, 3000);
+        }
+        ';
+
     }
 
     protected function requestJs()

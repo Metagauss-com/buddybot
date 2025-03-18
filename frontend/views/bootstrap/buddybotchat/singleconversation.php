@@ -25,15 +25,6 @@ trait SingleConversation
         $html .= '</button>';
 
         $html .= '</div>';
-
-        $html .= '<div id="buddybot-single-conversation-top-spinners" class="d-flex">';
-
-        $html .= '<div class="spinner-grow spinner-grow-sm me-1" role="status"><span class="visually-hidden">Loading...</span></div>';
-        $html .= '<div class="spinner-grow spinner-grow-sm me-1" role="status"><span class="visually-hidden">Loading...</span></div>';
-        $html .= '<div class="spinner-grow spinner-grow-sm" role="status"><span class="visually-hidden">Loading...</span></div>';
-
-        $html .= '</div>';
-        
         
         $html .= '<div class="d-flex align-items-center">';
         
@@ -55,6 +46,13 @@ trait SingleConversation
     private function statusBar()
     {
         $html = '<div id="buddybot-single-conversation-status-bar">';
+        $html .= '</div>';
+        $html .= '<div id="buddybot-single-conversation-top-spinners" class="d-flex justify-content-center mb-2">';
+
+        $html .= '<div class="spinner-grow spinner-grow-sm me-1" role="status"><span class="visually-hidden">Loading...</span></div>';
+        $html .= '<div class="spinner-grow spinner-grow-sm me-1" role="status"><span class="visually-hidden">Loading...</span></div>';
+        $html .= '<div class="spinner-grow spinner-grow-sm" role="status"><span class="visually-hidden">Loading...</span></div>';
+
         $html .= '</div>';
         return $html;
     }

@@ -4,7 +4,7 @@ jQuery( document ).ready(
         if (dismissed) {
             return;
         }
-        jQuery('#buddybot-welcome-modal').modal('show');
+        jQuery("#buddybot-welcome-modal").addClass("show");
 
         jQuery(".bb-get-started").click(function() {
             DismissModal(true);
@@ -33,3 +33,28 @@ jQuery( document ).ready(
  
 	}
 );
+
+(function ($) {
+  'use strict';
+  $(document).ready(function() {
+      $("[data-modal]").on("click", function (event) {
+          event.preventDefault();
+          var modalId = $(this).attr("data-modal");
+          var $modal = $("#" + modalId);
+
+          if ($modal.hasClass("show")) {
+              $modal.removeClass("show");
+          } else {
+              $modal.addClass("show");
+          }
+      });
+
+        $(window).on("click", function (event) {
+            var $modal = $(event.target);
+
+            if ($modal.hasClass("buddybot-modal") && $modal.is("[data-close-outside]")) {
+                $modal.removeClass("show");
+            }
+        });
+    });
+})(jQuery);

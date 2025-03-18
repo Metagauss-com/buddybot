@@ -9,7 +9,6 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
         $this->setVarsJs();
         $this->disableMessageJs();
         $this->updateStatusJs();
-        $this->getAssistantsJs();
         $this->sendMessageBtnJs();
         $this->createThreadJs();
         $this->createMessageJs();
@@ -26,15 +25,13 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
         $this->togglePastMessagesBtnJs();
         $this->deleteThreadBtnJs();
         $this->updateThreadNameJs();
-        $this->showThreadByUserId();
     }
 
     private function setVarsJs()
     {
         echo '
         let checkRun = "";
-        const gettingAssistants = "' . esc_html__('Getting list of assistants.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
-        const assistantsUpdated = "' . esc_html__('Assistants updated.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const StartConversation = "' . esc_html__('Start new conversation.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
         const messageEmpty = "' . esc_html__('Cannot send empty message.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
         const creatingThread = "' . esc_html__('Starting new conversation.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
         const threadCreated = "' . esc_html__('Conversation started.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
@@ -74,40 +71,6 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
         ';
     }
 
-    private function getAssistantsJs()
-    {
-        $nonce = wp_create_nonce('get_assistants');
-        echo '
-        getAssistants();
-        function getAssistants() {
-
-            disableMessage();
-            updateStatus(gettingAssistants);
-
-            const data = {
-                "action": "getAssistantOptions",
-                "nonce": "' . esc_js($nonce) . '"
-            };
-  
-            $.post(ajaxurl, data, function(response) {
-                response = JSON.parse(response);
-
-                if (response.success) {
-                    $("#buddybot-playground-assistants-list").html(response.html);
-                    updateStatus(assistantsUpdated);
-                    disableMessage(false);
-                } else {
-
-                    if(response.empty_key) { 
-                        $("#buddybot-playground-assistants-list").html(response.html);
-                    }
-                    updateStatus(response.message);
-                }
-            });
-        }
-        ';
-    }
-
     private function sendMessageBtnJs()
     {
         echo '
@@ -115,7 +78,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
         
         $("#mgao-playground-new-message-text").keypress(function(e) {
             let key = e.key;
-            if (key === "Enter") {
+            if (key === "Enter" && !e.shiftKey) {
                 e.preventDefault();
                 sendMessage();
             }
@@ -574,64 +537,6 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
             });
 
         }
-        ';
-    }
-
-    private function showThreadByUserId()
-    {
-        $nonce = wp_create_nonce('show_thread_by_user_id');
-        echo'
-
-        $("#buddybot-user-select").on("change", function() {
-            var userId = $(this).val(); 
-            hideMsgArea(userId);
-           
-            const data = {
-                "action": "showThreadByUserId",
-                "user_id": userId,
-                "nonce": "' . esc_js($nonce) . '"  
-            };
-
-            $.post(ajaxurl, data, function(response) {
-                response = JSON.parse(response);
-
-                if (!response.success) {
-                    $("#buddybot-playground-threads-list").html(response.message);
-                } 
-
-                $("#buddybot-playground-threads-list").html(response.html);
-
-            });
-            
-        });
-
-        function hideMsgArea(userId){
-        
-            const data = {
-                "action": "hideMsgArea",
-                "user_id": userId,
-                "nonce": "' . esc_js(wp_create_nonce('hide_msg_area')) . '"
-            };
-
-            $.post(ajaxurl, data, function(response) {
-                response = JSON.parse(response);
-
-                if (response.success) {
-                    $("#buddybot-playground-attachment-wrapper").css("display", "block");
-                    $("#mgao-playground-new-message-text").css("display", "block");
-                    $("#mgao-playground-send-message-btn").css("display", "block");
-                    $("#mgao-playground-message-file-btn").css("display", "block");
-                } else {
-                    $("#buddybot-playground-attachment-wrapper").css("display", "none");
-                    $("#mgao-playground-new-message-text").css("display", "none");
-                    $("#mgao-playground-send-message-btn").css("display", "none");
-                    $("#mgao-playground-message-file-btn").css("display", "none");
-
-                }
-
-            });
-        }
-
         ';
     }
 

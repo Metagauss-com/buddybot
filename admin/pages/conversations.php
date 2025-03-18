@@ -1,4 +1,4 @@
-<div class="p-5">
+<div class="wrap">
 
 <?php
 
@@ -10,9 +10,9 @@ if ($buddybot_checks->hasErrors()) {
     return;
 }
 
-$mo_datasync_page = new \BuddyBot\Admin\Html\Views\DataSync();
-$mo_datasync_page->getHtml();
-$mo_datasync_page->pageJs();
+$mo_chatbot_page = new \BuddyBot\Admin\Html\Views\Conversations();
+$mo_chatbot_page->getHtml();
+$mo_chatbot_page->pageJs();
 ?>
 
 </div>
