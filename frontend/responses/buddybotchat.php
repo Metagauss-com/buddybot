@@ -360,5 +360,12 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
         add_action('wp_ajax_createFrontendRun', array($this, 'createFrontendRun'));
         add_action('wp_ajax_retrieveFrontendRun', array($this, 'retrieveFrontendRun'));
         add_action('wp_ajax_deleteFrontendThread', array($this, 'deleteFrontendThread'));
+
+        add_action('wp_ajax_nopriv_getConversationList', array($this, 'getConversationList'));
+        add_action('wp_ajax_nopriv_getMessages', array($this, 'getMessages'));
+        add_action('wp_ajax_nopriv_sendUserMessage', array($this, 'sendUserMessage'));
+        add_action('wp_ajax_nopriv_createFrontendRun', array($this, 'createFrontendRun'));
+        add_action('wp_ajax_nopriv_retrieveFrontendRun', array($this, 'retrieveFrontendRun'));
+        add_action('wp_ajax_nopriv_deleteFrontendThread', array($this, 'deleteFrontendThread'));
     }
 }

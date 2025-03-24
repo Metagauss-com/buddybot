@@ -8,6 +8,9 @@ class General extends \BuddyBot\Admin\Html\Views\Settings\MoRoot
     {
         $html = '';
         $html .= $this->openaiApiKey();
+        $html .= $this->enableVisitorChat();
+        $html .= $this->sessionExpiry();
+        $html .= $this->deleteExpiredChat();
         return $html;
     }
 
@@ -30,6 +33,41 @@ class General extends \BuddyBot\Admin\Html\Views\Settings\MoRoot
                 esc_url('https://platform.openai.com/signup/'), 
                 esc_url('https://platform.openai.com/account/api-keys')
             );
+
+        return $this->optionHtml($id, $label, $control, $description);
+    }
+
+    private function enableVisitorChat()
+    {
+        $id = 'buddybot-settings-enable-visitor-chat';
+        $label = __('Enable Visitor Chat', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $value = $this->options->getOption('enable_visitor_chat', 0);
+        $checked = $value === '1' ? 'checked' : '';
+        $control = '<input type="checkbox" id="' . esc_attr($id) . '" value="1" ' . esc_attr($checked) . '>';
+        $description = __(' Enable this option to allow non-logged-in users (visitors) to interact with BuddyBot. If disabled, only logged-in users will be able to access and use BuddyBot, and visitors will see an error message if they try to interact with it. When enabled, visitors can start a conversation with BuddyBot, and their chat history will be temporarily stored for the session.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+
+        return $this->optionHtml($id, $label, $control, $description);
+    }
+
+    private function sessionExpiry()
+    {
+        $id = 'buddybot-settings-session-expiry';
+        $label = __('Visitor Session Expiry Time', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $value = $this->options->getOption('session_expiry', 24);
+        $control = '<input type="number" id="' . esc_attr($id) . '" value="' . esc_attr($value) . '" class="regular-text" min="1" max="365" step="1">';
+        $description = __('Set the time duration (in hours) after which a visitor\'s conversation will expire. Once the session expires, the conversation will be deleted or marked as expired.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+
+        return $this->optionHtml($id, $label, $control, $description);
+    }
+
+    private function deleteExpiredChat()
+    {
+        $id = 'buddybot-settings-delete-expired-chat';
+        $label = __('Delete Expired Conversations', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $value = $this->options->getOption('delete_expired_chat', 0);
+        $checked = $value === '1' ? 'checked' : '';
+        $control = '<input type="checkbox" id="' . esc_attr($id) . '" value="1" ' . esc_attr($checked) . '>';
+        $description = __('Enable this option to automatically delete conversations when a user\'s session cookie expires. A daily cron job will run to remove expired conversations and keep your database clean.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
 
         return $this->optionHtml($id, $label, $control, $description);
     }

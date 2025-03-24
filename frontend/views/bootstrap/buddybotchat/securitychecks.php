@@ -15,11 +15,18 @@ trait SecurityChecks
 
     protected function isUserLoggedIn()
     {
+       $visitorchat = $this->sql->getOption('enable_visitor_chat', 0);
+
+       if ($visitorchat == "1") {
+            return;
+        }
+
         $check = is_user_logged_in();
 
         if (!$check) {
             $this->errors += 1;
-            return $this->userNotLoggedIn();
+            $html = $this->userNotLoggedIn();
+            return $html;
         }
     }
 

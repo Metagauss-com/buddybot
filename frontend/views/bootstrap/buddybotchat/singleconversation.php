@@ -6,10 +6,24 @@ trait SingleConversation
     protected function singleConversationHtml()
     {
         $html = '<div id="buddybot-single-conversation-wrapper" class="container-fluid">';
+        $html .= $this->visitorAlertContainer();
         $html .= $this->conversationActions();
         $html .= $this->messagesBox();
         $html .= $this->statusBar();
         $html .= $this->newMessageInput();
+        $html .= $this->cookieConsentOffcanvas();
+        $html .= '</div>';
+        return $html;
+    }
+
+    private function visitorAlertContainer()
+    {
+        if (is_user_logged_in()) {
+            return '';
+        }
+        
+        $html = '<div class="alert alert-warning" role="alert">';
+        $html .= esc_html__('You will not be able to access your chat history permanently because you are not logged in. If you log in, you can save and access your conversations later.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $html .= '</div>';
         return $html;
     }
@@ -80,6 +94,27 @@ trait SingleConversation
         $html .= '</button>';
         $html .= '</div>';
         
+        $html .= '</div>';
+        return $html;
+    }
+
+    private function cookieConsentOffcanvas()
+    {
+        $html = '<div class="offcanvas offcanvas-bottom" tabindex="-1" id="cookieConsentOffcanvas" aria-labelledby="cookieConsentOffcanvasLabel" data-bs-backdrop="static">';
+        $html .= '<div class="offcanvas-header">';
+        $html .= '<h5 class="offcanvas-title" id="cookieConsentOffcanvasLabel">';
+        $html .= __('Cookies', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $html .= ' <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f">
+                        <path d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-75 29-147t81-128.5q52-56.5 125-91T475-881q21 0 43 2t45 7q-9 45 6 85t45 66.5q30 26.5 71.5 36.5t85.5-5q-26 59 7.5 113t99.5 56q1 11 1.5 20.5t.5 20.5q0 82-31.5 154.5t-85.5 127q-54 54.5-127 86T480-80Zm-60-480q25 0 42.5-17.5T480-620q0-25-17.5-42.5T420-680q-25 0-42.5 17.5T360-620q0 25 17.5 42.5T420-560Zm-80 200q25 0 42.5-17.5T400-420q0-25-17.5-42.5T340-480q-25 0-42.5 17.5T280-420q0 25 17.5 42.5T340-360Zm260 40q17 0 28.5-11.5T640-360q0-17-11.5-28.5T600-400q-17 0-28.5 11.5T560-360q0 17 11.5 28.5T600-320ZM480-160q122 0 216.5-84T800-458q-50-22-78.5-60T683-603q-77-11-132-66t-68-132q-80-2-140.5 29t-101 79.5Q201-644 180.5-587T160-480q0 133 93.5 226.5T480-160Zm0-324Z"/>
+                   </svg>';
+        $html .= '</h5>';
+        $html .= '</div>';
+        $html .= '<div class="offcanvas-body">';
+        $html .= '<p>We use cookies to manage your chat session during your visit. This helps us maintain your conversation for the duration of your session. No personal data is stored permanently, and the session data will be deleted after it expires. By continuing to use this site, you consent to our use of cookies.</p>';
+        $html .= '</div>';
+        $html .= '<div class="offcanvas-footer text-end p-3">';
+        $html .= '<button type="button" class="btn btn-primary" id="buddybot-acceptCookies">I Accept</button>';
+        $html .= '</div>';
         $html .= '</div>';
         return $html;
     }

@@ -66,10 +66,9 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
             const hiddenKey = $("#buddybot-settings-hidden-key").val();
             const textFieldValue = $("#buddybot-settings-openai-api-key").val();
 
-            if (hiddenKey === textFieldValue) {
+            if (hiddenKey && textFieldValue && hiddenKey === textFieldValue) {
                 showWordpressLoader("#buddybot-settings-update-btn");
-                const section = $("#mgao-settings-section-select").val();
-                location.replace("' . esc_url(admin_url()) . 'admin.php?page=buddybot-settings&section=' . '" + section + "&success=1");
+                saveOpenaiApiKey(textFieldValue, samekey=true);
             } else {
                 showWordpressLoader("#buddybot-settings-update-btn");
                 getOpenAiApiKey();
@@ -150,10 +149,15 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
                 });
             }
 
-            function saveOpenaiApiKey(apiKey){
+            function saveOpenaiApiKey(apiKey, samekey=false) {
                 const section = $("#mgao-settings-section-select").val();
                 
-                optionsData["openai_api_key"] = apiKey;
+                if (!samekey) {
+                    optionsData["openai_api_key"] = apiKey;
+                }
+                optionsData["enable_visitor_chat"] = $("#buddybot-settings-enable-visitor-chat").is(":checked") ? "1" : "0";
+                optionsData["session_expiry"] = $("#buddybot-settings-session-expiry").val();
+                optionsData["delete_expired_chat"] = $("#buddybot-settings-delete-expired-chat").is(":checked") ? "1" : "0";
 
                 const data = {
                     "action": "saveSettings",
@@ -185,13 +189,11 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
         $vectorstore_data = get_option('buddybot_vectorstore_data');
         $hostname = wp_parse_url(home_url(), PHP_URL_HOST);
         echo '
-            //$("#buddybot-vectorstore-create").click(checkVectorStore);
 
             function vectorStore(apiKey){
                 const vectorStoreData = ' . wp_json_encode($vectorstore_data) . ';
                 if (vectorStoreData && vectorStoreData.id) {
                     checkVectorStore(apiKey, vectorStoreData.id)
-                    //saveOpenaiApiKey(apiKey);
                 } else {
                     checkAllVectorStore(apiKey)
                 }

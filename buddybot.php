@@ -16,7 +16,7 @@
 namespace BuddyBot;
 
 define( 'BUDDYBOT_PLUGIN_VERSION', '1.1.0.0' );
-define( 'BUDDYBOT_DATABASE_VERSION', '1.0' );
+define( 'BUDDYBOT_DATABASE_VERSION', '1.1' );
 
 //exit if the file is accessed directly.
 if (!defined('WPINC')) die;
@@ -74,6 +74,7 @@ if (is_admin()) {
 
 if (!is_admin()) {
     $buddybot_shortcodes = new Frontend\ShortCodes();
+    $buddybot_sessions = new Frontend\Sessions();
 }
 
 $buddybot_responses = new Frontend\Responses\BuddybotResponses();

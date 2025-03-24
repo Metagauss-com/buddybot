@@ -46,6 +46,18 @@ class Settings extends \BuddyBot\Admin\Responses\MoRoot
 
         foreach ($options as $option_name => $option_value) {
             $this->sql->saveOption($option_name, $option_value);
+            if ($option_name === 'delete_expired_chat') {
+                if ($option_value == 1) {
+                    if (!wp_next_scheduled('buddybot_delete_expired_chats')) {
+                        wp_schedule_event(time(), 'daily', 'buddybot_delete_expired_chats');
+                    }
+                } else {
+                    $timestamp = wp_next_scheduled('buddybot_delete_expired_chats');
+                    if ($timestamp) {
+                        wp_unschedule_event($timestamp, 'buddybot_delete_expired_chats');
+                    }
+                }
+            }
         }
 
         $this->response['success'] = true;
@@ -231,6 +243,72 @@ class Settings extends \BuddyBot\Admin\Responses\MoRoot
         }
     }
 
+    public function DeleteExpiredChats()
+    {
+        $expiry_hours = $this->sql->getOption('session_expiry', 24);
+        $expired_threads = $this->sql->getExpiredThreads($expiry_hours);
+        if (!empty($expired_threads)) {
+            foreach ($expired_threads as $thread_id) {
+                $url = 'https://api.openai.com/v1/threads/' . $thread_id;
+    
+                $headers = array(
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Bearer ' . $this->api_key,
+                    'OpenAI-Beta' => 'assistants=v2'
+                );
+            
+                $response = wp_remote_request($url, array(
+                    'method'  => 'DELETE',
+                    'headers' => $headers,
+                    'timeout' => 60,
+                ));
+
+                if (is_wp_error($response)) {
+
+                    $this->sql->addLogEntry(
+                        'system',
+                        'failure',
+                        __('OpenAI API request failed: ', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . $response->get_error_message(),
+                        json_encode(['thread_id' => $thread_id])
+                    );
+                    continue;
+                }
+
+                $output = json_decode(wp_remote_retrieve_body($response));
+
+                $notFound = false;
+                if (isset($output->error) && isset($output->error->message)) {
+                    if (strpos(strtolower($output->error->message), 'no thread found') !== false) {
+                        $notFound = true;
+                    }
+                }
+                if (!$notFound) {
+                    if (!empty($output->error)) {
+                        $this->sql->addLogEntry(
+                            'system',
+                            'failure',
+                            __('There was an error:', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . $output->error->message,
+                            json_encode(['thread_id' => $thread_id, 'response' => $output])
+                        );
+                        continue;
+                    }
+                }
+
+                if (isset($output->deleted) && $output->deleted || $notFound) {
+                    $response = $this->sql->deleteExpiredThread($thread_id);
+                    if ($response === false) {
+                        global $wpdb;
+                        $this->sql->addLogEntry(
+                            'system',
+                            'failure',
+                            __('Database error while deleting thread: ', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . $wpdb->last_error,
+                            json_encode(['thread_id' => $thread_id])
+                        );
+                    }
+                }
+            }
+        }
+    }
 
     public function __construct()
     {
@@ -241,5 +319,6 @@ class Settings extends \BuddyBot\Admin\Responses\MoRoot
         add_action('wp_ajax_checkVectorStore', array($this, 'checkVectorStore'));
         add_action('wp_ajax_checkAllVectorStore', array($this, 'checkAllVectorStore'));
         add_action('wp_ajax_autoCreateVectorStore', array($this, 'autoCreateVectorStore'));
+        add_action('buddybot_delete_expired_chats', array($this, 'DeleteExpiredChats'));
     }
 }

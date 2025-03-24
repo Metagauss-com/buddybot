@@ -6,6 +6,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
     protected function shortcodeJs()
     {
         $this->toggleAlertJs();
+        $this->cookiesNotificationJs();
         $this->onLoadJs();
         $this->lockUiJs();
         $this->getUserThreadsJs();
@@ -39,6 +40,21 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
             let alert = $(".buddybot-chat-conversation-alert");
             alert.addClass("visually-hidden");
         }
+        ';
+    }
+
+    private function cookiesNotificationJs()
+    {
+        if (isset($_COOKIE['buddybot_session_id']) || is_user_logged_in()) {
+            return;
+        }
+
+        echo '
+            $("#cookieConsentOffcanvas").offcanvas("show"); 
+            
+            $(document).on("click", "#buddybot-acceptCookies", function(){
+                $("#cookieConsentOffcanvas").offcanvas("hide");
+            });
         ';
     }
 

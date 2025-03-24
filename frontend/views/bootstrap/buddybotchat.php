@@ -90,8 +90,18 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
     {
         $this->timezone = $timezone;
 
-        $user_id = get_current_user_id();
-        $this->conversations = $this->sql->getConversationsByUserId($user_id);
+        if (is_user_logged_in()) {
+            $user_id = get_current_user_id();
+            $this->conversations = $this->sql->getConversationsByUserId($user_id);
+        } else { 
+            $session_id = $_COOKIE['buddybot_session_id'] ?? null;
+
+            if ($session_id) {
+                $this->conversations = $this->sql->getConversationsBySessionId($session_id);
+            } else {
+                $this->conversations = '';
+            }
+        }
         
         if (!empty($this->conversations)) {
             $this->listHtml();

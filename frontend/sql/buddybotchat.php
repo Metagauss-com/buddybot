@@ -81,6 +81,31 @@ class BuddybotChat extends \BuddyBot\Frontend\Sql\Moroot
     
         return $conversations;
     }
+
+    public function getConversationsBySessionId($session_id, int $cache_expiry = 3600)
+    {
+        global $wpdb;
+
+        $table = esc_sql($this->config->getDbTable('threads'));
+
+        $cache_key = 'conversations_session_' . $session_id;
+
+        $conversations = wp_cache_get($cache_key, 'buddybot');
+
+        if ($conversations === false) {
+
+            $conversations = $wpdb->get_results(
+                $wpdb->prepare(
+                    "SELECT * FROM $table WHERE session_id = %s",
+                    $session_id
+                )
+            );
+
+            wp_cache_set($cache_key, $conversations, 'buddybot', $cache_expiry);
+        }
+
+        return $conversations;
+    }
     
 
     public function saveThreadInDb($thread_id)
@@ -88,14 +113,26 @@ class BuddybotChat extends \BuddyBot\Frontend\Sql\Moroot
         $table = esc_sql($this->config->getDbTable('threads'));
         $cache_key = 'conversations_user_' . get_current_user_id();
 
+        $user_id = get_current_user_id();
+        $session_id = null;
+        $user_type = 'visitor';
+
+        if ($user_id === 0) {
+            $session_id = $this->initializeSessionId(); // Assign session ID only for guests
+        } else {
+            $user_type = 'logged_in';
+        }
+
         $data = array(
             'thread_id' => $thread_id,
-            'user_id' => get_current_user_id(),
+            'user_id' => $user_id,
+            'session_id'  => $session_id,
+            'user_type'   => $user_type,
             'created' => current_time('mysql', true)
         );
 
         global $wpdb;
-        $insert = $wpdb->insert($table, $data, array('%s', '%d', '%s'));
+        $insert = $wpdb->insert($table, $data, array('%s', '%d', '%s', '%s', '%s'));
 
         if ($insert) {
             wp_cache_delete($cache_key, 'buddybot');
@@ -155,5 +192,19 @@ class BuddybotChat extends \BuddyBot\Frontend\Sql\Moroot
         } else {
             return false;
         }
+    }
+
+    public function convertSessionToUser($user_id, $session_id)
+    {
+        global $wpdb;
+        $table = esc_sql($this->config->getDbTable('threads'));
+
+        return $wpdb->update(
+            $table,
+            array('user_id' => $user_id, 'session_id' => null, 'user_type' => 'logged_in'),
+            array('session_id' => $session_id),
+            array('%d', 'NULL', '%s'),
+            array('%s')
+        );
     }
 }
