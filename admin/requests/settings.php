@@ -188,6 +188,10 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
         $nonce = wp_create_nonce('auto_create_vectorstore');
         $vectorstore_data = get_option('buddybot_vectorstore_data');
         $hostname = wp_parse_url(home_url(), PHP_URL_HOST);
+        if($hostname === 'localhost'){
+            $path = wp_parse_url(home_url(), PHP_URL_PATH) ?? '';
+            $hostname = $hostname . str_replace('/', '.', $path); 
+        }
         echo '
 
             function vectorStore(apiKey){

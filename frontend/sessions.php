@@ -11,10 +11,14 @@ final class Sessions extends \BuddyBot\Frontend\MoRoot
             $user_id = $user->ID;
 
             $sql = new \BuddyBot\Frontend\Sql\BuddybotChat($data='');
-            $sql->convertSessionToUser($user_id, $session_id);
+            $response = $sql->convertSessionToUser($user_id, $session_id);
+
+            if ($response === false) {
+            } else {
+                setcookie("buddybot_session_id", "", time() - 3600, "/");
+                unset($_COOKIE['buddybot_session_id']);
+            }
     
-            setcookie("buddybot_session_id", "", time() - 3600, "/");
-            unset($_COOKIE['buddybot_session_id']);
         }
     }
     

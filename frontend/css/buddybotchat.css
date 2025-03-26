@@ -1,3 +1,37 @@
 #buddybot-single-conversation-user-message{
     border: solid;
 }
+.Buddybot-alert {
+    position: relative;
+    display: inline-block;
+    margin-top: 20px;
+}
+
+/* Popover styling */
+.buddybot-popover {
+    display: none; /* Hidden by default */
+    position: absolute;
+    bottom: 100%; /* Position above the SVG */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    width: max-content;
+    max-width: 200px;
+}
+
+/* Triangle for the top of the popover */
+.buddybot-popover::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 8px;
+    border-style: solid;
+    border-color: transparent transparent #333 transparent;
+}
