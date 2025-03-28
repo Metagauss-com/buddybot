@@ -11,7 +11,7 @@ jQuery(document).ready(function($) {
         $(document).click(function(event) {
             // Check if the click is outside the trigger element and the popover
             if (!$(event.target).closest('[data-popover="true"], .buddybot-popover').length) {
-                $('.buddybot-popover').hide();  // Hide all popovers if clicked outside
+                //$('.buddybot-popover').hide();  // Hide all popovers if clicked outside
             }
         });
 });
