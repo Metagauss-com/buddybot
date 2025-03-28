@@ -325,7 +325,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
                 response = JSON.parse(response);
                 if (response.success) {
                     sessionStorage.setItem("bbCurrentRunId", response.result.id);
-                    retrieveRun();
+                    checkRun = retrieveRun();
                 } else {
                     showAlert("danger", response.message);
                     lockUi(false);
