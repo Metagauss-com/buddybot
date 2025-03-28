@@ -268,7 +268,12 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
             'Content-Type' => 'application/json',
             'Authorization' => 'Bearer ' . $this->api_key,
         );
+
+        $maxRetries = 5;
+        $retryInterval = 2;
+        $attempt = 0;
     
+        while ($attempt < $maxRetries) {
         // Perform the GET request
         $response = wp_remote_get($url, array(
             'headers' => $headers,
@@ -289,9 +294,45 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
         // Check for errors in the output
         $this->checkError($output);
     
-        echo wp_json_encode($this->response);
-        wp_die();
+        switch ($output->status) {
+            case 'completed':
+                $this->response['success'] = true;
+                $this->response['status'] = 'completed';
+                $this->response['tokens'] = $output->tokens;
+                echo wp_json_encode($this->response);
+                wp_die();
+            break;
+
+            case 'failed':
+                $this->response['success'] = false;
+                $this->response['message'] = 'Run failed: ' . $output->error->message;
+                echo wp_json_encode($this->response);
+                wp_die();
+            break;
+
+            case 'in_progress':
+
+                $attempt++;
+                if ($attempt >= $maxRetries) {
+                    // If max retries reached, return error
+                    $this->response['success'] = false;
+                    $this->response['message'] = 'Run status still in progress after ' . $maxRetries . ' attempts.';
+                    echo wp_json_encode($this->response);
+                    wp_die();
+                }
+
+                sleep($retryInterval);
+            break;
+
+            default:
+                $this->response['success'] = false;
+                $this->response['message'] = 'Unexpected status: ' . $output->status;
+                echo wp_json_encode($this->response);
+                wp_die();
+            break;
+        }
     }
+}
     
 
     public function deleteFrontendThread()

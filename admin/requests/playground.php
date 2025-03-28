@@ -197,7 +197,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
                 if (response.success) {
                     updateStatus(runCreated);
                     $("#mgao-playground-run-id-input").val(response.result.id);
-                    checkRun = setInterval(retrieveRun, 2000);
+                    retrieveRun();
                 } else {
                     disableMessage(false);
                     updateStatus(response.message);
