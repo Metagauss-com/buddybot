@@ -46,17 +46,21 @@ class Settings extends \BuddyBot\Admin\Responses\MoRoot
 
         foreach ($options as $option_name => $option_value) {
             $this->sql->saveOption($option_name, $option_value);
-            if ($option_name === 'delete_expired_chat') {
-                if ($option_value == 1) {
-                    if (!wp_next_scheduled('buddybot_delete_expired_chats')) {
-                        wp_schedule_event(time(), 'daily', 'buddybot_delete_expired_chats');
-                    }
-                } else {
-                    $timestamp = wp_next_scheduled('buddybot_delete_expired_chats');
-                    if ($timestamp) {
-                        wp_unschedule_event($timestamp, 'buddybot_delete_expired_chats');
-                    }
-                }
+        }
+
+        $enable_visitor_chat = isset($options['enable_visitor_chat']) && $options['enable_visitor_chat'] == 1;
+        $delete_expired_chat = isset($options['delete_expired_chat']) && $options['delete_expired_chat'] == 1;
+
+        if ($enable_visitor_chat && $delete_expired_chat) {
+            // Schedule the event if it's not already scheduled
+            if (!wp_next_scheduled('buddybot_delete_expired_chats')) {
+                wp_schedule_event(time(), 'daily', 'buddybot_delete_expired_chats');
+            }
+        } else {
+            // Unscheduled the event if visitor chat is disabled or delete_expired_chat is unchecked
+            $timestamp = wp_next_scheduled('buddybot_delete_expired_chats');
+            if ($timestamp) {
+                wp_unschedule_event($timestamp, 'buddybot_delete_expired_chats');
             }
         }
 

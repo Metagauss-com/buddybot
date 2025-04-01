@@ -14,9 +14,9 @@ class MoRoot extends \BuddyBot\Admin\Html\Views\MoRoot
         return '';
     }
 
-    protected function optionHtml(string $id = '', string $label = '', string $control = '', string $description = '')
+    protected function optionHtml(string $id = '', string $label = '', string $control = '', string $description = '', $childfieldrow = '')
     {
-        $html = '<tr>';
+        $html = '<tr ' . $childfieldrow . '>';
 		$html .= '<th>';
 		$html .= '<label for="' . esc_attr($id) . '">';
         $html .= esc_html($label);

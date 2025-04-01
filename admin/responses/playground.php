@@ -206,10 +206,15 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
                     echo wp_json_encode($this->response);
                     wp_die();
                 break;
-
+                
+                case 'queued':
                 case 'failed':
                     $this->response['success'] = false;
-                    $this->response['message'] = 'Run failed: ' . $output->error->message;
+                    if (isset($output->last_error) && isset($output->last_error->message)) {
+                        $this->response['message'] = $output->last_error->message;
+                    } else {
+                        $this->response['message'] = esc_html__('Run failed: Unknown error.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+                    }
                     echo wp_json_encode($this->response);
                     wp_die();
                 break;
@@ -220,7 +225,7 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
                     if ($attempt >= $maxRetries) {
                         // If max retries reached, return error
                         $this->response['success'] = false;
-                        $this->response['message'] = 'Run status still in progress after ' . $maxRetries . ' attempts.';
+                        $this->response['message'] = sprintf(esc_html__('Run status still in progress after %d attempts.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), $maxRetries);
                         echo wp_json_encode($this->response);
                         wp_die();
                     }
@@ -230,7 +235,7 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
 
                 default:
                     $this->response['success'] = false;
-                    $this->response['message'] = 'Unexpected status: ' . $output->status;
+                    $this->response['message'] = sprintf(esc_html__('Unexpected status: %s', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_html($output->status));
                     echo wp_json_encode($this->response);
                     wp_die();
                 break;

@@ -352,36 +352,13 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
                 response = JSON.parse(response);
                 
                 if (response.success) {
-                    
-                    switch (response.result.status) {
-                        
-                        case "completed":
-                            clearInterval(checkRun);
-                            getAssistantResponse();
-                            break;
-                        
-                        case "failed":
-                            clearInterval(checkRun);
-                            showAlert(
-                                "danger", response.result.last_error.code + ": " +
-                                response.result.last_error.message
-                            );
-                            break;
-
-                        case "cancelled":
-                        case "cancelling":
-                            clearInterval(checkRun);
-                            break;
-                        
-                        case "requires_action":
-                            clearInterval(checkRun);
-                            getAssistantResponse();
-                            break;
-                    }
+                    clearInterval(checkRun);
+                    getAssistantResponse();
 
                 } else {
                     showAlert("danger", response.message);
                     clearInterval(checkRun);
+                    lockUi(false);
                 }
             });
         }

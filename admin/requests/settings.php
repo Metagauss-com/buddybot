@@ -14,6 +14,7 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
         $this->getOpenAiApiKeyJs();
         $this->createVectorStore();
         $this->changeKey();
+        $this->visitorToggleJs();
     }
 
     protected function pageVarsJs()
@@ -45,8 +46,22 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
             $.post(ajaxurl, data, function(response) {
                 $("#buddybot-settings-section-options-loader").addClass("visually-hidden");
                 $("#buddybot-settings-section-options > tbody").html(response);
+                if ($("#buddybot-settings-enable-visitor-chat").is(":checked")) {
+                    showHide("#buddybot-settings-enable-visitor-chat", "buddybot-visitor-chat-childfieldrow-first", "", "");
+                    showHide("#buddybot-settings-enable-visitor-chat", "buddybot-visitor-chat-childfieldrow-second", "", "");
+                }
             });
         }
+        ';
+    }
+
+    private function visitorToggleJs()
+    {
+        echo'
+        $(document).on("change", "#buddybot-settings-enable-visitor-chat", function () {
+            showHide(this, "buddybot-visitor-chat-childfieldrow-first", "", "");
+            showHide(this, "buddybot-visitor-chat-childfieldrow-second", "", "");
+        });
         ';
     }
 
@@ -156,8 +171,10 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
                     optionsData["openai_api_key"] = apiKey;
                 }
                 optionsData["enable_visitor_chat"] = $("#buddybot-settings-enable-visitor-chat").is(":checked") ? "1" : "0";
-                optionsData["session_expiry"] = $("#buddybot-settings-session-expiry").val();
-                optionsData["delete_expired_chat"] = $("#buddybot-settings-delete-expired-chat").is(":checked") ? "1" : "0";
+                if ($("#buddybot-settings-enable-visitor-chat").is(":checked")) {
+                    optionsData["session_expiry"] = $("#buddybot-settings-session-expiry").val();
+                    optionsData["delete_expired_chat"] = $("#buddybot-settings-delete-expired-chat").is(":checked") ? "1" : "0";
+                }
 
                 const data = {
                     "action": "saveSettings",
