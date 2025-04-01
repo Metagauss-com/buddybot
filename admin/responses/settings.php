@@ -251,6 +251,7 @@ class Settings extends \BuddyBot\Admin\Responses\MoRoot
     {
         $expiry_hours = $this->sql->getOption('session_expiry', 24);
         $expired_threads = $this->sql->getExpiredThreads($expiry_hours);
+        error_log('Expired Threads: ' . json_encode($expired_threads));
         if (!empty($expired_threads)) {
             foreach ($expired_threads as $thread_id) {
                 $url = 'https://api.openai.com/v1/threads/' . $thread_id;

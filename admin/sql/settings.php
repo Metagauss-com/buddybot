@@ -95,4 +95,60 @@ class Settings extends \BuddyBot\Admin\Sql\MoRoot
             '6176693754375346'
         );
     }
+
+    public function getExpiredThreads($expiry_hours)
+    {
+        global $wpdb;
+        $table = $this->config->getDbTable('threads');
+
+        return $wpdb->get_col(
+            $wpdb->prepare(
+                "SELECT thread_id FROM $table 
+                 WHERE user_type = 'visitor' 
+                 AND created < (UTC_TIMESTAMP() - INTERVAL %d HOUR)",
+                $expiry_hours
+            )
+        );
+    }
+
+    public function deleteExpiredThread($thread_id)
+    {
+        $table = $this->config->getDbTable('threads');
+        $where = array('thread_id' => $thread_id);
+        $format = array('%s');
+
+        global $wpdb;
+        return $wpdb->delete($table, $where, $format);
+    }
+
+    public function addLogEntry($event, $status, $description = '', $botId = null, $details = '{}', $ipAddress = '', $severity = 'INFO', $component = '', $referrerUrl = '') {
+        $table = $this->config->getDbTable('logs');
+
+        $data = [
+            'log_event' => $event,
+            'log_status' => $status,
+            'log_description' => $description,
+            'log_bot_id' => $botId,
+            'log_details' => $details,
+            'log_ip_address' => $ipAddress,
+            'log_severity' => $severity,
+            'log_component' => $component,
+            'log_referrer_url' => $referrerUrl,
+            'log_timestamp' => current_time('mysql', 1)
+        ];
+
+        global $wpdb;
+        $insert = $wpdb->insert(
+            $table,
+            $data,
+            array('%s', '%s', '%s', '%d', '%s', '%s', '%s', '%s', '%s', '%s')
+        );
+
+        if ($insert !== false) {
+            return $wpdb->insert_id;
+        } else {
+            return false;
+        }
+
+    }
 }
