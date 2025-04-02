@@ -206,8 +206,7 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
                     echo wp_json_encode($this->response);
                     wp_die();
                 break;
-                
-                case 'queued':
+                           
                 case 'failed':
                     $this->response['success'] = false;
                     if (isset($output->last_error) && isset($output->last_error->message)) {
@@ -219,6 +218,7 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
                     wp_die();
                 break;
 
+                case 'queued':
                 case 'in_progress':
 
                     $attempt++;

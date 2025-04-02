@@ -302,7 +302,6 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
                 wp_die();
             break;
             
-            case 'queued':
             case 'failed':
                 $this->response['success'] = false;
                 if (isset($output->last_error) && isset($output->last_error->message)) {
@@ -314,6 +313,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
                 wp_die();
             break;
 
+            case 'queued':
             case 'in_progress':
 
                 $attempt++;
