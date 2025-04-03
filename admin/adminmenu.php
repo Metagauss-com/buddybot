@@ -248,8 +248,8 @@ $base64_icon = base64_encode($icon);
     {
         add_action( 'admin_menu', array($this, 'topLevelMenu'));
         add_action( 'admin_menu', array($this, 'hiddenMenu'));
-        add_action( 'wp_ajax_bb_dismissible_notice', array($this,'bb_dismissible_notice_ajax') );
-		add_action( 'admin_notices',array($this,'bb_dismissible_notice') );
+        // add_action( 'wp_ajax_bb_dismissible_notice', array($this,'bb_dismissible_notice_ajax') );
+		// add_action( 'admin_notices',array($this,'bb_dismissible_notice') );
         add_action( 'admin_enqueue_scripts', array($this,'enqueue_scripts' ));
  
     }
@@ -271,57 +271,57 @@ $base64_icon = base64_encode($icon);
         );
     }
 
-    public function buddybotActivationModel()
-    {
-        $welcomeModal = new \BuddyBot\Admin\Html\CustomModals\Welcome();
-        $welcomeModal->getHtml();
-    }
+    // public function buddybotActivationModel()
+    // {
+    //     $welcomeModal = new \BuddyBot\Admin\Html\CustomModals\Welcome();
+    //     $welcomeModal->getHtml();
+    // }
 
-    public function bb_dismissible_notice()
-    {
+    // public function bb_dismissible_notice()
+    // {
         
-		$notice_name = get_option( 'buddybot_welcome_modal_dismissed', false );
-		if ( $notice_name == true ) {
-			return;
-        }
-        $screen = get_current_screen();
+	// 	$notice_name = get_option( 'buddybot_welcome_modal_dismissed', false );
+	// 	if ( $notice_name == true ) {
+	// 		return;
+    //     }
+    //     $screen = get_current_screen();
 
-        $allowed_screens = array(
-            'toplevel_page_buddybot-chatbot',
-            'buddybot_page_buddybot-playground',
-            'buddybot_page_buddybot-files',
-            'buddybot_page_buddybot-conversations',
-            'buddybot_page_buddybot-assistants',
-            'buddybot_page_buddybot-settings',
-            'buddybot_page_buddybot-vectorstore',
-        );
+    //     $allowed_screens = array(
+    //         'toplevel_page_buddybot-chatbot',
+    //         'buddybot_page_buddybot-playground',
+    //         'buddybot_page_buddybot-files',
+    //         'buddybot_page_buddybot-conversations',
+    //         'buddybot_page_buddybot-assistants',
+    //         'buddybot_page_buddybot-settings',
+    //         'buddybot_page_buddybot-vectorstore',
+    //     );
 
-        if (!in_array($screen->id, $allowed_screens)) {
-            return;
-        }
+    //     if (!in_array($screen->id, $allowed_screens)) {
+    //         return;
+    //     }
         
-		$this->buddybotActivationModel();
-    }
+	// 	$this->buddybotActivationModel();
+    // }
 
-    public function bb_dismissible_notice_ajax()
-    {
-        $nonce = filter_input( INPUT_POST, 'nonce' );
-		if ( ! isset( $nonce ) || ! wp_verify_nonce( $nonce, 'ajax-nonce' ) ) {
-			die( esc_html__( 'Failed security check', 'buddybot-ai-custom-ai-assistant-and-chat-agent' ) );
-		}
+    // public function bb_dismissible_notice_ajax()
+    // {
+    //     $nonce = filter_input( INPUT_POST, 'nonce' );
+	// 	if ( ! isset( $nonce ) || ! wp_verify_nonce( $nonce, 'ajax-nonce' ) ) {
+	// 		die( esc_html__( 'Failed security check', 'buddybot-ai-custom-ai-assistant-and-chat-agent' ) );
+	// 	}
 
-        if ( current_user_can( 'manage_options' ) ) 
-        {
+    //     if ( current_user_can( 'manage_options' ) ) 
+    //     {
             
             
-            if ( isset($_POST['notice_name'] ) ) {
-                    $notice_name = sanitize_text_field($_POST['notice_name'] );
-                    update_option( $notice_name, true );
+    //         if ( isset($_POST['notice_name'] ) ) {
+    //                 $notice_name = sanitize_text_field($_POST['notice_name'] );
+    //                 update_option( $notice_name, true );
 
-            }
-        }
+    //         }
+    //     }
 
-        die;
-    }
+    //     die;
+    // }
 
 }

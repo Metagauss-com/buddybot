@@ -201,7 +201,6 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
                 case 'completed':
                     $this->response['success'] = true;
                     $this->response['status'] = 'completed';
-                    $this->response['tokens'] = $output->tokens; // Add tokens or other relevant data
                     $this->tokensMessage();
                     echo wp_json_encode($this->response);
                     wp_die();
