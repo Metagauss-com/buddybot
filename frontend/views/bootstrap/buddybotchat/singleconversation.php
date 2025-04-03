@@ -115,7 +115,7 @@ trait SingleConversation
         $html .= '</div>';
         $html .= '</div>';
         $html .= '<div class="buddybot-offcanvas-body">';
-        $html .= '<p>' . __('We use cookies to manage your chat session during your visit. This helps us maintain your conversation for the duration of your session. No personal data is stored permanently, and the session data will be deleted after it expires. By continuing to use this site, you consent to our use of cookies.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
+        $html .= '<p>' . __('We use cookies to manage your chat session while you interact with our website. These cookies help us store temporary session data, such as your chat history, for predefined number of days. No personal information is stored in these cookies. By continuing to use this site, you consent to the use of cookies. For more details, please refer to our Privacy Policy', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
         $html .= '</div>';
         $html .= '<div class="buddybot-offcanvas-footer text-end">';
         $html .= '<button type="button" class="btn btn-primary" id="buddybot-acceptCookies">' . __('I Accept', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</button>';
