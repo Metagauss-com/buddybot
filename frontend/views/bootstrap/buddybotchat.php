@@ -18,9 +18,10 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
 
     public function shortcodeHtml($atts, $content = null)
     {
-        $this->atts = shortcode_atts( array(
+        $default_atts = array(
             'id' => $this->buddybotId()
-        ), $atts );
+        );
+        $this->atts = shortcode_atts( $default_atts, $atts );
 
         $html = $this->securityChecksHtml();
         $this->shortcodeJs();
@@ -30,7 +31,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
             $html .= $this->alertsHtml();
             $html .= $this->assistantId();
             $html .= $this->conversationListWrapper();
-            $html .= $this->singleConversationHtml();
+            $html .= $this->singleConversationHtml($this->atts);
         }
 
         return $html;

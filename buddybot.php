@@ -74,7 +74,7 @@ if (is_admin()) {
 
 if (!is_admin()) {
     $buddybot_shortcodes = new Frontend\ShortCodes();
-    $buddybot_sessions = new Frontend\Sessions();
 }
 
 $buddybot_responses = new Frontend\Responses\BuddybotResponses();
+$buddybot_sessions = new Frontend\Sessions();

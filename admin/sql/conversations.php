@@ -11,7 +11,7 @@ class Conversations extends \BuddyBot\Admin\Sql\MoRoot
         $this->table = $this->config->getDbTable('threads');
     }
 
-    public function getAllConversations($offset = 0, $limit = 10, $orderby = 'created', $order = 'desc', $user_id = 0, $search = '')
+    public function getAllConversations($offset = 0, $limit = 10, $orderby = 'created', $order = 'desc', $user_id = 0, $user_type = '', $search = '')
     {
         global $wpdb;
 
@@ -33,6 +33,11 @@ class Conversations extends \BuddyBot\Admin\Sql\MoRoot
         if (!empty($user_id)) {
             $where_clauses[] = "user_id = %d";
             $params[] = $user_id;
+        }
+
+        if (!empty($user_type)) {
+            $where_clauses[] = "user_type = %s";
+            $params[] = $user_type;
         }
 
         $where_sql = 'WHERE ' . implode(' AND ', $where_clauses);

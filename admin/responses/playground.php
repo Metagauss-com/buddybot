@@ -212,7 +212,7 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
                     if (isset($output->last_error) && isset($output->last_error->message)) {
                         $this->response['message'] = $output->last_error->message;
                     } else {
-                        $this->response['message'] = esc_html__('Run failed: Unknown error.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+                        $this->response['message'] = esc_html__('Sorry, something went wrong.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
                     }
                     echo wp_json_encode($this->response);
                     wp_die();

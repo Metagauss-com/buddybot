@@ -3,14 +3,14 @@ namespace BuddyBot\Frontend\Views\Bootstrap\BuddybotChat;
 
 trait SingleConversation
 {
-    protected function singleConversationHtml()
+    protected function singleConversationHtml($atts = array())
     {
         $html = '<div id="buddybot-single-conversation-wrapper" class="container-fluid">';
         $html .= $this->visitorAlertContainer();
         $html .= $this->conversationActions();
         $html .= $this->messagesBox();
         $html .= $this->statusBar();
-        $html .= $this->newMessageInput();
+        $html .= $this->newMessageInput($atts);
         $html .= $this->cookieConsentOffcanvas();
         $html .= '</div>';
         return $html;
@@ -80,10 +80,13 @@ trait SingleConversation
         return $html;
     }
 
-    private function newMessageInput()
+    private function newMessageInput($atts)
     {
         $html = '<div id="buddybot-single-conversation-new-messages-wrapper" class="">';
-        
+        ob_start();
+        do_action('buddybot_playground_faqs1',$atts);
+        $html .= ob_get_clean();
+
         $html .= '<div class="">';
         $html .= '<textarea id="buddybot-single-conversation-user-message" class="form-control rounded-4 p-3 border-bottom border-dark border-2 shadow-0" rows="3" ';
         $html .= 'placeholder="' . __('Type your question here.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '">';
