@@ -123,7 +123,7 @@ class Conversations extends WP_List_Table
 {
     if ($which === 'top') {
         $user_ids = $this->bot_db->getUserIds();
-        $selected_user_type = isset($_GET['buddybot-filter-user-type']) ? $_GET['buddybot-filter-user-type'] : '';
+        $selected_user_type = isset($_GET['buddybot-filter-user-type']) ? sanitize_text_field($_GET['buddybot-filter-user-type']) : '';
         ?>
         <label for="buddybot-filter-user" class="screen-reader-text"><?php esc_html_e('Filter by User', 'buddybot-ai-custom-ai-assistant-and-chat-agent'); ?></label>
         <select name="buddybot-filter-user" id="buddybot-filter-user">

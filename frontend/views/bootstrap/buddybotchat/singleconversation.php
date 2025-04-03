@@ -105,7 +105,7 @@ trait SingleConversation
 
     private function cookieConsentOffcanvas()
     {
-        $html = '<div class="offcanvas offcanvas-bottom buddybot-offcanvas-wrap p-3" tabindex="-1" id="cookieConsentOffcanvas" aria-labelledby="cookieConsentOffcanvasLabel" data-bs-backdrop="static">';
+        $html = '<div class="offcanvas offcanvas-bottom buddybot-offcanvas-wrap p-3" tabindex="-1" id="cookieConsentOffcanvas" aria-labelledby="cookieConsentOffcanvasLabel" data-bs-backdrop="static" data-bs-scroll="true">';
         $html .= '<div class="offcanvas-header">';
         $html .= '<div class="offcanvas-title" id="cookieConsentOffcanvasLabel">';
         $html .= __('Cookies', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
