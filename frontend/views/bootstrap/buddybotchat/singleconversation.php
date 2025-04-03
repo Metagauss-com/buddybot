@@ -105,7 +105,7 @@ trait SingleConversation
 
     private function cookieConsentOffcanvas()
     {
-        $html = '<div class="offcanvas offcanvas-bottom" tabindex="-1" id="cookieConsentOffcanvas" aria-labelledby="cookieConsentOffcanvasLabel" data-bs-backdrop="static">';
+        $html = '<div class="offcanvas offcanvas-bottom buddybot-offcanvas-wrap p-3" tabindex="-1" id="cookieConsentOffcanvas" aria-labelledby="cookieConsentOffcanvasLabel" data-bs-backdrop="static">';
         $html .= '<div class="offcanvas-header">';
         $html .= '<h5 class="offcanvas-title" id="cookieConsentOffcanvasLabel">';
         $html .= __('Cookies', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
@@ -117,7 +117,7 @@ trait SingleConversation
         $html .= '<div class="offcanvas-body">';
         $html .= '<p>' . __('We use cookies to manage your chat session during your visit. This helps us maintain your conversation for the duration of your session. No personal data is stored permanently, and the session data will be deleted after it expires. By continuing to use this site, you consent to our use of cookies.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
         $html .= '</div>';
-        $html .= '<div class="offcanvas-footer text-end p-3">';
+        $html .= '<div class="offcanvas-footer text-end">';
         $html .= '<button type="button" class="btn btn-primary" id="buddybot-acceptCookies">' . __('I Accept', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</button>';
         $html .= '</div>';
         $html .= '</div>';

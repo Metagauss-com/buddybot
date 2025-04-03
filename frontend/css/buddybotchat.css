@@ -20,7 +20,7 @@
     padding: 15px;
     border-radius: 8px;
     border: 2px solid #f0f0f0; /* Border added */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0px 11px 2px rgb(0 0 0 / 7%);
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
@@ -80,4 +80,22 @@
     overflow: visible !important;
 }
 
+.buddybot-offcanvas-wrap .offcanvas-header{
+    margin: 0px;
+    padding: 10px 0px 10px 0px;
+}
 
+
+.buddybot-offcanvas-wrap .offcanvas-body{   
+    padding: 0px;
+}
+
+.buddybot-offcanvas-wrap .offcanvas-body p{
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+    font-size: 14px;
+}
+
+.buddybot-offcanvas-wrap .offcanvas-title{
+    font-size: 18px;
+}
