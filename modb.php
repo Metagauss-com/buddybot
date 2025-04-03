@@ -21,6 +21,8 @@ class MoDb
         id mediumint(9) NOT NULL AUTO_INCREMENT,
         thread_id varchar(100),
         user_id mediumint(9),
+        session_id varchar(255) NULL,
+        user_type ENUM('logged_in', 'visitor') DEFAULT 'visitor',
         thread_name varchar(100),
         created datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
         PRIMARY KEY  (id)

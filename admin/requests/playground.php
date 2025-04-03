@@ -197,7 +197,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
                 if (response.success) {
                     updateStatus(runCreated);
                     $("#mgao-playground-run-id-input").val(response.result.id);
-                    checkRun = setInterval(retrieveRun, 2000);
+                    checkRun = retrieveRun();
                 } else {
                     disableMessage(false);
                     updateStatus(response.message);
@@ -266,7 +266,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
 
                 } else {
                     disableMessage(false);
-                    updateStatus(response.message);
+                    updateStatus("<span class=text-danger>" + response.message + "</span>");
                     clearInterval(checkRun);
                 }
             });

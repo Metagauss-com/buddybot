@@ -1,3 +1,103 @@
 #buddybot-single-conversation-user-message{
     border: solid;
 }
+.Buddybot-alert {
+    position: relative;
+    display: inline-block;
+    margin-top: 20px;
+}
+
+/* Popover styling */
+.buddybot-popover {
+    position: absolute;
+    bottom: 24px;
+    left: 92%;
+    transform: translateX(-50%);
+    width: 400px;
+    background: white;
+    color: #333;
+    font-size: 13px;
+    padding: 15px;
+    border-radius: 8px;
+    border: 2px solid #f0f0f0; /* Border added */
+    box-shadow: 0 0px 11px 2px rgb(0 0 0 / 7%);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+
+.buddybot-popover::before {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 8px;
+    border-style: solid;
+    border-color: #f0f0f0 transparent transparent transparent; /* Matches popover border */
+}
+
+/* Triangle for the top of the popover */
+.buddybot-popover::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 7px;
+    border-style: solid;
+    border-color: white transparent transparent transparent; /* Matches popover background */
+}
+
+.buddybot-temp-chat-wrap{
+    position: relative
+}
+
+#buddybot-single-conversation-wrapper .buddybot-temp-chat-wrap:hover .buddybot-popover {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(-5px);
+}
+
+#buddybot-single-conversation-wrapper{}
+
+.buddybot-temp-chat-wrap svg{
+    width: 18px;
+    margin-left: 4px;
+    }
+
+#buddybot-single-conversation-wrapper .Buddybot-alert{
+    margin: 0px auto;
+    display: inline-flex;
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.offcanvas-body {
+    overflow: visible !important;
+}
+
+.buddybot-offcanvas-wrap .offcanvas-header{
+    margin: 0px;
+    padding: 10px 0px 10px 0px;
+}
+
+
+.buddybot-offcanvas-wrap .buddybot-offcanvas-body{   
+    padding: 0px;
+}
+
+.buddybot-offcanvas-wrap .buddybot-offcanvas-body p{
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+    font-size: 14px;
+}
+
+.buddybot-offcanvas-wrap .offcanvas-title{
+    font-size: 18px;
+}
+
+.buddybot-offcanvas-footer{}

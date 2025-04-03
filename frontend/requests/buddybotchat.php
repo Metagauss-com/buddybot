@@ -6,6 +6,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
     protected function shortcodeJs()
     {
         $this->toggleAlertJs();
+        $this->cookiesNotificationJs();
         $this->onLoadJs();
         $this->lockUiJs();
         $this->getUserThreadsJs();
@@ -39,6 +40,21 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
             let alert = $(".buddybot-chat-conversation-alert");
             alert.addClass("visually-hidden");
         }
+        ';
+    }
+
+    private function cookiesNotificationJs()
+    {
+        if (isset($_COOKIE['buddybot_session_id']) || is_user_logged_in()) {
+            return;
+        }
+
+        echo '
+            $("#cookieConsentOffcanvas").offcanvas("show"); 
+            
+            $(document).on("click", "#buddybot-acceptCookies", function(){
+                $("#cookieConsentOffcanvas").offcanvas("hide");
+            });
         ';
     }
 
@@ -309,7 +325,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
                 response = JSON.parse(response);
                 if (response.success) {
                     sessionStorage.setItem("bbCurrentRunId", response.result.id);
-                    checkRun = setInterval(retrieveRun, 2000);
+                    checkRun = retrieveRun();
                 } else {
                     showAlert("danger", response.message);
                     lockUi(false);
@@ -336,36 +352,13 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
                 response = JSON.parse(response);
                 
                 if (response.success) {
-                    
-                    switch (response.result.status) {
-                        
-                        case "completed":
-                            clearInterval(checkRun);
-                            getAssistantResponse();
-                            break;
-                        
-                        case "failed":
-                            clearInterval(checkRun);
-                            showAlert(
-                                "danger", response.result.last_error.code + ": " +
-                                response.result.last_error.message
-                            );
-                            break;
-
-                        case "cancelled":
-                        case "cancelling":
-                            clearInterval(checkRun);
-                            break;
-                        
-                        case "requires_action":
-                            clearInterval(checkRun);
-                            getAssistantResponse();
-                            break;
-                    }
+                    clearInterval(checkRun);
+                    getAssistantResponse();
 
                 } else {
                     showAlert("danger", response.message);
                     clearInterval(checkRun);
+                    lockUi(false);
                 }
             });
         }

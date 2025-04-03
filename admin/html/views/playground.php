@@ -121,6 +121,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function openAiBadge()
     {
+        do_action('buddybot_playground_faqs');
         $badge_url = $this->config->getRootUrl() . 'admin/html/images/third-party/openai/openai-dark-badge.svg';
         echo '<div class="text-center my-2">';
         echo '<img width="150" src="' . esc_url($badge_url) . '">';

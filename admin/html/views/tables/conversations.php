@@ -54,6 +54,8 @@ class Conversations extends WP_List_Table
             $user_id = sanitize_text_field($_GET['user_id']);
         }
 
+        $user_id   = sanitize_text_field($_GET['buddybot-filter-user'] ?? '');
+        $user_type   = sanitize_text_field($_GET['buddybot-filter-user-type'] ?? '');
         $current_page = $this->get_pagenum();
         $total_items  = $this->bot_db->getTotalConversationsCount($user_id, $search);
 
@@ -66,6 +68,7 @@ class Conversations extends WP_List_Table
             $orderby,
             $order,
             $user_id,
+            $user_type,
             $search
         );
 
@@ -113,13 +116,14 @@ class Conversations extends WP_List_Table
     function column_user_name($item) {
         $user_id = isset($item['user_id']) ? intval($item['user_id']) : 0;
         $user_info = get_userdata($user_id);
-        return $user_info ? esc_html($user_info->display_name) : esc_html__('Unknown User', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        return $user_info ? esc_html($user_info->display_name) : esc_html__('Visitor', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
     }
     
     function extra_tablenav($which)
 {
     if ($which === 'top') {
         $user_ids = $this->bot_db->getUserIds();
+        $selected_user_type = isset($_GET['buddybot-filter-user-type']) ? sanitize_text_field($_GET['buddybot-filter-user-type']) : '';
         ?>
         <label for="buddybot-filter-user" class="screen-reader-text"><?php esc_html_e('Filter by User', 'buddybot-ai-custom-ai-assistant-and-chat-agent'); ?></label>
         <select name="buddybot-filter-user" id="buddybot-filter-user">
@@ -144,6 +148,13 @@ class Conversations extends WP_List_Table
                 echo '<option disabled>' . esc_html__('No Users Found', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</option>';
             }
             ?>
+        </select>
+
+        <label for="buddybot-filter-user-type" class="screen-reader-text"><?php esc_html_e('Filter by User Type', 'buddybot-ai-custom-ai-assistant-and-chat-agent'); ?></label>
+        <select name="buddybot-filter-user-type" id="buddybot-filter-user-type">
+            <option value=""><?php _e('All User Types', 'buddybot-ai-custom-ai-assistant-and-chat-agent'); ?></option>
+            <option value="logged_in" <?php selected($selected_user_type, 'logged_in'); ?>><?php esc_html_e('Logged In', 'buddybot-ai-custom-ai-assistant-and-chat-agent'); ?></option>
+            <option value="visitor" <?php selected($selected_user_type, 'visitor'); ?>><?php esc_html_e('Visitor', 'buddybot-ai-custom-ai-assistant-and-chat-agent'); ?></option>
         </select>
         <?php
         submit_button(__('Filter'), '', 'filter_action', false);

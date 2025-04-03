@@ -62,6 +62,9 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<div class="list-group">';
         $this->postsItem();
         $this->commentsItem();
+
+        do_action('buddybot_sync_button_clicked');
+        
         echo '</div>';
     }
 
@@ -82,6 +85,7 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function listItem($type, $heading, $text)
     {
+        do_action('buddybot_custom_html',$type);
         $file_id = get_option('buddybot-' . $type . '-remote-file-id', '0');
 
         echo '<div class="list-group-item list-group-item-action w-50" ';
@@ -117,6 +121,7 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function syncBtn($type)
     {
+        do_action('buddybot_extend_field_before_sync_button', $type);
         $btn_id = 'buddybot-sync-' . $type . '-btn';
         echo '<button id="' . esc_attr($btn_id) . '" type="button" ';
         echo 'class="buddybot-sync-btn btn btn-outline-dark" ';

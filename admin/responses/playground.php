@@ -171,31 +171,75 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
             'Content-Type' => 'application/json',
             'Authorization' => 'Bearer ' . $this->api_key,
         );
+
+        $maxRetries = 5;
+        $retryInterval = 2;
+        $attempt = 0;
     
+        while ($attempt < $maxRetries) {
         // Perform the GET request
-        $response = wp_remote_get($url, array(
-            'headers' => $headers,
-            'timeout' => 60,
-        ));
-    
-        // Check for errors
-        if (is_wp_error($response)) {
-            $this->response['success'] = false;
-            $this->response['message'] = $response->get_error_message();
-            echo wp_json_encode($this->response);
-            wp_die();
+            $response = wp_remote_get($url, array(
+                'headers' => $headers,
+                'timeout' => 60,
+            ));
+        
+            // Check for errors
+            if (is_wp_error($response)) {
+                $this->response['success'] = false;
+                $this->response['message'] = $response->get_error_message();
+                echo wp_json_encode($this->response);
+                wp_die();
+            }
+        
+            // Decode the response body
+            $output = json_decode(wp_remote_retrieve_body($response));
+        
+            // Check for errors in the output
+            $this->checkError($output);
+
+            switch ($output->status) {
+                case 'completed':
+                    $this->response['success'] = true;
+                    $this->response['status'] = 'completed';
+                    $this->tokensMessage();
+                    echo wp_json_encode($this->response);
+                    wp_die();
+                break;
+                           
+                case 'failed':
+                    $this->response['success'] = false;
+                    if (isset($output->last_error) && isset($output->last_error->message)) {
+                        $this->response['message'] = $output->last_error->message;
+                    } else {
+                        $this->response['message'] = esc_html__('Sorry, something went wrong.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+                    }
+                    echo wp_json_encode($this->response);
+                    wp_die();
+                break;
+
+                case 'queued':
+                case 'in_progress':
+
+                    $attempt++;
+                    if ($attempt >= $maxRetries) {
+                        // If max retries reached, return error
+                        $this->response['success'] = false;
+                        $this->response['message'] = sprintf(esc_html__('Run status still in progress after %d attempts.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), $maxRetries);
+                        echo wp_json_encode($this->response);
+                        wp_die();
+                    }
+
+                    sleep($retryInterval);
+                break;
+
+                default:
+                    $this->response['success'] = false;
+                    $this->response['message'] = sprintf(esc_html__('Unexpected status: %s', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_html($output->status));
+                    echo wp_json_encode($this->response);
+                    wp_die();
+                break;
+            }
         }
-    
-        // Decode the response body
-        $output = json_decode(wp_remote_retrieve_body($response));
-    
-        // Check for errors in the output
-        $this->checkError($output);
-    
-        $this->tokensMessage();
-    
-        echo wp_json_encode($this->response);
-        wp_die();
     }
     
     

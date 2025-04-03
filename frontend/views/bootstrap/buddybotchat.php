@@ -18,9 +18,10 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
 
     public function shortcodeHtml($atts, $content = null)
     {
-        $this->atts = shortcode_atts( array(
+        $default_atts = array(
             'id' => $this->buddybotId()
-        ), $atts );
+        );
+        $this->atts = shortcode_atts( $default_atts, $atts );
 
         $html = $this->securityChecksHtml();
         $this->shortcodeJs();
@@ -30,7 +31,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
             $html .= $this->alertsHtml();
             $html .= $this->assistantId();
             $html .= $this->conversationListWrapper();
-            $html .= $this->singleConversationHtml();
+            $html .= $this->singleConversationHtml($this->atts);
         }
 
         return $html;
@@ -90,8 +91,18 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
     {
         $this->timezone = $timezone;
 
-        $user_id = get_current_user_id();
-        $this->conversations = $this->sql->getConversationsByUserId($user_id);
+        if (is_user_logged_in()) {
+            $user_id = get_current_user_id();
+            $this->conversations = $this->sql->getConversationsByUserId($user_id);
+        } else { 
+            $session_id = $_COOKIE['buddybot_session_id'] ?? null;
+
+            if ($session_id) {
+                $this->conversations = $this->sql->getConversationsBySessionId($session_id);
+            } else {
+                $this->conversations = '';
+            }
+        }
         
         if (!empty($this->conversations)) {
             $this->listHtml();

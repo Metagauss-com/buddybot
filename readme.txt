@@ -1,11 +1,11 @@
-=== BuddyBot – AI Chatbot and Chat Support Agent for WordPress === 
+=== BuddyBot – OpenAI Assistants for WordPress === 
 
 Contributors: buddybot 
 Tags: AI, chatbot, OpenAI, AI assistant  
 Requires at least: 6.7  
 Tested up to: 6.7  
 Requires PHP: 8.0
-Stable tag: 1.1.0.0
+Stable tag: 1.2.0.0
 License: GPLv2 or later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,30 +13,43 @@ Best AI chatbot and live chat plugin for WordPress to enhance online support and
 
 == Description == 
 
-BuddyBot is a powerful WordPress AI plugin that enables you to create custom AI Chatbots and deploy them as chat agents on your WordPress website. Leveraging OpenAI Assistant capabilities, these Chatbots are trained using your site's data, including posts and comments, to provide site-specific information to your visitors. 
+**BuddyBot – The Most Native OpenAI Assistant for WordPress**
 
-= Key Features = 
+[BuddyBot](https://getbuddybot.com) brings the power of OpenAI Assistants directly to your WordPress site, helping you automate user conversations, answer user queries, and provide intelligent support—all in a seamless, native experience. Designed for WordPress, BuddyBot integrates effortlessly, allowing you to train AI on your site's content, including posts and comments, for more relevant and accurate responses.
 
-* Create AI Assistants: Easily create and manage AI Chatbots directly from your WordPress admin area. 
-* Train with Site Data: Train Chatbots with your site's posts and comments in just one click.  
-* Frontend Deployment: Use a simple shortcode to publish a Chatbot on any page or post, allowing visitors to interact with AI chat agents. 
-* Bootstrap Integration: The plugin utilizes the Bootstrap framework for its layout and design, ensuring a responsive and consistent user interface across devices. 
+With an intuitive setup, customizable training options, and deep integration with WordPress, BuddyBot ensures that your AI assistant chatbot feels like a natural part of your website. Whether you're running a support site, blog, or community, BuddyBot makes AI-powered interactions smarter, faster, and more efficient.
 
-= Use Cases = 
+Let BuddyBot handle conversations while you focus on growing your site!
 
-* Provide live, site-specific answers to visitor’s support queries. 
-* Enhance user engagement with AI-driven chat conversations. 
-* Automate support based on your website's posts and comments. 
 
-= OpenAI Integration = 
+= Key Features of BuddyBot – AI-Powered Chatbot for WordPress =
 
-BuddyBot AI integrates with OpenAI to provide advanced AI assistant capabilities. **Under the following circumstances, data is sent to OpenAI servers**: 
+* Native OpenAI Integration – Brings OpenAI Assistants to WordPress, making AI-powered chat a natural part of your site.
+* Create AI Assistants: Easily create and manage AI Chatbots directly from your WordPress admin area.
+* Train with Site Data: Train Chatbots with your site’s posts and comments in just one click.
+* Frontend Deployment: Use a simple shortcode to publish a Chatbot on any page or post, allowing visitors to interact with AI chat agents.
+* Bootstrap Integration: The plugin utilizes the Bootstrap framework for its layout and design, ensuring a responsive and consistent user interface across devices.
+* Multiple AI Assistants – Create different AI assistants for various purposes with our advanced extensions.
+* AI-Powered FAQs (Pro) – Automatically generate relevant FAQs based on your site content.
+* Seamless WordPress Experience – Works like a built-in feature of WordPress with full admin control.
+* Future-Ready & Expandable – More powerful AI features coming soon with premium add-ons!
 
-* Training Assistants: When you combine and upload your site's posts and comments to OpenAI storage, this data is used to train your AI assistants. 
-* User Interactions: During interactions between website visitors and BuddyBots, the content of the conversations may be sent to OpenAI to generate responses. 
 
-**Important Links:** 
+= Use Cases =
+* Provide live, site-specific answers to visitor’s support queries.
+* Enhance user engagement with AI-driven chat conversations.
+* Automate support based on your website’s posts and comments.
 
+
+= OpenAI Assistants Integration =
+
+BuddyBot integrates directly with OpenAI Assistants API, enabling a seamless connection between your WordPress site and OpenAI’s AI models. It communicates via API requests, sending user inputs to OpenAI’s cloud-based assistant, which processes the data and returns a relevant response in real time. The plugin manages API authentication using your OpenAI API key, ensuring secure and efficient communication. BuddyBot also supports vector-based AI training, where site content (posts, pages, and comments) is preprocessed and synchronized to OpenAI’s vector store, allowing the assistant to retrieve context-aware responses. With built-in WordPress hooks and AJAX handling, BuddyBot provides a smooth, asynchronous chatbot experience without slowing down your site.
+
+
+**Important Links:**
+
+* [Demo](https://getbuddybot.com)
+* [BuddyBot Website](https://getbuddybot.com)
 * [OpenAI Website](https://www.openai.com) 
 * [OpenAI Terms of Use](https://openai.com/terms) 
 * [OpenAI Privacy Policy](https://openai.com/privacy) 
@@ -45,14 +58,21 @@ Please review these documents to understand how OpenAI handles your data.
 
 = Requirements = 
 
-- An OpenAI account and API key are required to use the BuddyBot plugin. You can sign up for an OpenAI account at [OpenAI's website](https://www.openai.com/). 
-- Once you have an account, you need to obtain an API key to configure the plugin. 
+- An OpenAI account and API key are required to use the BuddyBot plugin.
+- Once you have an OpenAI account, you need to obtain an API key to configure the plugin. 
 
-= Getting Started = 
+= Getting Started =
 
-- **Create an OpenAI Account**: Visit [OpenAI's website](https://www.openai.com/) to sign up for an account if you don't already have one. 
-- **Generate an API Key**: After signing up, log in to your OpenAI account and generate an API key. You will need this key to configure the BuddyBot plugin. 
-- **Configure the Plugin**: Enter your OpenAI API key in the plugin settings page in your WordPress admin dashboard to enable the plugin's functionality. 
+To get started with BuddyBot, follow these steps to integrate OpenAI Assistants seamlessly into your WordPress site:
+
+* Install and Activate BuddyBot Plugin: Navigate to your WordPress dashboard. Go to Plugins > Add New. Search for "BuddyBot" and click Install Now. After installation, click Activate to enable the plugin.
+* Configure OpenAI API Settings: In the WordPress dashboard, access the BuddyBot settings. Enter your OpenAI API key to establish a secure connection between your site and OpenAI's Assistants models.
+* Train the AI Assistant: Within BuddyBot settings, select the content types (posts, pages, comments) you want the AI to learn from. Initiate the single click training process to synchronize your site's content with OpenAI's vector store, enabling context-aware responses.
+* Customize AI Behavior: Adjust response settings, conversation limits, and other preferences to tailor the assistant's interactions to your site's needs.
+* Deploy the Chatbot: Use the shortcode to embed the chatbot within specific pages or posts.
+
+By following these steps, BuddyBot will be up and running, providing intelligent, AI-driven interactions for your WordPress site's visitors.
+
 
 
 == Installation == 
@@ -82,6 +102,10 @@ Yes, BuddyBot AI uses the Bootstrap framework for its layout and design, providi
 
 
 == Changelog == 
+
+= 1.2.0.0: April 3, 2025 =  
+* New: Enabled BuddyBot access for non-logged-in users, allowing seamless interaction for all visitors.  
+* Improved: Various design enhancements for a more polished and user-friendly experience. 
 
 = 1.1.0.0: March 18, 2025 =
 * Merged: Assistant and BuddyBot for a unified experience.  
@@ -118,6 +142,10 @@ Yes, BuddyBot AI uses the Bootstrap framework for its layout and design, providi
 * UI improvements. 
 
 == Upgrade Notice ==
+
+= 1.2.0.0: April 3, 2025 =  
+* New: Enabled BuddyBot access for non-logged-in users, allowing seamless interaction for all visitors.  
+* Improved: Various design enhancements for a more polished and user-friendly experience. 
 
 = 1.1.0.0: March 18, 2025 =
 * Merged: Assistant and BuddyBot for a unified experience.  

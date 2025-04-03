@@ -14,6 +14,7 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
         $this->getOpenAiApiKeyJs();
         $this->createVectorStore();
         $this->changeKey();
+        $this->visitorToggleJs();
     }
 
     protected function pageVarsJs()
@@ -45,8 +46,22 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
             $.post(ajaxurl, data, function(response) {
                 $("#buddybot-settings-section-options-loader").addClass("visually-hidden");
                 $("#buddybot-settings-section-options > tbody").html(response);
+                if ($("#buddybot-settings-enable-visitor-chat").is(":checked")) {
+                    showHide("#buddybot-settings-enable-visitor-chat", "buddybot-visitor-chat-childfieldrow-first", "", "");
+                    showHide("#buddybot-settings-enable-visitor-chat", "buddybot-visitor-chat-childfieldrow-second", "", "");
+                }
             });
         }
+        ';
+    }
+
+    private function visitorToggleJs()
+    {
+        echo'
+        $(document).on("change", "#buddybot-settings-enable-visitor-chat", function () {
+            showHide(this, "buddybot-visitor-chat-childfieldrow-first", "", "");
+            showHide(this, "buddybot-visitor-chat-childfieldrow-second", "", "");
+        });
         ';
     }
 
@@ -66,10 +81,9 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
             const hiddenKey = $("#buddybot-settings-hidden-key").val();
             const textFieldValue = $("#buddybot-settings-openai-api-key").val();
 
-            if (hiddenKey === textFieldValue) {
+            if (hiddenKey && textFieldValue && hiddenKey === textFieldValue) {
                 showWordpressLoader("#buddybot-settings-update-btn");
-                const section = $("#mgao-settings-section-select").val();
-                location.replace("' . esc_url(admin_url()) . 'admin.php?page=buddybot-settings&section=' . '" + section + "&success=1");
+                saveOpenaiApiKey(textFieldValue, samekey=true);
             } else {
                 showWordpressLoader("#buddybot-settings-update-btn");
                 getOpenAiApiKey();
@@ -150,10 +164,17 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
                 });
             }
 
-            function saveOpenaiApiKey(apiKey){
+            function saveOpenaiApiKey(apiKey, samekey=false) {
                 const section = $("#mgao-settings-section-select").val();
                 
-                optionsData["openai_api_key"] = apiKey;
+                if (!samekey) {
+                    optionsData["openai_api_key"] = apiKey;
+                }
+                optionsData["enable_visitor_chat"] = $("#buddybot-settings-enable-visitor-chat").is(":checked") ? "1" : "0";
+                if ($("#buddybot-settings-enable-visitor-chat").is(":checked")) {
+                    optionsData["session_expiry"] = $("#buddybot-settings-session-expiry").val();
+                    optionsData["delete_expired_chat"] = $("#buddybot-settings-delete-expired-chat").is(":checked") ? "1" : "0";
+                }
 
                 const data = {
                     "action": "saveSettings",
@@ -184,14 +205,16 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
         $nonce = wp_create_nonce('auto_create_vectorstore');
         $vectorstore_data = get_option('buddybot_vectorstore_data');
         $hostname = wp_parse_url(home_url(), PHP_URL_HOST);
+        if($hostname === 'localhost'){
+            $path = wp_parse_url(home_url(), PHP_URL_PATH) ?? '';
+            $hostname = $hostname . str_replace('/', '.', $path); 
+        }
         echo '
-            //$("#buddybot-vectorstore-create").click(checkVectorStore);
 
             function vectorStore(apiKey){
                 const vectorStoreData = ' . wp_json_encode($vectorstore_data) . ';
                 if (vectorStoreData && vectorStoreData.id) {
                     checkVectorStore(apiKey, vectorStoreData.id)
-                    //saveOpenaiApiKey(apiKey);
                 } else {
                     checkAllVectorStore(apiKey)
                 }

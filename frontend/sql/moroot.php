@@ -45,4 +45,25 @@ class MoRoot extends \BuddyBot\Frontend\Moroot
             return $default_value;
         }
     }
+
+    protected function initializeSessionId()
+    {
+        global $wpdb;
+        $table_name = $this->config->getDbTable('threads');
+
+        $session_lifetime = $this->getOption('session_expiry', 24) * 3600;
+
+        if (isset($_COOKIE['buddybot_session_id'])) {
+            return $_COOKIE['buddybot_session_id'];
+        }
+
+        do {
+            $session_id = bin2hex(random_bytes(16));
+            $sessionExists = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM $table_name WHERE session_id = %s", $session_id));
+        } while ($sessionExists > 0);
+
+        setcookie("buddybot_session_id", $session_id, time() + $session_lifetime, "/");
+
+        return $session_id;
+    }
 }
