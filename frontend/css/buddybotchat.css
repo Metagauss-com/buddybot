@@ -86,11 +86,11 @@
 }
 
 
-.buddybot-offcanvas-wrap .offcanvas-body{   
+.buddybot-offcanvas-wrap .buddybot-offcanvas-body{   
     padding: 0px;
 }
 
-.buddybot-offcanvas-wrap .offcanvas-body p{
+.buddybot-offcanvas-wrap .buddybot-offcanvas-body p{
     padding-bottom: 0px;
     margin-bottom: 0px;
     font-size: 14px;
@@ -99,3 +99,5 @@
 .buddybot-offcanvas-wrap .offcanvas-title{
     font-size: 18px;
 }
+
+.buddybot-offcanvas-footer{}
