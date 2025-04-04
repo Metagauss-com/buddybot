@@ -49,6 +49,23 @@
     margin-left: 0 !important;
 }
 
+.buddybot-ms-1 {
+    margin-left: 0.25rem !important;
+}
+
+.buddybot-ms-2 {
+    margin-left: 0.5rem !important;
+}
+
+.buddybot-ms-3 {
+    margin-left: 1rem !important;
+}
+
+.buddybot-my-0 {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
 .buddybot-py-0 {
     padding-top: 0 !important;
     padding-bottom: 0 !important;
@@ -66,6 +83,56 @@
 
 .buddybot-fw-medium {
     font-weight: 500;
+}
+
+.buddybot-px-4 {
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+}
+
+.buddybot-pt-0 {
+    padding-top: 0 !important;
+}
+
+.buddybot-pt-1 {
+    padding-top: 0.25rem !important;
+}
+
+.buddybot-pb-2 {
+    padding-bottom: 0.5rem;
+}
+
+.buddybot-box-w-100{
+    width: 100%;
+}
+
+.buddybot-border-top {
+    border-top: 1px solid #dee2e6;
+}
+
+.buddybot-fs-6{
+    font-size: 1rem !important;
+}
+
+.buddybot-fs-5{
+    font-size: 1.25rem !important;
+}
+
+.buddybot-fs-4{
+    font-size: 1.5rem !important;
+}
+
+.buddybot-fs-3{
+    font-size: 1.75rem !important;
+}
+
+.buddybot-text-dark{
+    opacity: 1;
+    color: #212529 !important;
+}
+
+.buddybot-text-small {
+    font-size: .875em !important;
 }
 
 

@@ -244,6 +244,29 @@ $base64_icon = base64_encode($icon);
         include_once(plugin_dir_path(__FILE__) . 'pages/viewconversation.php');
     }
 
+    public function plugindeactivationFeedback()
+    {
+        if ( get_current_screen()->parent_base == 'plugins' ) {
+            wp_enqueue_style('pluginfeedback', plugin_dir_url(__FILE__) . 'css/pluginfeedback.css', array(), BUDDYBOT_PLUGIN_VERSION);
+            wp_enqueue_script( 'jquery' );
+            wp_enqueue_script( 'pluginfeedback', plugin_dir_url( __FILE__ ) . 'js/pluginfeedback.js', array( 'jquery' ),BUDDYBOT_PLUGIN_VERSION, true );
+
+            wp_localize_script(
+                'pluginfeedback',
+                'buddybot_feedback',
+                array(
+                    'ajaxurl'        => admin_url( 'admin-ajax.php' ),
+                    'empty'   => esc_html__( 'Please provide feedback or check the temporary deactivation option.', 'buddybot-ai-custom-ai-assistant-and-chat-agent' ),
+                    'deactivation' => esc_html__( 'Deactivating BuddyBot...', 'buddybot-ai-custom-ai-assistant-and-chat-agent' ),
+                    'nonce' => wp_create_nonce( 'buddybot_plugin_deactivation' ),
+                )
+            );
+
+            $plugin_feedback = new \BuddyBot\Admin\Html\Views\PluginFeedback();
+            $plugin_feedback->getHtml();
+        }
+    }
+
     public function __construct()
     {
         add_action( 'admin_menu', array($this, 'topLevelMenu'));
@@ -251,6 +274,7 @@ $base64_icon = base64_encode($icon);
         // add_action( 'wp_ajax_bb_dismissible_notice', array($this,'bb_dismissible_notice_ajax') );
 		// add_action( 'admin_notices',array($this,'bb_dismissible_notice') );
         add_action( 'admin_enqueue_scripts', array($this,'enqueue_scripts' ));
+        add_action( 'admin_footer', array($this,'plugindeactivationFeedback' ));
  
     }
 
