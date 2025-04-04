@@ -37,7 +37,7 @@ class PluginFeedback extends \BuddyBot\Admin\Responses\MoRoot
         $headers .= "From:" . $from_email_address . "\r\n";
 
         // Send feedback email
-        if (wp_mail('shubham.kumawat@metagauss.com', 'BuddyBot Uninstallation Feedback', $email_message, $headers)) {
+        if (wp_mail('buddybotfeedback@metagauss.com', 'BuddyBot Uninstallation Feedback', $email_message, $headers)) {
             error_log('Feedback email sent successfully.');
             $this->response['success'] = true;
             $this->response['message'] = esc_html__('Feedback sent successfully.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
