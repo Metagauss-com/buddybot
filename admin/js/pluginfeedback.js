@@ -12,7 +12,7 @@ jQuery( function( $ ) {
 
     // skip and deactivation
     $( document ).on( 'click', '#buddybot-plugin-feedback-direct-deactivation', function() {
-        deactivationAlertShow(buddybot_feedback.deactivation);
+        $("#buddybot-plugin-deactivation-loader").show();
         setTimeout( function() {
             location.href = buddybot_plugin_deactivate_location;
         }, 1000 );
