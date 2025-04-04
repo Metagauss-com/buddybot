@@ -37,6 +37,9 @@ final class PluginFeedback extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         echo '<div class="buddybot-modal-body buddybot-pt-0">';
         echo '<div class="buddybot-px-4 buddybot-mb-2">';
+        echo '<div id="buddybot-plugin-deactivation-alert" class="buddybot-text-danger buddybot-mb-2 " style="display:none">';
+        echo esc_html__('Please provide feedback or check the temporary deactivation option.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        echo '</div>';
         echo '<div class="buddybot-mb-4 buddybot-fs-3 buddybot-text-dark">' . esc_html__('Maybe we can convince you to return!', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
         echo '<div class="buddybot-fs-6 buddybot-pb-2 ">' . esc_html__('Let us know what went wrong and how we can fix it?', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
         echo '<textarea id="buddybot-feedback-message" name="buddybot-feedback-message" class="buddybot-box-w-100" rows="3" cols="50"></textarea>';
@@ -54,7 +57,10 @@ final class PluginFeedback extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<button type="button" class="button button-secondary" id="buddybot-plugin-feedback-direct-deactivation">';
         echo esc_html__('Skip & Deactivate', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</button>';
-        echo '<span id="buddybot-plugin-deactivation-alert" class="buddybot-text-danger" style="display:none"></span>';
+        echo '<div id="buddybot-plugin-deactivation-loader" class="buddybot-text-danger buddybot-mb-2 " style="display:none">';
+        echo esc_html__('deactivating...', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        echo '<span class="spinner is-active" aria-hidden="true"></span>';
+        echo '</div>';
         echo '<button type="submit" class="button button-primary" id="buddybot-plugin-feedback-deactivation">';
         echo esc_html__('Submit & Deactivate', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</button>';
