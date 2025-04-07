@@ -429,9 +429,13 @@ border-color: #545b62;
 /* toast css Ends */
 
 .buddybot-header-wrap{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    position: relative
+}
+
+#buddybot-chatbot-dropdown{
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
 }
 
 /*-----List Group---*/
