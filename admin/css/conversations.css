@@ -1,0 +1,9 @@
+.buddybot-org-conversations-table{
+    table-layout: fixed;
+}
+
+#buddybot-conversation-dropdown{
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+}

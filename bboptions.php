@@ -25,6 +25,18 @@ final class bbOptions
         
         $name = sanitize_text_field($name);
         $option_value = wp_cache_get($name, 'buddybot');
+
+        static $table_checked = false;
+        static $table_exists = false;
+
+        if (!$table_checked) {
+            $table_exists = $wpdb->get_var($wpdb->prepare("SHOW TABLES LIKE %s", $this->table));
+            $table_checked = true;
+        }
+
+        if (!$table_exists) {
+            return $fallback;
+        }
     
         if ($option_value === false) {
             $option_value = $wpdb->get_var(
