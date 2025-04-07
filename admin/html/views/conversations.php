@@ -39,7 +39,7 @@ final class Conversations extends \BuddyBot\Admin\Html\Views\MoRoot
                 esc_html($search_query)
             );
         }
-        echo '</div>';
+        //echo '</div>';
         $this->paginationDropdown();
         echo '</div>';
     }
