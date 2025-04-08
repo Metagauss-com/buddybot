@@ -156,6 +156,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
         }
 
         $user_message = sanitize_textarea_field(wp_unslash($_POST['user_message']));
+        $timezone = (isset($_POST['timezone']) && !empty($_POST['timezone'])) ? sanitize_text_field(wp_unslash($_POST['timezone'])) : '';
         
         $url = 'https://api.openai.com/v1/threads/' . $thread_id . '/messages';
 
@@ -199,7 +200,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
         
         $this->sql->updateThreadName($thread_id, $user_message);
 
-        $this->response['html'] = $this->chatBubbleHtml($output);
+        $this->response['html'] = $this->chatBubbleHtml($output, $timezone);
         echo wp_json_encode($this->response);
         wp_die();
     }
