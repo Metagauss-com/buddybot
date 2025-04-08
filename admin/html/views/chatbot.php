@@ -29,9 +29,21 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<div class="buddybot-header-wrap">';
         echo '<div class="buddybots-page-heading">';
         echo '<h1 class="wp-heading-inline">';
+       // echo esc_html($heading);
+        echo '</h1>';
+        
+        echo '<hr class="wp-header-end">';
+        echo '<h2 class="screen-reader-text">Filter pages list</h2>';
+        
+        echo '<div class="bb-top-head-section">';
+        echo '<h1 class="wp-heading-inline">';
         echo esc_html($heading);
         echo '</h1>';
-        $this->pageBtns();
+         $this->pageBtns();
+        //echo '<a href="#" class="page-title-action">Add New</a>';
+        echo '</div>';
+        
+       
         if (!empty($search_query)) {
             printf(
                 '<span class="subtitle">' . esc_html__('Search results for: ', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '<strong>%s</strong></span>',
@@ -39,8 +51,10 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
             );
         }
         echo '</div>';
-        $this->paginationDropdown();
+      $this->paginationDropdown();
         echo '</div>';
+        
+          
     }
 
     public function searchBar()
