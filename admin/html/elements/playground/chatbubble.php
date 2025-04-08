@@ -115,7 +115,7 @@ class ChatBubble extends \BuddyBot\Admin\Html\Elements\Playground\MoRoot
     private function messageImage($img_url)
     {
         $html = '<div class="me-2">';
-        $html .= '<img width="28" class="rounded-circle border" src="' . esc_url($img_url) . '">';
+        $html .= '<img width="28" class="rounded-circle" src="' . esc_url($img_url) . '">';
         $html .= '</div>';
         return $html;
     }
