@@ -19,6 +19,6 @@ $mo_chatbot_page->pageJs();
 
 <style>
     body{
-        overflow: hidden;
+       
     }
 </style>
