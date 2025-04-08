@@ -110,7 +110,7 @@ trait SingleConversation
         $html .= '<div class="offcanvas-header">';
         $html .= '<div class="offcanvas-title" id="cookieConsentOffcanvasLabel">';
         $html .= __('Cookies', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-        $html .= ' <img width="32px" src="' . $img_url .'" alt="All works fine.">';
+        $html .= ' <img width="32px" src="' . esc_url($img_url) .'" alt="All works fine.">';
         $html .= '</div>';
         $html .= '</div>';
         $html .= '<div class="buddybot-offcanvas-body">';
