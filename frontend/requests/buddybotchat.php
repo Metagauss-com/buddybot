@@ -377,6 +377,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
                 "before": sessionStorage.getItem("bbFirstId"),
                 "limit": 10,
                 "order": "desc",
+                "timezone": bbTimeZone,
                 "nonce": "' . esc_js(wp_create_nonce('get_messages')) . '"
             };
   
