@@ -103,9 +103,9 @@ Yes, BuddyBot AI uses the Bootstrap framework for its layout and design, providi
 
 == Changelog == 
 
-= 1.2.0.1: April 7, 2025 =
-* Fixed: Database errors appearing in debug log during fresh plugin installation.
-* Fixed: UI layout conflict caused by banners from other plugins.
+= 1.2.0.1: April 8, 2025 =
+* Fixed: Some database queries which were executed on fresh installation.
+* Fixed: UI layout conflict issues.
 
 = 1.2.0.0: April 3, 2025 =  
 * New: Enabled BuddyBot access for non-logged-in users, allowing seamless interaction for all visitors.  
@@ -150,9 +150,9 @@ Yes, BuddyBot AI uses the Bootstrap framework for its layout and design, providi
 
 == Upgrade Notice ==
 
-= 1.2.0.1: April 7, 2025 =
-* Fixed: Database errors appearing in debug log during fresh plugin installation.
-* Fixed: UI layout conflict caused by banners from other plugins.
+= 1.2.0.1: April 8, 2025 =
+* Fixed: Some database queries which were executed on fresh installation.
+* Fixed: UI layout conflict issues.
 
 = 1.2.0.0: April 3, 2025 =  
 * New: Enabled BuddyBot access for non-logged-in users, allowing seamless interaction for all visitors.  
