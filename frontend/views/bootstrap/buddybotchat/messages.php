@@ -111,7 +111,7 @@ class Messages extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
 
     protected function assistantMessageHtml()
     {
-        $img_url = $this->config->getRootUrl() . 'admin/html/images/third-party/openai/openai-logomark.svg';
+        $img_url = $this->config->getRootUrl() . 'admin/html/images/third-party/openai/openai-logomark.png';
         
         $html = '<div class="buddybot-chat-conversation-list-item d-flex justify-content-start text-dark" id="' . esc_attr($this->message->id) . '">';
 
