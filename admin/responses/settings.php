@@ -249,7 +249,7 @@ class Settings extends \BuddyBot\Admin\Responses\MoRoot
 
     public function DeleteExpiredChats()
     {
-        $expiry_hours = $this->sql->getOption('session_expiry', 24);
+        $expiry_hours = $this->sql->getOption('conversation_expiry_time', 24);
         $expired_threads = $this->sql->getExpiredThreads($expiry_hours);
         error_log('Expired Threads: ' . json_encode($expired_threads));
         if (!empty($expired_threads)) {

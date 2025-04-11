@@ -136,7 +136,7 @@ registerBlockType('buddybot/chat', {
                     }),
 
                     createElement('div', { style: { marginTop: '10px' } },
-                        createElement('p', {}, __('Submit Button Alignment', 'buddybot-ai-custom-ai-assistant-and-chat-agent')),
+                        createElement('p', {}, __('Align', 'buddybot-ai-custom-ai-assistant-and-chat-agent')),
                         createElement(ButtonGroup, {},
                             alignmentOptions.map(({ icon, value }) =>
                                 createElement(Button, {
@@ -181,7 +181,9 @@ registerBlockType('buddybot/chat', {
                 // Show dropdown in both cases, but disable when API key is missing
                 (botNotFound || !selectedBuddyBot || isApiKeyMissing) ?
                     createElement('div', { className: 'buddybot-block-content' },
-                        createElement('h4', {}, __('BuddyBot', 'buddybot-ai-custom-ai-assistant-and-chat-agent')),
+                        createElement('div', { className: 'buddybot-mb-3 buddybot-fs-3 buddybot-text-dark'}, __('BuddyBot', 'buddybot-ai-custom-ai-assistant-and-chat-agent')),
+
+                        isLoading ? createElement(Spinner) :
                         createElement(SelectControl, {
                             value: selectedBuddyBot,
                             options: options,

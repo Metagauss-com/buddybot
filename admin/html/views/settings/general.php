@@ -9,8 +9,10 @@ class General extends \BuddyBot\Admin\Html\Views\Settings\MoRoot
         $html = '';
         $html .= $this->openaiApiKey();
         $html .= $this->enableVisitorChat();
+        $html .= $this->disableCookies();
         $html .= $this->sessionExpiry();
         $html .= $this->deleteExpiredChat();
+        $html .= $this->ConversationExpiryTime();
         return $html;
     }
 
@@ -29,7 +31,7 @@ class General extends \BuddyBot\Admin\Html\Views\Settings\MoRoot
         $control .= '<button type="button" id="buddybot-settings-key-change-btn" class="button button-primary"' . esc_html($btn_disabled) .'>' . esc_html__('Change Key', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</button>';
         $description = 
         sprintf(
-                __('Enter your OpenAI API key to enable BuddyBot to access services powered by ChatGPT. <a href="%s" target="_blank">Click here to create an OpenAI account</a>. New users receive <em>free credits</em> to explore ChatGPT and other OpenAI services. After signing up, you can generate your API key from the <a href="%s" target="_blank">API keys page</a>.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+                __('Enter your OpenAI API key to enable BuddyBot to access services powered by ChatGPT. <a href="%s" target="_blank">Click here to create an OpenAI account</a>. New users receive <em>free credits</em> to &nbsp; explore ChatGPT and other OpenAI services. After signing up, you can generate your API key from the <a href="%s" target="_blank">API keys page</a>.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
                 esc_url('https://platform.openai.com/signup/'), 
                 esc_url('https://platform.openai.com/account/api-keys')
             );
@@ -70,6 +72,31 @@ class General extends \BuddyBot\Admin\Html\Views\Settings\MoRoot
         $checked = $value === '1' ? 'checked' : '';
         $control = '<input type="checkbox" id="' . esc_attr($id) . '" value="1" ' . esc_attr($checked) . '>';
         $description = __('Enable this option to automatically delete conversations when a user\'s session cookie expires. A daily cron job will run to remove expired conversations and keep your database clean.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+
+        return $this->optionHtml($id, $label, $control, $description, $childfieldrow);
+    }
+
+    private function disableCookies()
+    {
+        $id = 'buddybot-settings-disable-cookies';
+        $childfieldrow = 'id="buddybot-visitor-chat-childfieldrow-third" style="display: none;"';
+        $label = __('Disable Cookies', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $value = $this->options->getOption('disable_cookies', 0);
+        $checked = $value === '1' ? 'checked' : '';
+        $control = '<input type="checkbox" id="' . esc_attr($id) . '" value="1" ' . esc_attr($checked) . '>';
+        $description = __('Enable this option to disable cookies for visitors. This will prevent the storage of any session data on the visitor\'s browser.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+
+        return $this->optionHtml($id, $label, $control, $description, $childfieldrow);
+    }
+
+    private function ConversationExpiryTime()
+    {
+        $id = 'buddybot-settings-coversation-expiry-time';
+        $childfieldrow = ' id="buddybot-delete-expired-chat-childfieldrow" style="display: none;" ';
+        $label = __('Visitor Chat Expiry Time', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $value = $this->options->getOption('conversation_expiry_time', 24);
+        $control = '<input type="number" id="' . esc_attr($id) . '" value="' . esc_attr($value) . '" class="regular-text" min="1" max="365" step="1">';
+        $description = __('Set the time duration (in days) after which a visitor\'s conversation will expire. Once the conversation expired, the conversation will be deleted.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
 
         return $this->optionHtml($id, $label, $control, $description, $childfieldrow);
     }

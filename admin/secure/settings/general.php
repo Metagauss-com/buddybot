@@ -44,4 +44,28 @@ final class General extends \BuddyBot\Admin\Secure\MoRoot
 
         return sanitize_text_field(intval($value));
     }
+
+    protected function cleanDisableCookies($value)
+    {
+        $value = ($value === "1") ? "1" : "0";
+
+        return sanitize_text_field(intval($value));
+    }
+
+    protected function cleanConversationExpiryTime($value)
+    {
+        if (!is_numeric($value)) {
+            $this->errors[] = __('Conversation expiry time must be a valid number.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            return;
+        }
+
+        $value = intval($value);
+
+        if ($value <= 0) {
+            $this->errors[] = __('Conversation expiry time must be a positive number greater than zero.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            return;
+        }
+
+        return $value;
+    }
 }

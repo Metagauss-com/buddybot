@@ -8,7 +8,7 @@
  * Author URI:        https://profiles.wordpress.org/buddybot/
  * License:           GPL v2 or later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       buddybot
+ * Text Domain:       buddybot-ai-custom-ai-assistant-and-chat-agent
  * Domain Path:       /languages
  * Network:           False
 */

@@ -65,7 +65,7 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
         $saved_value = esc_attr(get_option('buddybot_columns_per_page', 10));
 
         echo '<div id="buddybot-chatbot-dropdown">';
-        echo '<label>' . esc_html__('Results per page →', 'multiple-buddybots') . '</label>';
+        echo '<label>' . esc_html__('Results per page →', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</label>';
         echo '<select id="buddybot-chatbot-pagination">';
         
         $options = [10, 20, 30, 40, 50];
@@ -73,7 +73,8 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
         foreach ($options as $option) {
             $option_value = esc_attr($option);
             $selected = ($saved_value == $option_value) ? 'selected' : '';
-            echo '<option value="' . $option_value . '" ' . esc_attr($selected) . '>' . esc_html__('page 1-' . $option_value, 'multiple-buddybots') . '</option>';
+            // Translators: %s represents the page number.
+            echo '<option value="' . esc_attr($option_value) . '" ' . esc_attr($selected) . '>' . sprintf(esc_html__('page 1-%s', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_html($option_value)) . '</option>';
         }
         
         echo '</select>';
