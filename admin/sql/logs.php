@@ -187,4 +187,23 @@ class Logs extends \BuddyBot\Admin\Sql\MoRoot
 
         return $results;
     }
+
+    public function buddybot_export_logs_query($start_date, $end_date) {
+        global $wpdb;
+    
+        $start_datetime = "{$start_date} 00:00:00";
+        $end_datetime = "{$end_date} 23:59:59";
+    
+        $table_name = $wpdb->prefix . 'buddybot_logs';
+    
+        $query = $wpdb->prepare(
+            "SELECT * FROM {$table_name} 
+             WHERE log_timestamp BETWEEN %s AND %s 
+             ORDER BY log_timestamp DESC",
+            $start_datetime,
+            $end_datetime
+        );
+    
+        return $wpdb->get_results($query, ARRAY_A);
+    }
 }

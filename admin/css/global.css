@@ -13,6 +13,10 @@
 .buddybot-align-items-center {
     align-items: center !important;
 }
+
+.buddybot-justify-content-center {
+    justify-content: center !important;
+}
 /* General CSS End---*/
 
 /*---Margins and Padding---*/
@@ -45,6 +49,18 @@
     margin-top: 0 !important;
 }
 
+.buddybot-mt-1 {
+    margin-top: 0.25rem !important;
+}
+
+.buddybot-mt-2 {
+    margin-top: 0.5rem !important;
+}
+
+.buddybot-mt-3 {
+    margin-top: 1rem !important;
+}
+
 .buddybot-ms-0 {
     margin-left: 0 !important;
 }
@@ -64,8 +80,43 @@
     padding-bottom: 0.5rem !important;
 }
 
+/* TEXT UTILITIES */
+
+.buddybot-text-center {
+    text-align: center !important;
+}   
+
+.buddybot-text-break {
+    word-break: break-word !important;
+}
+
+.buddybot-text-bg-dark {
+    color: #fff !important;
+    background-color: #343a40 !important;
+}
+
+.buddybot-text-danger {
+    color: #dc3545 !important;
+}
+
+.buddybot-text-secondary {
+    color: #6c757d !important;
+}
+
+/* TEXT UTILITIES END */
+
+/* FONT UTILITIES */
+
+.buddybot-small {
+    font-size: .875em !important;
+}
+
 .buddybot-fw-medium {
     font-weight: 500;
+}
+
+.buddybot-fw-bold {
+    font-weight: 700;
 }
 
 
@@ -192,6 +243,8 @@
 
 .buddybot-modal-body {
     padding: 1rem;
+    overflow: auto;
+    max-height: 70vh;
 }
 
 .buddybot-modal-footer {
@@ -382,13 +435,6 @@ border-color: #545b62;
     border-radius: 0.2rem;
 }
 /* button color Ends */
-
-/* text color start  */
-.buddybot-text-danger {
-    color: #dc3545 !important;
-}
-
-/* text color Ends */
 
 /* toast css start  */
 #buddybot-toast-container {

@@ -31,13 +31,13 @@ class MoRoot extends \BuddyBot\Admin\MoRoot
             var isChecked = jQuery(obj).is(":checked");
         
             if (isChecked) {
-                jQuery("#" + primary).show(500);
-                if (secondary !== "") jQuery("#" + secondary).hide(500);
-                if (trinary !== "") jQuery("#" + trinary).hide(500);
+                jQuery("#" + primary).show();
+                if (secondary !== "") jQuery("#" + secondary).hide();
+                if (trinary !== "") jQuery("#" + trinary).hide();
             } else {
-                jQuery("#" + primary).hide(500);
-                if (secondary !== "") jQuery("#" + secondary).show(500);
-                if (trinary !== "") jQuery("#" + trinary).show(500);
+                jQuery("#" + primary).hide();
+                if (secondary !== "") jQuery("#" + secondary).show();
+                if (trinary !== "") jQuery("#" + trinary).show();
             }
         }
         ';
