@@ -23,7 +23,7 @@ final class PluginFeedback extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function feedbackModalHeader()
     {
-        echo '<div class="buddybot-modal-header">';
+        echo '<div class="buddybot-modal-header buddybot-ps-0">';
         echo '<div class="buddybot-modal-title buddybot-fs-6 buddybot-text-dark buddybot-ms-3">';
         echo esc_html__('Uninstalling Buddybot?', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</div>';
@@ -36,7 +36,7 @@ final class PluginFeedback extends \BuddyBot\Admin\Html\Views\MoRoot
     private function feedbackModalBody()
     {
         echo '<div class="buddybot-modal-body buddybot-pt-0">';
-        echo '<div class="buddybot-px-4 buddybot-mb-2">';
+        echo '<div class="buddybot-mb-2">';
         echo '<div id="buddybot-plugin-deactivation-alert" class="buddybot-text-danger buddybot-mb-2 " style="display:none">';
         echo esc_html__('Please provide feedback or check the temporary deactivation option.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</div>';
