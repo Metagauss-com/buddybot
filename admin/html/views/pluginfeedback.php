@@ -57,8 +57,8 @@ final class PluginFeedback extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<button type="button" class="button button-secondary" id="buddybot-plugin-feedback-direct-deactivation">';
         echo esc_html__('Skip & Deactivate', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</button>';
-        echo '<div id="buddybot-plugin-deactivation-loader" class="buddybot-text-danger buddybot-mb-2 " style="display:none">';
-        echo esc_html__('deactivating...', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        echo '<div id="buddybot-plugin-deactivation-loader" class="buddybot-mb-2 " style="display:none">';
+        echo esc_html__('Deactivating...', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '<span class="spinner is-active" aria-hidden="true"></span>';
         echo '</div>';
         echo '<button type="submit" class="button button-primary" id="buddybot-plugin-feedback-deactivation">';
