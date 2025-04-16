@@ -6,6 +6,7 @@ class Messages extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
 {
     private $message;
     protected $roles;
+    protected $timezone;
 
     protected function fileSize($bytes)
     {
@@ -43,13 +44,14 @@ class Messages extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
         $this->roles = array('user', 'assistant');
     }
 
-    public function setMessage($message = '')
+    public function setMessage($message = '', $timezone = '')
     {
         if (!is_object($message)) {
             return;
         }
 
         $this->message = $message;
+        $this->timezone = $timezone;
     }
 
     public function getHtml()
@@ -111,7 +113,7 @@ class Messages extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
 
     protected function assistantMessageHtml()
     {
-        $img_url = $this->config->getRootUrl() . 'admin/html/images/third-party/openai/openai-logomark.svg';
+        $img_url = $this->config->getRootUrl() . 'admin/html/images/third-party/openai/openai-logomark.png';
         
         $html = '<div class="buddybot-chat-conversation-list-item d-flex justify-content-start text-dark" id="' . esc_attr($this->message->id) . '">';
 
@@ -153,14 +155,16 @@ class Messages extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
 
     private function messageDate()
     {
+        $timezone = new \DateTimeZone($this->timezone);
+    
         $date_format = $this->config->getProp('date_format');
         $time_format = $this->config->getProp('time_format');
 
-        $message_date = wp_date($date_format, $this->message->created_at);
-        $message_time = wp_date($time_format, $this->message->created_at);
+        $message_date = wp_date($date_format, $this->message->created_at, $timezone);
+        $message_time = wp_date($time_format, $this->message->created_at, $timezone);
 
-        $message_day = wp_date('j', $this->message->created_at);
-        $current_day = wp_date('j');
+        $message_day = wp_date('j', $this->message->created_at, $timezone);
+        $current_day = wp_date('j', time(), $timezone);
 
         if ($message_day === $current_day) {
             $message_date = __('Today', 'buddybot-ai-custom-ai-assistant-and-chat-agent');

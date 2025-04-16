@@ -1,11 +1,11 @@
-=== BuddyBot – OpenAI Assistants for WordPress === 
+=== BuddyBot – OpenAI Assistants, Custom ChatBots and Support Agents for WordPress === 
 
 Contributors: buddybot 
 Tags: AI, chatbot, OpenAI, AI assistant  
 Requires at least: 6.7  
 Tested up to: 6.7  
 Requires PHP: 8.0
-Stable tag: 1.2.0.0
+Stable tag: 1.2.0.1
 License: GPLv2 or later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -103,6 +103,10 @@ Yes, BuddyBot AI uses the Bootstrap framework for its layout and design, providi
 
 == Changelog == 
 
+= 1.2.0.1: April 8, 2025 =
+* Fixed: Some database queries which were executed on fresh installation.
+* Fixed: UI layout conflict issues.
+
 = 1.2.0.0: April 3, 2025 =  
 * New: Enabled BuddyBot access for non-logged-in users, allowing seamless interaction for all visitors.  
 * Improved: Various design enhancements for a more polished and user-friendly experience. 
@@ -141,7 +145,14 @@ Yes, BuddyBot AI uses the Bootstrap framework for its layout and design, providi
 * Fixed: Compatibility issues with the PHP 8.0. 
 * UI improvements. 
 
+= 1.0.0.0: December 18, 2024 = 
+* Initial release of BuddyBot AI. 
+
 == Upgrade Notice ==
+
+= 1.2.0.1: April 8, 2025 =
+* Fixed: Some database queries which were executed on fresh installation.
+* Fixed: UI layout conflict issues.
 
 = 1.2.0.0: April 3, 2025 =  
 * New: Enabled BuddyBot access for non-logged-in users, allowing seamless interaction for all visitors.  

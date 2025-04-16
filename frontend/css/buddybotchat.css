@@ -105,4 +105,8 @@
     font-size: 18px;
 }
 
+.buddybot-offcanvas-wrap.offcanvas-bottom{
+    height: auto;
+}
+
 .buddybot-offcanvas-footer{}

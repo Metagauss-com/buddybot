@@ -80,7 +80,7 @@ class ChatBubble extends \BuddyBot\Admin\Html\Elements\Playground\MoRoot
 
     protected function assistantMessageHtml()
     {
-        $img_url = $this->config->getRootUrl() . 'admin/html/images/third-party/openai/openai-logomark.svg';
+        $img_url = $this->config->getRootUrl() . 'admin/html/images/third-party/openai/openai-logomark.png';
         
         $html = '<div class="buddybot-playground-messages-list-item d-flex justify-content-start my-2 sss" id="' . esc_attr($this->message->id) . '">';
 
@@ -115,7 +115,7 @@ class ChatBubble extends \BuddyBot\Admin\Html\Elements\Playground\MoRoot
     private function messageImage($img_url)
     {
         $html = '<div class="me-2">';
-        $html .= '<img width="28" class="rounded-circle border" src="' . esc_url($img_url) . '">';
+        $html .= '<img width="28" class="rounded-circle" src="' . esc_url($img_url) . '">';
         $html .= '</div>';
         return $html;
     }
@@ -124,12 +124,13 @@ class ChatBubble extends \BuddyBot\Admin\Html\Elements\Playground\MoRoot
     {
         $date_format = $this->config->getProp('date_format');
         $time_format = $this->config->getProp('time_format');
+        $timezone = wp_timezone();
 
-        $message_date = wp_date($date_format, $this->message->created_at);
-        $message_time = wp_date($time_format, $this->message->created_at);
+        $message_date = wp_date($date_format, $this->message->created_at, $timezone);
+        $message_time = wp_date($time_format, $this->message->created_at, $timezone);
 
-        $message_day = wp_date('j', $this->message->created_at);
-        $current_day = wp_date('j');
+        $message_day = wp_date('j', $this->message->created_at, $timezone);
+        $current_day = wp_date('j', $timezone);
 
         if ($message_day === $current_day) {
             $message_date = __('Today', 'buddybot-ai-custom-ai-assistant-and-chat-agent');

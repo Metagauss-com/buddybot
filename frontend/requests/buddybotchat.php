@@ -287,6 +287,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
                 "action": "sendUserMessage",
                 "thread_id": sessionStorage.getItem("bbCurrentThreadId"),
                 "user_message": userMessage,
+                "timezone": bbTimeZone,
                 "nonce": "' . esc_js(wp_create_nonce('send_user_message')) . '"
             };
 
@@ -380,6 +381,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
                 "before": sessionStorage.getItem("bbFirstId"),
                 "limit": 10,
                 "order": "desc",
+                "timezone": bbTimeZone,
                 "nonce": "' . esc_js(wp_create_nonce('get_messages')) . '"
             };
   

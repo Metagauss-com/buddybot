@@ -20,6 +20,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
         $order = sanitize_text_field($_POST['order']);
         $after = '';
         $before = '';
+        $timezone = (isset($_POST['timezone']) && !empty($_POST['timezone'])) ? sanitize_text_field(wp_unslash($_POST['timezone'])) : '';
     
         if (!empty($_POST['after'])) {
             $after = '&after=' . sanitize_text_field($_POST['after']);
@@ -58,28 +59,28 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
         // Check for errors in the output
         $this->checkError($output);
     
-        $this->messagesHtml($output->data);
+        $this->messagesHtml($output->data, $timezone);
     
         echo wp_json_encode($this->response);
         wp_die();
     }
     
 
-    private function messagesHtml($messages)
+    private function messagesHtml($messages, $timezone)
     {
         $html = '';
         $messages = array_reverse($messages);
         foreach ($messages as $message) {
-            $html .= $this->chatBubbleHtml($message);
+            $html .= $this->chatBubbleHtml($message, $timezone);
         }
 
         $this->response['html'] = $html;
     }
 
-    private function chatBubbleHtml($message)
+    private function chatBubbleHtml($message, $timezone)
     {
         $chat_bubble = new \BuddyBot\Frontend\Views\Bootstrap\BuddybotChat\Messages();
-        $chat_bubble->setMessage($message);
+        $chat_bubble->setMessage($message, $timezone);
         return $chat_bubble->getHtml();
     }
 
@@ -155,6 +156,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
         }
 
         $user_message = sanitize_textarea_field(wp_unslash($_POST['user_message']));
+        $timezone = (isset($_POST['timezone']) && !empty($_POST['timezone'])) ? sanitize_text_field(wp_unslash($_POST['timezone'])) : '';
         
         $url = 'https://api.openai.com/v1/threads/' . $thread_id . '/messages';
 
@@ -198,7 +200,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
         
         $this->sql->updateThreadName($thread_id, $user_message);
 
-        $this->response['html'] = $this->chatBubbleHtml($output);
+        $this->response['html'] = $this->chatBubbleHtml($output, $timezone);
         echo wp_json_encode($this->response);
         wp_die();
     }

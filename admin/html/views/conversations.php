@@ -19,10 +19,15 @@ final class Conversations extends \BuddyBot\Admin\Html\Views\MoRoot
         $search_query = isset($_GET['s']) ? sanitize_text_field($_GET['s']) : '';
 
         echo '<div class="buddybot-header-wrap">';
-        echo '<div class="buddybots-page-heading">';
+
+        echo '<hr class="wp-header-end">';
+        echo '<h2 class="screen-reader-text">Filter pages list</h2>';
+        
+        echo '<div class="bb-top-head-section">';
         echo '<h1 class="wp-heading-inline">';
         echo esc_html($heading);
         echo '</h1>';
+        echo '</div>';
         //$this->pageBtns();
         if (!empty($search_query)) {
             printf(
@@ -30,7 +35,7 @@ final class Conversations extends \BuddyBot\Admin\Html\Views\MoRoot
                 esc_html($search_query)
             );
         }
-        echo '</div>';
+        //echo '</div>';
         $this->paginationDropdown();
         echo '</div>';
     }

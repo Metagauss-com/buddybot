@@ -137,7 +137,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
 
     protected function noCoversationHistoryHtml()
     {
-        $img_url = $this->config->getRootUrl() . 'frontend/images/buddybotchat/bootstrap/zero-conversations.svg';
+        $img_url = $this->config->getRootUrl() . 'frontend/images/buddybotchat/bootstrap/zero-conversations.png';
         echo '<div class="mt-4 text-center">';
         
         echo '<div class="my-4">';

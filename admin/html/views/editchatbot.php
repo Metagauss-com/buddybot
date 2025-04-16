@@ -66,9 +66,16 @@ class EditChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function customPageHeading($heading)
     {
-        echo '<h1>';
+        echo '<div class="buddybot-header-wrap">';
+
+        echo '<hr class="wp-header-end">';
+        
+        echo '<div class="bb-top-head-section">';
+        echo '<h1 class="wp-heading-inline">';
         echo esc_html($heading);
         echo '</h1>';
+        echo '</div>';
+        echo '</div>';
     }
 
     private function buddybotFieldsTable()
