@@ -152,10 +152,12 @@ final class GutenbergBlocks extends \BuddyBot\Blocks\MoRoot
             echo '</div>';
 
             return ob_get_clean();
-        }elseif (!empty($buddybot_id)) {
+        } elseif (!empty($buddybot_id)) {
             return '<div class="' . esc_attr($custom_class . ' ' . $align) . '">' .
             do_shortcode('[buddybot_chat id=' . $buddybot_id . ']') .
             '</div>';
+        } else {
+            return esc_html__('Please select a BuddyBot to display.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
         
     }

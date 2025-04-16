@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
 const { registerBlockType } = wp.blocks;
-const { createElement, useState, useEffect } = wp.element;
+const { createElement, useState, useEffect, useRef } = wp.element;
 const { __ } = wp.i18n;
 const { InspectorControls, useBlockProps, BlockControls, AlignmentToolbar } = wp.blockEditor;
 const { TextControl, SelectControl, PanelBody, Spinner, ButtonGroup, Button, Dashicon, Notice } = wp.components;
@@ -60,6 +60,7 @@ registerBlockType('buddybot/chat', {
         const [isLoading, setIsLoading] = useState(true);
         const [botNotFound, setBotNotFound] = useState(false);
         const [isApiKeyMissing, setIsApiKeyMissing] = useState(false); // NEW STATE for API key check
+        const hasShownEmptyNotice = useRef(false);
 
         useEffect(() => {
             const fetchBuddyBots = async () => {
@@ -73,7 +74,8 @@ registerBlockType('buddybot/chat', {
                         setBotNotFound(false);
                     }
 
-                    if (Array.isArray(response) && response.length === 0) {
+                    if (Array.isArray(response) && response.length === 0 && !hasShownEmptyNotice.current) {
+                        hasShownEmptyNotice.current = true;
                         dispatch('core/notices').createNotice(
                             'warning',
                             __('No BuddyBots found. Please create one in the BuddyBot dashboard.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
