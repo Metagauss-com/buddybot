@@ -71,7 +71,7 @@ class General extends \BuddyBot\Admin\Html\Views\Settings\MoRoot
         $value = $this->options->getOption('delete_expired_chat', 0);
         $checked = $value === '1' ? 'checked' : '';
         $control = '<input type="checkbox" id="' . esc_attr($id) . '" value="1" ' . esc_attr($checked) . '>';
-        $description = __('Enable this option to automatically delete conversations when a user\'s session cookie expires. A daily cron job will run to remove expired conversations and keep your database clean.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $description = __('Enable this option to automatically delete conversations when a user\'s session cookie expires. A daily cron job will run to remove expired conversations, helping to keep your database clean.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
 
         return $this->optionHtml($id, $label, $control, $description, $childfieldrow);
     }
@@ -84,7 +84,7 @@ class General extends \BuddyBot\Admin\Html\Views\Settings\MoRoot
         $value = $this->options->getOption('disable_cookies', 0);
         $checked = $value === '1' ? 'checked' : '';
         $control = '<input type="checkbox" id="' . esc_attr($id) . '" value="1" ' . esc_attr($checked) . '>';
-        $description = __('Enable this option to disable cookies for visitors. This will prevent the storage of any session data on the visitor\'s browser.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $description = __('Enable this option to prevent BuddyBot from storing any temporary session data (like chat history) on the visitor\'s browser.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
 
         return $this->optionHtml($id, $label, $control, $description, $childfieldrow);
     }
