@@ -207,6 +207,7 @@ registerBlockType('buddybot/chat', {
 
                         isLoading ? createElement(Spinner) :
                         createElement(SelectControl, {
+                            __next40pxDefaultSize: true,
                             value: selectedBuddyBot,
                             options: options,
                             onChange: (value) => setAttributes({ selectedBuddyBot: value }),

@@ -6,6 +6,7 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
 {
     public function getHtml()
     {
+        $this->documentationContainer();
         $this->alertContainer();
         echo '<div class="wrap">';
         $heading = __('BuddyBots', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
