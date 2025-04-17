@@ -555,18 +555,31 @@ border-color: #545b62;
 
 .buddybot-docs-inner {
     background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border: 1px solid #e2e2e2;
+    overflow: hidden;
+    padding: 12px 14px !important;
 }
 
 .buddybot-docs-icon {
     flex: 0 0 auto;
     margin-right: 30px;
+    position: relative;
+    bottom: -25px;
+}
+
+.buddybot-docs-content .buddybot-banner-head{
+    font-size: 18px;
+    padding-bottom: 6px;
+    font-weight: 500;
+    display: none;
+}
+.buddybot-docs-content .buddybot-banner-text{
+    font-size: 14px;
 }
 
 .buddybot-docs-icon svg {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
 }
 
 .buddybot-docs-content {
@@ -588,6 +601,7 @@ border-color: #545b62;
 .buddybot-docs-actions {
     display: flex;
     gap: 12px;
+    margin-top: 6px;
 }
 
 .buddybot-docs-actions .btn {
@@ -611,3 +625,15 @@ border-color: #545b62;
     border: 2px solid #000;
 }
 
+
+.buddybot-docs-actions .button-primary{
+    background-color: #000;
+    border: 0px;
+}
+
+.buddybot-docs-actions .button-secondary{
+    color: #000;
+    border-color: #000;
+    background: #fff;
+    vertical-align: top;
+}
