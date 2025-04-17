@@ -6,6 +6,7 @@ final class Conversations extends \BuddyBot\Admin\Html\Views\MoRoot
 {
     public function getHtml()
     {
+        $this->documentationContainer('https://getbuddybot.com/conversation-submenu-in-buddybot/');
         $this->alertContainer();
         $heading = __('Conversations', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $this->customPageHeading($heading);

@@ -628,7 +628,25 @@ border-color: #545b62;
 
 .buddybot-docs-actions .button-primary{
     background-color: #000;
-    border: 0px;
+    border: 1px solid #000;
+    outline: none;
+    box-shadow: none;
+}
+.buddybot-docs-actions .button-primary:hover{
+    background-color: #fff;
+    color: #000;
+
+}
+
+.buddybot-docs-actions .button-primary:focus{
+    background-color: #000;
+    color: #fff;
+    border-color: #000;
+}
+.buddybot-docs-actions .button-primary:active{
+    background-color: #000;
+    color: #fff;
+    border-color: #000;
 }
 
 .buddybot-docs-actions .button-secondary{
@@ -636,4 +654,10 @@ border-color: #545b62;
     border-color: #000;
     background: #fff;
     vertical-align: top;
+}
+
+.buddybot-docs-actions .button-secondary:hover{
+    background: #000;
+    color: #fff;
+    border-color: #000;
 }

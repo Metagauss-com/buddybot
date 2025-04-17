@@ -44,7 +44,7 @@ class MoRoot extends \BuddyBot\Admin\Html\MoRoot
         echo '</div>';
     }
 
-    protected function documentationContainer()
+    protected function documentationContainer($link = '')
 {
     echo '<div class="buddybot-docs-container buddybot-p-2">';
         echo '<div class="buddybot-docs-inner  buddybot-d-flex buddybot-align-items-center buddybot-align-item-center buddybot-p-2">';
@@ -54,18 +54,18 @@ class MoRoot extends \BuddyBot\Admin\Html\MoRoot
                     echo esc_html__('How is going?', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
                 echo '</div>';
                 echo '<div class="buddybot-banner-text">';
-                    echo esc_html__('Thank you for using BuddyBot! We hope that you\'ve found  everything you need, but if you have any questions:', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+                    echo esc_html__(' Welcome to BuddyBot! If you\'re just getting started or have questions, these resources can help.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
                 echo '</div>';
                 echo '<div class="buddybot-docs-actions">';
-                    echo '<button type="button" class="button button-primary" id="buddybot-plugin-feedback-direct-deactivation">';
-                        echo esc_html__('Documentation', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-                    echo '</button>';
-                    echo '<button type="button" class="button button-primary" id="buddybot-plugin-feedback-deactivation">';
-                        echo esc_html__('Stater Guide', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-                    echo '</button>';
-                      echo '<button type="button" class="button button-secondary" id="buddybot-plugin-feedback-deactivation">';
-                        echo esc_html__('Get some help', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-                    echo '</button>';
+                    echo '<a href="' . esc_url($link) . '" type="button" class="button button-primary" id="buddybot-plugin-feedback-direct-deactivation">';
+                        echo esc_html__('View Documentation', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+                    echo '</a>';
+                    echo '<a href="https://getbuddybot.com/starter-guide/" type="button" class="button button-primary" id="buddybot-plugin-feedback-deactivation">';
+                        echo esc_html__('Starter Guide', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+                    echo '</a>';
+                      echo '<a href="https://wordpress.org/support/plugin/buddybot-ai-custom-ai-assistant-and-chat-agent/" type="button" class="button button-secondary" id="buddybot-plugin-feedback-deactivation">';
+                        echo esc_html__('Get Support', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+                    echo '</a>';
                 echo '</div>';
             echo '</div>';
         echo '</div>';
