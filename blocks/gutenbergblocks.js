@@ -177,7 +177,7 @@ registerBlockType('buddybot/chat', {
                         createElement(Notice, {
                             status: 'warning',
                             isDismissible: false,
-                        }, __('Please select a BuddyBot to display.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'))
+                        }, __('No BuddyBot selected. Choose one from the sidebar to enable preview and publishing.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'))
                     )
                 )
             ),

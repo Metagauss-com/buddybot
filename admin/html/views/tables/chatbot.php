@@ -56,7 +56,6 @@ class ChatBot extends WP_List_Table
 
         $current_page = $this->get_pagenum();
         $total_items  = $this->bot_db->getTotalChatbotsCount($search, $filter);
-        error_log("Total Items After Filtering: " . $total_items);
 
         $orderby = $_GET['orderby'] ?? 'created_on';
         $order   = $_GET['order'] ?? 'desc';

@@ -31,7 +31,7 @@ class General extends \BuddyBot\Admin\Html\Views\Settings\MoRoot
         $control .= '<button type="button" id="buddybot-settings-key-change-btn" class="button button-primary"' . esc_html($btn_disabled) .'>' . esc_html__('Change Key', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</button>';
         $description = 
         sprintf(
-                __('Enter your OpenAI API key to enable BuddyBot to access services powered by ChatGPT. <a href="%s" target="_blank">Click here to create an OpenAI account</a>. New users receive <em>free credits</em> to &nbsp; explore ChatGPT and other OpenAI services. After signing up, you can generate your API key from the <a href="%s" target="_blank">API keys page</a>.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
+                __('Enter your OpenAI API key to enable BuddyBot to access services powered by ChatGPT. <a href="%s" target="_blank">Click here to create an OpenAI account</a>. New users receive <em>free credits</em> to explore ChatGPT and other OpenAI services. After signing up, you can generate your API key from the <a href="%s" target="_blank">API keys page</a>.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
                 esc_url('https://platform.openai.com/signup/'), 
                 esc_url('https://platform.openai.com/account/api-keys')
             );
