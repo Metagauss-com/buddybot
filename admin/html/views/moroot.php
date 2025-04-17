@@ -58,11 +58,19 @@ class MoRoot extends \BuddyBot\Admin\Html\MoRoot
             echo '</div>';
 
             echo '<div class="buddybot-docs-content">';
-                echo '<div class="">How is going?</div>';
-                echo '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse mauris leo, blandit non rhoncus interdum, bibendum nec orci.</p>';
+                echo '<div class="buddybot-fs-3 buddybot-text-dark buddybot-mb-3">';
+                    echo esc_html__('Hello this is heading', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+                echo '</div>';
+                echo '<div class="buddybot-fs-6 buddybot-mb-3">';
+                    echo esc_html__('this is the text of the buddybot', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+                echo '</div>';
                 echo '<div class="buddybot-docs-actions">';
-                    echo '<button class="btn primary">Documentation</button>';
-                    echo '<button class="btn secondary">Stater Guide</button>';
+                    echo '<button type="button" class="button button-secondary" id="buddybot-plugin-feedback-direct-deactivation">';
+                        echo esc_html__('Skip & Deactivate', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+                    echo '</button>';
+                    echo '<button type="submit" class="button button-primary" id="buddybot-plugin-feedback-deactivation">';
+                        echo esc_html__('Submit & Deactivate', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+                    echo '</button>';
                 echo '</div>';
             echo '</div>';
         echo '</div>';
