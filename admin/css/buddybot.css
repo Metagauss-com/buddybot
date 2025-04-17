@@ -3,3 +3,17 @@
     right: 0px;
     bottom: 0px;
 }
+
+.buddybot-starter-guide-btn {
+    color: #e83e8c !important;
+    border-color: #e83e8c !important;
+    background-color: transparent !important;
+}
+
+.buddybot-starter-guide-btn:hover {
+    color: #bd1b5c !important;
+    border-color: #bd1b5c !important;
+    background-color: transparent !important;
+}
+
+

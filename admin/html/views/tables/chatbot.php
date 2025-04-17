@@ -56,6 +56,7 @@ class ChatBot extends WP_List_Table
 
         $current_page = $this->get_pagenum();
         $total_items  = $this->bot_db->getTotalChatbotsCount($search, $filter);
+        error_log("Total Items After Filtering: " . $total_items);
 
         $orderby = $_GET['orderby'] ?? 'created_on';
         $order   = $_GET['order'] ?? 'desc';
@@ -137,6 +138,11 @@ class ChatBot extends WP_List_Table
                 </select>
             <?php
             submit_button(__('Filter', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), '', 'filter_action', false);
+            ?>
+                <a href="https://getbuddybot.com/starter-guide/" class="button buddybot-starter-guide-btn" target="_blank">
+                    <?php esc_html_e('Starter Guide', 'buddybot-ai-custom-ai-assistant-and-chat-agent'); ?>
+                </a>
+            <?php
         }
     }
 

@@ -37,8 +37,8 @@ final class PluginFeedback extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         echo '<div class="buddybot-modal-body buddybot-pt-0">';
         echo '<div class="buddybot-mb-2">';
-        echo '<div id="buddybot-plugin-deactivation-alert" class="buddybot-text-danger buddybot-mb-2 " style="display:none">';
-        echo esc_html__('Please provide feedback or check the temporary deactivation option.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        echo '<div id="buddybot-plugin-deactivation-alert" class="buddybot-text-danger buddybot-mb-2 buddybot-text-small " style="display:none">';
+        echo esc_html__('Please let us know why you\'re deactivating BuddyBot, or select the temporary deactivation option if you\'d like to try it later.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</div>';
         echo '<div class="buddybot-mb-4 buddybot-fs-3 buddybot-text-dark">' . esc_html__('Maybe we can convince you to return!', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
         echo '<div class="buddybot-fs-6 buddybot-pb-2 ">' . esc_html__('Let us know what went wrong and how we can fix it?', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
