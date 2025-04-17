@@ -1,0 +1,43 @@
+.buddybot-alignment-group .buddybot-alignment-button {
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+    width: 36px; /* Adjust width */
+    height: 36px; /* Adjust height */
+    border-radius: 4px; /* Rounded corners */
+    padding: 5px;
+}
+
+.buddybot-alignment-group .buddybot-alignment-button .dashicons {
+    font-size: 16px; /* Icon size */
+}
+
+.buddybot-alignment-group .is-primary {
+    background-color: #e7f5ff; /* Light blue background for selected */
+    border: 1px solid #007cba; /* Blue border */
+}
+
+.buddybot-alignment-group .is-secondary {
+    background-color: #fff; /* White background */
+    border: 1px solid #dcdcdc; /* Light gray border */
+}
+
+.buddybot-block-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    min-height: 150px;
+    border-radius: 6px;
+}
+
+.buddybot-block-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.buddybot-block-content select {
+    min-width: 250px;
+    width: 100%; 
+    max-width: 400px;
+}

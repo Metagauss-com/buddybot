@@ -49,6 +49,16 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
                 if ($("#buddybot-settings-enable-visitor-chat").is(":checked")) {
                     showHide("#buddybot-settings-enable-visitor-chat", "buddybot-visitor-chat-childfieldrow-first", "", "");
                     showHide("#buddybot-settings-enable-visitor-chat", "buddybot-visitor-chat-childfieldrow-second", "", "");
+                    showHide("#buddybot-settings-enable-visitor-chat", "buddybot-visitor-chat-childfieldrow-third", "", "");
+                    if ($("#buddybot-settings-disable-cookies").is(":checked")) {
+                        $("#buddybot-settings-session-expiry").prop("disabled", true);
+                    } else {
+                        $("#buddybot-settings-session-expiry").prop("disabled", false);
+                    }
+
+                    if ($("#buddybot-settings-delete-expired-chat").is(":checked")) {
+                        showHide("#buddybot-settings-delete-expired-chat", "buddybot-delete-expired-chat-childfieldrow", "", "");
+                    }
                 }
             });
         }
@@ -59,8 +69,30 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
     {
         echo'
         $(document).on("change", "#buddybot-settings-enable-visitor-chat", function () {
+            const isEnabled = $(this).is(":checked");
+
+            if (isEnabled) {
+                if ($("#buddybot-settings-delete-expired-chat").is(":checked")) {
+                    $("#buddybot-delete-expired-chat-childfieldrow").show();
+                }
+            } else {
+                $("#buddybot-delete-expired-chat-childfieldrow").hide();
+            }
             showHide(this, "buddybot-visitor-chat-childfieldrow-first", "", "");
             showHide(this, "buddybot-visitor-chat-childfieldrow-second", "", "");
+            showHide(this, "buddybot-visitor-chat-childfieldrow-third", "", "");
+        });
+
+        $(document).on("change", "#buddybot-settings-disable-cookies", function () {
+            if ($(this).is(":checked")) {
+                $("#buddybot-settings-session-expiry").prop("disabled", true);
+            } else {
+                $("#buddybot-settings-session-expiry").prop("disabled", false);
+            }
+        });
+
+        $(document).on("change", "#buddybot-settings-delete-expired-chat", function () {
+            showHide(this, "buddybot-delete-expired-chat-childfieldrow", "", "");
         });
         ';
     }
@@ -171,9 +203,18 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
                     optionsData["openai_api_key"] = apiKey;
                 }
                 optionsData["enable_visitor_chat"] = $("#buddybot-settings-enable-visitor-chat").is(":checked") ? "1" : "0";
+
                 if ($("#buddybot-settings-enable-visitor-chat").is(":checked")) {
-                    optionsData["session_expiry"] = $("#buddybot-settings-session-expiry").val();
                     optionsData["delete_expired_chat"] = $("#buddybot-settings-delete-expired-chat").is(":checked") ? "1" : "0";
+                    optionsData["disable_cookies"] = $("#buddybot-settings-disable-cookies").is(":checked") ? "1" : "0";
+
+                    if (!$("#buddybot-settings-disable-cookies").is(":checked")) {
+                        optionsData["session_expiry"] = $("#buddybot-settings-session-expiry").val();
+                    }
+
+                    if ($("#buddybot-settings-delete-expired-chat").is(":checked")) {
+                        optionsData["conversation_expiry_time"] = $("#buddybot-settings-coversation-expiry-time").val();
+                    }
                 }
 
                 const data = {

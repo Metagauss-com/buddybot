@@ -43,8 +43,7 @@ class ChatBot extends \BuddyBot\Admin\Requests\MoRoot
                 response = JSON.parse(response);
 
                 if (response.success) {
-                    showToast("success", response.message);
-                    $("a.buddybot-chatbot-delete[chatbot-id=" + chatbotId + "]").closest("tr").remove();
+                    location.reload();
                 } else {
                     showAlert(response.message);
                 }

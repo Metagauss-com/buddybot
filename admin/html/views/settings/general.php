@@ -9,8 +9,10 @@ class General extends \BuddyBot\Admin\Html\Views\Settings\MoRoot
         $html = '';
         $html .= $this->openaiApiKey();
         $html .= $this->enableVisitorChat();
+        $html .= $this->disableCookies();
         $html .= $this->sessionExpiry();
         $html .= $this->deleteExpiredChat();
+        $html .= $this->ConversationExpiryTime();
         return $html;
     }
 
@@ -56,7 +58,7 @@ class General extends \BuddyBot\Admin\Html\Views\Settings\MoRoot
         $label = __('Visitor Session Expiry Time', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $value = $this->options->getOption('session_expiry', 24);
         $control = '<input type="number" id="' . esc_attr($id) . '" value="' . esc_attr($value) . '" class="regular-text" min="1" max="365" step="1">';
-        $description = __('Set the time duration (in hours) after which a visitor\'s conversation will expire. Once the session expires, the conversation will be deleted or marked as expired.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $description = __('Set the time duration (in hours) after which a visitor\'s conversation will expire. Once the session expires, the chat history will no longer be visible to the visitor.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
 
         return $this->optionHtml($id, $label, $control, $description, $childfieldrow);
     }
@@ -69,7 +71,32 @@ class General extends \BuddyBot\Admin\Html\Views\Settings\MoRoot
         $value = $this->options->getOption('delete_expired_chat', 0);
         $checked = $value === '1' ? 'checked' : '';
         $control = '<input type="checkbox" id="' . esc_attr($id) . '" value="1" ' . esc_attr($checked) . '>';
-        $description = __('Enable this option to automatically delete conversations when a user\'s session cookie expires. A daily cron job will run to remove expired conversations and keep your database clean.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $description = __('Enable this option to automatically delete conversations when a user\'s session cookie expires. A daily cron job will run to remove expired conversations, helping to keep your database clean.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+
+        return $this->optionHtml($id, $label, $control, $description, $childfieldrow);
+    }
+
+    private function disableCookies()
+    {
+        $id = 'buddybot-settings-disable-cookies';
+        $childfieldrow = 'id="buddybot-visitor-chat-childfieldrow-third" style="display: none;"';
+        $label = __('Disable Cookies', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $value = $this->options->getOption('disable_cookies', 0);
+        $checked = $value === '1' ? 'checked' : '';
+        $control = '<input type="checkbox" id="' . esc_attr($id) . '" value="1" ' . esc_attr($checked) . '>';
+        $description = __('Enable this option to prevent BuddyBot from storing any temporary session data (like chat history) on the visitor\'s browser.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+
+        return $this->optionHtml($id, $label, $control, $description, $childfieldrow);
+    }
+
+    private function ConversationExpiryTime()
+    {
+        $id = 'buddybot-settings-coversation-expiry-time';
+        $childfieldrow = ' id="buddybot-delete-expired-chat-childfieldrow" style="display: none;" ';
+        $label = __('Visitor Chat Expiry Time', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $value = $this->options->getOption('conversation_expiry_time', 24);
+        $control = '<input type="number" id="' . esc_attr($id) . '" value="' . esc_attr($value) . '" class="regular-text" min="1" max="365" step="1">';
+        $description = __('Set the time duration (in days) after which a visitor\'s conversation will expire. Once the conversation expires, it will be deleted.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
 
         return $this->optionHtml($id, $label, $control, $description, $childfieldrow);
     }

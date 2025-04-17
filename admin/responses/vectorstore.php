@@ -161,6 +161,7 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
 
         if (isset($output['id']) && !empty($output['id'])) {
             $this->response['success'] = false;
+            // Translators: %s represents the AI Training Knowledgebase ID.
             $this->response['message'] = sprintf(esc_html__('An AI Training Knowledgebase with ID %s already exists. Please use the existing AI Training Knowledgebase or choose a different ID.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_html($output['id']));
         } else {
             $this->response['success'] = true;

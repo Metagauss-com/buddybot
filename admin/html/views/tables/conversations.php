@@ -157,7 +157,7 @@ class Conversations extends WP_List_Table
             <option value="visitor" <?php selected($selected_user_type, 'visitor'); ?>><?php esc_html_e('Visitor', 'buddybot-ai-custom-ai-assistant-and-chat-agent'); ?></option>
         </select>
         <?php
-        submit_button(__('Filter'), '', 'filter_action', false);
+        submit_button(__('Filter', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), '', 'filter_action', false);
     }
 }
 

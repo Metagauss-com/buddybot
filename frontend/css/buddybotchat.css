@@ -1,6 +1,11 @@
 #buddybot-single-conversation-user-message{
     border: solid;
 }
+
+#buddybot-chat-conversation-list-header{
+    margin-bottom: 16px;
+}
+
 .Buddybot-alert {
     position: relative;
     display: inline-block;

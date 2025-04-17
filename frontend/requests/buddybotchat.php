@@ -48,6 +48,10 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
         if (isset($_COOKIE['buddybot_session_id']) || is_user_logged_in()) {
             return;
         }
+        
+        if ((bool)$this->options->getOption('disable_cookies') === true) {
+            return;
+        }
 
         echo '
             $("#cookieConsentOffcanvas").offcanvas("show"); 

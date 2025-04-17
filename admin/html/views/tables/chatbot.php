@@ -136,7 +136,7 @@ class ChatBot extends WP_List_Table
                     ?>
                 </select>
             <?php
-            submit_button(__('Filter'), '', 'filter_action', false);
+            submit_button(__('Filter', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), '', 'filter_action', false);
         }
     }
 

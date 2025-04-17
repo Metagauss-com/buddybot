@@ -16,6 +16,7 @@ final class Settings extends \BuddyBot\Admin\Html\Views\MoRoot
 
     public function getHtml()
     {
+        $this->documentationContainer('https://getbuddybot.com/buddybot-settings-submenu-a-comprehensive-guide/');
         $this->pageModals();
         $this->pageSuccessAlert();
         $this->pageErrors();
