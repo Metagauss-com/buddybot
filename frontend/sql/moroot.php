@@ -50,6 +50,11 @@ class MoRoot extends \BuddyBot\Frontend\Moroot
     {
         global $wpdb;
         $table_name = $this->config->getDbTable('threads');
+        $disable_cookies = $this->getOption('disable_cookies', 0);
+
+        if ($disable_cookies) {
+            return null;
+        }
 
         $session_lifetime = $this->getOption('session_expiry', 24) * 3600;
 

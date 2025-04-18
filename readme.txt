@@ -3,9 +3,9 @@
 Contributors: buddybot 
 Tags: AI, chatbot, OpenAI, AI assistant  
 Requires at least: 6.7  
-Tested up to: 6.7  
-Requires PHP: 8.0
-Stable tag: 1.2.0.1
+Tested up to: 6.8  
+Requires PHP: 7.3
+Stable tag: 1.4.0.0
 License: GPLv2 or later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -103,6 +103,10 @@ Yes, BuddyBot AI uses the Bootstrap framework for its layout and design, providi
 
 == Changelog == 
 
+= 1.3.0.0: April 17, 2025 =
+* Added: BuddyBot Block Editor block.
+* Added: New option to disable cookies during visitor chat.
+
 = 1.2.0.1: April 8, 2025 =
 * Fixed: Some database queries which were executed on fresh installation.
 * Fixed: UI layout conflict issues.
@@ -149,6 +153,10 @@ Yes, BuddyBot AI uses the Bootstrap framework for its layout and design, providi
 * Initial release of BuddyBot AI. 
 
 == Upgrade Notice ==
+
+= 1.3.0.0: April 17, 2025 =
+* Added: BuddyBot Block Editor block.
+* Added: New option to disable cookies during visitor chat.
 
 = 1.2.0.1: April 8, 2025 =
 * Fixed: Some database queries which were executed on fresh installation.

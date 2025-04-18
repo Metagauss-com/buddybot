@@ -224,6 +224,7 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
                     if ($attempt >= $maxRetries) {
                         // If max retries reached, return error
                         $this->response['success'] = false;
+                        // Translators: %d represents the number of retry attempts.
                         $this->response['message'] = sprintf(esc_html__('Run status still in progress after %d attempts.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), $maxRetries);
                         echo wp_json_encode($this->response);
                         wp_die();
@@ -234,6 +235,7 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
 
                 default:
                     $this->response['success'] = false;
+                    // Translators: %s represents the unexpected status message.
                     $this->response['message'] = sprintf(esc_html__('Unexpected status: %s', 'buddybot-ai-custom-ai-assistant-and-chat-agent'), esc_html($output->status));
                     echo wp_json_encode($this->response);
                     wp_die();

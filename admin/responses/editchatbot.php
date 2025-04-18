@@ -10,6 +10,7 @@ class EditChatBot extends \BuddyBot\Admin\Responses\MoRoot
     
         if(empty($this->api_key)){
             $this->response['success'] = false;
+            // Translators: %s represents the settings page link.
             $this->response['message'] = sprintf(
                 esc_html__('To create or edit an assistant, you need to configure your OpenAI API key in the %s.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
                 '<a href="admin.php?page=buddybot-settings">' . esc_html__('settings', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</a>'

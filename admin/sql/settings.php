@@ -96,7 +96,7 @@ class Settings extends \BuddyBot\Admin\Sql\MoRoot
         );
     }
 
-    public function getExpiredThreads($expiry_hours)
+    public function getExpiredThreads($expiry_days)
     {
         global $wpdb;
         $table = $this->config->getDbTable('threads');
@@ -105,8 +105,8 @@ class Settings extends \BuddyBot\Admin\Sql\MoRoot
             $wpdb->prepare(
                 "SELECT thread_id FROM $table 
                  WHERE user_type = 'visitor' 
-                 AND created < (UTC_TIMESTAMP() - INTERVAL %d HOUR)",
-                $expiry_hours
+                 AND created < (UTC_TIMESTAMP() - INTERVAL %d DAY)",
+                $expiry_days
             )
         );
     }
