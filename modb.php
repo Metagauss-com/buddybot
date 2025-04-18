@@ -39,6 +39,7 @@ class MoDb
         id mediumint(9) NOT NULL AUTO_INCREMENT,
         chatbot_name varchar(256),
         chatbot_description varchar(1024),
+        external BOOLEAN NOT NULL DEFAULT 0,
         assistant_id varchar(100),
         assistant_model VARCHAR(100) NOT NULL,
         personalized_options BOOLEAN NOT NULL DEFAULT 0,
