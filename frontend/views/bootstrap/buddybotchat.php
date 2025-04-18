@@ -5,6 +5,7 @@ use BuddyBot\Traits\Singleton;
 use BuddyBot\Frontend\Views\Bootstrap\BuddybotChat\SecurityChecks;
 use BuddyBot\Frontend\Views\Bootstrap\BuddybotChat\SingleConversation;
 use BuddyBot\Frontend\Views\Bootstrap\BuddybotChat\DeleteConversation;
+use BuddyBot\Frontend\Views\Bootstrap\BuddybotChat\VisitorEmail;
 
 class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
 {
@@ -12,6 +13,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
     use SecurityChecks;
     use SingleConversation;
     use DeleteConversation;
+    use VisitorEmail;
     protected $conversations;
     protected $chatbot;
     protected $timezone;
@@ -28,6 +30,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
 
         if (!$this->errors) {
             $html .= $this->deleteConversationModalHtml();
+            $html .= $this->visitorEmailHtml();
             $html .= $this->alertsHtml();
             $html .= $this->assistantId();
             $html .= $this->conversationListWrapper();

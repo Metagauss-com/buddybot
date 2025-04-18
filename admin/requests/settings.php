@@ -49,6 +49,7 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
                 if ($("#buddybot-settings-enable-visitor-chat").is(":checked")) {
                     showHide("#buddybot-settings-enable-visitor-chat", "buddybot-visitor-chat-childfieldrow-first", "", "");
                     showHide("#buddybot-settings-enable-visitor-chat", "buddybot-visitor-chat-childfieldrow-second", "", "");
+                    showHide("#buddybot-settings-enable-visitor-chat", "buddybot-visitor-chat-childfieldrow-third", "", "");
                 }
             });
         }
@@ -61,6 +62,7 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
         $(document).on("change", "#buddybot-settings-enable-visitor-chat", function () {
             showHide(this, "buddybot-visitor-chat-childfieldrow-first", "", "");
             showHide(this, "buddybot-visitor-chat-childfieldrow-second", "", "");
+            showHide(this, "buddybot-visitor-chat-childfieldrow-third", "", "");
         });
         ';
     }
@@ -174,6 +176,7 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
                 if ($("#buddybot-settings-enable-visitor-chat").is(":checked")) {
                     optionsData["session_expiry"] = $("#buddybot-settings-session-expiry").val();
                     optionsData["delete_expired_chat"] = $("#buddybot-settings-delete-expired-chat").is(":checked") ? "1" : "0";
+                    optionsData["anonymous_user_email"] = $("#buddybot-settings-user-email").is(":checked") ? "1" : "0";
                 }
 
                 const data = {

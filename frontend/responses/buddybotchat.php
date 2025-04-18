@@ -397,6 +397,35 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
         wp_die();
     }
 
+    public function setCookieSession()
+    {
+
+        if (isset($_COOKIE['buddybot_session_data'])) {
+            $cookie_data = json_decode(stripslashes($_COOKIE['buddybot_session_data']), true);
+
+            $this->response['success'] = true;
+            $this->response['data'] = $cookie_data;
+            echo wp_json_encode($this->response);
+            wp_die();
+        }
+
+        $session_lifetime = $this->options->getOption('session_expiry', 24) * 3600;
+        $session_id = bin2hex(random_bytes(16));
+
+        $cookie_data = [
+            'session_id' => $session_id,
+        ];
+        $encoded_data = json_encode($cookie_data);
+
+        setcookie("buddybot_session_data", $encoded_data, time() + $session_lifetime, "/");
+
+        $this->response['success'] = true;
+        $this->response['data'] = $cookie_data;
+
+        echo wp_json_encode($this->response);
+        wp_die();
+    }
+
 
     public function __construct()
     {
@@ -414,5 +443,6 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
         add_action('wp_ajax_nopriv_createFrontendRun', array($this, 'createFrontendRun'));
         add_action('wp_ajax_nopriv_retrieveFrontendRun', array($this, 'retrieveFrontendRun'));
         add_action('wp_ajax_nopriv_deleteFrontendThread', array($this, 'deleteFrontendThread'));
+        add_action('wp_ajax_nopriv_setCookieSession', array($this, 'setCookieSession'));
     }
 }

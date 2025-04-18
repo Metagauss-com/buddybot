@@ -5,7 +5,7 @@ trait DeleteConversation
 {
     protected function deleteConversationModalHtml()
     {
-        $html  = '<div class="modal fade" id="buddybot-single-conversation-delete-modal" tabindex="-1" aria-hidden="true">';
+        $html  = '<div class="modal fade buddybot-frontend-modal" id="buddybot-single-conversation-delete-modal" tabindex="-1" aria-hidden="true">';
         $html .= '<div class="modal-dialog modal-dialog-centered">';
         $html .= '<div class="modal-content small">';
         $html .= $this->deleteConversationModalHeader();

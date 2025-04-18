@@ -45,7 +45,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
 
     private function cookiesNotificationJs()
     {
-        if (isset($_COOKIE['buddybot_session_id']) || is_user_logged_in()) {
+        if (isset($_COOKIE['buddybot_session_data']) || is_user_logged_in()) {
             return;
         }
 
@@ -54,6 +54,17 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
             
             $(document).on("click", "#buddybot-acceptCookies", function(){
                 $("#cookieConsentOffcanvas").offcanvas("hide");
+                const data = {
+                    "action": "setCookieSession",
+                };
+  
+                $.post(ajaxurl, data, function(response) {
+                    response = JSON.parse(response);
+                    if (response.success) {
+                       $("#buddybot-visitor-Email-modal").modal("show");
+                    }
+                    
+                });
             });
         ';
     }
