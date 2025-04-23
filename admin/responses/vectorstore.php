@@ -385,6 +385,7 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
     {
         $this->checkNonce('transfer_data_file');
         $this->checkCapabilities();
+        //die;
 
         $data_type = isset($_POST['data_type']) && !empty($_POST['data_type']) ? sanitize_text_field($_POST['data_type']) : '';
 
@@ -542,7 +543,7 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
 
         $new_file_id = sanitize_text_field($_POST['file_Id']);
         $data_type = isset($_POST['data_type']) && !empty($_POST['data_type']) ? sanitize_text_field($_POST['data_type']) : '';
-        $this->cleanLocalFile($data_type);
+        //$this->cleanLocalFile($data_type);
 
         $file_ids = $this->fetchFilesByDataType($data_type);
 
