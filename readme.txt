@@ -103,6 +103,13 @@ Yes, BuddyBot AI uses the Bootstrap framework for its layout and design, providi
 
 == Changelog == 
 
+= 1.3.5.0: April 23, 2025 =
+* Added stricter fallback handling: responses are now based only on vector store data.
+* Improved fallback message behavior when no relevant match is found.
+* Improved greeting and casual prompt handling.
+* Blocked fallback phrases like “uploaded files” and removed all source references (e.g., [1]).
+* Enforced tool-only response mode for consistent behavior when external responses are restricted.
+
 = 1.3.0.0: April 17, 2025 =
 * Added: BuddyBot Block Editor block.
 * Added: New option to disable cookies during visitor chat.
@@ -153,6 +160,13 @@ Yes, BuddyBot AI uses the Bootstrap framework for its layout and design, providi
 * Initial release of BuddyBot AI. 
 
 == Upgrade Notice ==
+
+= 1.3.5.0: April 23, 2025 =
+* Added stricter fallback handling: responses are now based only on vector store data.
+* Improved fallback message behavior when no relevant match is found.
+* Improved greeting and casual prompt handling.
+* Blocked fallback phrases like “uploaded files” and removed all source references (e.g., [1]).
+* Enforced tool-only response mode for consistent behavior when external responses are restricted.
 
 = 1.3.0.0: April 17, 2025 =
 * Added: BuddyBot Block Editor block.
