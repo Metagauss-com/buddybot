@@ -66,30 +66,8 @@ class EditChatBot extends \BuddyBot\Admin\Responses\MoRoot
             'Authorization' => 'Bearer ' . $this->api_key
         ];
 
-        $fallback_behavior_map = [
-            "ask" => "Ask for clarification",
-            "generic" => "Provide a generic response",
-            "escalate" => "Escalate to support"
-        ];
-        $fallback_key = $buddybot_data["fallback_behavior"] ?? "generic";
-        $fallback_text = $fallback_behavior_map[$fallback_key] ?? "Provide a generic response";
-        $fallback_msg = $buddybot_data["openaisearch_msg"];
-
-        $instructions = '';
-
-        $instructions .= "Personalized options: " . (isset($buddybot_data["personalized_options"]) && !empty($buddybot_data["personalized_options"]) ? "Enabled" : "Disabled") . ". ";
-       // $instructions .= "Fallback behavior: " . esc_html($fallback_text) . ". ";
-        $instructions .= "Emotion detection: " . (isset($buddybot_data["emotion_detection"]) && !empty($buddybot_data["emotion_detection"]) ? "Enabled" : "Disabled") . ". ";
-        $instructions .= "Assistant Name: " . (isset($buddybot_data["assistant_name"]) && !empty($buddybot_data["assistant_name"]) ? $buddybot_data["assistant_name"] : "") . ". ";
-        $instructions .= "Greeting message: " . (isset($buddybot_data["greeting_message"]) && !empty($buddybot_data["greeting_message"]) ? $buddybot_data["greeting_message"] : "") . ". ";
-        $instructions .= "Disallow assistant to seek answers from OpenAI: " . (isset($buddybot_data["openai_search"]) && !empty($buddybot_data["openai_search"]) ? "Enabled" : "Disabled") . ". ";
-        if (!empty($buddybot_data["openai_search"])) {
-            $instructions .= ' You must only provide answers from the uploaded files (vector store). Do not query OpenAI or any other sources. If no answer is found in the uploaded files, respond with: ' . wp_unslash($fallback_msg) . '';
-        } else {
-            $instructions .= "Search for answers in the uploaded files (vector store) first. If no relevant answer is found, then use OpenAI to generate a response. Prioritize answers from the vector store over OpenAI responses.";      
-        }
-        $instructions .= $buddybot_data["additional_instruction"];
-       // $instructions .= "Multilingual support: " . (isset($buddybot_data["multilingual_support"]) && !empty($buddybot_data["multilingual_support"]) ? "Enabled" : "Disabled.Respond only in English,Do not respond in any other language even if the user inputs in a different language") . ". ";
+        $buddybot_prompt = new \BuddyBot\Admin\Prompt\OpenAiPrompt();
+        $instructions = $buddybot_prompt->getHtml($buddybot_data);
 
         $data = array(
             'model' => $buddybot_data["assistant_model"],

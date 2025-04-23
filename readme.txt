@@ -1,15 +1,15 @@
-=== BuddyBot – OpenAI Assistants, Custom ChatBots and Support Agents for WordPress === 
+=== BuddyBot – OpenAI Assistants, AI Chatbots and Support Agents for WordPress === 
 
 Contributors: buddybot 
 Tags: AI, chatbot, OpenAI, AI assistant  
 Requires at least: 6.7  
 Tested up to: 6.8  
 Requires PHP: 7.3
-Stable tag: 1.2.0.1
+Stable tag: 1.3.5.0
 License: GPLv2 or later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Best AI chatbot and live chat plugin for WordPress to enhance online support and engagement. Discover AI for WordPress. 
+Discover AI Chatbots for WordPress, only plugin built on native OpenAI assistants. Explore a new different way to chat!
 
 == Description == 
 
@@ -103,6 +103,13 @@ Yes, BuddyBot AI uses the Bootstrap framework for its layout and design, providi
 
 == Changelog == 
 
+= 1.3.5.0: April 23, 2025 =
+* Added stricter fallback handling: responses are now based only on vector store data.
+* Improved fallback message behavior when no relevant match is found.
+* Improved greeting and casual prompt handling.
+* Blocked fallback phrases like “uploaded files” and removed all source references (e.g., [1]).
+* Enforced tool-only response mode for consistent behavior when external responses are restricted.
+
 = 1.3.0.0: April 17, 2025 =
 * Added: BuddyBot Block Editor block.
 * Added: New option to disable cookies during visitor chat.
@@ -153,6 +160,13 @@ Yes, BuddyBot AI uses the Bootstrap framework for its layout and design, providi
 * Initial release of BuddyBot AI. 
 
 == Upgrade Notice ==
+
+= 1.3.5.0: April 23, 2025 =
+* Added stricter fallback handling: responses are now based only on vector store data.
+* Improved fallback message behavior when no relevant match is found.
+* Improved greeting and casual prompt handling.
+* Blocked fallback phrases like “uploaded files” and removed all source references (e.g., [1]).
+* Enforced tool-only response mode for consistent behavior when external responses are restricted.
 
 = 1.3.0.0: April 17, 2025 =
 * Added: BuddyBot Block Editor block.
