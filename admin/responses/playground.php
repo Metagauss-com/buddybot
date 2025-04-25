@@ -128,7 +128,7 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
                 'wp_user_id' => (string)get_current_user_id(),
                 'wp_source' => 'wp_admin',
             ),
-            'tool_choice' => array('type' => 'file_search'),
+            //'tool_choice' => array('type' => 'file_search'),
         );
     
         // Perform the POST request
@@ -172,8 +172,8 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
             'Authorization' => 'Bearer ' . $this->api_key,
         );
 
-        $maxRetries = 5;
-        $retryInterval = 2;
+        $maxRetries = 10;
+        $retryInterval = 4;
         $attempt = 0;
     
         while ($attempt < $maxRetries) {

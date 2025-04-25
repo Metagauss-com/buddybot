@@ -271,8 +271,8 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
             'Authorization' => 'Bearer ' . $this->api_key,
         );
 
-        $maxRetries = 5;
-        $retryInterval = 2;
+        $maxRetries = 10;
+        $retryInterval = 4;
         $attempt = 0;
     
         while ($attempt < $maxRetries) {
