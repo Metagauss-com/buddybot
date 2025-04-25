@@ -1,15 +1,15 @@
-=== BuddyBot – OpenAI Assistants, AI Chatbots and Support Agents for WordPress === 
+=== BuddyBot – OpenAI Assistants, Custom ChatBots and Support Agents for WordPress === 
 
 Contributors: buddybot 
 Tags: AI, chatbot, OpenAI, AI assistant  
 Requires at least: 6.7  
 Tested up to: 6.8  
 Requires PHP: 7.3
-Stable tag: 1.3.5.0
+Stable tag: 1.2.0.1
 License: GPLv2 or later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Discover AI Chatbots for WordPress, only plugin built on native OpenAI assistants. Explore a new different way to chat!
+Best AI chatbot and live chat plugin for WordPress to enhance online support and engagement. Discover AI for WordPress. 
 
 == Description == 
 
