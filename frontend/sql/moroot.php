@@ -46,7 +46,7 @@ class MoRoot extends \BuddyBot\Frontend\Moroot
         }
     }
 
-    protected function initializeSessionId()
+    protected function initializeSessionData()
     {
         global $wpdb;
         $table_name = $this->config->getDbTable('threads');
@@ -58,8 +58,12 @@ class MoRoot extends \BuddyBot\Frontend\Moroot
 
         $session_lifetime = $this->getOption('session_expiry', 24) * 3600;
 
-        if (isset($_COOKIE['buddybot_session_id'])) {
-            return $_COOKIE['buddybot_session_id'];
+        if (isset($_COOKIE['buddybot_session_data'])) {
+            $cookie_data = json_decode(stripslashes($_COOKIE['buddybot_session_data']), true);
+
+            if (isset($cookie_data['session_id']) && !empty($cookie_data['session_id'])) {
+                return $cookie_data;
+            }
         }
 
         do {
@@ -67,8 +71,12 @@ class MoRoot extends \BuddyBot\Frontend\Moroot
             $sessionExists = $wpdb->get_var($wpdb->prepare("SELECT COUNT(*) FROM $table_name WHERE session_id = %s", $session_id));
         } while ($sessionExists > 0);
 
-        setcookie("buddybot_session_id", $session_id, time() + $session_lifetime, "/");
+        $cookie_data = [
+            'session_id' => $session_id,
+        ];
 
-        return $session_id;
+        setcookie("buddybot_session_data", json_encode($cookie_data), time() + $session_lifetime, "/");
+
+        return $cookie_data;
     }
 }

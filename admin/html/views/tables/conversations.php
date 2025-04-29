@@ -116,7 +116,23 @@ class Conversations extends WP_List_Table
     function column_user_name($item) {
         $user_id = isset($item['user_id']) ? intval($item['user_id']) : 0;
         $user_info = get_userdata($user_id);
-        return $user_info ? esc_html($user_info->display_name) : esc_html__('Visitor', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+
+        if ($user_info) {
+            $user_name = esc_html($user_info->display_name);
+        } else {
+            $user_name = esc_html__('Visitor', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            
+            if (isset($item['user']) && !empty($item['user'])) {
+                // Decode the JSON data stored in the 'user' column
+                $user_data = json_decode($item['user'], true);
+                
+                if (isset($user_data['email']) && !empty($user_data['email'])) {
+                    $user_name .= '<br><small>' . esc_html($user_data['email']) . '</small>';
+                }
+            }
+        }
+
+        return $user_name;
     }
     
     function extra_tablenav($which)

@@ -45,7 +45,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
 
     private function cookiesNotificationJs()
     {
-        if (isset($_COOKIE['buddybot_session_id']) || is_user_logged_in()) {
+        if (isset($_COOKIE['buddybot_session_data']) || is_user_logged_in()) {
             return;
         }
         
@@ -53,11 +53,63 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
             return;
         }
 
+        $collect_visitor_id = (bool) $this->options->getOption('anonymous_user_email', false);
+
         echo '
-            $("#cookieConsentOffcanvas").offcanvas("show"); 
+            const collect_visitor_id = ' . esc_js($collect_visitor_id ? 'true' : 'false') . ';
+
+            if (!document.cookie.includes("buddybot_session_data")) {
+                $("#cookieConsentOffcanvas").offcanvas("show"); 
+            }
             
             $(document).on("click", "#buddybot-acceptCookies", function(){
                 $("#cookieConsentOffcanvas").offcanvas("hide");
+
+                const data = {
+                    "action": "setCookieSession",
+                    "timezone": bbTimeZone,
+                    "nonce": "' . esc_js(wp_create_nonce('set_cookie_session')) . '"
+                };
+
+                $.post(ajaxurl, data, function(response) {
+                    response = JSON.parse(response);
+                    if (response.success) {
+                        if (collect_visitor_id && !document.cookie.includes("buddybot_visitor_id")) {
+
+                            $("#buddybot-single-conversation-messages-wrapper").prepend(response.html);
+                            $("#buddybot-single-conversation-user-message").prop("disabled", true);
+                            $("#buddybot-single-conversation-send-message-btn").prop("disabled", true);
+                        }
+                    }
+                    
+                });
+            });
+
+            $(document).on("click", "#buddybot-save-visitor-id-btn", function(){
+                $("#buddybot-visitor-id-error-message").addClass("visually-hidden");
+                let visitorId = $("#buddybot-visitor-id").val();
+
+                const data = {
+                    "action": "setCookieSession",
+                    "visitor_id": visitorId,
+                    "nonce": "' . esc_js(wp_create_nonce('set_cookie_session')) . '"
+                };
+
+                $.post(ajaxurl, data, function(response) {
+                    response = JSON.parse(response);
+                    if (response.success) {
+                        $("#buddybot-visitor-id-wrapper").remove();
+                        $("#buddybot-single-conversation-user-message").prop("disabled", false);
+                        $("#buddybot-single-conversation-send-message-btn").prop("disabled", false);
+                    } else {
+                        $("#buddybot-visitor-id-error-message").removeClass("visually-hidden");
+                    }
+                    
+                });
+            });
+
+            $(document).on("click", "#buddybot-skip-visitor-id", function(){
+                $("#buddybot-visitor-id-wrapper").remove();
             });
         ';
     }

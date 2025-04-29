@@ -115,10 +115,22 @@ class BuddybotChat extends \BuddyBot\Frontend\Sql\Moroot
 
         $user_id = get_current_user_id();
         $session_id = null;
+        $visitor_id = null;
         $user_type = 'visitor';
 
         if ($user_id === 0) {
-            $session_id = $this->initializeSessionId(); // Assign session ID only for guests
+            $session_data = $this->initializeSessionData();
+            
+            if (is_array($session_data)) {
+                $session_id = $session_data['session_id'] ?? null;
+                $visitor_id = $session_data['visitor_id'] ?? null;
+            }
+
+            $user_details = [];
+
+            if (!empty($visitor_id)) {
+                $user_details['email'] = $visitor_id;
+            }
         } else {
             $user_type = 'logged_in';
         }
@@ -128,6 +140,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Sql\Moroot
             'user_id' => $user_id,
             'session_id'  => $session_id,
             'user_type'   => $user_type,
+            'user'        => wp_json_encode($user_details),
             'created' => current_time('mysql', true)
         );
 

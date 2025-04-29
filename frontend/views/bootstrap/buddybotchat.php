@@ -5,6 +5,7 @@ use BuddyBot\Traits\Singleton;
 use BuddyBot\Frontend\Views\Bootstrap\BuddybotChat\SecurityChecks;
 use BuddyBot\Frontend\Views\Bootstrap\BuddybotChat\SingleConversation;
 use BuddyBot\Frontend\Views\Bootstrap\BuddybotChat\DeleteConversation;
+use BuddyBot\Frontend\Views\Bootstrap\BuddybotChat\VisitorId;
 
 class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
 {
@@ -12,6 +13,8 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
     use SecurityChecks;
     use SingleConversation;
     use DeleteConversation;
+    use VisitorId;
+
     protected $conversations;
     protected $chatbot;
     protected $timezone;
@@ -28,6 +31,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
 
         if (!$this->errors) {
             $html .= $this->deleteConversationModalHtml();
+            $html .= $this->visitorIdHtml();
             $html .= $this->alertsHtml();
             $html .= $this->assistantId();
             $html .= $this->conversationListWrapper();
@@ -39,7 +43,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
 
     protected function shortcodeJs()
     {
-        wp_enqueue_script('buddybot-chatbot-script', $this->config->getRootUrl() . 'frontend/js/buddybotchat.js', array('jquery'), '1.0', true);
+        wp_enqueue_script('buddybot-chatbot-script', $this->config->getRootUrl() . 'frontend/js/buddybotchat.js', array('jquery'), BUDDYBOT_PLUGIN_VERSION, true);
         $js = \BuddyBot\Frontend\Requests\BuddybotChat::getInstance();
         wp_add_inline_script('buddybot-chatbot-script', $js->localJs());
     }
@@ -95,10 +99,10 @@ class BuddybotChat extends \BuddyBot\Frontend\Views\Bootstrap\MoRoot
             $user_id = get_current_user_id();
             $this->conversations = $this->sql->getConversationsByUserId($user_id);
         } else { 
-            $session_id = $_COOKIE['buddybot_session_id'] ?? null;
+            $cookie_data = json_decode(stripslashes($_COOKIE['buddybot_session_data']), true);
 
-            if ($session_id) {
-                $this->conversations = $this->sql->getConversationsBySessionId($session_id);
+            if (isset($cookie_data['session_id']) && !empty($cookie_data['session_id'])) {
+                $this->conversations = $this->sql->getConversationsBySessionId($cookie_data['session_id']);
             } else {
                 $this->conversations = '';
             }
