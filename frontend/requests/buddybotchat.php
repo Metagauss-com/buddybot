@@ -510,7 +510,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
                 messageContainer.append(document.createTextNode(messageText.charAt(charIndex)));
                 scrollToBottom();
                 charIndex++;
-                setTimeout(animateText, 50);
+                setTimeout(animateText, 30);
             }
         }
         ';

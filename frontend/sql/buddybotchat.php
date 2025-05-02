@@ -117,6 +117,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Sql\Moroot
         $session_id = null;
         $visitor_id = null;
         $user_type = 'visitor';
+        $user_details = [];
 
         if ($user_id === 0) {
             $session_data = $this->initializeSessionData();
@@ -125,8 +126,6 @@ class BuddybotChat extends \BuddyBot\Frontend\Sql\Moroot
                 $session_id = $session_data['session_id'] ?? null;
                 $visitor_id = $session_data['visitor_id'] ?? null;
             }
-
-            $user_details = [];
 
             if (!empty($visitor_id)) {
                 $user_details['email'] = $visitor_id;
