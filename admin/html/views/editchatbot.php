@@ -106,7 +106,8 @@ class EditChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
             //$this->assistantFallbackBehavior();
             $this->emotionDetection();
             $this->greetingMessage();
-            // $this->multilingualSupport();
+            $this->multilingualSupport();
+            $this->openaiResponseLength();
             // $this->languageOptions();
         echo '</tbody>';
     }
@@ -352,7 +353,7 @@ class EditChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         $id = 'buddybot-multilingualsupport';
 
-        echo '<tr>';
+        echo '<tr class="buddybot-conditional-settings">';
         echo '<th scope="row">' . esc_html__('Multilingual Support', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</th>';
         echo '<td>';
         echo '<fieldset>';
@@ -362,6 +363,19 @@ class EditChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '</label>';
         echo '<p class="description">' . esc_html__('Enable multilingual support for the assistant to handle conversations in different languages.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
         echo '</fieldset>';
+        echo '</td>';
+        echo '</tr>';
+    }
+
+    private function openaiResponseLength()
+    {
+        $id = 'buddybot-openai-response-length';
+
+        echo '<tr class="buddybot-conditional-settings">';
+        echo '<th scope="row"><label for="' . esc_attr($id) . '">' . esc_html__('OpenAI Words Limit', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</label></th>';
+        echo '<td>';
+        echo '<input name="' . esc_attr($id) . '" type="number" id="' . esc_attr($id) . '" value="" class="regular-text" placeholder="' . esc_attr__('e.g., 500', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '">';
+        echo '<p class="description">' . esc_html__('Set the maximum number of words for OpenAI responses. Default is 500.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
         echo '</td>';
         echo '</tr>';
     }

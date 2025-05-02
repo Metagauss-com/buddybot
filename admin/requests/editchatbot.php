@@ -149,6 +149,8 @@ final class EditChatBot extends \BuddyBot\Admin\Requests\MoRoot
 
                 buddybotData["emotion_detection"] = $("#buddybot-emotiondetection").is(":checked") ? "1" : "0";
                 buddybotData["greeting_message"] = $("#buddybot-greetingmessage").val();
+                buddybotData["multilingual_support"] = $("#buddybot-multilingualsupport").is(":checked") ? "1" : "0";
+                buddybotData["response_length"] = $("#buddybot-openai-response-length").val();
             }
 
             buddybotData["assistant_id"] ="' . esc_js($this->assistant_id) . '";
@@ -245,10 +247,12 @@ final class EditChatBot extends \BuddyBot\Admin\Requests\MoRoot
                 $("#buddybot-openaisearch").prop("checked", buddybot.openai_search == 1);
                 $("#buddybot-emotiondetection").prop("checked", buddybot.emotion_detection == 1);
                 $("#buddybot-greetingmessage").val(buddybot.greeting_message);
+                $("#buddybot-multilingualsupport").prop("checked", buddybot.multilingual_support == 1);
             
                 if (assistant.metadata) {
                     $("#buddybot-additionalinstructions").val(assistant.metadata.aditional_instructions);
                     $("#buddybot-openaisearch-msg").val(assistant.metadata.openaisearch_msg);
+                    $("#buddybot-openai-response-length").val(assistant.metadata.response_length);
                 }
 
                 if ($("#buddybot-openaisearch").is(":checked")) {

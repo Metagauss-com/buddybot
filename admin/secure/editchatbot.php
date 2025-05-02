@@ -161,11 +161,6 @@ final class EditChatBot extends \BuddyBot\Admin\Secure\MoRoot
         return sanitize_text_field($greeting);
     }
 
-    public function multilingualSupport()
-    {
-        return isset($_POST['buddybot_data']['multilingual_support']) ? (bool) $_POST['buddybot_data']['multilingual_support'] : false;
-    }
-
     public function cleanVectorstoreId($vectorstore_id)
     {
         if (empty($vectorstore_id)) {
@@ -179,6 +174,26 @@ final class EditChatBot extends \BuddyBot\Admin\Secure\MoRoot
     public function cleanAssistantId($assistant_id)
     {
         return !empty($assistant_id) ? sanitize_text_field($assistant_id) : '';
+    }
+
+    public function cleanMultilingualSupport($multilingual_support)
+    {
+        return isset($multilingual_support) ? (bool) $multilingual_support : false;
+    }
+
+    public function cleanResponseLength($response_length)
+    {
+        if (!is_numeric($response_length)) {
+            $this->errors[] = __('Openai Response Length must be a valid number.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            return;
+        }
+
+        if ($response_length <= 0) {
+            $this->errors[] = __('Openai Response Length must be a positive number greater than zero.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            return;
+        }
+
+        return intval($response_length);
     }
 
     public function dataErrors()

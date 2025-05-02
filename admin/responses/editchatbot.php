@@ -131,7 +131,9 @@ class EditChatBot extends \BuddyBot\Admin\Responses\MoRoot
             'top_p' => floatval($buddybot_data["assistant_topp"]),
             'metadata' => array(
                 'aditional_instructions' => (string) ($buddybot_data["additional_instructions"] ?? ''),
-                'openaisearch_msg' => (string) ($buddybot_data["openaisearch_msg"] ?? '')
+                'openaisearch_msg' => (string) ($buddybot_data["openaisearch_msg"] ?? ''),
+                'response_length' => (string) ($buddybot_data["response_length"] ?? ''),
+
             ),
             'tool_resources' => array(
                 'file_search' => array(
@@ -177,6 +179,7 @@ class EditChatBot extends \BuddyBot\Admin\Responses\MoRoot
             'greeting_message' => isset($chatbot_data['greeting_message']) ? $chatbot_data['greeting_message'] : '',
             'openai_search' => isset($chatbot_data['openai_search']) ? $chatbot_data['openai_search'] : '',
             'external' => isset($chatbot_data['existing_assistant']) ? $chatbot_data['existing_assistant'] : '',
+            'multilingual_support' => isset($chatbot_data['multilingual_support']) ? $chatbot_data['multilingual_support'] : '',
         ];
     }
 
