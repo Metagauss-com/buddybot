@@ -1,4 +1,4 @@
-<div class="px-5 py-1">
+<div class="wrap">
 
 <?php
 

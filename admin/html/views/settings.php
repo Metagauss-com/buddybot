@@ -16,17 +16,31 @@ final class Settings extends \BuddyBot\Admin\Html\Views\MoRoot
 
     public function getHtml()
     {
-        $this->documentationContainer('https://getbuddybot.com/buddybot-settings-submenu-a-comprehensive-guide/');
         $this->pageModals();
         $this->pageSuccessAlert();
         $this->pageErrors();
 
         $heading = esc_html__('Settings', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-        $this->pageHeading($heading);
+        $this->customPageHeading($heading);
         $this->sectionToggle();
         $this->optionsLoader();
         $this->sectionOptions();
         $this->updateOptions();
+    }
+
+    protected function customPageHeading($heading)
+    {
+        echo '<div class="buddybot-header-wrap">';
+
+        echo '<hr class="wp-header-end">';
+        
+        echo '<div class="bb-top-head-section">';
+        $this->documentationContainer('https://getbuddybot.com/buddybot-settings-submenu-a-comprehensive-guide/');
+        echo '<h1 class="wp-heading-inline">';
+        echo esc_html($heading);
+        echo '</h1>';
+        echo '</div>';
+        echo '</div>';
     }
 
     private function pageSuccessAlert()

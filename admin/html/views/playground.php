@@ -6,9 +6,8 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
 {
     public function getHtml()
     {
-        $this->documentationContainer('https://getbuddybot.com/test-area-submenu-in-buddybot/');
         $heading = __('Test Area', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-        $this->pageHeading($heading);
+        $this->customPageHeading($heading);
         $this->playgroundContainer();
     }
 
@@ -20,6 +19,21 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
         $this->threadsContainer();
         $this->messagesContainer();
         
+        echo '</div>';
+    }
+
+    protected function customPageHeading($heading)
+    {
+        echo '<div class="buddybot-header-wrap">';
+
+        echo '<hr class="wp-header-end">';
+        
+        echo '<div class="bb-top-head-section">';
+        $this->documentationContainer('https://getbuddybot.com/test-area-submenu-in-buddybot/');
+        echo '<h1 class="wp-heading-inline">';
+        echo esc_html($heading);
+        echo '</h1>';
+        echo '</div>';
         echo '</div>';
     }
 

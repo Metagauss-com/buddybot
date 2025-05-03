@@ -6,7 +6,6 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
 {
     public function getHtml()
     {
-        $this->documentationContainer('https://getbuddybot.com/what-are-assistants-and-how-to-create-them/');
         $this->alertContainer();
         echo '<div class="wrap">';
         $heading = __('BuddyBots', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
@@ -37,6 +36,7 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<h2 class="screen-reader-text">Filter pages list</h2>';
         
         echo '<div class="bb-top-head-section">';
+        $this->documentationContainer('https://getbuddybot.com/what-are-assistants-and-how-to-create-them/');
         echo '<h1 class="wp-heading-inline">';
         echo esc_html($heading);
         echo '</h1>';

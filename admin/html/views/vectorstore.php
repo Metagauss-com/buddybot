@@ -9,7 +9,7 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         $this->documentationContainer('https://getbuddybot.com/ai-training-for-buddybot-unlocking-intelligent-conversations-with-your-site-data/');
         $heading = __('AI Training', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-        $this->customHeading($heading);
+        $this->customPageHeading($heading);
         $this->alertContainer();
         $this->getVectorStore();
         $this->ProgressBar();
@@ -17,14 +17,25 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
         $this->msgArea();
     }
 
-    private function customHeading($heading)
+    protected function customPageHeading($heading)
     {
-        echo '<div class="mb-1" style="display: flex; align-items: center;">';
-        echo '<h3>';
+        echo '<div class="buddybot-header-wrap">';
+        echo '<div class="buddybots-page-heading">';
+        echo '<h1 class="wp-heading-inline">';
+        echo '</h1>';
+        
+        echo '<hr class="wp-header-end">';
+        
+        echo '<div class="bb-top-head-section">';
+        $this->documentationContainer('https://getbuddybot.com/ai-training-for-buddybot-unlocking-intelligent-conversations-with-your-site-data/');
+        echo '<h1 class="wp-heading-inline">';
         echo esc_html($heading);
-        echo '</h3>';
+        echo '</h1>';
         $this->createVectorStoreBtn();
         echo '</div>';
+        echo '</div>';
+        
+        
     }
 
     private function createVectorStoreBtn()
@@ -35,17 +46,13 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
         $btn_label = __('Create AI Training Knowledgebase', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
 
         $id = 'buddybot-vectorstore-create';
-        echo '<div class="ms-2">';
 
-        echo '<input type="submit" id="' . esc_attr($id) . '" ';
-        echo 'class="button button-outline visually-hidden" " value="' . esc_html($btn_label) . '">';
-        echo '<span class="spinner is-active" style="display:none;" aria-hidden="true"></span>';
+        // Action Button (styled like "Add New")
+        echo '<a href="javascript:void(0);" id="' . esc_attr($id) . '" class="page-title-action">' . esc_html($btn_label) . '</a>';
+        //echo '<span class="spinner is-active" style="display:none;" aria-hidden="true"></span>';
 
-        //$this->wordpressLoaderBtn($id, $btn_label, 'visually-hidden');
-
+        // Hidden field to store the vector store ID
         $this->createHiddenField('buddybot_vector_store_id', $vectorstore_id);
-
-        echo '</div>';
     }
 
     private function getVectorStore()
