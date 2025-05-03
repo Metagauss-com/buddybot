@@ -2,10 +2,10 @@
 
 Contributors: buddybot 
 Tags: AI, chatbot, OpenAI, AI assistant  
-Requires at least: 6.7  
+Requires at least: 6.2  
 Tested up to: 6.8  
 Requires PHP: 7.3
-Stable tag: 1.3.5.0
+Stable tag: 1.3.6.0
 License: GPLv2 or later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
