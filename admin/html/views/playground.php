@@ -43,7 +43,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
         
         echo '<div id="buddybot-playground-options-select-assistant" class="p-3">';
         echo '<label class="">';
-        esc_html_e('Assistant', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        esc_html_e('Select BuddyBot', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '<label>';
         echo '<select id="buddybot-playground-assistants-list" class="form-select ms-2">';
 
@@ -55,7 +55,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
                 echo '<option value="' . $value . '">' . $display_text . '</option>';
             }
         } else {
-            echo '<option disabled selected>' . esc_html__('No Assistants Found', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</option>';
+            echo '<option disabled selected>' . esc_html__('No BuddyBot Found', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</option>';
         }
 
         echo '</select>';

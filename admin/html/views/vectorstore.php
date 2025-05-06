@@ -7,7 +7,6 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
 
     public function getHtml()
     {
-        $this->documentationContainer('https://getbuddybot.com/ai-training-for-buddybot-unlocking-intelligent-conversations-with-your-site-data/');
         $heading = __('AI Training', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $this->customPageHeading($heading);
         $this->alertContainer();
@@ -47,9 +46,13 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
 
         $id = 'buddybot-vectorstore-create';
 
-        // Action Button (styled like "Add New")
-        echo '<a href="javascript:void(0);" id="' . esc_attr($id) . '" class="page-title-action">' . esc_html($btn_label) . '</a>';
-        //echo '<span class="spinner is-active" style="display:none;" aria-hidden="true"></span>';
+        // // Action Button (styled like "Add New")
+        // echo '<a href="javascript:void(0);" id="' . esc_attr($id) . '" class="page-title-action">' . esc_html($btn_label) . '</a>';
+        // //echo '<span class="spinner is-active" style="display:none;" aria-hidden="true"></span>';
+
+        echo '<input type="submit" id="' . esc_attr($id) . '" ';
+        echo 'class="page-title-action visually-hidden" " value="' . esc_html($btn_label) . '">';
+        echo '<span class="spinner is-active" style="display:none;" aria-hidden="true"></span>';
 
         // Hidden field to store the vector store ID
         $this->createHiddenField('buddybot_vector_store_id', $vectorstore_id);
