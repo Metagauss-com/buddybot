@@ -103,6 +103,12 @@ Yes, BuddyBot AI uses the Bootstrap framework for its layout and design, providi
 
 == Changelog == 
 
+= 1.3.6.0: May 6, 2025 =
+* Fixed: Docs banner layout (position and size).
+* Fixed: Post limitation issue during AI Training.
+* Updated: Training now processes only published posts.
+* Changed: Minimum required WordPress version lowered from 6.7 to 6.2.
+
 = 1.3.5.0: April 23, 2025 =
 * Added stricter fallback handling: responses are now based only on vector store data.
 * Improved fallback message behavior when no relevant match is found.
@@ -160,6 +166,12 @@ Yes, BuddyBot AI uses the Bootstrap framework for its layout and design, providi
 * Initial release of BuddyBot AI. 
 
 == Upgrade Notice ==
+
+= 1.3.6.0: May 6, 2025 =
+* Fixed: Docs banner layout (position and size).
+* Fixed: Post limitation issue during AI Training.
+* Updated: Training now processes only published posts.
+* Changed: Minimum required WordPress version lowered from 6.7 to 6.2.
 
 = 1.3.5.0: April 23, 2025 =
 * Added stricter fallback handling: responses are now based only on vector store data.
