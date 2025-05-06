@@ -2,8 +2,8 @@
 /**
  * Plugin Name:       BuddyBot AI - Custom AI Assistant and Chat Agent
  * Description:       Create and connect BuddyBot with AI Assistant, syncronize site data and publish on the frontend.
- * Version:           1.3.5.0
- * Requires at least: 6.7
+ * Version:           1.3.6.0
+ * Requires at least: 6.2
  * Requires PHP:      7.3
  * Author URI:        https://profiles.wordpress.org/buddybot/
  * License:           GPL v2 or later
@@ -15,7 +15,7 @@
 
 namespace BuddyBot;
 
-define( 'BUDDYBOT_PLUGIN_VERSION', '1.3.5.0' );
+define( 'BUDDYBOT_PLUGIN_VERSION', '1.3.6.0' );
 define( 'BUDDYBOT_DATABASE_VERSION', '1.1' );
 define('BUDDYBOT_PLUGIN_URL', plugin_dir_url(__FILE__));
 
