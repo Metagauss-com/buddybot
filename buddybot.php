@@ -16,7 +16,7 @@
 namespace BuddyBot;
 
 define( 'BUDDYBOT_PLUGIN_VERSION', '1.3.6.0' );
-define( 'BUDDYBOT_DATABASE_VERSION', '1.1' );
+define( 'BUDDYBOT_DATABASE_VERSION', '1.2' );
 define('BUDDYBOT_PLUGIN_URL', plugin_dir_url(__FILE__));
 
 //exit if the file is accessed directly.
