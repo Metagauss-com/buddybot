@@ -11,6 +11,7 @@ final class ChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
         $heading = __('BuddyBots', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $this->customPageHeading($heading);
         $this->assistantsTable();
+        $this->buddybotFooterBanner();
         echo '</div>';
         $this->pageModals();
         $this->toastContainer();

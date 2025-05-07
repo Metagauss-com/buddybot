@@ -16,23 +16,13 @@ class OpenAiPrompt extends \BuddyBot\Admin\Prompt\MoRoot
         $prompt .= $this->emotionDetectionPrompt();
         $prompt .= $this->openaiSearchPrompt();
         $prompt .= $this->additionalInstructionsPrompt();
+        $prompt .= $this->multilingualSupportPrompt();
+        $prompt .= $this->openaiResponseLengthPrompt();
         $prompt .= $this->defaultPrompt();
         
         return $prompt;
     }
 
-
-    // General Behavior:
-    // - Do not offer unsolicited help or follow-up questions.
-    // - Only respond to what the user asks directly.
-    // - Remain consistent in tone, fallback behavior, and identity throughout the conversation.
-    
-    // Fallback Behavior:
-    // - If a question does not match any result in the vector store, respond with this exact sentence: “Sorry, you are going out of topic.”
-    // - Do not modify this message. Do not explain, reword, or add anything to it.
-    // - Never say things like “uploaded files,” “your documents,” “nothing was found,” or “I couldn't locate that information.”
-    // - Never offer to help in a different way or suggest asking another question.
-    // - Your response must be either a clear, context-rich answer from the vector store or the exact fallback message above. Nothing else.
     private function defaultPrompt()
     {
         $assistant_name = !empty($this->data["assistant_name"]) ? sanitize_text_field($this->data["assistant_name"]) : "BuddyBot";
@@ -145,6 +135,42 @@ class OpenAiPrompt extends \BuddyBot\Admin\Prompt\MoRoot
         }
     
         return '';
+    }
+
+    private function multilingualSupportPrompt()
+    {
+        $enabled = !empty($this->data["multilingual_support"]);
+    
+        if ($enabled) {
+            $prompt  = "Multilingual Behavior: " . PHP_EOL;
+            $prompt .= "- Always detect the user's input language and reply in the same language. " . PHP_EOL;
+            $prompt .= "- All responses, including greeting messages, fallback messages, and detailed answers, should be **fully translated** into the user's language. " . PHP_EOL;
+            $prompt .= "- The assistant should never respond in its default language (English) unless explicitly asked to do so. " . PHP_EOL;
+            $prompt .= "- If the user asks in a different language, translate **everything** to the user's language, including fallback and other responses. " . PHP_EOL;
+            $prompt .= "- Never include any mention of language detection or conversion, just respond naturally in the detected language." . PHP_EOL;
+        } else {
+            // If multilingual support is not enabled
+            $prompt  = "Language Behavior: " . PHP_EOL;
+            $prompt .= "- Always respond in your default language." . PHP_EOL;
+            $prompt .= "- Do not detect or switch languages, even if the user's input is in another language." . PHP_EOL;
+            $prompt .= "- Ignore any multilingual cues unless explicitly asked to translate." . PHP_EOL;
+        }
+    
+        return $prompt;
+    }
+    
+
+    private function openaiResponseLengthPrompt()
+    {
+        $max_words = !empty($this->data["openai_response_length"]) ? (int) $this->data["openai_response_length"] : 500;
+
+        $prompt  = "Response Length Constraint: " . PHP_EOL;
+        $prompt .= "- Your response must not exceed {$max_words} words under any condition. " . PHP_EOL;
+        $prompt .= "- Do not add extra details, elaborations, or follow-ups beyond this limit. " . PHP_EOL;
+        $prompt .= "- Prioritize concise, clear answers that respect the word limit. " . PHP_EOL;
+        $prompt .= "- If the user asks for a detailed explanation, still keep the response within the {$max_words}-word limit." . PHP_EOL;
+
+        return $prompt;
     }
 
 }

@@ -196,6 +196,17 @@ final class EditChatBot extends \BuddyBot\Admin\Secure\MoRoot
         return intval($response_length);
     }
 
+    public function CleanTempTopP($temp_top_p)
+    {
+        if (!empty($temp_top_p)) {
+            [$temperature, $top_p] = explode('_', $temp_top_p);
+    
+            if (floatval($temperature) === 2.0 && floatval($top_p) === 1.0) {
+                $this->errors[] = __('Setting both Response Creativity and Response Diversity to the maximum may occasionally cause server errors. To ensure smooth performance, please lower one of the two settings.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            }
+        }
+    }
+
     public function dataErrors()
     {
         return $this->errors;

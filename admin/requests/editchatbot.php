@@ -140,6 +140,7 @@ final class EditChatBot extends \BuddyBot\Admin\Requests\MoRoot
                 buddybotData["assistant_model"] = $("#buddybot-assistantmodel").val();
                 buddybotData["additional_instructions"] = $("#buddybot-additionalinstructions").val();
                 buddybotData["assistant_temperature"] = $("#buddybot-assistanttemperature-range").val();
+                buddybotData["temp_topp"] = $("#buddybot-assistanttemperature-range").val() + "_" + $("#buddybot-assistanttopp-range").val();
                 buddybotData["assistant_topp"] = $("#buddybot-assistanttopp-range").val();
                 buddybotData["openai_search"] = $("#buddybot-openaisearch").is(":checked") ? "1" : "0";
 
