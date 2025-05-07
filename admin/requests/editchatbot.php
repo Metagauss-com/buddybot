@@ -114,6 +114,7 @@ final class EditChatBot extends \BuddyBot\Admin\Requests\MoRoot
                     }
                     select.siblings("#buddybot-assistant-model-spinner").hide();
                     showAlert(response.message);
+                    $("#buddybot-settings-success").hide();
                 }
             });
         };
@@ -188,6 +189,7 @@ final class EditChatBot extends \BuddyBot\Admin\Requests\MoRoot
                     location.replace("' . esc_url(get_admin_url()) . 'admin.php?page=buddybot-editchatbot&chatbot_id=' . '" + response.chatbot_id + "&success=1");
                 } else {
                     showAlert(response.message);
+                    $("#buddybot-settings-success").hide();
                 }
                 $("#buddybot-buddybotsubmit").prop("disabled", false);
                 $("#buddybot-buddybotsubmit").closest(".buddybot-btn-wrap").find(".spinner").hide();
@@ -223,6 +225,7 @@ final class EditChatBot extends \BuddyBot\Admin\Requests\MoRoot
                     $("#buddybot-assistant-details-container").html(response.html);
                 } else {
                     showAlert(response.message);
+                    $("#buddybot-settings-success").hide();
                 }
 
                 disableTableFields("buddybot-table", false);

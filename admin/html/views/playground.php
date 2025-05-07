@@ -37,13 +37,28 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '</div>';
     }
 
+    protected function customPageHeading($heading)
+    {
+        echo '<div class="buddybot-header-wrap">';
+
+        echo '<hr class="wp-header-end">';
+        
+        echo '<div class="bb-top-head-section">';
+        $this->documentationContainer('https://getbuddybot.com/test-area-submenu-in-buddybot/');
+        echo '<h1 class="wp-heading-inline">';
+        echo esc_html($heading);
+        echo '</h1>';
+        echo '</div>';
+        echo '</div>';
+    }
+
     private function playgroundOptions()
     {
         echo '<div id="buddybot-playground-options-container" class="col-md-12 d-flex border-bottom">';
         
         echo '<div id="buddybot-playground-options-select-assistant" class="p-3">';
         echo '<label class="">';
-        esc_html_e('Assistant', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        esc_html_e('Select BuddyBot', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '<label>';
         echo '<select id="buddybot-playground-assistants-list" class="form-select ms-2">';
 
@@ -55,7 +70,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
                 echo '<option value="' . $value . '">' . $display_text . '</option>';
             }
         } else {
-            echo '<option disabled selected>' . esc_html__('No Assistants Found', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</option>';
+            echo '<option disabled selected>' . esc_html__('No BuddyBot Found', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</option>';
         }
 
         echo '</select>';

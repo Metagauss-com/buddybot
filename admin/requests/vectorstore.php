@@ -83,13 +83,9 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
             let pageReload = true;
             
             $("#buddybot-vectorstore-create").click(function() {
-                $("#buddybot-ProgressBar").css("opacity", 0);
-                $("#buddybot-progressbar-percentage").css("opacity", 0);
-                $("#buddybot-sync-msgs").css("opacity", 0);
-                updateProgressBar(0, "' . esc_js(__('Sync processing...', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '");
-                $(".buddybot-sync-btn").prop("disabled",false);
                 hideAlert();
                 disableFields(true);
+                $("#buddybot-vectorstore-create").prop("disabled", true);
                 showWordpressLoader("#buddybot-vectorstore-create");
                 pageReload = false;
                 checkVectorStore(pageReload);
@@ -172,6 +168,7 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
                         showAlert(response.message);
                     }
                     disableFields(false);
+                    $("#buddybot-vectorstore-create").prop("disabled", false);
                 });
             }
 

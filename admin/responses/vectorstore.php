@@ -316,7 +316,9 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
     private function compilePosts()
     {
         $args = array(
-            'post_type' => 'post'
+            'post_type' => 'post',
+            'posts_per_page' => -1,
+            'post_status'    => 'publish',
         );
 
         $post_query = new \WP_Query($args);
@@ -324,8 +326,8 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
         if ($post_query->have_posts()) {
             while ($post_query->have_posts()) {
                 $post_query->the_post();
-                $this->file_data .= wp_strip_all_tags(get_the_title());
-                $this->file_data .= wp_strip_all_tags(get_the_content());
+                $this->file_data .= wp_strip_all_tags(get_the_title()). "\r\n";
+                $this->file_data .= wp_strip_all_tags(get_the_content()). "\r\n";
             }
         }
 
@@ -341,7 +343,7 @@ class VectorStore extends \BuddyBot\Admin\Responses\MoRoot
         $comments = get_comments($args);
 
         foreach ($comments as $comment) {
-            $this->file_data .= wp_strip_all_tags($comment->comment_content);
+            $this->file_data .= wp_strip_all_tags($comment->comment_content). "\r\n";
         }
     }
 
