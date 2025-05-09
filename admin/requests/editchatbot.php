@@ -279,8 +279,9 @@ final class EditChatBot extends \BuddyBot\Admin\Requests\MoRoot
         });
 
     $(document).on("click", ".toggle-more-details", function () {
+    console.log("clicked");
             const $btn = $(this);
-            const $details = $btn.siblings(".buddybot-more-details");
+            const $details = $(".buddybot-more-details");
 
             $details.slideToggle(200, function () {
                 const showText = $btn.data("show");
