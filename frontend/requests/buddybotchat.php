@@ -314,28 +314,228 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
 
     private function createRunJs()
     {
-        echo '
-        function createRun() {
+        // echo '
+        // function createRun() {
 
+        //     const assistantId = $("#buddybot-chat-conversation-assistant-id").val();
+
+        //     const data = {
+        //         "action": "createFrontendRun",
+        //         "thread_id": sessionStorage.getItem("bbCurrentThreadId"),
+        //         "assistant_id": assistantId,
+        //         "nonce": "' . esc_js(wp_create_nonce('create_run')) . '"
+        //     };
+  
+        //     $.post(ajaxurl, data, function(response) {
+        //         response = JSON.parse(response);
+        //         if (response.success) {
+        //             sessionStorage.setItem("bbCurrentRunId", response.result.id);
+        //             checkRun = retrieveRun();
+        //         } else {
+        //             showAlert("danger", response.message);
+        //             lockUi(false);
+        //         }
+        //     });
+        // }
+        
+        $apiKey = $this->options->getOption('openai_api_key');
+        echo '
+        const messageBuffers = {};
+        let runCreatedAt = null;
+
+        function startStreaming() {
+
+            const threadId = sessionStorage.getItem("bbCurrentThreadId");
             const assistantId = $("#buddybot-chat-conversation-assistant-id").val();
 
-            const data = {
-                "action": "createFrontendRun",
-                "thread_id": sessionStorage.getItem("bbCurrentThreadId"),
-                "assistant_id": assistantId,
-                "nonce": "' . esc_js(wp_create_nonce('create_run')) . '"
-            };
-  
-            $.post(ajaxurl, data, function(response) {
-                response = JSON.parse(response);
-                if (response.success) {
-                    sessionStorage.setItem("bbCurrentRunId", response.result.id);
-                    checkRun = retrieveRun();
-                } else {
-                    showAlert("danger", response.message);
+            fetchStream(threadId, assistantId);
+        }
+
+        async function fetchStream(threadId, assistantId) {
+            try {
+                const apiUrl = "https://api.openai.com/v1/threads/" + threadId + "/runs";
+                const response = await fetch(apiUrl, {
+                    method: "POST",
+                    headers: {
+                        "Authorization": "Bearer ' . esc_js($apiKey) . '",
+                        "Content-Type": "application/json",
+                        "OpenAI-Beta": "assistants=v2",
+                    },
+                    body: JSON.stringify({
+                        assistant_id: assistantId,
+                        stream: true
+                    })
+                });
+    
+                if (!response.ok) {
+                    const errorDetails = await response.json();
+                    let errorMessage = errorDetails?.error?.message || "' . esc_html__("An error occurred while fetching Assistant response.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+                    showAlert("danger", errorMessage);
                     lockUi(false);
+                    return;
                 }
-            });
+    
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder("utf-8");
+                let leftover = "";
+    
+                // Read the stream
+                while (true) {
+                    const { value, done } = await reader.read();
+                    if (done) break;
+    
+                    const chunk = decoder.decode(value, { stream: true });
+                    const text   = leftover + chunk;
+                    const lines  = text.split("\n");
+
+                    leftover = lines.pop();
+
+                    for (const line of lines) {
+                        if (line.startsWith("data: ")) {
+                            const data = line.slice(6).trim();
+                            if (data === "[DONE]") {
+                                lockUi(false);
+                                return;
+                            }
+    
+                            let response;
+                            
+                            try {
+                                response = JSON.parse(data);
+                            } catch (e) {
+                                console.warn("Skipping incomplete JSON chunk:", data);
+                                continue;
+                            }
+
+                            if (response.status === "failed" || response.error) {
+                                const errorMsg = response?.last_error?.message || "' . esc_html__("An error occurred while processing your message.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+                                showAlert("danger", errorMsg);
+                                lockUi(false);
+                                return;
+                            } else if (response.status === "cancelled" || response.status === "cancelling") {
+                                const runCancelled = "' . esc_html__('The process was aborted.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+                                showAlert("danger", runCancelled);
+                                lockUi(false);
+                                return;
+                            }
+
+                            if (response.object === "thread.run") {
+                                runCreatedAt = response.created_at;
+                            }
+
+                            if (response.delta && response.delta.content) {
+                                let messageId = response.id;
+                                appendToChatBubble(response.delta.content[0].text.value, messageId, runCreatedAt);
+                            }
+                        }
+                    }
+                }
+            } catch (error) {
+                let errorMessage = error || "' . esc_html__("An error occurred while fetching Assistant response.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+                showAlert("danger", errorMessage);
+                lockUi(false);
+            }
+        }
+    
+        function appendToChatBubble(content, messageId, CreatedAt) {
+
+
+            if (!messageBuffers[messageId]) {
+                messageBuffers[messageId] = "";
+            }
+            messageBuffers[messageId] += content;
+
+            const formattedContent = parseFormatting(messageBuffers[messageId]);
+            let messageEl = document.getElementById(messageId);
+
+            if (messageEl) {
+                const contentEl = messageEl.querySelector(".buddybot-chat-conversation-assistant-response");
+                if (contentEl) {
+                    contentEl.innerHTML = formattedContent;
+                }
+            } else {
+                const imgUrl = "' . esc_url($this->config->getRootUrl() . 'admin/html/images/third-party/openai/openai-logomark.png') . '";
+            
+                let TimeFormat = "' . esc_js($this->config->getProp('time_format')) . '";
+                let timezone = bbTimeZone;
+
+
+                let formattedDate = formatTimeWithToday(runCreatedAt, TimeFormat, timezone);
+
+                const messageHtml = `
+                    <div class="buddybot-chat-conversation-list-item d-flex justify-content-start text-dark" id="${messageId}">
+                        <div class="me-2 pt-2">
+                            <img width="28" class="shadow-none rounded-circle border-0" src="${imgUrl}">
+                        </div>
+                        <div>
+                            <div class="buddybot-chat-conversation-assistant-response p-2 bg-light bg-opacity-10" style="max-width: 500px;"></div>
+                            <div class="small text-start text-secondary ms-2 me-3">
+                                ${formattedDate}
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                $("#buddybot-single-conversation-messages-wrapper").append(messageHtml);
+
+                document.querySelector(`#${messageId} .buddybot-chat-conversation-assistant-response`).innerHTML = formattedContent;
+
+                scrollToBottom(messageId);
+            }
+        }
+
+        function parseFormatting(text) {
+            // Replace **bold** with <strong>bold</strong>
+            text = text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+
+            // Convert newlines to <br>
+            text = text.replace(/\n/g, "<br>");
+
+            text = text.replace(/【.*?†.*?】/g, "");
+
+            return text;
+        }
+
+        function formatTimeWithToday(unixTimestamp, wpTimeFormat, wpTimeZone) {
+            // Always show "Today" for date; wpDateFormat parameter removed
+            const date = new Date(unixTimestamp * 1000);
+            const tzDate = new Date(date.toLocaleString("en-US", { timeZone: wpTimeZone }));
+
+            function pad(n, width = 2) {
+                return String(n).padStart(width, "0");
+            }
+
+            // Map only time tokens
+            const replacements = {
+                a: tzDate.getHours() >= 12 ? "pm" : "am",
+                A: tzDate.getHours() >= 12 ? "PM" : "AM",
+                g: ((h) => h % 12 || 12)(tzDate.getHours()),
+                G: tzDate.getHours(),
+                h: pad((tzDate.getHours() % 12) || 12),
+                H: pad(tzDate.getHours()),
+                i: pad(tzDate.getMinutes()),
+                s: pad(tzDate.getSeconds())
+            };
+
+            function applyTimeFormat(fmt) {
+                let out = "";
+                for (let i = 0; i < fmt.length; i++) {
+                    const c = fmt[i];
+                    if (c === "\\.") {
+                        // escape literal next char
+                        i++;
+                        if (i < fmt.length) out += fmt[i];
+                    } else if (replacements[c] !== undefined) {
+                        out += replacements[c];
+                    } else {
+                        out += c;
+                    }
+                }
+                return out;
+            }
+
+            const timeString = applyTimeFormat(wpTimeFormat);
+            return `' . esc_html__("Today", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . ', ${timeString}`;
         }
         ';
     }
