@@ -65,7 +65,7 @@ class EditChatBot extends \BuddyBot\Admin\Responses\MoRoot
 
         if (!empty($errors)) {
             $this->response['success'] = false;
-            $errorMessage = '<strong>' . esc_html__('There was an error with your submission. Please fix the following errors:', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</strong>';
+            $errorMessage = '<span class="buddybot-fw-bold">' . esc_html__('There was an error with your submission. Please fix the following errors:', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</span>';
             $errorMessage .= '<ul style="list-style-type: disc; padding-left: 20px;">';
             foreach ($errors as $error) {
                 $errorMessage .= '<li>' . esc_html($error) . '</li>'; 
@@ -387,37 +387,45 @@ class EditChatBot extends \BuddyBot\Admin\Responses\MoRoot
         $metadata = !empty($output->metadata) ? (array) $output->metadata : [];
         $tools    = !empty($output->tools) ? (array) $output->tools : [];
     
-        $html = '<div class="buddybot-assistant-preview">';
+        $html = '<div class="buddybot-assistant-preview   ">';
     
         // Basic Info
-        $html .= '<div class="">' . esc_html__('Assistant Summary', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
-        $html .= '<p id="buddybot-existing-assistant-id" data-assistant-id="' . esc_attr($id) . '"><strong>' . esc_html__('ID:', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</strong> ' . $id . '</p>';
-        $html .= '<p><strong>' . esc_html__('Name:', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</strong> ' . $name . '</p>';
-        $html .= '<p><strong>' . esc_html__('Description:', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</strong> ' . $description . '</p>';
-        $html .= '<p id="buddybot-existing-assistant-model" data-model="' . esc_attr($model) . '"><strong>' . esc_html__('Model:', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</strong> ' . $model . '</p>';
-        $html .= '<p><strong>' . esc_html__('Temperature:', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</strong> ' . $temperature . '</p>';
-        $html .= '<p><strong>' . esc_html__('Top P:', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</strong> ' . $top_p . '</p>';
-        $html .= '<p><strong>' . esc_html__('Instructions:', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</strong> ' . $instructions . '</p>';
+        $html .= '<div class="buddybot-assistant-preview-header")' .'>';
+        $html .= '<div class="buddybot-fw-bold buddybot-fs-2 buddybot-pb-5">' . esc_html__('Assistant Summary', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
+        $html .= '<p id="buddybot-existing-assistant-id" data-assistant-id="' . esc_attr($id) . '"><span class="buddybot-fw-bold">' . esc_html__('ID:', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</span> ' . $id . '</p>';
+        $html .= '<p><span class="buddybot-fw-bold">' . esc_html__('Name:', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</span> ' . $name . '</p>';
+        $html .= '<p><span class="buddybot-fw-bold">' . esc_html__('Description:', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</span> ' . $description . '</p>';
+        $html .= '<p id="buddybot-existing-assistant-model" data-model="' . esc_attr($model) . '"><span class="buddybot-fw-bold">' . esc_html__('Model:', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</span> ' . $model . '</p>';
+        $html .= '<p><span class="buddybot-fw-bold">' . esc_html__('Temperature:', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</span> ' . $temperature . '</p>';
+        $html .= '<p><span class="buddybot-fw-bold">' . esc_html__('Top P:', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</span> ' . $top_p . '</p>';
+        $html .= '<p><span class="buddybot-fw-bold">' . esc_html__('Instructions:', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</span> ' . $instructions . '</p>';
+        
     
         if (!empty($metadata) || !empty($tools)) {
-            $html .= '<button type="button" class="toggle-more-details" data-show="' . esc_attr__('Show More Details', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '" data-hide="' . esc_attr__('Hide Details', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '">' . esc_html__('Show More Details', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</button>';
+            $html .= '<button type="button" class="toggle-more-details">';
+            $html .= esc_html__('More Details', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            $html .= '<svg class="arrow-icon" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff"><path d="M480-528 296-344l-56-56 240-240 240 240-56 56-184-184Z"/></svg>';
+            $html .= '</button>';
+
         }
+        $html .= '</div>'; // Close header
+       
     
         // Hidden Details
-        $html .= '<div class="buddybot-more-details buddybot-mt-3" style="display:none;">';
+        $html .= '<div class="buddybot-more-details buddybot-mt-2" style="display:none;">';
     
         if (!empty($metadata)) {
-            $html .= '<div class="">' . esc_html__('Metadata', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
+            $html .= '<div class="buddybot-fs-2 buddybot-fw-bold">' . esc_html__('Metadata', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
             foreach ($metadata as $key => $value) {
-                $html .= '<p><strong>' . esc_html($key) . ':</strong> ' . esc_html($value) . '</p>';
+                $html .= '<p><span class="buddybot-fw-bold">' . esc_html($key) . ':</span> ' . esc_html($value) . '</p>';
             }
         }
     
         if (!empty($tools)) {
-            $html .= '<div>' . esc_html__('Tools', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
+            $html .= '<div class="buddybot-fs-2 buddybot-fw-bold ">' . esc_html__('Tools', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>';
             foreach ($tools as $tool) {
                 $tool_type = isset($tool->type) ? esc_html($tool->type) : 'Unknown';
-                $html .= '<p><strong>' . esc_html__('Type:', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</strong> ' . $tool_type . '</p>';
+                $html .= '<p><span class="buddybot-fw-bold">' . esc_html__('Type:', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</span> ' . $tool_type . '</p>';
             }
         }
     
