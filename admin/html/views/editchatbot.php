@@ -106,8 +106,8 @@ class EditChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
             //$this->assistantFallbackBehavior();
             $this->emotionDetection();
             $this->greetingMessage();
-            $this->multilingualSupport();
-            $this->openaiResponseLength();
+            // $this->multilingualSupport();
+            // $this->openaiResponseLength();
             // $this->languageOptions();
         echo '</tbody>';
     }

@@ -16,8 +16,8 @@ class OpenAiPrompt extends \BuddyBot\Admin\Prompt\MoRoot
         $prompt .= $this->emotionDetectionPrompt();
         $prompt .= $this->openaiSearchPrompt();
         $prompt .= $this->additionalInstructionsPrompt();
-        $prompt .= $this->multilingualSupportPrompt();
-        $prompt .= $this->openaiResponseLengthPrompt();
+        // $prompt .= $this->multilingualSupportPrompt();
+        // $prompt .= $this->openaiResponseLengthPrompt();
         $prompt .= $this->defaultPrompt();
         
         return $prompt;
