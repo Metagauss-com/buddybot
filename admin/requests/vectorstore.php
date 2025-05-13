@@ -517,7 +517,8 @@ final class VectorStore extends \BuddyBot\Admin\Requests\MoRoot
         echo '
         checkFileStatusOnVectorStoreJs();
         function checkFileStatusOnVectorStoreJs(newFileId,last_sync,DataType="", hidebar=false) {
-        $(".list-group-item").each(function(){
+        $(".buddybot-list-group").each(function(){
+            console.log("checkFileStatusOnVectorStoreJs");
             let listItem = $(this);
             let data_type = listItem.attr("data-buddybot-type");
             let dataType = DataType || data_type;

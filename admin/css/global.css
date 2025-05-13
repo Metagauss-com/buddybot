@@ -14,6 +14,17 @@
 .buddybot-d-flex {
     display: flex !important;
 }
+.buddybot-d-none{
+    display: none!important;
+}
+.buddybot-d-flex-direction-row{
+    display: flex!important;
+    flex-direction: row!important;
+}
+.buddybot-flex-direction-column{
+    display: flex!important;
+    flex-direction: column!important;
+}
 
 .buddybot-justify-content-between {
     justify-content: space-between !important;
@@ -22,10 +33,25 @@
 .buddybot-align-items-center {
     align-items: center !important;
 }
+/* position */
+.buddybot-position-relative {
+    position: relative !important;
+}
+.buddybot-position-absolute {
+    position: absolute !important;
+}
+
+.buddybot-border-radius-50{
+    border-radius: 50%;
+}
+
 /* General CSS End---*/
 
 /*---Margins and Padding---*/
-
+.margin-mx-auto{
+    margin-left: auto!important;
+    margin-right: auto!important;
+}
 .buddybot-mb-0 {
     margin-bottom: 0 !important;
 }
@@ -53,6 +79,15 @@
 .buddybot-mt-0 {
     margin-top: 0 !important;
 }
+.buddybot-mt-1{
+    margin-top: .25rem!important;
+}
+.buddybot-mt-2{
+    margin-top: .5rem!important;
+}
+.buddybot-mt-4{
+    margin-top:1.5rem;
+}
 
 .buddybot-ms-0 {
     margin-left: 0 !important;
@@ -69,6 +104,12 @@
 .buddybot-ms-3 {
     margin-left: 1rem !important;
 }
+.buddybot-me-2{
+    margin-right: .5rem!important;
+}
+.buddybot-me-3{
+    margin-right: .75rem!important;
+}
 
 .buddybot-my-0 {
     margin-top: 0 !important;
@@ -84,9 +125,20 @@
     padding-top: 0.25rem !important;
     padding-bottom: 0.25rem !important;
 }
+.buddybot-py-3{
+    padding-top: .75rem!important;
+    padding-bottom:.75rem!important;
+}
+.buddybot-py-4{
+    padding-top: 1rem!important;
+    padding-bottom:1rem!important;
+}
 
 .buddybot-p-2{
     padding: 0.5rem !important;
+}
+.buddybotp-p-3{
+    padding: .75rem!important;
 }
 
 .buddybot-py-2 {
@@ -96,6 +148,9 @@
 
 .buddybot-fw-medium {
     font-weight: 500;
+}
+.buddybot-fw-bold{
+    font-weight: 700;;
 }
 
 .buddybot-px-4 {
@@ -122,9 +177,15 @@
 .buddybot-box-w-100{
     width: 100%;
 }
+.buddybot-box-w-50{
+    width: 50%;
+}
 
 .buddybot-border-top {
     border-top: 1px solid #dee2e6;
+}
+.buddybot-border-bottom{
+    border-bottom:1px solid #dee2e6;
 }
 
 .buddybot-fs-6{
@@ -147,10 +208,17 @@
     opacity: 1;
     color: #212529 !important;
 }
+.buddybot-text-muted{
+    color: #6c757d !important;
+}
 
 .buddybot-text-small {
     font-size: .875em !important;
 }
+.buddybot-text-decoration-none{
+    text-decoration: none!important;
+}
+
 
 
 
@@ -458,6 +526,12 @@ border-color: #545b62;
     opacity: 0.5;
     pointer-events: none;
 }
+.buddybot-btn-secondory{
+  color: #a7aaad!important;
+  background-color: #f6f7f7!important;
+  border: 1px solid #dcdcde!important;
+}
+
 
 .bb-btn-sm {
     padding: 0.25rem 0.5rem;
@@ -660,4 +734,27 @@ border-color: #545b62;
     background: #000;
     color: #fff;
     border-color: #000;
+}
+
+/* border */
+.buddybot-border{
+    border: solid 1px #dee2e6!important;
+    
+}
+
+
+/* background color */
+.buddybot-bg-primary{
+    background-color: #0d6efd !important;
+}
+.buddybot-bg-white{
+    background-color: white!important;
+}
+.buddybot-bg-light{
+    background-color: #f8f9fa!important;
+}
+
+/* flex-grow */
+.buddybot-flex-grow-1{
+    flex-grow:1;
 }

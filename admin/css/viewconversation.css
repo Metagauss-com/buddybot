@@ -24,3 +24,15 @@ body{
 .buddybot-playground-messages-list-item{
     max-width: 50%;
 }
+.buddybot-count-btn{
+    position: absolute;
+        border-radius: 50% !important;
+    top: -10px !important;
+    position: absolute;
+    padding: 0px 5px;
+    color: white;
+}
+.spinner-border{
+    left: 50%;
+    top: 30%;;
+}

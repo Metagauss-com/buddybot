@@ -69,7 +69,7 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function itemsList()
     {
-        echo '<div class="list-group">';
+        echo '<div class="buddybot-list-group">';
         $this->postsItem();
         $this->commentsItem();
 
@@ -80,16 +80,16 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function ProgressBar()
     {
-        echo '<div class="mt-1 w-50 m-0" id="buddybot-progress-container">';
-        echo '<div class="d-flex align-items-center gap-1" id="buddybot-progress-wrapper">';
-        echo '<div id="buddybot-ProgressBar" class="progress flex-grow-1" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 5px; opacity:0;">';
-        echo '<div class="progress-bar bg-primary" style="width: 0%"></div>';
+        echo '<div class="buddybot-mt-1 buddybot-box-w-50 " id="buddybot-progress-container">';
+        echo '<div class="bb-modal-actions  buddybot-align-items-center" id="buddybot-progress-wrapper">';
+        echo '<div id="buddybot-ProgressBar" class="progress buddybot-flex-grow-1" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 5px; opacity:0;">';
+        echo '<div class="progress-bar buddybot-bg-primary" style="width: 0%"></div>';
         echo '</div>';
         echo '<div id="buddybot-progressbar-percentage" style="opacity: 0;">0%</div>';
         echo '</div>';
-        echo '<p id="buddybot-sync-msgs" class="d-flex align-items-center gap-1 mt-0" style="opacity: 0;">';
-        echo '<span id="buddybot-ProgressBar-icon" class="material-symbols-outlined fs-6"></span>';
-        echo '<span id="buddybot-message" class="flex-grow-1 small">' . esc_html__('Sync processing...', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</span>';
+        echo '<p id="buddybot-sync-msgs" class="bb-modal-actions buddybot-align-items-center buddybot-mt-0" style="opacity: 0;">';
+        echo '<span id="buddybot-ProgressBar-icon" class="material-symbols-outlined buddybot-fs-6"></span>';
+        echo '<span id="buddybot-message" class="buddybot-flex-grow-1">' . esc_html__('Sync processing...', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</span>';
         echo '</p></div>';
     }
 
@@ -98,19 +98,19 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
         do_action('buddybot_custom_html',$type);
         $file_id = get_option('buddybot-' . $type . '-remote-file-id', '0');
 
-        echo '<div class="list-group-item list-group-item-action w-50" ';
+        echo '<div class="buddybot-list-group-item buddybot-box-w-50" ';
         echo 'data-buddybot-type="' . esc_attr($type) . '" ';
         echo 'data-buddybot-remote_file_id="' . esc_attr($file_id) . '" ';
         echo '>';
 
-        echo '<div class="d-flex w-100 justify-content-between align-items-center">';
+        echo '<div class="buddybot-d-flex buddybot-box-w-100 buddybot-justify-content-between buddybot-align-items-center">';
 
         echo '<div>';
-        echo '<h5 class="mb-1 fs-5 m-0">' . esc_html($heading) . '</h5>';
-        echo '<p class="mb-1 fw-bold">' . esc_html($text) . '</p>';
+        echo '<h5 class="buddybot-mb-1 buddybot-fs-5 ">' . esc_html($heading) . '</h5>';
+        echo '<p class="buddybot-mb-1 buddybot-fw-bold">' . esc_html($text) . '</p>';
         echo '</div>';
 
-        echo '<div class="btn-group btn-group-sm" role="group">';
+        echo '<div class="buddybot-mt-2" role="group">';
         $this->syncBtn($type);
         echo '</div>';
 
@@ -125,7 +125,7 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function msgArea()
     {
-        echo '<div class="buddybot-msgs small text-muted w-50 mt-4 visually-hidden" role="group">';
+        echo '<div class="buddybot-text-small small buddybot-text-muted buddybot-box-w-50 buddybot-mt-4 buddybot-d-none" role="group">';
         echo '</div>';
     }
 
@@ -134,7 +134,7 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
         do_action('buddybot_extend_field_before_sync_button', $type);
         $btn_id = 'buddybot-sync-' . $type . '-btn';
         echo '<button id="' . esc_attr($btn_id) . '" type="button" ';
-        echo 'class="buddybot-sync-btn btn btn-outline-dark" ';
+        echo 'class="buddybot-sync-btn buddybot-btn-outline-black bb-btn-sm " ';
         echo 'data-buddybot-type="' . esc_attr($type) .  '"';
         echo '>';
         $this->moIcon('directory_sync');
