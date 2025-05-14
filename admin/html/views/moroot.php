@@ -74,7 +74,7 @@ class MoRoot extends \BuddyBot\Admin\Html\MoRoot
 
     protected function buddybotFooterBanner()
     {
-        echo '<div class="buddybot-footer-banner">';
+                echo '<div class="buddybot-footer-banner">';
             echo '<div class="buddybot-docs-inner  buddybot-justify-content-between buddybot-align-items-center buddybot-p-2">';
 
                 echo '<div class="buddybot-banner-icon">';
