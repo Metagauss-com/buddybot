@@ -38,10 +38,13 @@
 
 .buddybot-footer-banner .buddybot-docs-inner{
     padding: 20px 24px !important;
+    width: 100%;
+    max-width: 900px;
+    margin: 0px auto;
 }
 
 .buddybot-docs-inner .buddybot-banner-icon  {
-    min-width: 156px;
+  
 }
 
 .buddybot-banner-icon svg {
