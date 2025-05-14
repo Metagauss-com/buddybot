@@ -87,7 +87,7 @@ class MoRoot extends \BuddyBot\Admin\Html\MoRoot
                         esc_html_e('Get Expert Help with AI Integration for Your Site', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
                     echo '</div>';
                         echo '<div class="buddybot-text-dark buddybot-mb-4">';
-                                esc_html_e('Struggling with AI? Our team is here to help you unlock the full potential of BuddyBot.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+                                esc_html_e('Our team is here to help you unlock the full potential of AI.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
                         echo '</div>';
                     echo '<ul class="buddybot-text-dark buddybot-mb-0">';
 
@@ -120,7 +120,7 @@ class MoRoot extends \BuddyBot\Admin\Html\MoRoot
                     echo '</ul>';
                 echo '</div>';
                 echo '<div>';
-                    echo '<a href="https://getbuddybot.com/starter-guide/" type="button" class="button banner-button-primary" target="_blank">';
+                    echo '<a href="https://getbuddybot.com/contact-form/" type="button" class="button banner-button-primary" target="_blank">';
                         esc_html_e('Contact Us Now!', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
                     echo '</a>';
             echo '</div>';
