@@ -51,20 +51,20 @@ class MoRoot extends \BuddyBot\Admin\Html\MoRoot
     
                 echo '<div class="buddybot-docs-content">';
                     echo '<div class="buddybot-banner-head buddybot-text-dark">';
-                        echo esc_html__('How is going?', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+                        esc_html_e('How is going?', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
                     echo '</div>';
                     echo '<div class="buddybot-banner-text">';
-                        echo esc_html__(' Welcome to BuddyBot! If you\'re just getting started or have questions, these resources can help.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+                        esc_html_e(' Welcome to BuddyBot! If you\'re just getting started or have questions, these resources can help.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
                     echo '</div>';
                     echo '<div class="buddybot-docs-actions">';
-                        echo '<a href="' . esc_url($link) . '" type="button" class="button button-primary" id="buddybot-plugin-feedback-direct-deactivation" target="_blank">';
-                            echo esc_html__('View Documentation', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+                        echo '<a href="' . esc_url($link) . '" type="button" class="button button-primary" target="_blank">';
+                            esc_html_e('View Documentation', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
                         echo '</a>';
-                        echo '<a href="https://getbuddybot.com/starter-guide/" type="button" class="button button-primary" id="buddybot-plugin-feedback-deactivation" target="_blank">';
-                            echo esc_html__('Starter Guide', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+                        echo '<a href="https://getbuddybot.com/starter-guide/" type="button" class="button button-primary" target="_blank">';
+                            esc_html_e('Starter Guide', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
                         echo '</a>';
-                        echo '<a href="https://wordpress.org/support/plugin/buddybot-ai-custom-ai-assistant-and-chat-agent/" type="button" class="button button-secondary" id="buddybot-plugin-feedback-deactivation" target="_blank">';
-                            echo esc_html__('Get Support', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+                        echo '<a href="https://wordpress.org/support/plugin/buddybot-ai-custom-ai-assistant-and-chat-agent/" type="button" class="button button-secondary" target="_blank">';
+                            esc_html_e('Get Support', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
                         echo '</a>';
                     echo '</div>';
                 echo '</div>';
@@ -92,38 +92,45 @@ class MoRoot extends \BuddyBot\Admin\Html\MoRoot
 echo '</div>';
               
                 echo '<div class="buddybot-banner-text">';
-                    echo '<div class="buddybot-banner-head buddybot-fw-bold buddybot-fs-6 buddybot-text-dark">';
-                        echo esc_html__('Get Expert Help with AI Integration for Your Site', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+                    echo '<div class="buddybot-banner-head buddybot-fw-bold buddybot-fs-6 buddybot-text-dark buddybot-mb-2">';
+                        esc_html_e('Get Expert Help with AI Integration for Your Site', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
                     echo '</div>';
+                        echo '<div class="buddybot-text-dark">';
+                                esc_html_e('Struggling with AI? Our team is here to help you unlock the full potential of BuddyBot.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+                        echo '</div>';
                     echo '<ul class="buddybot-text-dark">';
 
-                      echo '<li style="display: flex; align-items: center; gap: 8px;">';
-                          echo '<span style="display: flex; align-items: center;">';
+                    echo '<div class="buddybot-text-dark buddybot-fw-bold buddybot-mb-2">';
+                        esc_html_e('What We Offer:', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+                    echo '</div>';
+
+                      echo '<li class="buddybot-d-flex buddybot-align-item-center buddybot-gap-2">';
+                          echo '<span>';
                             echo '<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#000000" style="flex-shrink: 0;"><path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/></svg>';
                            echo '</span>';
-                         echo '<span>' . esc_html__(' Struggling with AI integration? Let our team guide you to unlock the full potential of BuddyBot.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</span>';
+                         echo '<span>' . esc_html__('AI customization that fits your needs.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</span>';
                        echo '</li>';
 
-                        echo '<li style="display: flex; align-items: flex-start; gap: 8px; margin-bottom: 8px;">';
-                              echo '<span style="flex-shrink: 0;">';
+                        echo '<li class="buddybot-d-flex buddybot-align-item-center buddybot-gap-2">';
+                              echo '<span>';
                               echo '<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#000000"><path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/></svg>';
                                   echo '</span>';
-                               echo '<span>' . esc_html__('What We Offer : Personalized support to seamlessly integrate BuddyBot. AI customization to suit your site\'s needs. Expert guidance on training BuddyBot with your content.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</span>';
+                               echo '<span>' . esc_html__('Step-by-step guidance on training BuddyBot with your content.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</span>';
                                
                             echo '</li>';
 
-                        echo '<li style="display: flex; align-items: flex-start; gap: 8px;">';
-                           echo '<span style="flex-shrink: 0;">';
+                        echo '<li class="buddybot-d-flex buddybot-align-item-center buddybot-gap-2">';
+                           echo '<span>';
                            echo '<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#000000"><path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/></svg>';
                              echo '</span>';
-                            echo '<span>' . esc_html__('BuddyBot extensions are FREE for early adopters!', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</span>';
+                            echo '<span class="buddybot-fw-bold">' . esc_html__('BuddyBot extensions are FREE for early adopters!', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</span>';
                         echo '</li>';
 
                     echo '</ul>';
                 echo '</div>';
-                echo '<div class="">';
-                    echo '<a href="https://getbuddybot.com/starter-guide/" type="button" class="button banner-button-primary" id="buddybot-plugin-feedback-deactivation" target="_blank">';
-                        echo esc_html__('Contact Us Now!', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+                echo '<div>';
+                    echo '<a href="https://getbuddybot.com/starter-guide/" type="button" class="button banner-button-primary" target="_blank">';
+                        esc_html_e('Contact Us Now!', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
                     echo '</a>';
             echo '</div>';
         echo '</div>';
