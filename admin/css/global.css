@@ -22,6 +22,10 @@
 .buddybot-align-items-center {
     align-items: center !important;
 }
+
+.buddybot-justify-content-center {
+    justify-content: center !important;
+}
 /* General CSS End---*/
 
 /*---Margins and Padding---*/
@@ -54,6 +58,18 @@
     margin-top: 0 !important;
 }
 
+.buddybot-mt-1 {
+    margin-top: 0.25rem !important;
+}
+
+.buddybot-mt-2 {
+    margin-top: 0.5rem !important;
+}
+
+.buddybot-mt-3 {
+    margin-top: 1rem !important;
+}
+
 .buddybot-ms-0 {
     margin-left: 0 !important;
 }
@@ -75,6 +91,10 @@
     margin-bottom: 0 !important;
 }
 
+.buddybot-p-2{
+    padding: 0.5rem !important;
+}
+
 .buddybot-py-0 {
     padding-top: 0 !important;
     padding-bottom: 0 !important;
@@ -85,17 +105,9 @@
     padding-bottom: 0.25rem !important;
 }
 
-.buddybot-p-2{
-    padding: 0.5rem !important;
-}
-
 .buddybot-py-2 {
     padding-top: 0.5rem !important;
     padding-bottom: 0.5rem !important;
-}
-
-.buddybot-fw-medium {
-    font-weight: 500;
 }
 
 .buddybot-px-4 {
@@ -127,20 +139,53 @@
     border-top: 1px solid #dee2e6;
 }
 
-.buddybot-fs-6{
-    font-size: 1rem !important;
+/*---Margins and Padding Ends---*/
+
+/*---Gaps---*/
+
+.buddybot-gap-0 {
+    gap: 0 !important;
 }
 
-.buddybot-fs-5{
-    font-size: 1.25rem !important;
+.buddybot-gap-1 {
+    gap: 0.25rem !important;
 }
 
-.buddybot-fs-4{
-    font-size: 1.5rem !important;
+.buddybot-gap-2 {
+    gap: 0.5rem !important;
 }
 
-.buddybot-fs-3{
-    font-size: 1.75rem !important;
+.buddybot-gap-3 {
+    gap: 1rem !important;
+}
+
+.buddybot-gap-4 {
+    gap: 1.5rem !important;
+}
+
+/*---Gaps Ends---*/
+
+/* TEXT UTILITIES */
+ 
+.buddybot-text-center {
+    text-align: center !important;
+}   
+
+.buddybot-text-break {
+    word-break: break-word !important;
+}
+
+.buddybot-text-bg-dark {
+    color: #fff !important;
+    background-color: #343a40 !important;
+}
+
+.buddybot-text-danger {
+    color: #dc3545 !important;
+}
+
+.buddybot-text-secondary {
+    color: #6c757d !important;
 }
 
 .buddybot-text-dark{
@@ -152,7 +197,46 @@
     font-size: .875em !important;
 }
 
+/* TEXT UTILITIES END */
 
+/* FONT UTILITIES */
+ 
+.buddybot-small {
+    font-size: .875em !important;
+}
+
+.buddybot-fw-medium {
+    font-weight: 500;
+}
+
+.buddybot-fw-bold {
+    font-weight: 700;
+}
+.buddybot-fs-1{
+    font-size: 0.75rem !important;
+}
+
+.buddybot-fs-2{
+    font-size: 1.5rem !important;
+}
+
+.buddybot-fs-3{
+    font-size: 1.75rem !important;
+}
+
+.buddybot-fs-4{
+    font-size: 1.5rem !important;
+}
+
+.buddybot-fs-5{
+    font-size: 1.25rem !important;
+}
+
+.buddybot-fs-6{
+    font-size: 1rem !important;
+}
+
+/* FONT UTILITIES END */
 
 /* General Welcome Modal Styling */
 .bb-modal-image {
@@ -276,6 +360,8 @@
 
 .buddybot-modal-body {
     padding: 1rem;
+    overflow: auto;
+    max-height: 70vh;
 }
 
 .buddybot-modal-footer {
@@ -421,8 +507,9 @@ border-color: #545b62;
 }
 
 .buddybot-btn-black:hover {
-    background-color: #333;
+    background-color: #ffffff;
     border-color: #222;
+    color: black;
 }
 
 .buddybot-btn-outline-black {
@@ -433,6 +520,7 @@ border-color: #545b62;
     border-radius: 4px;
     font-size: 16px;
     cursor: pointer;
+    text-decoration: none;
     transition: all 0.3s ease-in-out;
 }
 
@@ -466,13 +554,6 @@ border-color: #545b62;
     border-radius: 0.2rem;
 }
 /* button color Ends */
-
-/* text color start  */
-.buddybot-text-danger {
-    color: #dc3545 !important;
-}
-
-/* text color Ends */
 
 /* toast css start  */
 #buddybot-toast-container {
@@ -544,7 +625,7 @@ border-color: #545b62;
     padding: .5rem 1rem;
     color: #212529;
     text-decoration: none;
-    background-color: #fff;
+    /* background-color: #fff; */
     border: 1px solid rgba(0, 0, 0, .125);
 }
 .buddybot-list-group .buddybot-list-group-item+.buddybot-list-group-item {
