@@ -4,9 +4,9 @@ namespace BuddyBot\Admin\Secure;
 
 final class EditChatBot extends \BuddyBot\Admin\Secure\MoRoot
 {
-    public function buddybotId()
-    {
-        $id = isset($_POST['buddybot_data']['buddybot_id']) ? absint($_POST['buddybot_data']['buddybot_id']) : 0;
+    public function cleanBuddybotId($id)
+    {  
+        $id = absint($id);
 
         if ($id === 0) {
             return false;
@@ -20,10 +20,8 @@ final class EditChatBot extends \BuddyBot\Admin\Secure\MoRoot
         return $id;
     }
 
-    public function buddybotName()
+    public function cleanBuddybotName($name)
     {
-        $name = isset($_POST['buddybot_data']['buddybot_name']) ? sanitize_text_field($_POST['buddybot_data']['buddybot_name']) : '';
-
         if (empty($name)) {
             $this->errors[] = __('BuddyBot Name is required.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             return $name;
@@ -34,98 +32,102 @@ final class EditChatBot extends \BuddyBot\Admin\Secure\MoRoot
             return $name;
         }
 
-        return $name;
+        return sanitize_text_field($name);
     }
 
-    public function buddybotDescription()
+    public function cleanBuddybotDescription($description)
     {
-        $description = isset($_POST['buddybot_data']['buddybot_description']) ? sanitize_textarea_field(wp_unslash($_POST['buddybot_data']['buddybot_description'])) : '';
-
         if (strlen($description) > 1024) {
-            $this->errors[] =  __('BuddyBot description cannot be more than 1024 characters.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            $this->errors[] = __('BuddyBot description cannot be more than 1024 characters.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
 
-        return $description;
+        return sanitize_textarea_field($description);
     }
 
-    public function assistantName()
+    public function cleanExistingAssistant($existing_assistant)
     {
-        $name = isset($_POST['buddybot_data']['assistant_name']) ? sanitize_text_field($_POST['buddybot_data']['assistant_name']) : '';
+        return (bool) $existing_assistant;
+    }
 
+    public function cleanConnectAssistant($connect_assistant)
+    {
+        if (empty($connect_assistant)) {
+            $this->errors[] = __('Please select an assistant', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            return $connect_assistant;
+        }
+
+        return sanitize_text_field($connect_assistant);
+    }
+
+    public function cleanAssistantName($name)
+    {
         if (empty($name)) {
             $this->errors[] = __('Assistant Name is required.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             return $name;
         }
-
+    
         if (strlen($name) > 256) {
             $this->errors[] = __('Assistant name cannot be more than 256 characters.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             return $name;
         }
-
-        return $name;
+    
+        return sanitize_text_field($name);
     }
 
-    public function assistant_model()
+    public function cleanAssistantModel($assistant_model)
     {
-        return isset($_POST['buddybot_data']['assistant_model']) ? sanitize_text_field($_POST['buddybot_data']['assistant_model']) : '';
+        if (empty($assistant_model)) {
+            $this->errors[] = __('Assistant Model is required.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            return '';
+        }
+    
+        return sanitize_text_field($assistant_model);
     }
 
-    public function additionalInstructions()
+    public function cleanAdditionalInstructions($instructions)
     {
-        $instructions = isset($_POST['buddybot_data']['additional_instructions']) ? sanitize_textarea_field(wp_unslash($_POST['buddybot_data']['additional_instructions'])) : '';
-
         if (strlen($instructions) > 32768) {
             $this->errors[] = __('Additional Instructions cannot exceed 32,768 characters.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
 
-        return $instructions;
+        return sanitize_textarea_field($instructions);
     }
 
-    public function assistantTemperature()
+    public function cleanAssistantTemperature($temperature)
     {
-        $temperature = isset($_POST['buddybot_data']['assistant_temperature']) ? floatval($_POST['buddybot_data']['assistant_temperature']) : 0.7;
         if ($temperature < 0.0 || $temperature > 2.0) {
             $this->errors[] = __('Response Temperature must be between 0.0 and 2.0.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
-
-        return $temperature;
+        return floatval($temperature);
     }
 
-    public function topP()
+    public function cleanAssistantTopP($top_p)
     {
-        $top_p = $top_p = isset($_POST['buddybot_data']['assistant_topp']) ? floatval($_POST['buddybot_data']['assistant_topp']) : 1.0;
-
         if ($top_p < 0.0 || $top_p > 1.0) {
             $this->errors[] = __('Top-p value must be between 0.0 and 1.0.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
-
-        return $top_p;
+    
+        return floatval($top_p);
     }
 
-    public function openAiSearch()
+    public function cleanOpenaiSearch($openai_search)
     {
-        return isset($_POST['buddybot_data']['openai_search']) ? (bool) $_POST['buddybot_data']['openai_search'] : false;
+        return (bool) $openai_search;
     }
 
-    public function openAiSearchMsg()
+    public function cleanOpenaiSearchMsg($fallback_msg)
     {
-        if (!$this->openAiSearch()) {
-            return '';
-        }
-
-        $fallback_msg = isset($_POST['buddybot_data']['openaisearch_msg']) ? wp_unslash(sanitize_text_field($_POST['buddybot_data']['openaisearch_msg'])) : '';
-
         if (empty($fallback_msg)) {
             $this->errors[] = __('Fallback Message is required.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             return $fallback_msg;
         }
-
+    
         if (strlen($fallback_msg) > 512) {
             $this->errors[] = __('Fallback Message cannot be more than 512 characters.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             return $fallback_msg;
         }
-
-        return $fallback_msg;
+    
+        return wp_unslash(sanitize_text_field($fallback_msg));
     }
 
     public function personalizedOptions()
@@ -145,35 +147,64 @@ final class EditChatBot extends \BuddyBot\Admin\Secure\MoRoot
         return $fallback;
     }
 
-    public function emotionDetection()
+    public function cleanEmotionDetection($emotion_detection)
     {
-        return isset($_POST['buddybot_data']['emotion_detection']) ? (bool) $_POST['buddybot_data']['emotion_detection'] : false;
+        return (bool) $emotion_detection;
     }
 
-    public function greetingMessage()
+    public function cleanGreetingMessage($greeting)
     {
-        $greeting =  isset($_POST['buddybot_data']['greeting_message']) ? sanitize_text_field($_POST['buddybot_data']['greeting_message']) : '';
-
         if (strlen($greeting) > 256) {
             $this->errors[] = __('Greeting message cannot exceed 256 characters.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
 
-        return $greeting;
+        return sanitize_text_field($greeting);
     }
 
-    public function multilingualSupport()
+    public function cleanVectorstoreId($vectorstore_id)
     {
-        return isset($_POST['buddybot_data']['multilingual_support']) ? (bool) $_POST['buddybot_data']['multilingual_support'] : false;
+        if (empty($vectorstore_id)) {
+            $this->errors[] = __('Vectorstore ID is required.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            return '';
+        }
+    
+        return sanitize_text_field($vectorstore_id);
     }
 
-    public function vectorstoreId()
+    public function cleanAssistantId($assistant_id)
     {
-        return isset($_POST['buddybot_data']['vectorstore_id']) && !empty($_POST['buddybot_data']['vectorstore_id']) ? sanitize_text_field($_POST['buddybot_data']['vectorstore_id']) : '';
+        return !empty($assistant_id) ? sanitize_text_field($assistant_id) : '';
     }
 
-    public function assistantId()
+    public function cleanMultilingualSupport($multilingual_support)
     {
-        return isset($_POST['buddybot_data']['assistant_id']) && !empty($_POST['buddybot_data']['assistant_id']) ? sanitize_text_field($_POST['buddybot_data']['assistant_id']) : '';
+        return isset($multilingual_support) ? (bool) $multilingual_support : false;
+    }
+
+    public function cleanResponseLength($response_length)
+    {
+        if (!is_numeric($response_length)) {
+            $this->errors[] = __('Openai Response Length must be a valid number.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            return;
+        }
+
+        if ($response_length <= 0) {
+            $this->errors[] = __('Openai Response Length must be a positive number greater than zero.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            return;
+        }
+
+        return intval($response_length);
+    }
+
+    public function CleanTempTopP($temp_top_p)
+    {
+        if (!empty($temp_top_p)) {
+            [$temperature, $top_p] = explode('_', $temp_top_p);
+    
+            if (floatval($temperature) === 2.0 && floatval($top_p) === 1.0) {
+                $this->errors[] = __('Setting both Response Creativity and Response Diversity to the maximum may occasionally cause server errors. To ensure smooth performance, please lower one of the two settings.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            }
+        }
     }
 
     public function dataErrors()

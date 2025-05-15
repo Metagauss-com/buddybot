@@ -399,6 +399,107 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
         wp_die();
     }
 
+    public function setCookieSession()
+    {
+        $this->checkNonce('set_cookie_session');
+
+        $session_lifetime = $this->options->getOption('session_expiry', 24) * 3600;
+        $cookie_data = [];
+        $should_update_cookie = false;
+
+        if (isset($_COOKIE['buddybot_session_data'])) {
+            $cookie_data = json_decode(stripslashes($_COOKIE['buddybot_session_data']), true);
+
+            if (!isset($cookie_data['session_id'])) {
+                $cookie_data['session_id'] = bin2hex(random_bytes(16));
+                $should_update_cookie = true;
+            }
+
+            if (isset($_POST['visitor_id'])) {
+                $visitor_id = sanitize_text_field($_POST['visitor_id']);
+
+                if (empty($visitor_id) || !$this->is_valid_email_format($visitor_id)) {
+                    $this->response['success'] = false;
+                    $this->response['message'] = __('Please enter a valid email address.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+                    echo wp_json_encode($this->response);
+                    wp_die();
+                }
+              
+                if (!isset($cookie_data['visitor_id'])) {
+                    $cookie_data['visitor_id'] = sanitize_text_field($_POST['visitor_id']);
+                    $should_update_cookie = true;
+                }
+            
+            }
+
+            if ($should_update_cookie) {
+                setcookie("buddybot_session_data", json_encode($cookie_data), time() + $session_lifetime, "/");
+            }
+
+            $this->response['success'] = true;
+            $this->response['data'] = $cookie_data;
+            echo wp_json_encode($this->response);
+            wp_die();
+        }
+
+        $session_id = bin2hex(random_bytes(16));
+
+        $cookie_data = [
+            'session_id' => $session_id,
+        ];
+
+        if (isset($_POST['visitor_id'])) {
+            $visitor_id = sanitize_text_field($_POST['visitor_id']);
+
+                if (empty($visitor_id) || !$this->is_valid_email_format($visitor_id)) {
+                    $this->response['success'] = false;
+                    $this->response['message'] = __('Please enter a valid email address.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+                    echo wp_json_encode($this->response);
+                    wp_die();
+                }
+
+            $cookie_data['visitor_id'] = sanitize_text_field($_POST['visitor_id']);
+        }
+
+        $encoded_data = json_encode($cookie_data);
+
+        setcookie("buddybot_session_data", $encoded_data, time() + $session_lifetime, "/");
+
+        $this->response['success'] = true;
+        $this->response['data'] = $cookie_data;
+        $this->visitorEmailPromptHtml();
+
+        echo wp_json_encode($this->response);
+        wp_die();
+    }
+
+    private function is_valid_email_format($email) {
+        return preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/', $email);
+    }
+
+    private function visitorEmailPromptHtml()
+    {
+        $message_html = '
+        <div id="buddybot-visitor-id-wrapper" class="d-flex justify-content-center align-items-center">
+            <div id="buddybot-visitor-id-card" class="card bg-light mb-3">
+                <div class="card-body">
+                    <p class="mb-2">' . esc_html(__('To continue, please type your email address below.', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '</p>
+                    <div class="d-flex justify-content-center align-items-center">
+                        <input type="email" id="buddybot-visitor-id" name="buddybot-visitor-id" class="form-control form-control-sm me-2" placeholder="' . esc_attr(__('Enter your email', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '" />
+                    </div>
+                    <div class="d-flex justify-content-end mt-3 align-items-center">
+                        <div class="text-danger small me-2 visually-hidden" id="buddybot-visitor-id-error-message"> ' . __('Please enter a valid email address.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</div>
+                        <button id="buddybot-skip-visitor-id" type="button" class="btn btn-sm btn-secondary me-2">' . esc_html(__('Skip', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '</button>
+                        <button id="buddybot-save-visitor-id-btn" type="button" class="btn btn-sm btn-primary">' . esc_html(__('Submit', 'buddybot-ai-custom-ai-assistant-and-chat-agent')) . '</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    ';
+
+    $this->response['html'] = $message_html;
+    }
+
 
     public function __construct()
     {
@@ -416,5 +517,6 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
         add_action('wp_ajax_nopriv_createFrontendRun', array($this, 'createFrontendRun'));
         add_action('wp_ajax_nopriv_retrieveFrontendRun', array($this, 'retrieveFrontendRun'));
         add_action('wp_ajax_nopriv_deleteFrontendThread', array($this, 'deleteFrontendThread'));
+        add_action('wp_ajax_nopriv_setCookieSession', array($this, 'setCookieSession'));
     }
 }

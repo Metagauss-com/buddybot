@@ -32,11 +32,24 @@ final class EditChatBot extends \BuddyBot\Admin\Requests\MoRoot
     {
         $this->setVarsJs();
         $this->getModelsJs();
+        $this->selectAssistantModalJs();
         $this->buddybotDataJs();
         $this->saveBuddyBotJs();
         $this->loadAssistantValuesJs();
-        $this->openaiSearchMsgJs();
+        $this->editChatbotshowHideJs();
         $this->sampleInstructionsModalJs();
+    }
+
+    protected function selectAssistantModalJs()
+    {
+        $this->getAssistantsListJs();
+        $this->selectAssistantJs();
+        $this->showLoadMoreBtnJs();
+        $this->updateLastIdJs();
+        $this->loadMoreBtnJs();
+        $this->parseAssistantListDataJs();
+        $this->highlightCurrentAssistantJs();
+        $this->autoScrollJs();
     }
 
     private function setVarsJs()
@@ -115,20 +128,33 @@ final class EditChatBot extends \BuddyBot\Admin\Requests\MoRoot
         echo '
         function buddybotData() {
             let buddybotData = {};
+            
             buddybotData["buddybot_name"] = $("#buddybot-buddybotname").val();
             buddybotData["buddybot_description"] = $("#buddybot-buddybotdescription").val();
-            buddybotData["assistant_name"] = $("#buddybot-assistantname").val();
-            buddybotData["assistant_model"] = $("#buddybot-assistantmodel").val();
-            buddybotData["additional_instructions"] = $("#buddybot-additionalinstructions").val();
-            buddybotData["assistant_temperature"] = $("#buddybot-assistanttemperature-range").val();
-            buddybotData["assistant_topp"] = $("#buddybot-assistanttopp-range").val();
-            buddybotData["openai_search"] = $("#buddybot-openaisearch").is(":checked") ? "1" : "0";
-            buddybotData["openaisearch_msg"] = $("#buddybot-openaisearch-msg").val();
-            buddybotData["personalized_options"] = $("#buddybot-personalizedoptions").is(":checked") ? "1" : "0";
-            //buddybotData["fallback_behavior"] = $("#buddybot-fallbackbehavior").val();
-            buddybotData["emotion_detection"] = $("#buddybot-emotiondetection").is(":checked") ? "1" : "0";
-            buddybotData["greeting_message"] = $("#buddybot-greetingmessage").val();
-            //buddybotData["multilingual_support"] = $("#buddybot-multilingualsupport").is(":checked") ? "1" : "0";
+            buddybotData["existing_assistant"] = $("#buddybot-existing-assistant").is(":checked") ? "1" : "0";
+ 
+            if (buddybotData["existing_assistant"] === "1") {
+                buddybotData["assistant_model"] = $("#buddybot-existing-assistant-model").data("model");
+                buddybotData["connect_assistant"] = $("#buddybot-assistant-id").val();
+            } else {
+                buddybotData["assistant_name"] = $("#buddybot-assistantname").val();
+                buddybotData["assistant_model"] = $("#buddybot-assistantmodel").val();
+                buddybotData["additional_instructions"] = $("#buddybot-additionalinstructions").val();
+                buddybotData["assistant_temperature"] = $("#buddybot-assistanttemperature-range").val();
+                buddybotData["temp_topp"] = $("#buddybot-assistanttemperature-range").val() + "_" + $("#buddybot-assistanttopp-range").val();
+                buddybotData["assistant_topp"] = $("#buddybot-assistanttopp-range").val();
+                buddybotData["openai_search"] = $("#buddybot-openaisearch").is(":checked") ? "1" : "0";
+
+                if (buddybotData["openai_search"] === "1") {
+                    buddybotData["openaisearch_msg"] = $("#buddybot-openaisearch-msg").val();
+                }
+
+                buddybotData["emotion_detection"] = $("#buddybot-emotiondetection").is(":checked") ? "1" : "0";
+                buddybotData["greeting_message"] = $("#buddybot-greetingmessage").val();
+                // buddybotData["multilingual_support"] = $("#buddybot-multilingualsupport").is(":checked") ? "1" : "0";
+                // buddybotData["response_length"] = $("#buddybot-openai-response-length").val();
+            }
+
             buddybotData["assistant_id"] ="' . esc_js($this->assistant_id) . '";
             buddybotData["buddybot_id"] ="' . esc_js($this->buddybot_id) . '";
             buddybotData["vectorstore_id"] ="' . esc_js($vectorstore_id) . '";
@@ -153,7 +179,7 @@ final class EditChatBot extends \BuddyBot\Admin\Requests\MoRoot
 
             const data = {
                 "action": "saveBuddyBot",
-                "buddybot_data": aData,
+                "buddybot_data": JSON.stringify(aData),
                 "nonce": "' . esc_js($nonce) . '"
             };
       
@@ -196,6 +222,7 @@ final class EditChatBot extends \BuddyBot\Admin\Requests\MoRoot
                 
                 if (response.success) {
                     fillAssistantValues(response.result, response.local);
+                    $("#buddybot-assistant-details-container").html(response.html);
                 } else {
                     showAlert(response.message);
                     $("#buddybot-settings-success").hide();
@@ -208,37 +235,220 @@ final class EditChatBot extends \BuddyBot\Admin\Requests\MoRoot
         function fillAssistantValues(assistant, buddybot) {
             $("#buddybot-buddybotname").val(buddybot.chatbot_name);
             $("#buddybot-buddybotdescription").val(buddybot.chatbot_description);
-            $("#buddybot-assistantname").val(assistant.name);
-            $("#buddybot-assistantmodel").val(assistant.model);
-            $("#buddybot-assistanttemperature-range").val(assistant.temperature);
-            $("#buddybot-assistanttemperature-value").text(assistant.temperature);
-            $("#buddybot-assistanttopp-range").val(assistant.top_p);
-            $("#buddybot-assistanttopp-value").text(assistant.top_p);
-            $("#buddybot-openaisearch").prop("checked", buddybot.openai_search == 1);
-            $("#buddybot-personalizedoptions").prop("checked", buddybot.personalized_options == 1);
-            //$("#buddybot-fallbackbehavior").val(buddybot.fallback_behavior);
-            $("#buddybot-emotiondetection").prop("checked", buddybot.emotion_detection == 1);
-            $("#buddybot-greetingmessage").val(buddybot.greeting_message);
-           // $("#buddybot-multilingualsupport").prop("checked", buddybot.multilingual_support == 1);
+            $("#buddybot-existing-assistant").prop("checked", buddybot.external == 1);
+            if ($("#buddybot-existing-assistant").is(":checked")) {
+                    $(".buddybot-conditional-settings").hide();
+                    showHide($("#buddybot-existing-assistant")[0], "buddybot-existing-assistant-childfieldrow", "", "");
+                    $("#buddybot-assistant-id").val(assistant.id);
+            } else {
+            
+                $("#buddybot-assistantname").val(assistant.name);
+                $("#buddybot-assistantmodel").val(assistant.model);
+                $("#buddybot-assistanttemperature-range").val(assistant.temperature);
+                $("#buddybot-assistanttemperature-value").text(assistant.temperature);
+                $("#buddybot-assistanttopp-range").val(assistant.top_p);
+                $("#buddybot-assistanttopp-value").text(assistant.top_p);
+                $("#buddybot-openaisearch").prop("checked", buddybot.openai_search == 1);
+                $("#buddybot-emotiondetection").prop("checked", buddybot.emotion_detection == 1);
+                $("#buddybot-greetingmessage").val(buddybot.greeting_message);
+                $("#buddybot-multilingualsupport").prop("checked", buddybot.multilingual_support == 1);
+            
+                if (assistant.metadata) {
+                    $("#buddybot-additionalinstructions").val(assistant.metadata.aditional_instructions);
+                    $("#buddybot-openaisearch-msg").val(assistant.metadata.openaisearch_msg);
+                    $("#buddybot-openai-response-length").val(assistant.metadata.response_length);
+                }
 
-            if (assistant.metadata) {
-                $("#buddybot-additionalinstructions").val(assistant.metadata.aditional_instructions);
-                $("#buddybot-openaisearch-msg").val(assistant.metadata.openaisearch_msg);
-            }
-
-            if ($("#buddybot-openaisearch").is(":checked")) {
-                showHide($("#buddybot-openaisearch")[0], "buddybot-openaisearch-childfieldrow", "", "");
+                if ($("#buddybot-openaisearch").is(":checked")) {
+                    showHide($("#buddybot-openaisearch")[0], "buddybot-openaisearch-childfieldrow", "", "");
+                }
             }
         }
         ';
     }
 
-    private function openaiSearchMsgJs()
+    private function editChatbotshowHideJs()
     {
         echo'     
         $("#buddybot-openaisearch").on("change", function () {
             showHide(this, "buddybot-openaisearch-childfieldrow", "", "");
         });
+
+        $("#buddybot-existing-assistant").on("change", function () {
+            showHide(this, "buddybot-existing-assistant-childfieldrow", "", "");
+        });
+
+        $(document).on("change", "#buddybot-existing-assistant", function() {
+            if ($(this).is(":checked")) {
+                $(".buddybot-conditional-settings").hide();
+            } else {
+                $(".buddybot-conditional-settings").show();
+            }
+        });
+
+    $(document).on("click", ".toggle-more-details", function () {
+    console.log("clicked");
+            const $btn = $(this);
+            const $details = $(".buddybot-more-details");
+
+            $details.slideToggle(200, function () {
+                const showText = $btn.data("show");
+                const hideText = $btn.data("hide");
+
+                if ($details.is(":visible")) {
+                    $btn.addClass("active").text(hideText);
+                } else {
+                    $btn.removeClass("active").text(showText);
+                }
+            });
+        });
+        ';
+    }
+
+    protected function getAssistantsListJs()
+    {
+        echo '
+        const selectAssistantModal = document.getElementById("buddybot-select-assistant-modal");
+        if (selectAssistantModal) {
+            $(document).on("click", \'[data-modal="buddybot-select-assistant-modal"]\', function() {
+
+                $("#buddybot-select-assistant-modal-list").html("");
+                $("#buddybot-selectassistant-spinner").show();
+                $("#buddybot-selectassistant-load-more-btn").hide();
+                
+                
+                const data = {
+                    "action": "selectAssistantModal",
+                    "nonce": "' . esc_js(wp_create_nonce('select_assistant_modal')) . '"
+                };
+
+                $.post(ajaxurl, data, function(response) {
+                    parseAssistantListData(response);
+                });
+            });
+        }
+        ';
+    }
+
+    protected function selectAssistantJs()
+    {
+        echo '
+        $("#buddybot-select-assistant-modal-list").on("click", ".buddybot-list-group-item", function(){
+            
+            let assistantId = $(this).attr("data-mgao-id");
+            $("#buddybot-assistant-id").val(assistantId);
+            $("#buddybot-select-assistant-modal").removeClass("show");
+            $("#buddybot-assistant-details-container").html("");
+        $("#buddybot-assistant-details-spinner").addClass("is-active").css("display", "inline-block");
+
+            const data = {
+                "action": "selectedAssistant",
+                "assistant_id": assistantId,
+                "nonce": "' . esc_js(wp_create_nonce('selected_assistant')) . '"
+            };
+
+            $.post(ajaxurl, data, function(response) {
+                response = JSON.parse(response);
+                
+                if (response.success) {
+                $("#buddybot-assistant-details-container").html(response.html);
+                $("#buddybot-assistant-details-spinner").hide();
+                } else {
+                    ShowAlert(response.message);
+                    $("#buddybot-assistant-details-spinner").hide();
+                }
+
+            });
+            
+        });
+        ';
+    }
+
+    protected function showLoadMoreBtnJs()
+    {
+        echo '
+        showLoadMoreBtn();
+        function showLoadMoreBtn(hasMore = false) {
+            if (hasMore) {
+                $("#buddybot-selectassistant-load-more-btn").show();
+            } else {
+                $("#buddybot-selectassistant-load-more-btn").hide();
+            }
+        }
+        ';
+    }
+
+    protected function updateLastIdJs()
+    {
+        echo '
+        function updateLastId(lastId) {
+            $("#buddybot-selectassistant-last-id").val(lastId);
+        }
+        ';
+    }
+
+    protected function loadMoreBtnJs()
+    {
+        echo '
+        $("#buddybot-selectassistant-load-more-btn").click(loadMoreBtn);
+        function loadMoreBtn() {
+            autoScroll();
+            showWordpressLoader("#buddybot-selectassistant-load-more-btn");
+            $("#buddybot-selectassistant-spinner").removeClass("visually-hidden");
+            const data = {
+                "action": "selectAssistantModal",
+                "after": $("#buddybot-selectassistant-last-id").val(),
+                "nonce": "' . esc_js(wp_create_nonce('select_assistant_modal')) . '"
+            };
+
+            $.post(ajaxurl, data, function(response) {
+                parseAssistantListData(response);
+                hideWordpressLoader("#buddybot-selectassistant-load-more-btn"); 
+            });
+        }
+        ';
+    }
+
+    protected function parseAssistantListDataJs()
+    {
+        echo '
+        function parseAssistantListData(listData) {
+            listData = JSON.parse(listData);
+            if (listData.success) {
+                $("#buddybot-selectassistant-spinner").hide();
+                $("#buddybot-select-assistant-modal-list").append(listData.html);
+                showLoadMoreBtn(listData.result.has_more);
+                updateLastId(listData.result.last_id);
+                highlightCurrentAssistant();
+            } else {
+                $("#buddybot-selectassistant-spinner").hide();
+                $("#buddybot-select-assistant-modal-list").append(listData.message);
+            }
+        }
+        ';
+    }
+
+    protected function highlightCurrentAssistantJs()
+    {
+        echo '
+        function highlightCurrentAssistant() {
+            let currentAssistantId = $("#buddybot-assistant-id").val();
+            if (currentAssistantId !== "") {
+                $("#buddybot-select-assistant-modal-list").find("[data-mgao-id=" + currentAssistantId).addClass("buddybot-text-bg-dark");
+            }
+        }
+        ';
+    }
+
+    protected function autoScrollJs()
+    {
+        echo '
+        function autoScroll() {
+            count = $("#buddybot-select-assistant-modal-list").length;
+            $("#buddybot-select-assistant-modal-list").parent().animate({
+                scrollTop: $("#buddybot-selectassistant-spinner").offset().top
+            }, 1000);
+        }
         ';
     }
 }

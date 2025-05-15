@@ -68,4 +68,11 @@ final class General extends \BuddyBot\Admin\Secure\MoRoot
 
         return $value;
     }
+
+    protected function cleanAnonymousUserEmail($value)
+    {
+        $value = ($value === "1") ? "1" : "0";
+
+        return sanitize_text_field(intval($value));
+    }
 }

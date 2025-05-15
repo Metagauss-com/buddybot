@@ -110,3 +110,11 @@
 }
 
 .buddybot-offcanvas-footer{}
+
+.buddybot-frontend-modal{
+    max-width: 100% !important;
+}
+
+#buddybot-visitor-id-card{
+    width: 600px;
+}

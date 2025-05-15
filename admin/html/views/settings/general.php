@@ -11,6 +11,7 @@ class General extends \BuddyBot\Admin\Html\Views\Settings\MoRoot
         $html .= $this->enableVisitorChat();
         $html .= $this->disableCookies();
         $html .= $this->sessionExpiry();
+        $html .= $this->anonymousUserEmail();
         $html .= $this->deleteExpiredChat();
         $html .= $this->ConversationExpiryTime();
         return $html;
@@ -97,6 +98,19 @@ class General extends \BuddyBot\Admin\Html\Views\Settings\MoRoot
         $value = $this->options->getOption('conversation_expiry_time', 24);
         $control = '<input type="number" id="' . esc_attr($id) . '" value="' . esc_attr($value) . '" class="regular-text" min="1" max="365" step="1">';
         $description = __('Set the time duration (in days) after which a visitor\'s conversation will expire. Once the conversation expires, it will be deleted.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+
+        return $this->optionHtml($id, $label, $control, $description, $childfieldrow);
+    }
+
+    private function anonymousUserEmail()
+    {
+        $id = 'buddybot-settings-user-email';
+        $childfieldrow = 'id="buddybot-visitor-chat-childfieldrow-four" style="display: none;"';
+        $label = __('Require Email Before Chat', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        $value = $this->options->getOption('anonymous_user_email', 0);
+        $checked = $value === '1' ? 'checked' : '';
+        $control = '<input type="checkbox" id="' . esc_attr($id) . '" value="1" ' . esc_attr($checked) . '>';
+        $description = __('Ask non-logged-in users to enter their email before starting anonymous chat. Email will not be verified. Intended for lead generation and support follow-ups.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
 
         return $this->optionHtml($id, $label, $control, $description, $childfieldrow);
     }

@@ -10,7 +10,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
         $this->customPageHeading($heading);
         $this->playgroundContainer();
     }
-
+    
     private function playgroundContainer()
     {
         echo '<div class="row border small">';

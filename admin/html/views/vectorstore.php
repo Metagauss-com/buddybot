@@ -34,6 +34,27 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '</div>';
         echo '</div>';
         
+          
+    }
+
+    private function customHeading($heading)
+    {
+        echo '<div class="buddybot-header-wrap">';
+        echo '<div class="buddybots-page-heading">';
+        echo '<h1 class="wp-heading-inline">';
+        echo '</h1>';
+        
+        echo '<hr class="wp-header-end">';
+        
+        echo '<div class="bb-top-head-section">';
+        $this->documentationContainer('https://getbuddybot.com/ai-training-for-buddybot-unlocking-intelligent-conversations-with-your-site-data/');
+        echo '<h1 class="wp-heading-inline">';
+        echo esc_html($heading);
+        echo '</h1>';
+        $this->createVectorStoreBtn();
+        echo '</div>';
+        echo '</div>';
+        
         
     }
 
