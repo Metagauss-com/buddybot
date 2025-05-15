@@ -110,6 +110,8 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
 
             $(document).on("click", "#buddybot-skip-visitor-id", function(){
                 $("#buddybot-visitor-id-wrapper").remove();
+                $("#buddybot-single-conversation-user-message").prop("disabled", false);
+                $("#buddybot-single-conversation-send-message-btn").prop("disabled", false);
             });
         ';
     }
