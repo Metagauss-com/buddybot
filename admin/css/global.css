@@ -139,6 +139,32 @@
     border-top: 1px solid #dee2e6;
 }
 
+/*---Margins and Padding Ends---*/
+
+/*---Gaps---*/
+
+.buddybot-gap-0 {
+    gap: 0 !important;
+}
+
+.buddybot-gap-1 {
+    gap: 0.25rem !important;
+}
+
+.buddybot-gap-2 {
+    gap: 0.5rem !important;
+}
+
+.buddybot-gap-3 {
+    gap: 1rem !important;
+}
+
+.buddybot-gap-4 {
+    gap: 1.5rem !important;
+}
+
+/*---Gaps Ends---*/
+
 /* TEXT UTILITIES */
  
 .buddybot-text-center {

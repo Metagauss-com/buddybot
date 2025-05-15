@@ -35,6 +35,33 @@
     border-radius: 5px;
     
 }
+
+.buddybot-footer-banner .buddybot-docs-inner{
+    padding: 20px 48px !important;
+    width: 100%;
+    max-width: 740px;
+    margin: 0px auto;
+}
+
+.buddybot-docs-inner .buddybot-banner-icon img {
+    width: 100px;
+  
+}
+
+.buddybot-footer-banner .buddybot-docs-inner ul li svg{
+    fill:#3858e9;
+}
+
+.buddybot-banner-icon svg {
+    width: 140px;
+}
+
+.buddybot-footer-banner .banner-button-primary{
+    padding: 6px 14px !important;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
 .banner-button-primary{
     background-color: black!important;
     color: white!important;
@@ -60,6 +87,3 @@
         margin-left: 20px!important;
     }
 }
-
-
-
