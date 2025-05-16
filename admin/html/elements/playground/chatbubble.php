@@ -82,7 +82,7 @@ class ChatBubble extends \BuddyBot\Admin\Html\Elements\Playground\MoRoot
     {
         $img_url = $this->config->getRootUrl() . 'admin/html/images/third-party/openai/openai-logomark.png';
         
-        $html = '<div class="buddybot-playground-messages-list-item d-flex justify-content-start my-2 sss" id="' . esc_attr($this->message->id) . '">';
+        $html = '<div class="buddybot-playground-messages-list-item d-flex justify-content-start my-2 " id="' . esc_attr($this->message->id) . '">';
 
         $html .= $this->messageImage($img_url);
 

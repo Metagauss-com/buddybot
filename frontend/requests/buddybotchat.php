@@ -20,10 +20,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
         $this->getPreviousMessagesJs();
         $this->sendUserMessageJs();
         $this->createRunJs();
-        $this->retrieveRunJs();
-        $this->getAssistantResponseJs();
         $this->scrollToMessageJs();
-        $this->animateTypeJs();
         $this->deleteThreadModalBtnJs();
     }
 
@@ -45,7 +42,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
 
     private function cookiesNotificationJs()
     {
-        if (isset($_COOKIE['buddybot_session_data']) || is_user_logged_in()) {
+        if (isset($_COOKIE['buddybot_session_id']) || is_user_logged_in()) {
             return;
         }
         
@@ -53,65 +50,11 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
             return;
         }
 
-        $collect_visitor_id = (bool) $this->options->getOption('anonymous_user_email', false);
-
         echo '
-            const collect_visitor_id = ' . esc_js($collect_visitor_id ? 'true' : 'false') . ';
-
-            if (!document.cookie.includes("buddybot_session_data")) {
-                $("#cookieConsentOffcanvas").offcanvas("show"); 
-            }
+            $("#cookieConsentOffcanvas").offcanvas("show"); 
             
             $(document).on("click", "#buddybot-acceptCookies", function(){
                 $("#cookieConsentOffcanvas").offcanvas("hide");
-
-                const data = {
-                    "action": "setCookieSession",
-                    "timezone": bbTimeZone,
-                    "nonce": "' . esc_js(wp_create_nonce('set_cookie_session')) . '"
-                };
-
-                $.post(ajaxurl, data, function(response) {
-                    response = JSON.parse(response);
-                    if (response.success) {
-                        if (collect_visitor_id && !document.cookie.includes("buddybot_visitor_id")) {
-
-                            $("#buddybot-single-conversation-messages-wrapper").prepend(response.html);
-                            $("#buddybot-single-conversation-user-message").prop("disabled", true);
-                            $("#buddybot-single-conversation-send-message-btn").prop("disabled", true);
-                        }
-                    }
-                    
-                });
-            });
-
-            $(document).on("click", "#buddybot-save-visitor-id-btn", function(){
-                $("#buddybot-visitor-id-error-message").addClass("visually-hidden");
-                let visitorId = $("#buddybot-visitor-id").val();
-
-                const data = {
-                    "action": "setCookieSession",
-                    "visitor_id": visitorId,
-                    "nonce": "' . esc_js(wp_create_nonce('set_cookie_session')) . '"
-                };
-
-                $.post(ajaxurl, data, function(response) {
-                    response = JSON.parse(response);
-                    if (response.success) {
-                        $("#buddybot-visitor-id-wrapper").remove();
-                        $("#buddybot-single-conversation-user-message").prop("disabled", false);
-                        $("#buddybot-single-conversation-send-message-btn").prop("disabled", false);
-                    } else {
-                        $("#buddybot-visitor-id-error-message").removeClass("visually-hidden");
-                    }
-                    
-                });
-            });
-
-            $(document).on("click", "#buddybot-skip-visitor-id", function(){
-                $("#buddybot-visitor-id-wrapper").remove();
-                $("#buddybot-single-conversation-user-message").prop("disabled", false);
-                $("#buddybot-single-conversation-send-message-btn").prop("disabled", false);
             });
         ';
     }
@@ -368,97 +311,208 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
 
     private function createRunJs()
     {
+        $apiKey = $this->options->getOption('openai_api_key');
+        
         echo '
-        function createRun() {
+        const messageBuffers = {};
+        let runCreatedAt = null;
 
+        function startStreaming() {
+
+            const threadId = sessionStorage.getItem("bbCurrentThreadId");
             const assistantId = $("#buddybot-chat-conversation-assistant-id").val();
 
-            const data = {
-                "action": "createFrontendRun",
-                "thread_id": sessionStorage.getItem("bbCurrentThreadId"),
-                "assistant_id": assistantId,
-                "nonce": "' . esc_js(wp_create_nonce('create_run')) . '"
-            };
-  
-            $.post(ajaxurl, data, function(response) {
-                response = JSON.parse(response);
-                if (response.success) {
-                    sessionStorage.setItem("bbCurrentRunId", response.result.id);
-                    checkRun = retrieveRun();
-                } else {
-                    showAlert("danger", response.message);
-                    lockUi(false);
-                }
-            });
+            fetchStream(threadId, assistantId);
         }
-        ';
-    }
 
-    private function retrieveRunJs()
-    {
-        echo '
-        function retrieveRun() {
-
-            const data = {
-                "action": "retrieveFrontendRun",
-                "thread_id": sessionStorage.getItem("bbCurrentThreadId"),
-                "run_id": sessionStorage.getItem("bbCurrentRunId"),
-                "nonce": "' . esc_js(wp_create_nonce('retrieve_run')) . '"
-            };
-  
-            $.post(ajaxurl, data, function(response) {
-                
-                response = JSON.parse(response);
-                
-                if (response.success) {
-                    clearInterval(checkRun);
-                    getAssistantResponse();
-
-                } else {
-                    showAlert("danger", response.message);
-                    clearInterval(checkRun);
+        async function fetchStream(threadId, assistantId) {
+            try {
+                const apiUrl = "https://api.openai.com/v1/threads/" + threadId + "/runs";
+                const response = await fetch(apiUrl, {
+                    method: "POST",
+                    headers: {
+                        "Authorization": "Bearer ' . esc_js($apiKey) . '",
+                        "Content-Type": "application/json",
+                        "OpenAI-Beta": "assistants=v2",
+                    },
+                    body: JSON.stringify({
+                        assistant_id: assistantId,
+                        stream: true
+                    })
+                });
+    
+                if (!response.ok) {
+                    const errorDetails = await response.json();
+                    let errorMessage = errorDetails?.error?.message || "' . esc_html__("An error occurred while fetching Assistant response.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+                    showAlert("danger", errorMessage);
                     lockUi(false);
+                    return;
                 }
-            });
-        }
-        ';
-    }
+    
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder("utf-8");
+                let leftover = "";
+    
+                // Read the stream
+                while (true) {
+                    const { value, done } = await reader.read();
+                    if (done) break;
+    
+                    const chunk = decoder.decode(value, { stream: true });
+                    const text   = leftover + chunk;
+                    const lines  = text.split("\n");
 
-    private function getAssistantResponseJs()
-    {
-        echo '
-        function getAssistantResponse() {
+                    leftover = lines.pop();
 
-            const data = {
-                "action": "getMessages",
-                "thread_id": sessionStorage.getItem("bbCurrentThreadId"),
-                "before": sessionStorage.getItem("bbFirstId"),
-                "limit": 10,
-                "order": "desc",
-                "timezone": bbTimeZone,
-                "nonce": "' . esc_js(wp_create_nonce('get_messages')) . '"
-            };
-  
-            $.post(ajaxurl, data, function(response) {
+                    for (const line of lines) {
+                        if (line.startsWith("data: ")) {
+                            const data = line.slice(6).trim();
+                            if (data === "[DONE]") {
+                                lockUi(false);
+                                return;
+                            }
+    
+                            let response;
+                            
+                            try {
+                                response = JSON.parse(data);
+                            } catch (e) {
+                                console.warn("Skipping incomplete JSON chunk:", data);
+                                continue;
+                            }
 
-                response = JSON.parse(response);
+                             if (response.status === "failed" || response.error) {
+                                const errorMsg = response?.error?.message || response?.last_error?.message || "' . esc_html__("An error occurred while processing your message.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+                                showAlert("danger", errorMsg);
+                                lockUi(false);
+                                return;
+                            } else if (response.status === "cancelled" || response.status === "cancelling") {
+                                const runCancelled = "' . esc_html__('The process was aborted.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+                                showAlert("danger", runCancelled);
+                                lockUi(false);
+                                return;
+                            }
 
-                if (response.success) {
-                    var cleanedHtml = response.html.replace(/【.*?†.*?】/g, "");
-                    $("#buddybot-single-conversation-messages-wrapper").append(cleanedHtml);
-                    sessionStorage.setItem("bbFirstId", response.result.first_id);
-                    animateMessageText(response.result.first_id);
-                } else {
-                    showAlert("danger", response.message);
+                            if (response.object === "thread.run") {
+                                runCreatedAt = response.created_at;
+                            }
+
+                            if (response.delta && response.delta.content) {
+                                let messageId = response.id;
+                                appendToChatBubble(response.delta.content[0].text.value, messageId, runCreatedAt);
+                            }
+                        }
+                    }
                 }
-
+            } catch (error) {
+                let errorMessage = error || "' . esc_html__("An error occurred while fetching Assistant response.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+                showAlert("danger", errorMessage);
                 lockUi(false);
+            }
+        }
+    
+        function appendToChatBubble(content, messageId, CreatedAt) {
 
-            });
+
+            if (!messageBuffers[messageId]) {
+                messageBuffers[messageId] = "";
+            }
+            messageBuffers[messageId] += content;
+
+            const formattedContent = parseFormatting(messageBuffers[messageId]);
+            let messageEl = document.getElementById(messageId);
+
+            if (messageEl) {
+                const contentEl = messageEl.querySelector(".buddybot-chat-conversation-assistant-response");
+                if (contentEl) {
+                    contentEl.innerHTML = formattedContent;
+                }
+            } else {
+                const imgUrl = "' . esc_url($this->config->getRootUrl() . 'admin/html/images/third-party/openai/openai-logomark.png') . '";
+            
+                let TimeFormat = "' . esc_js($this->config->getProp('time_format')) . '";
+                let timezone = bbTimeZone;
+
+
+                let formattedDate = formatTimeWithToday(runCreatedAt, TimeFormat, timezone);
+
+                const messageHtml = `
+                    <div class="buddybot-chat-conversation-list-item d-flex justify-content-start text-dark" id="${messageId}">
+                        <div class="me-2 pt-2">
+                            <img width="28" class="shadow-none rounded-circle border-0" src="${imgUrl}">
+                        </div>
+                        <div>
+                            <div class="buddybot-chat-conversation-assistant-response p-2 bg-light bg-opacity-10" style="max-width: 500px;"></div>
+                            <div class="small text-start text-secondary ms-2 me-3">
+                                ${formattedDate}
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                $("#buddybot-single-conversation-messages-wrapper").append(messageHtml);
+
+                document.querySelector(`#${messageId} .buddybot-chat-conversation-assistant-response`).innerHTML = formattedContent;
+
+                scrollToBottom(messageId);
+            }
+        }
+
+        function parseFormatting(text) {
+            // Replace **bold** with <strong>bold</strong>
+            text = text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+
+            // Convert newlines to <br>
+            text = text.replace(/\n/g, "<br>");
+
+            text = text.replace(/【.*?†.*?】/g, "");
+
+            return text;
+        }
+
+        function formatTimeWithToday(unixTimestamp, wpTimeFormat, wpTimeZone) {
+            // Always show "Today" for date; wpDateFormat parameter removed
+            const date = new Date(unixTimestamp * 1000);
+            const tzDate = new Date(date.toLocaleString("en-US", { timeZone: wpTimeZone }));
+
+            function pad(n, width = 2) {
+                return String(n).padStart(width, "0");
+            }
+
+            // Map only time tokens
+            const replacements = {
+                a: tzDate.getHours() >= 12 ? "pm" : "am",
+                A: tzDate.getHours() >= 12 ? "PM" : "AM",
+                g: ((h) => h % 12 || 12)(tzDate.getHours()),
+                G: tzDate.getHours(),
+                h: pad((tzDate.getHours() % 12) || 12),
+                H: pad(tzDate.getHours()),
+                i: pad(tzDate.getMinutes()),
+                s: pad(tzDate.getSeconds())
+            };
+
+            function applyTimeFormat(fmt) {
+                let out = "";
+                for (let i = 0; i < fmt.length; i++) {
+                    const c = fmt[i];
+                    if (c === "\\.") {
+                        // escape literal next char
+                        i++;
+                        if (i < fmt.length) out += fmt[i];
+                    } else if (replacements[c] !== undefined) {
+                        out += replacements[c];
+                    } else {
+                        out += c;
+                    }
+                }
+                return out;
+            }
+
+            const timeString = applyTimeFormat(wpTimeFormat);
+            return `' . esc_html__("Today", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . ', ${timeString}`;
         }
         ';
     }
-
 
     private function scrollToMessageJs()
     {
@@ -483,37 +537,6 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
             $("#buddybot-single-conversation-messages-wrapper").animate({
                 scrollTop: 0
             }, 1000);
-        }
-        ';
-    }
-
-    private function animateTypeJs()
-    {
-        echo '
-        let charIndex = 0;
-        let messageText = "";
-        let messageContainer = null;
-
-        function animateMessageText(element) {
-            charIndex = 0;
-            messageContainer = $("#" + element).find(".buddybot-chat-conversation-assistant-response");
-            messageText = messageContainer.html();
-            
-            if (messageText.includes("<")) {
-                scrollToBottom(element);
-            } else {   
-                messageContainer.text("");
-                animateText();
-            }
-        }
-
-        function animateText() {
-            if (charIndex < messageText.length) {
-                messageContainer.append(document.createTextNode(messageText.charAt(charIndex)));
-                scrollToBottom();
-                charIndex++;
-                setTimeout(animateText, 30);
-            }
         }
         ';
     }
