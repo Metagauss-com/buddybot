@@ -112,9 +112,11 @@ Yes, BuddyBot AI uses the Bootstrap framework for its layout and design, providi
 
 == Changelog == 
 
-= 1.4.0.0: May 15, 2025 =
-* Added: Option to collect visitor emails.
-* Added: Existing Assistant features to the system.
+1.4.0.0: May 15, 2025 =
+* New: Visitor Email Collection
+You can now collect email addresses from visitors who interact with your assistant. Use this to send updates, follow up after events, or grow your contact list—without needing any extra tools.
+*New: Assistant Selection Option
+Instead of creating a new assistant every time, you can now select from your existing ones. It’s a quicker, cleaner way to manage your assistant setup.
 
 = 1.3.7.0: May 14, 2025 =
 * UI changes.
@@ -183,9 +185,11 @@ Yes, BuddyBot AI uses the Bootstrap framework for its layout and design, providi
 
 == Upgrade Notice ==
 
-= 1.4.0.0: May 15, 2025 =
-* Added: Option to collect visitor emails.
-* Added: Existing Assistant features to the system.
+1.4.0.0: May 15, 2025 =
+* New: Visitor Email Collection
+You can now collect email addresses from visitors who interact with your assistant. Use this to send updates, follow up after events, or grow your contact list—without needing any extra tools.
+*New: Assistant Selection Option
+Instead of creating a new assistant every time, you can now select from your existing ones. It’s a quicker, cleaner way to manage your assistant setup.
 
 = 1.3.7.0: May 14, 2025 =
 * UI changes.
