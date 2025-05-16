@@ -11,3 +11,8 @@ body{
 .bb-settings-submit{
     display:flex
 }
+
+.buddybot-readonly{
+    pointer-events: none;
+    opacity: 0.5; 
+}

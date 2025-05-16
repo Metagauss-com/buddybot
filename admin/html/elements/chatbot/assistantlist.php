@@ -13,7 +13,7 @@ class AssistantList extends \BuddyBot\Admin\Html\Elements\Chatbot\MoRoot
 
     public function getHtml()
     {
-        $html = '<a href="#" class="list-group-item list-group-item-action" data-bs-dismiss="modal" ';
+        $html = '<a href="#" class="buddybot-list-group-item" ';
         $html .= 'data-mgao-id="' . esc_attr($this->item->id) . '" data-mgao-name="' . esc_attr($this->item->name) . '">';
         $html .= $this->assistantName();
         $html .= $this->assistantId();
@@ -30,7 +30,7 @@ class AssistantList extends \BuddyBot\Admin\Html\Elements\Chatbot\MoRoot
             $name = __('Unnamed', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
 
-        $html = '<div class="small fw-bold text-break">';
+        $html = '<div class="buddybot-small buddybot-fw-bold buddybot-text-break">';
         $html .= $name;
         $html .= '</div>';
         return $html;
@@ -38,7 +38,7 @@ class AssistantList extends \BuddyBot\Admin\Html\Elements\Chatbot\MoRoot
 
     private function assistantId()
     {
-        $html = '<div class="small">';
+        $html = '<div class="buddybot-small">';
         $html .= $this->item->id;
         $html .= '</div>';
         return $html;
@@ -46,11 +46,17 @@ class AssistantList extends \BuddyBot\Admin\Html\Elements\Chatbot\MoRoot
 
     private function createdOn()
     {
-        $format = get_option('date_format') . ' ' . get_option('time_format');
-        $html = '<div class="small">';
+        $date_format = $this->config->getProp('date_format');
+        $time_format = $this->config->getProp('time_format');
+        $timezone = wp_timezone();
+ 
+        $message_date = wp_date($date_format, $this->item->created_at, $timezone);
+        $message_time = wp_date($time_format, $this->item->created_at, $timezone);
+        
+        $html = '<div class="buddybot-small">';
         $html .= __('Created On', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $html .= ' ';
-        $html .= wp_date($format, $this->item->created_at);
+        $html .= esc_html($message_date . ', ' . $message_time);
         $html .= '</div>';
         return $html;
     }

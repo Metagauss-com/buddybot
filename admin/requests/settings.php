@@ -50,10 +50,13 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
                     showHide("#buddybot-settings-enable-visitor-chat", "buddybot-visitor-chat-childfieldrow-first", "", "");
                     showHide("#buddybot-settings-enable-visitor-chat", "buddybot-visitor-chat-childfieldrow-second", "", "");
                     showHide("#buddybot-settings-enable-visitor-chat", "buddybot-visitor-chat-childfieldrow-third", "", "");
+                    showHide("#buddybot-settings-enable-visitor-chat", "buddybot-visitor-chat-childfieldrow-four", "", "");
                     if ($("#buddybot-settings-disable-cookies").is(":checked")) {
                         $("#buddybot-settings-session-expiry").prop("disabled", true);
+                        $("#buddybot-settings-user-email").addClass("buddybot-readonly");
                     } else {
                         $("#buddybot-settings-session-expiry").prop("disabled", false);
+                        $("#buddybot-settings-user-email").prop("disabled", false).removeClass("buddybot-readonly");
                     }
 
                     if ($("#buddybot-settings-delete-expired-chat").is(":checked")) {
@@ -81,6 +84,7 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
             showHide(this, "buddybot-visitor-chat-childfieldrow-first", "", "");
             showHide(this, "buddybot-visitor-chat-childfieldrow-second", "", "");
             showHide(this, "buddybot-visitor-chat-childfieldrow-third", "", "");
+            showHide(this, "buddybot-visitor-chat-childfieldrow-four", "", "");
         });
 
         $(document).on("change", "#buddybot-settings-disable-cookies", function () {
@@ -210,6 +214,7 @@ final class Settings extends \BuddyBot\Admin\Requests\MoRoot
 
                     if (!$("#buddybot-settings-disable-cookies").is(":checked")) {
                         optionsData["session_expiry"] = $("#buddybot-settings-session-expiry").val();
+                        optionsData["anonymous_user_email"] = $("#buddybot-settings-user-email").is(":checked") ? "1" : "0";
                     }
 
                     if ($("#buddybot-settings-delete-expired-chat").is(":checked")) {

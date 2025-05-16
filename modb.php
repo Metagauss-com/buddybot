@@ -24,6 +24,7 @@ class MoDb
         session_id varchar(255) NULL,
         user_type ENUM('logged_in', 'visitor') DEFAULT 'visitor',
         thread_name varchar(100),
+        user LONGTEXT,
         created datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
         PRIMARY KEY  (id)
         )  $this->charset;";
@@ -39,6 +40,7 @@ class MoDb
         id mediumint(9) NOT NULL AUTO_INCREMENT,
         chatbot_name varchar(256),
         chatbot_description varchar(1024),
+        external BOOLEAN NOT NULL DEFAULT 0,
         assistant_id varchar(100),
         assistant_model VARCHAR(100) NOT NULL,
         personalized_options BOOLEAN NOT NULL DEFAULT 0,

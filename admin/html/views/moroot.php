@@ -119,6 +119,7 @@ class MoRoot extends \BuddyBot\Admin\Html\MoRoot
 
                     echo '</ul>';
                 echo '</div>';
+
                 echo '<div>';
                     echo '<a href="https://getbuddybot.com/contact-form/" type="button" class="button banner-button-primary" target="_blank">';
                         esc_html_e('Contact Us Now!', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
