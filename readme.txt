@@ -112,7 +112,7 @@ Yes, BuddyBot AI uses the Bootstrap framework for its layout and design, providi
 
 == Changelog == 
 
-1.4.0.0: May 15, 2025 =
+1.4.0.0: May 16, 2025 =
 * New: Visitor Email Collection
 You can now collect email addresses from visitors who interact with your assistant. Use this to send updates, follow up after events, or grow your contact list—without needing any extra tools.
 *New: Assistant Selection Option
@@ -185,7 +185,7 @@ Instead of creating a new assistant every time, you can now select from your exi
 
 == Upgrade Notice ==
 
-1.4.0.0: May 15, 2025 =
+1.4.0.0: May 16, 2025 =
 * New: Visitor Email Collection
 You can now collect email addresses from visitors who interact with your assistant. Use this to send updates, follow up after events, or grow your contact list—without needing any extra tools.
 *New: Assistant Selection Option
