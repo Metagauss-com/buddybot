@@ -299,7 +299,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
                     $("#buddybot-single-conversation-delete-thread-btn").removeClass("visually-hidden");
                     sessionStorage.setItem("bbFirstId", response.result.id);
                     scrollToBottom(response.result.id);
-                    createRun();
+                    startStreaming();
                 } else {
                     showAlert("danger", response.message);
                     lockUi(false);
