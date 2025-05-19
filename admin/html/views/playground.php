@@ -9,7 +9,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
         $heading = __('Test Area', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $this->customPageHeading($heading);
         $chatBubble = new \BuddyBot\Includes\ChatBubble();
-        $chatBubble->getHtml($this->sql->getThreadsByUserId());
+        $chatBubble->getHtml($this->sql->getThreadsByUserId(0, 10, 0));
     }
     
     private function playgroundContainer()

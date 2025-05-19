@@ -385,6 +385,50 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
         wp_die();
     }
 
+    public function loadMoreThreads()
+    {
+        $this->checkNonce('load_threads');
+    
+        $offset = (isset($_POST['offset']) && !empty($_POST['offset'])) ? absint($_POST['offset']) : 0;
+
+        $response = $this->sql->getThreadsByUserId(0, 10, $offset);
+    
+        if ($response['success']) {
+            $this->response['success'] = true;
+            $this->response['html'] = $this->threadsHtml($response['result']);
+            $this->response['has_more'] = !empty($response['result']);
+
+        } else {
+            $this->response['success'] = false;
+            $this->response['message'] = esc_html__('Unable to load more threads.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        }
+    
+        echo wp_json_encode($this->response);
+        wp_die();
+    }
+
+    private function threadsHtml($threads)
+    {
+        if (empty($threads)) {
+            return '<div class="buddybot-no-threads-message p-2 text-muted small">No More threads available.</div>';
+        }
+
+        $html = '';
+        foreach ($threads as $thread) {
+             $label = $thread->thread_name;
+
+            if (empty($label)) {
+                $label = $thread->thread_id;
+            }
+
+            $html .= '<div class="buddybot-playground-threads-list-item mb-2 p-2 text-truncate small" data-buddybot-threadid="' . esc_attr($thread->thread_id) . '" role="button">';
+            $html .= esc_html($label);
+            $html .= '</div>';
+        }
+
+        return $html;
+    }
+
     public function __construct()
     {
         $this->setAll();
@@ -394,5 +438,6 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
         add_action('wp_ajax_retrieveRun', array($this, 'retrieveRun'));
         add_action('wp_ajax_listMessages', array($this, 'listMessages'));
         add_action('wp_ajax_deleteThread', array($this, 'deleteThread'));
+        add_action('wp_ajax_loadMoreThreads', array($this, 'loadMoreThreads'));
     }
 }

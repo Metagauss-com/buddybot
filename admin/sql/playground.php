@@ -4,7 +4,8 @@ namespace BuddyBot\Admin\Sql;
 
 class Playground extends \BuddyBot\Admin\Sql\MoRoot
 {
-    public function getThreadsByUserId($user_id = 0)
+
+    public function getThreadsByUserId($user_id = 0, $limit = 10, $offset = 0)
     {
         if (!is_user_logged_in()) {
             return;
@@ -18,16 +19,21 @@ class Playground extends \BuddyBot\Admin\Sql\MoRoot
         }
 
         global $wpdb;
+
+        $query = "
+            SELECT * FROM {$table}
+            WHERE user_id = %d
+            ORDER BY id DESC
+            LIMIT %d OFFSET %d
+        ";
+
         $this->response['result'] = $wpdb->get_results(
-            $wpdb->prepare(
-                'SELECT * FROM %i WHERE user_id=%d ORDER BY id DESC',
-                $table,
-                $user_id
-            )
+            $wpdb->prepare($query, $user_id, $limit, $offset)
         );
 
         return $this->returnResponse();
     }
+
 
     public function saveThreadId($thread_id)
     {

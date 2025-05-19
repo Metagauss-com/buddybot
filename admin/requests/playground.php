@@ -19,6 +19,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
         $this->storeThreadInfoJs();
         $this->scrollToMessageJs();
         $this->selectThreadJs();
+        $this->previousThreadsJs();
         $this->pastMessagesJs();
         $this->toggleThreadBtnsJs();
         $this->toggleDeleteThreadBtnJs();
@@ -403,6 +404,58 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
             
             listMessages();
         });
+        ';
+    }
+
+    private function previousThreadsJs()
+    {
+        echo '
+        let offset = 10;
+        let isLoadingThreads = false;
+        let hasMoreThreads = true;
+
+        $(".buddybot-playground-threads-list").on("scroll", function () {
+
+            const scrollTop = $(this).scrollTop();
+            const containerHeight = $(this).innerHeight();
+            const scrollHeight = this.scrollHeight;
+
+            if (scrollTop + containerHeight >= scrollHeight - 10 && !isLoadingThreads) {
+                isLoadingThreads = true;
+                console.log("Loading more threads...");
+                loadMoreThreads();
+            }
+        });
+
+        function loadMoreThreads() {
+            if (!hasMoreThreads) {
+                console.log("No more threads to load.");
+                return;
+            }
+
+            const data = {
+                "action": "loadMoreThreads",
+                "offset": offset,
+                "nonce": "' . esc_js(wp_create_nonce('load_threads')) . '"
+            };
+
+            $.post(ajaxurl, data, function (response) {
+                response = JSON.parse(response);
+                
+                if (response.success) {
+                    setTimeout(function () {
+                        offset += 10;
+                        console.log(response.html);
+                        $(".buddybot-playground-threads-list").append(response.html);
+                        hasMoreThreads = response.has_more;
+                    }, 2000);
+                } else {
+                    updateStatus(response.message);
+                }
+
+                isLoadingThreads = false;
+            });
+        }
         ';
     }
 
