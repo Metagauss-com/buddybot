@@ -486,6 +486,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
                     updateStatus(response.message);
                 }
 
+                suppressScrollTrigger = false;
                 disableMessage(false);
                 toggleThreadBtns();
             });
@@ -531,6 +532,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
             
             const threadId = $(this).attr("data-buddybot-threadid");
             const highlightClass = "fw-bold text-primary";
+            suppressScrollTrigger = true;
             
             
             $("#mgao-playground-tokens-display").html("");
@@ -549,7 +551,20 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
         $nonce = wp_create_nonce('list_messages');
 
         echo '
-        $("#buddybot-playground-past-messages-btn").click(function(){
+        var $scrollContainer = $("#buddybot-playground-messages-list");
+        var isLoadingMessages = false;
+        let suppressScrollTrigger = false;
+
+        $scrollContainer.on("scroll", function () {
+            if (suppressScrollTrigger) return;
+            if ($scrollContainer.scrollTop() === 0 && !isLoadingMessages) {
+                console.log("Loading past messages...");
+                isLoadingMessages = true;
+                loadPastMessages();
+            }
+        });
+
+        function loadPastMessages() {
 
             updateStatus(gettingPastMessages);
             disableMessage(true);
@@ -558,6 +573,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
             const hasMore = $("#buddybot-playground-has-more-messages").val();
 
             if (hasMore == false) {
+                console.log("No more messages to load.");
                 return;
             }
 
@@ -590,9 +606,10 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
 
                 $("#buddybot-playground-past-messages-btn").children("span").removeClass("buddybot-rotate-icon");
                 disableMessage(false);
+                isLoadingMessages = false;
                 toggleThreadBtns();
             });
-          });
+        }
         ';
     }
 
