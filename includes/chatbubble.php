@@ -46,13 +46,15 @@ final class ChatBubble extends \BuddyBot\Admin\MoRoot
             if (empty($label)) {
                 $label = $thread->thread_id;
             }
+            $date = get_date_from_gmt($thread->created, 'Y-m-d');
 
             echo '<div class="buddybot-playground-threads-container buddybot-d-flex buddybot-justify-content-between buddybot-align-items-center buddybot-mt-4">';
             echo '<div class="buddybot-playground-threads-list-item buddybot-d-flex buddybot-align-items-center  buddybot-text-truncate buddybot-me-3">';
             echo '<span class="buddybot-playground-message-icon buddybot-me-3 "><svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px" fill="#212529"><path d="M240-400h320v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80ZM80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Zm126-240h594v-480H160v525l46-45Zm-46 0v-480 480Z"/></svg></span>';
             echo '<div class="buddybot-playground-threads-list-item-text buddybot-text-truncate">';
             echo esc_html($label);
-            echo '</div>';               
+            echo '</div>'; 
+                esc_html_e($date);    
             echo '</div>';
             echo '<div class="buddybot-delete-icon buddybot-ms-1 buddybot-me-3 buddybot-d-none">   
             <svg class="" xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px" fill="#dc3545"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
