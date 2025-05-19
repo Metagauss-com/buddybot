@@ -12,7 +12,6 @@ final class AdminMenu extends \BuddyBot\Admin\MoRoot
         $this->settingsSubmenuItem();
         $this->vectorStoreSubmenuItem();
         $this->conversationsSubmenuItem();
-        $this->chatBuubleSubmenuItem();
     }
 
     public function hiddenMenu()
@@ -172,19 +171,6 @@ final class AdminMenu extends \BuddyBot\Admin\MoRoot
         );
     }
 
-    public function chatBuubleSubmenuItem()
-    {
-        add_submenu_page(
-            'buddybot-chatbot',
-            esc_html__('Chat Bubble', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
-            esc_html__('Chat Bubble', 'buddybot-ai-custom-ai-assistant-and-chat-agent'),
-            'manage_options',
-            'buddybot-chatbubble',
-            array($this, 'chatBubbleMenuPage'),
-            1
-        );
-    }
-
     public function buddybotsMenuPage()
     {
         include_once(plugin_dir_path(__FILE__) . 'pages/buddybots.php');
@@ -244,12 +230,6 @@ final class AdminMenu extends \BuddyBot\Admin\MoRoot
     public function ViewConversationMenuPage()
     {
         include_once(plugin_dir_path(__FILE__) . 'pages/viewconversation.php');
-    }
-
-    public function chatBubbleMenuPage()
-    {
-        $chatBubble = new \BuddyBot\Includes\ChatBubble();
-        $chatBubble->getHtml();
     }
 
     public function plugindeactivationFeedback()

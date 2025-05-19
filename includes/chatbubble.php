@@ -3,9 +3,11 @@ namespace BuddyBot\Includes;
 
 final class ChatBubble extends \BuddyBot\Admin\MoRoot
 {
+    private $response;
 
-    public function getHtml()
+    public function getHtml($response)
     {
+        $this->response = $response;
         // $this->test();
         echo '<div class="buddybot-row-container buddybot-mt-4 buddybot-bg-pureLight " style="min-height:80vh" >';
         echo  '<div class="buddybot-row">';
@@ -19,33 +21,35 @@ final class ChatBubble extends \BuddyBot\Admin\MoRoot
         echo '</div>';
     }
 
-    private function test(){
-        $link = 1;
+    private function threadList()
+    {
 
-         echo '<div class="buddybot-docs-container buddybot-mb-3">';
-            echo '<div class="buddybot-docs-inner  buddybot-d-flex buddybot-align-items-center buddybot-align-item-center buddybot-p-2">';
-    
-                echo '<div class="buddybot-docs-content">';
-                    echo '<div class="buddybot-banner-head buddybot-text-dark">';
-                        esc_html_e('How is going?', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-                    echo '</div>';
-                    echo '<div class="buddybot-banner-text">';
-                        esc_html_e(' Welcome to BuddyBot! If you\'re just getting started or have questions, these resources can help.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-                    echo '</div>';
-                    echo '<div class="buddybot-docs-actions">';
-                        echo '<a href="' . esc_url($link) . '" type="button" class="button button-primary" target="_blank">';
-                            esc_html_e('View Documentation', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-                        echo '</a>';
-                        echo '<a href="https://getbuddybot.com/starter-guide/" type="button" class="button button-primary" target="_blank">';
-                            esc_html_e('Starter Guide', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-                        echo '</a>';
-                        echo '<a href="https://wordpress.org/support/plugin/buddybot-ai-custom-ai-assistant-and-chat-agent/" type="button" class="button button-secondary" target="_blank">';
-                            esc_html_e('Get Support', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
-                        echo '</a>';
-                    echo '</div>';
-                echo '</div>';
+        if ($this->response['success'] === false) {
+            esc_html_e('There was an error while fetching threads.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            echo ' ';
+            echo esc_html($this->response['message']);
+            return;
+        }
+
+        if (empty($this->response['result'])) {
+            echo '<span class="text-muted">';
+            esc_html_e('No previous conversations.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            echo '</span>';
+            return;
+        }
+
+        foreach ($this->response['result'] as $thread) {
+            
+            $label = $thread->thread_name;
+
+            if (empty($label)) {
+                $label = $thread->thread_id;
+            }
+
+            echo '<div class="buddybot-playground-threads-list-item mb-2 p-2 text-truncate small" data-buddybot-threadid="' . esc_attr($thread->thread_id) . '" role="button">';
+            echo esc_html($label);
             echo '</div>';
-        echo '</div>';
+        }
     }
 
     private function chatBuubbleLeft()
@@ -59,6 +63,7 @@ final class ChatBubble extends \BuddyBot\Admin\MoRoot
         echo '<input type="text" class="buddybot-form-control buddybot-input  " placeholder="Search..." />';
         echo '<button class="buddybot-btn-black "></span><svg  xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="#ffffff"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg></button>';
         echo '</div>';
+        $this->threadList();
         echo '</div>';
 
         
