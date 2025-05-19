@@ -28,7 +28,9 @@
 .buddybot-justify-content-between {
     justify-content: space-between !important;
 }
-
+..buddybot-justify-content-center {
+    justify-content: center !important;
+}
 .buddybot-align-items-center {
     align-items: center !important;
 }
@@ -72,6 +74,9 @@
 .buddybot-border-radius-20{
     border-radius: 0px 20px 20px 20px;
 }
+.buddybot-border-5{
+    border-radius:5px;
+}
 
 /* General CSS End---*/
 
@@ -112,6 +117,9 @@
 }
 .buddybot-mt-2{
     margin-top: .5rem!important;
+}
+.buddybot-mt-3{
+    margin-top:1rem!important;
 }
 .buddybot-mt-4{
     margin-top:1.5rem;
@@ -228,6 +236,28 @@
 
 .buddybot-ps-0 {
     padding-left: 0 !important;
+}
+
+/* Gaps */
+
+.buddybot-gap-0 {
+    gap: 0 !important;
+}
+
+.buddybot-gap-1 {
+    gap: 0.25rem !important;
+}
+
+.buddybot-gap-2 {
+    gap: 0.5rem !important;
+}
+
+.buddybot-gap-3 {
+    gap: 1rem !important;
+}
+
+.buddybot-gap-4 {
+    gap: 1.5rem !important;
 }
 
 /* widths */
