@@ -13,8 +13,6 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
         $this->createThreadJs();
         $this->createMessageJs();
         $this->createRunJs();
-        $this->retrieveRunJs();
-        $this->getAssistantResponseJs();
         $this->listMessagesJs();
         $this->storeThreadInfoJs();
         $this->scrollToMessageJs();
@@ -49,6 +47,8 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
         const pastMessagesUpdated = "' . esc_html__("Loaded previous messages.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
         const deletingThread = "' . esc_html__("Deleting conversation.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
         const threadDeleted = "' . esc_html__("Conversation deleted successfully!", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const streamError = "' . esc_html__("An error occurred while fetching Assistant response.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const runError = "' . esc_html__("An error occurred while processing your message.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
         ';
     }
 
@@ -163,7 +163,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
                     $("#buddybot-playground-first-message-id").val(response.result.id);
                     updateThreadName(message);
                     scrollToBottom(response.result.id);
-                    createRun();
+                    startStreaming();
                 } else {
                     disableMessage(false);
                     updateStatus(response.message);
@@ -175,142 +175,280 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
 
     private function createRunJs()
     {
-        $nonce = wp_create_nonce('create_run');
+        $apiKey = $this->options->getOption('openai_api_key');
         echo '
-        function createRun() {
+        const messageBuffers = {};
+        let runCreatedAt = null;
 
-            disableMessage();
-            updateStatus(creatingRun);
-
+        function startStreaming() {
+            updateStatus(gettingResponse);
+    
             const threadId = $("#mgao-playground-thread-id-input").val();
             const assistantId = $("#buddybot-playground-assistants-list").val();
 
-            const data = {
-                "action": "createRun",
-                "thread_id": threadId,
-                "assistant_id": assistantId,
-                "nonce": "' . esc_js($nonce) . '"
-            };
-  
-            $.post(ajaxurl, data, function(response) {
-                response = JSON.parse(response);
-                if (response.success) {
-                    updateStatus(runCreated);
-                    $("#mgao-playground-run-id-input").val(response.result.id);
-                    checkRun = retrieveRun();
-                } else {
-                    disableMessage(false);
-                    updateStatus(response.message);
-                }
-            });
+            fetchStream(threadId, assistantId);
         }
-        ';
-    }
 
-    private function retrieveRunJs()
-    {
-        $nonce = wp_create_nonce('retrieve_run');
-        echo '
-        function retrieveRun() {
+        async function fetchStream(threadId, assistantId) {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 60000);  
 
-            disableMessage();
-            updateStatus(retrievingRun);
+            try {
+                const apiUrl = "https://api.openai.com/v1/threads/" + threadId + "/runs";
+                const response = await fetch(apiUrl, {
+                    method: "POST",
+                    headers: {
+                        "Authorization": "Bearer ' . esc_js($apiKey) . '",
+                        "Content-Type": "application/json",
+                        "OpenAI-Beta": "assistants=v2",
+                    },
+                    body: JSON.stringify({
+                        assistant_id: assistantId,
+                        stream: true
+                    })
+                });
 
-            const threadId = $("#mgao-playground-thread-id-input").val();
-            const runId = $("#mgao-playground-run-id-input").val();
+                clearTimeout(timeoutId);
+    
+                if (!response.ok) {
+                    const errorDetails = await response.json();
+                    const errorMessage = errorDetails?.error?.message || streamError;
+                    updateStatus("<span class=text-danger>" + errorMessage + "</span>");
+                    disableMessage(false);
+                    return;
+                }
+    
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder("utf-8");
+                let leftover = "";
+    
+                // Read the stream
+                while (true) {
+                    const { value, done } = await reader.read();
+                    if (done) break;
+    
+                    const chunk = decoder.decode(value, { stream: true });
+                    const text   = leftover + chunk;
+                    const lines  = text.split("\n");
 
-            const data = {
-                "action": "retrieveRun",
-                "thread_id": threadId,
-                "run_id": runId,
-                "nonce": "' . esc_js($nonce) . '"
-            };
-  
-            $.post(ajaxurl, data, function(response) {
+                    leftover = lines.pop();
 
-                response = JSON.parse(response);
-                
-                if (response.success) {
-                    
-                    switch (response.result.status) {
-                        
-                        case "completed":
-                            clearInterval(checkRun);
-                            getAssistantResponse();
-                            $("#mgao-playground-tokens-display").html(response.tokens);
-                            break;
-                        
-                        case "failed":
-                            clearInterval(checkRun);
-                            disableMessage(false);
-                            updateStatus(
-                                "<span class=text-danger>" +
-                                response.result.last_error.code + ": " +
-                                response.result.last_error.message +
-                                "</span>"
-                            );
-                            break;
+                    for (const line of lines) {
+                        if (line.startsWith("data: ")) {
+                            const data = line.slice(6).trim();
+                            if (data === "[DONE]") {
+                                updateStatus(responseUpdated);
+                                disableMessage(false);
+                                return;
+                            }
+    
+                            let response;
+                            
+                            try {
+                                response = JSON.parse(data);
+                            } catch (e) {
+                                console.warn("Skipping incomplete JSON chunk:", data);
+                                continue;
+                            }
 
-                        case "cancelled":
-                        case "cancelling":
-                            clearInterval(checkRun);
-                            disableMessage(false);
-                            updateStatus(runCancelled);
-                            break;
-                        
-                        case "requires_action":
-                            clearInterval(checkRun);
-                            getAssistantResponse();
-                            break;
+                           if (response.status === "failed" || response.error || (response.error && response.error.message)) {
+                                const errorMsg = response?.error?.message || response?.last_error?.message || runError;
+                                updateStatus("<span class=text-danger>" + errorMsg + "</span>");
+                                disableMessage(false);
+                                return;
+                            } else if (response.status === "cancelled" || response.status === "cancelling") {
+                                updateStatus(runCancelled);
+                                disableMessage(false);
+                                return;
+                            }
+
+                            if (response.object === "thread.run") {
+                                runCreatedAt = response.created_at;
+                            }
+
+                            if (response.delta && response.delta.content) {
+                                let messageId = response.id;
+                                appendToChatBubble(response.delta.content[0].text.value, messageId, runCreatedAt);
+                            }
+                        }
                     }
-
-                } else {
-                    disableMessage(false);
-                    updateStatus("<span class=text-danger>" + response.message + "</span>");
-                    clearInterval(checkRun);
                 }
-            });
+            } catch (error) {
+            let errorMessage = error || streamError;
+                updateStatus("<span class=text-danger>" + errorMessage + "</span>");
+            }
         }
-        ';
-    }
+    
+        function appendToChatBubble(content, messageId, CreatedAt) {
 
-    private function getAssistantResponseJs()
-    {
-        $nonce = wp_create_nonce('list_messages');
-        echo '
-        function getAssistantResponse() {
 
-            disableMessage();
-            updateStatus(gettingResponse);
+            if (!messageBuffers[messageId]) {
+                messageBuffers[messageId] = "";
+            }
+            messageBuffers[messageId] += content;
 
-            const threadId = $("#mgao-playground-thread-id-input").val();
+            const formattedContent = parseFormatting(messageBuffers[messageId]);
+            let messageEl = document.getElementById(messageId);
 
-            const data = {
-                "action": "listMessages",
-                "thread_id": threadId,
-                "before": $("#buddybot-playground-first-message-id").val(),
-                "limit": 20,
-                "order": "desc",
-                "nonce": "' . esc_js($nonce) . '"
-            };
-  
-            $.post(ajaxurl, data, function(response) {
-
-                response = JSON.parse(response);
-
-                if (response.success) {
-                    updateStatus(responseUpdated);
-                    var cleanedHtml = response.html.replace(/【.*?†.*?】/g, "");
-                    $("#buddybot-playground-messages-list").append(cleanedHtml);
-                    $("#buddybot-playground-first-message-id").val(response.result.first_id);
-                    scrollToBottom(response.result.first_id);
-                } else {
-                    updateStatus(response.message);
+            if (messageEl) {
+                const contentEl = messageEl.querySelector(".buddybot-response-content");
+                if (contentEl) {
+                    contentEl.innerHTML = formattedContent;
                 }
+            } else {
+                const imgUrl = "' . esc_url($this->config->getRootUrl() . 'admin/html/images/third-party/openai/openai-logomark.png') . '";
+            
+                let DateFormat = "' . esc_js(get_option('date_format')) . '";
+                let TimeFormat = "' . esc_js(get_option('time_format')) . '";
+                let timezone = "' . esc_js(wp_timezone_string()) . '";
 
-                disableMessage(false);
-                toggleThreadBtns();
-            });
+
+                let formattedDate = formatDateByWordPress(runCreatedAt, DateFormat, TimeFormat, timezone);
+
+                const messageHtml = `
+                    <div class="buddybot-playground-messages-list-item d-flex justify-content-start my-2" id="${messageId}">
+                        <div class="me-2">
+                            <img width="28" class="rounded-circle" src="${imgUrl}">
+                        </div>
+                        <div>
+                            <div class="buddybot-response-content p-2 bg-light rounded-4 rounded-top-0 rounded-end-4"></div>
+                            <div class="small text-end text-muted mt-2 me-2">
+                                ${formattedDate}
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                $("#buddybot-playground-messages-list").append(messageHtml);
+
+                document.querySelector(`#${messageId} .buddybot-response-content`).innerHTML = formattedContent;
+
+                scrollToBottom(messageId);
+            }
+        }
+
+        function parseFormatting(text) {
+            // Replace **bold** with <strong>bold</strong>
+            text = text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+
+            // Convert newlines to <br>
+            text = text.replace(/\n/g, "<br>");
+
+            text = text.replace(/【.*?†.*?】/g, "");
+
+            return text;
+        }
+
+        function formatDateByWordPress(unixTimestamp, wpDateFormat, wpTimeFormat, wpTimeZone) {
+            const date = new Date(unixTimestamp * 1000);
+            
+            function pad(n, width = 2) {
+                return String(n).padStart(width, "0");
+            }
+
+            function ordinalSuffix(n) {
+                if (n >= 11 && n <= 13) return "th";
+                switch (n % 10) {
+                    case 1: return "st";
+                    case 2: return "nd";
+                    case 3: return "rd";
+                    default: return "th";
+                }
+            }
+
+            // Get all date components in the specified timezone
+            const options = { timeZone: wpTimeZone };
+            const day = date.toLocaleString("en-US", { day: "numeric", ...options });
+            const month = date.toLocaleString("en-US", { month: "numeric", ...options });
+            const year = date.toLocaleString("en-US", { year: "numeric", ...options });
+            const hours = date.toLocaleString("en-US", { hour: "numeric", hour12: false, ...options });
+            const minutes = date.toLocaleString("en-US", { minute: "numeric", ...options });
+            const seconds = date.toLocaleString("en-US", { second: "numeric", ...options });
+            const weekdayShort = date.toLocaleString("en-US", { weekday: "short", ...options });
+            const weekdayLong = date.toLocaleString("en-US", { weekday: "long", ...options });
+            const monthShort = date.toLocaleString("en-US", { month: "short", ...options });
+            const monthLong = date.toLocaleString("en-US", { month: "long", ...options });
+
+            // Create a new date object with these components to ensure consistency
+            const tzDate = new Date(year, month - 1, day, hours, minutes, seconds);
+
+            const replacements = {
+                d: pad(tzDate.getDate()),
+                D: weekdayShort,
+                j: tzDate.getDate(),
+                l: weekdayLong,
+                N: tzDate.getDay() === 0 ? 7 : tzDate.getDay(),
+                S: ordinalSuffix(tzDate.getDate()),
+                w: tzDate.getDay(),
+                z: Math.floor((tzDate - new Date(tzDate.getFullYear(), 0, 1)) / 86400000),
+
+                W: (() => {
+                    const target = new Date(tzDate.valueOf());
+                    const day = tzDate.getDay() || 7;
+                    target.setDate(tzDate.getDate() + 4 - day);
+                    const yearStart = new Date(target.getFullYear(), 0, 1);
+                    const weekNo = Math.ceil(((target - yearStart) / 86400000 + 1) / 7);
+                    return pad(weekNo);
+                })(),
+
+                F: monthLong,
+                m: pad(tzDate.getMonth() + 1),
+                M: monthShort,
+                n: tzDate.getMonth() + 1,
+                t: new Date(tzDate.getFullYear(), tzDate.getMonth() + 1, 0).getDate(),
+                L: ((year) => ((year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0)) ? 1 : 0)(tzDate.getFullYear()),
+                o: (() => {
+                    const d = new Date(tzDate.valueOf());
+                    d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+                    return d.getFullYear();
+                })(),
+                Y: tzDate.getFullYear(),
+                y: String(tzDate.getFullYear()).slice(-2),
+
+                a: tzDate.getHours() >= 12 ? "pm" : "am",
+                A: tzDate.getHours() >= 12 ? "PM" : "AM",
+                g: ((h) => h % 12 || 12)(tzDate.getHours()),
+                G: tzDate.getHours(),
+                h: pad((tzDate.getHours() % 12) || 12),
+                H: pad(tzDate.getHours()),
+                i: pad(tzDate.getMinutes()),
+                s: pad(tzDate.getSeconds()),
+
+                e: wpTimeZone,
+                T: date.toLocaleTimeString("en-US", { timeZoneName: "short", timeZone: wpTimeZone }).split(" ").pop(),
+                Z: -date.getTimezoneOffset() * 60,
+                O: (() => {
+                    const offset = date.getTimezoneOffset();
+                    const sign = offset <= 0 ? "+" : "-";
+                    const hours = pad(Math.floor(Math.abs(offset) / 60));
+                    const minutes = pad(Math.abs(offset) % 60);
+                    return `${sign}${hours}${minutes}`;
+                })(),
+                P: (() => {
+                    const offset = date.getTimezoneOffset();
+                    const sign = offset <= 0 ? "+" : "-";
+                    const hours = pad(Math.floor(Math.abs(offset) / 60));
+                    const minutes = pad(Math.abs(offset) % 60);
+                    return `${sign}${hours}:${minutes}`;
+                })(),
+                U: Math.floor(date.getTime() / 1000),
+            };
+
+            function applyFormat(format) {
+                return format.replace(/(\\[a-zA-Z])|([a-zA-Z])/g, (match, escaped, token) => {
+                    // Handle escaped characters (like \D)
+                    if (escaped) {
+                        return escaped.slice(1);
+                    }
+                    // Handle regular format tokens
+                    if (token && replacements[token] !== undefined) {
+                        return replacements[token];
+                    }
+                    return match;
+                });
+            }
+
+            return `${applyFormat(wpDateFormat)} ${applyFormat(wpTimeFormat)}`;
         }
         ';
     }
