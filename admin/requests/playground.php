@@ -391,14 +391,12 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
         $("#buddybot-threads-list").on("click", ".buddybot-threads-list-item", function() {
             
             const threadId = $(this).attr("data-buddybot-threadid");
-            const highlightClass = "fw-bold text-primary";
-            
-            
-            $("#mgao-playground-tokens-display").html("");
+            $(".buddybot-threads-container").removeClass("active");
+            $(".buddybot-thread-delete").addClass("buddybot-d-none");
+        
             $("#buddybot-playground-messages-list").html("");
-            $("#mgao-playground-thread-id-input").val(threadId);
-            $(".buddybot-playground-threads-list-item.fw-bold.text-primary").removeClass(highlightClass);
-            $(this).addClass(highlightClass);
+            $(this).closest(".buddybot-threads-container").addClass("active");
+            $(this).closest(".buddybot-threads-container").find(".buddybot-thread-delete").removeClass("buddybot-d-none");
             
             listMessages(threadId);
         });
@@ -430,7 +428,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
             if (!hasMoreThreads) {
                 return;
             }
-                
+
             $("#buddybot-thread-spinner").show();
 
             const data = {
