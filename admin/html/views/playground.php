@@ -10,6 +10,9 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
         $this->customPageHeading($heading);
         $chatBubble = new \BuddyBot\Includes\ChatBubble();
         $chatBubble->getHtml($this->sql->getThreadsByUserId(0, 10, 0));
+        
+        $deleteConversation = new \BuddyBot\Admin\Html\CustomModals\DeleteConversation();
+        $deleteConversation->getHtml();
     }
     
     private function playgroundContainer()

@@ -320,12 +320,10 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
     {
         $nonce = wp_create_nonce('list_messages');
         echo '
-        function listMessages() {
+        function listMessages(threadId) {
 
             disableMessage();
             updateStatus(gettingThreadMessages);
-
-            const threadId = $("#mgao-playground-thread-id-input").val();
 
             const data = {
                 "action": "listMessages",
@@ -342,9 +340,9 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
                 if (response.success) {
                     updateStatus(threadMessagesUpdated);
                     var cleanedHtml = response.html.replace(/【.*?†.*?】/g, "");
-                    $("#buddybot-playground-messages-list").append(cleanedHtml);
+                    $(".chat-bubble-right").html(cleanedHtml);
                     storeThreadInfo(response.result);
-                    scrollToBottom(response.result.first_id);
+                    //scrollToBottom(response.result.first_id);
                 } else {
                     updateStatus(response.message);
                 }
@@ -390,7 +388,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
     private function selectThreadJs()
     {
         echo '
-        $("#buddybot-playground-threads-list").on("click", ".buddybot-playground-threads-list-item", function() {
+        $("#buddybot-threads-list").on("click", ".buddybot-threads-list-item", function() {
             
             const threadId = $(this).attr("data-buddybot-threadid");
             const highlightClass = "fw-bold text-primary";
@@ -402,7 +400,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
             $(".buddybot-playground-threads-list-item.fw-bold.text-primary").removeClass(highlightClass);
             $(this).addClass(highlightClass);
             
-            listMessages();
+            listMessages(threadId);
         });
         ';
     }
@@ -411,10 +409,12 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
     {
         echo '
         let offset = 10;
+        let typingTimer;
         let isLoadingThreads = false;
         let hasMoreThreads = true;
+        let currentsearch = "";
 
-        $(".buddybot-playground-threads-list").on("scroll", function () {
+        $("#buddybot-threads-list").on("scroll", function () {
 
             const scrollTop = $(this).scrollTop();
             const containerHeight = $(this).innerHeight();
@@ -422,40 +422,66 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
 
             if (scrollTop + containerHeight >= scrollHeight - 10 && !isLoadingThreads) {
                 isLoadingThreads = true;
-                console.log("Loading more threads...");
-                loadMoreThreads();
+                loadThreads(currentsearch);
             }
         });
 
-        function loadMoreThreads() {
+        function loadThreads(search = "") {
             if (!hasMoreThreads) {
-                console.log("No more threads to load.");
                 return;
             }
 
             const data = {
-                "action": "loadMoreThreads",
+                "action": "loadThreads",
                 "offset": offset,
+                "search": search,
                 "nonce": "' . esc_js(wp_create_nonce('load_threads')) . '"
             };
 
             $.post(ajaxurl, data, function (response) {
                 response = JSON.parse(response);
-                
-                if (response.success) {
-                    setTimeout(function () {
-                        offset += 10;
-                        console.log(response.html);
-                        $(".buddybot-playground-threads-list").append(response.html);
-                        hasMoreThreads = response.has_more;
-                    }, 2000);
-                } else {
-                    updateStatus(response.message);
-                }
 
-                isLoadingThreads = false;
+                setTimeout(() => {
+                    if (response.success) {
+                        offset += 10;
+                        if (offset == 10) {
+                            $("#buddybot-threads-list").html(response.html);
+                        } else {
+                            $("#buddybot-threads-list").append(response.html);
+                        }
+                        hasMoreThreads = response.has_more;
+                    } else {
+                        updateStatus(response.message);
+                    }
+
+                    isLoadingThreads = false;
+                }, 2000);
             });
         }
+
+        $(document).on("keyup", "#buddybot-thread-list-search-input", function () {
+
+            $("#buddybot-threads-list").html("");
+
+            clearTimeout(typingTimer);
+            typingTimer = setTimeout(() => {
+                const query = $(this).val();
+
+                if (query !== currentsearch) {
+                    offset = 0;
+                    hasMoreThreads = true;
+                    currentsearch = query;
+                }
+
+                isLoadingThreads = true;
+                loadThreads(currentsearch);
+            }, 2000);
+        });
+
+        $(document).on("keydown", "#buddybot-thread-list-search-input", function () {
+            clearTimeout(typingTimer);
+        });
+
         ';
     }
 

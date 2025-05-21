@@ -37,16 +37,16 @@
 (function ($) {
   'use strict';
   $(document).ready(function() {
-      $("[data-modal]").on("click", function (event) {
-          event.preventDefault();
-          var modalId = $(this).attr("data-modal");
-          var $modal = $("#" + modalId);
+        $(document).on("click", "[data-modal]", function (event) {
+            event.preventDefault();
+            var modalId = $(this).attr("data-modal");
+            var $modal = $("#" + modalId);
 
-          if ($modal.hasClass("show")) {
-              $modal.removeClass("show");
-          } else {
-              $modal.addClass("show");
-          }
+            if ($modal.hasClass("show")) {
+                $modal.removeClass("show");
+            } else {
+                $modal.addClass("show");
+            }
       });
 
         $(window).on("click", function (event) {

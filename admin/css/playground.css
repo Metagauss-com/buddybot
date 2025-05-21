@@ -24,10 +24,10 @@ body {
     height: calc(100vh - 234px);
     min-height: 150px;
 }
-.buddybot-playground-threads-container:hover .buddybot-delete-icon{
+.buddybot-threads-container:hover .buddybot-delete-icon{
     display: block!important;
 }
-.buddybot-playground-threads-container:hover{
+.buddybot-threads-container:hover{
     margin-right: 12px;
     overflow: hidden;
     padding: 8px 0px 8px 2px;
@@ -53,3 +53,48 @@ body {
   background: gray; 
   border-radius: 10px;
 }
+
+.chat-input-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+  }
+
+  textarea {
+    width: 100%;
+    padding: 12px 50px 12px 15px; /* right padding for button */
+    border-radius: 24px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    line-height: 1.4;
+    resize: none;
+    overflow-y: auto;
+    font-family: inherit;
+    outline: none;
+    box-sizing: border-box;
+    max-height: 150px;
+    color: #000;
+    background-color: #fff;
+  }
+
+  textarea:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+  }
+
+  #send-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: none;
+    color: #000;
+    background-color: #fff;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+  }
