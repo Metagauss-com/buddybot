@@ -3,7 +3,7 @@
 namespace BuddyBot\Admin\Requests;
 
 final class Playground extends \BuddyBot\Admin\Requests\MoRoot
-{
+{    
     public function requestJs()
     {
         $this->setVarsJs();
@@ -340,7 +340,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
                 if (response.success) {
                     updateStatus(threadMessagesUpdated);
                     var cleanedHtml = response.html.replace(/【.*?†.*?】/g, "");
-                    $(".chat-bubble-right").html(cleanedHtml);
+                    $("#buddybot-chat-container").html(cleanedHtml);
                     storeThreadInfo(response.result);
                     //scrollToBottom(response.result.first_id);
                 } else {
@@ -352,6 +352,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
             });
         }
         ';
+        
     }
 
     private function storeThreadInfoJs()

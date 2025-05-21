@@ -33,7 +33,7 @@ body {
 }
 .buddybot-threads-container{
     box-sizing: border-box;
-     padding: 8px 6px 8px 8px;
+    padding: 8px 8px 8px 8px;
   border-radius: 6px;
   transition: background-color 0.3s ease;
   color: #333;
@@ -42,6 +42,32 @@ body {
   line-height: 1.8;
   overflow: hidden;
 }
+.buddybot-chat-input-wrapper {
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  padding: 8px;
+}
+
+#buddybot-chat-input {
+  flex-grow: 1;
+  border: none;
+  background-color: transparent;
+  font-size: 16px;
+  padding: 8px;
+  resize: none; /* Prevent manual resizing by the user */
+  overflow: hidden; /* Hide scrollbars initially */
+  min-height: 24px; /* Initial single-line height (adjust as needed) */
+  line-height: 1.5; /* Adjust line height for better readability */
+  outline: none;
+}
+
+#buddybot-chat-input::placeholder {
+  color: #aaa;
+}
+
+
 .buddybot-threads-container:hover {
     background-color: #e5e5e5;
 }
@@ -64,53 +90,32 @@ body {
   background: gray; 
   border-radius: 10px;
 }
-
-.chat-input-wrapper {
-    position: relative;
-    width: 100%;
-    max-width: 600px;
-  }
-
-  textarea {
-    width: 100%;
-    padding: 12px 50px 12px 15px; /* right padding for button */
+   textarea {
+    padding: 12px 50px 12px 15px; 
     border-radius: 24px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-    line-height: 1.4;
-    resize: none;
-    overflow-y: auto;
-    font-family: inherit;
-    outline: none;
-    box-sizing: border-box;
+    line-height: 1.5;
+    resize: none;  
     max-height: 150px;
-    color: #000;
-    background-color: #fff;
   }
-
   textarea:focus {
     border-color: #3b82f6;
     box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
-  }
-
-  #send-btn {
-    position: absolute;
-    right: 10px;
-    top: 50%;
+  } 
+  #buddybot-send-btn {
+    right: 20px;
+    top: 46%;
     transform: translateY(-50%);
     border: none;
-    color: #000;
-    background-color: #fff;
-    cursor: pointer;
     padding: 8px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     transition: background-color 0.2s ease;
-  }
-  
+  } 
+.buddybot-flex-column {
+  flex-direction: column;
+}
 
+
+
+   
 
 
 

@@ -43,6 +43,9 @@
 .buddybot-align-self-end{
     align-self: end!important;
 }
+.buddybot-cursor-pointer{
+    cursor: pointer;
+}
 
 
 
@@ -77,7 +80,7 @@
 .buddybot-border-radius-20{
     border-radius: 0px 20px 20px 20px;
 }
-.buddybot-border-5{
+.buddybot-border-radius-5{
     border-radius:5px;
 }
 
