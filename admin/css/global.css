@@ -17,6 +17,9 @@
 .buddybot-d-none{
     display: none!important;
 }
+.buddybot-d-none-flex{
+    display: flex;
+}
 .buddybot-d-flex-direction-row{
     display: flex!important;
     flex-direction: row!important;
@@ -225,6 +228,12 @@
 }
 .buddybot-pt-2 {
     padding-top: 0.5rem !important;
+}
+.buddybot-pt-3 {
+    padding-top: 1rem !important;
+}
+.buddybot-pt-4 {
+    padding-top: 1.5rem !important;
 }
 
 .buddybot-pb-2 {
