@@ -78,13 +78,12 @@ private function chatBuubbleLeft()
     echo '<input type="text" id="buddybot-thread-list-search-input" class="buddybot-form-control buddybot-input margin-mx-auto buddybot-box-w-100" placeholder="Search..." />';
     echo '</div>';
 
-    // Loader icon (hidden by default)
-   echo '<div class="buddybot-d-flex buddybot-justify-content-center">';
-   echo '<span id="buddybot-thread-spinner" aria-hidden="true" class="spinner-btn is-active"></span>';
-   echo '</div>';
-
     echo '<div id="buddybot-threads-list" class="buddybot-mt-2 buddybot-overflow-y buddybot-py-3" style="max-height: 60vh;">';
     $this->threadList();
+    echo '</div>';
+
+    echo '<div class="buddybot-justify-content-center buddybot-my-2" style="display:none" id="buddybot-thread-spinner">';
+    echo '<span aria-hidden="true" class="spinner-btn is-active"></span>';
     echo '</div>';
     echo '</div>';
 }

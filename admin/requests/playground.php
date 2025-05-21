@@ -430,6 +430,8 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
             if (!hasMoreThreads) {
                 return;
             }
+                
+            $("#buddybot-thread-spinner").show();
 
             const data = {
                 "action": "loadThreads",
@@ -455,6 +457,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
                     }
 
                     isLoadingThreads = false;
+                    $("#buddybot-thread-spinner").hide();
                 }, 2000);
             });
         }
@@ -462,6 +465,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
         $(document).on("keyup", "#buddybot-thread-list-search-input", function () {
 
             $("#buddybot-threads-list").html("");
+            $("#buddybot-thread-spinner").show();
 
             clearTimeout(typingTimer);
             typingTimer = setTimeout(() => {
