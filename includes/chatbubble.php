@@ -9,9 +9,9 @@ final class ChatBubble extends \BuddyBot\Admin\MoRoot
     {
         $this->response = $response;
         // $this->test();
-        echo '<div class="buddybot-row-container buddybot-mt-4 buddybot-bg-pureLight " style="min-height:60vh;border-radius:5px;" >';
+        echo '<div class="buddybot-row-container buddybot-mt-4 buddybot-p-3 buddybot-bg-lightBlue " style="min-height:60vh;border-radius:20px;" >';
         echo  '<div class="buddybot-row">';
-        echo '<div class="buddybot-box-col-3 buddybot-border-right buddybot-pt-3">';
+        echo '<div class="buddybot-box-col-3 buddybot-bg-white buddybot-p-3 " style="border-radius:20px;">';
         $this->chatBuubbleLeft();
         echo '</div>';
         echo '<div class="buddybot-box-col-9">';
@@ -69,16 +69,16 @@ final class ChatBubble extends \BuddyBot\Admin\MoRoot
 
 private function chatBuubbleLeft()
 {
-    echo '<div class="chat-bubble-left buddybot-cursor-pointer" >';
+    echo '<div class="chat-bubble-left buddybot-cursor-pointer " >';
     echo '<div class="buddybot-d-flex buddybot-align-items-center buddybot-justify-content-between  ">';
     echo '<h4>Chat</h4>';
     echo  '<span><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M120-160v-600q0-33 23.5-56.5T200-840h480q33 0 56.5 23.5T760-760v203q-10-2-20-2.5t-20-.5q-10 0-20 .5t-20 2.5v-203H200v400h283q-2 10-2.5 20t-.5 20q0 10 .5 20t2.5 20H240L120-160Zm160-440h320v-80H280v80Zm0 160h200v-80H280v80Zm400 280v-120H560v-80h120v-120h80v120h120v80H760v120h-80ZM200-360v-400 400Z"/></svg></span>';
     echo '</div>';
     echo '<div class="buddybot-thread-list-search-box buddybot-mt-2 buddybot-box-w-100 buddybot-mx-auto">';
-    echo '<input type="text" id="buddybot-thread-list-search-input" class="buddybot-form-control buddybot-input margin-mx-auto buddybot-box-w-100" placeholder="Search..." />';
+    echo '<input type="text" id="buddybot-thread-list-search-input" class="buddybot-form-control buddybot-input margin-mx-auto buddybot-box-w-100 buddybot-border" placeholder="Search..." />';
     echo '</div>';
 
-    echo '<div id="buddybot-threads-list" class="buddybot-mt-2 buddybot-overflow-y buddybot-py-3" style="max-height: 60vh;">';
+    echo '<div id="buddybot-threads-list" class="buddybot-mt-2 buddybot-overflow-y buddybot-py-3" style="max-height: 50vh;">';
     $this->threadList();
     echo '</div>';
 
@@ -90,18 +90,18 @@ private function chatBuubbleLeft()
 
     private function chatBuubbleRight()
     {
-       echo '<div class="buddybot-d-flex buddybot-flex-column buddybot-align-items-center buddybot-h-100" style="height: 80vh;">';
+       echo '<div class="buddybot-d-flex buddybot-flex-column buddybot-align-items-center buddybot-overflow-y buddybot-h-100" style="height: 75vh;">';
 
 // Chat container (scrollable area)
-echo '<div id="buddybot-chat-container" class="buddybot-flex-grow-1 buddybot-overflow-auto buddybot-box-w-100 buddybot-p-3" style="max-width: 800px;">';
+echo '<div id="buddybot-chat-container" class="buddybot-flex-grow-1 buddybot-overflow-auto buddybot-box-w-100 buddybot-p-3" style="max-width: 750px;">';
 // Dynamic messages will go here
 echo '</div>';
 
 // Input area
-echo '<div class="buddybot-chat-input-wrapper buddybot-mb-4 buddybot-position-relative buddybot-box-w-100 buddybot-mt-auto buddybot-px-3" style="max-width:600px;">';
-echo '<textarea id="buddybot-chat-input" class="buddybot-box-w-100 buddybot-bg-white buddybot-border buddybot-fs-6 buddybot-p-2" placeholder="Type your message..." rows="1" ></textarea>';
+echo '<div class="buddybot-chat-input-wrapper buddybot-position-relative buddybot-box-w-100 buddybot-d-none-flex buddybot-align-items-center buddybot-p-2   buddybot-my-auto buddybot-px-3" style="max-width:800px;">';
+echo '<textarea id="buddybot-chat-input" class="buddybot-box-w-100 buddybot-overflow-y buddybot-bg-white buddybot-border buddybot-fs-6 buddybot-p-2" placeholder="Type your message..." rows="3" ></textarea>';
 echo '<button id="buddybot-send-btn" class="buddybot-position-absolute buddybot-cursor-pointer buddybot-bg-white  buddybot-text-dark buddybot-d-flex buddybot-align-items-center buddybot-justify-content-center buddybot-border-radius-50" aria-label="Send message" disabled >';
-echo '<svg width="18px" height="18px" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">';
+echo '<svg width="22px" height="22px" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">';
 echo '<line x1="22" y1="2" x2="11" y2="13"></line>';
 echo '<polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>';
 echo '</svg>';

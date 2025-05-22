@@ -133,6 +133,10 @@
 .buddybot-mt-auto{
     margin-top: auto!important;
 }
+.buddybot-my-auto{
+    margin-top: auto!important;
+    margin-bottom: auto!important;
+}
 
 .buddybot-ms-0 {
     margin-left: 0 !important;
@@ -882,16 +886,10 @@ border-color: #545b62;
 .buddybot-bg-secondary{
     background-color: #6c757d!important;
 }
-.buddybot-bg-pureLight{
-    background-color:#f8f8f8;
+.buddybot-bg-lightBlue{
+    background-color:#f3f6fb;
 }
-body{
-    background-color: #f0f0f1;
-    
-}
-.buddybot-test{
-    background-color:#e7e7e7;
-}
+
 /* flex-grow */
 .buddybot-flex-grow-1{
     flex-grow:1;
