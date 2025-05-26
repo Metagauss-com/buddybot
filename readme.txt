@@ -112,7 +112,7 @@ Yes, BuddyBot AI uses the Bootstrap framework for its layout and design, providi
 
 == Changelog == 
 
-= 1.5.0.0: May 19, 2025 =
+= 1.5.0.0: May 26, 2025 =
 * Improvement: Streaming Assistant API Responses
     - We’ve added streaming support for Assistant API responses. Now, instead of waiting for the entire message to be generated and returned at once, replies are sent in real time as they are being created.
     - This change makes the responses feel much faster, giving users a smoother and quicker experience.
@@ -192,7 +192,7 @@ Instead of creating a new assistant every time, you can now select from your exi
 
 == Upgrade Notice ==
 
-= 1.5.0.0: May 19, 2025 =
+= 1.5.0.0: May 26, 2025 =
 * Improvement: Streaming Assistant API Responses
     - We’ve added streaming support for Assistant API responses. Now, instead of waiting for the entire message to be generated and returned at once, replies are sent in real time as they are being created.
     - This change makes the responses feel much faster, giving users a smoother and quicker experience.
