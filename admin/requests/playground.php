@@ -48,7 +48,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
         const deletingThread = "' . esc_html__("Deleting conversation.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
         const threadDeleted = "' . esc_html__("Conversation deleted successfully!", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
         const streamError = "' . esc_html__("An error occurred while fetching Assistant response.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
-        const runError = "' . esc_html__("An error occurred while processing your message.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+        const runError = "' . esc_html__("An error occurred while processing your message. Please try again later.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
         ';
     }
 
@@ -175,7 +175,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
 
     private function createRunJs()
     {
-        $apiKey = $this->options->getOption('openai_api_key');
+        $nonce = wp_create_nonce('buddybot_stream');
         echo '
         const messageBuffers = {};
         let runCreatedAt = null;
@@ -194,18 +194,19 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
             const timeoutId = setTimeout(() => controller.abort(), 60000);  
 
             try {
-                const apiUrl = "https://api.openai.com/v1/threads/" + threadId + "/runs";
-                const response = await fetch(apiUrl, {
+                const postData = new URLSearchParams();
+                postData.append("action", "buddybotStream");
+                postData.append("threadId", threadId);
+                postData.append("assistantId", assistantId);
+                postData.append("nonce", "' . esc_js($nonce) . '");
+
+                const response = await fetch(ajaxurl, {
                     method: "POST",
                     headers: {
-                        "Authorization": "Bearer ' . esc_js($apiKey) . '",
-                        "Content-Type": "application/json",
-                        "OpenAI-Beta": "assistants=v2",
+                        "Content-Type": "application/x-www-form-urlencoded",
                     },
-                    body: JSON.stringify({
-                        assistant_id: assistantId,
-                        stream: true
-                    })
+                    body: postData.toString(),
+                    signal: controller.signal,
                 });
 
                 clearTimeout(timeoutId);
@@ -233,6 +234,17 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
 
                     leftover = lines.pop();
 
+                    try {
+                        let curlError = JSON.parse(text);
+                        if (curlError?.error?.message) {
+                            updateStatus(`<span class="text-danger">${curlError.error.message}</span>`);
+                            disableMessage(false);
+                            return;
+                        }
+                    } catch (err) {
+                        // Not a JSON error, continue processing lines
+                    }
+
                     for (const line of lines) {
                         if (line.startsWith("data: ")) {
                             const data = line.slice(6).trim();
@@ -247,11 +259,13 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
                             try {
                                 response = JSON.parse(data);
                             } catch (e) {
-                                console.warn("Skipping incomplete JSON chunk:", data);
+                                const error = runError;
+                                updateStatus(`<span class="text-danger">${error}</span>`);
+                                disableMessage(false);
                                 continue;
                             }
 
-                           if (response.status === "failed" || response.error || (response.error && response.error.message)) {
+                            if (response.status === "failed" || response.error || (response.error && response.error.message)) {
                                 const errorMsg = response?.error?.message || response?.last_error?.message || runError;
                                 updateStatus("<span class=text-danger>" + errorMsg + "</span>");
                                 disableMessage(false);

@@ -224,6 +224,83 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
         wp_die();
     }
 
+    public function buddybotStream()
+    {
+        $this->checkNonce('buddybot_stream');
+        
+        $thread_id = sanitize_text_field($_POST['threadId'] ?? '');
+        $assistant_id = sanitize_text_field($_POST['assistantId'] ?? '');
+
+        $url = 'https://api.openai.com/v1/threads/' . $thread_id . '/runs';
+
+        $headers = [
+            'Authorization: Bearer ' . $this->api_key,
+            'Content-Type: application/json',
+            'OpenAI-Beta: assistants=v2',
+        ];
+
+        $postData = json_encode([
+            'assistant_id' => $assistant_id,
+            'stream' => true,
+            'metadata' => [
+                'wp_user_id' => (string)get_current_user_id(),
+                'wp_source' => 'wp_admin',
+            ],
+        ]);
+
+        // Proper headers for plain text line streaming
+        header('Content-Type: text/plain; charset=utf-8');
+        header('Cache-Control: no-cache');
+        header('Connection: keep-alive');
+        header('X-Accel-Buffering: no'); // Disable buffering for NGINX
+
+        if (ob_get_level()) {
+            ob_end_clean();
+        }
+
+        @ini_set('output_buffering', 'off');
+        @ini_set('zlib.output_compression', 'off');
+        @apache_setenv('no-gzip', '1');
+
+        flush();
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
+
+        curl_setopt($ch, CURLOPT_WRITEFUNCTION, function ($curl, $data) {
+            echo $data; // Raw data (one line of JSON or a chunk)
+            flush();
+            return strlen($data);
+        });
+
+        curl_setopt($ch, CURLOPT_TIMEOUT, 0);
+        curl_setopt($ch, CURLOPT_BUFFERSIZE, 128);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, false);
+
+        // Only use these for testing/dev environments
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+
+        $result = curl_exec($ch);
+
+        if ($result === false) {
+            $error = curl_error($ch);
+            $errorData = json_encode([
+                'error' => [
+                    'message' => $error,
+                    'type' => 'curl_error',
+                ],
+            ]);
+            echo $errorData . "\n";
+            flush();
+        }
+
+        curl_close($ch);
+        exit;
+    }
+
     public function __construct()
     {
         $this->setAll();
@@ -231,5 +308,6 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
         add_action('wp_ajax_createMessage', array($this, 'createMessage'));
         add_action('wp_ajax_listMessages', array($this, 'listMessages'));
         add_action('wp_ajax_deleteThread', array($this, 'deleteThread'));
+        add_action('wp_ajax_buddybotStream', array($this, 'buddybotStream'));
     }
 }

@@ -299,7 +299,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
                     $("#buddybot-single-conversation-delete-thread-btn").removeClass("visually-hidden");
                     sessionStorage.setItem("bbFirstId", response.result.id);
                     scrollToBottom(response.result.id);
-                    createRun();
+                    startStreaming();
                 } else {
                     showAlert("danger", response.message);
                     lockUi(false);
@@ -311,8 +311,7 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
 
     private function createRunJs()
     {
-        $apiKey = $this->options->getOption('openai_api_key');
-        
+        $nonce = wp_create_nonce('buddybot_stream');    
         echo '
         const messageBuffers = {};
         let runCreatedAt = null;
@@ -326,20 +325,25 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
         }
 
         async function fetchStream(threadId, assistantId) {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 60000);  
             try {
-                const apiUrl = "https://api.openai.com/v1/threads/" + threadId + "/runs";
-                const response = await fetch(apiUrl, {
+                const postData = new URLSearchParams();
+                postData.append("action", "buddybotStream");
+                postData.append("threadId", threadId);
+                postData.append("assistantId", assistantId);
+                postData.append("nonce", "' . esc_js($nonce) . '");
+
+                const response = await fetch(ajaxurl, {
                     method: "POST",
                     headers: {
-                        "Authorization": "Bearer ' . esc_js($apiKey) . '",
-                        "Content-Type": "application/json",
-                        "OpenAI-Beta": "assistants=v2",
+                        "Content-Type": "application/x-www-form-urlencoded",
                     },
-                    body: JSON.stringify({
-                        assistant_id: assistantId,
-                        stream: true
-                    })
+                    body: postData.toString(),
+                    signal: controller.signal,
                 });
+
+                clearTimeout(timeoutId);
     
                 if (!response.ok) {
                     const errorDetails = await response.json();
@@ -364,6 +368,17 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
 
                     leftover = lines.pop();
 
+                     try {
+                        let curlError = JSON.parse(text);
+                        if (curlError?.error?.message) {
+                            showAlert("danger", curlError.error.message);
+                            lockUi(false);
+                            return;
+                        }
+                    } catch (err) {
+                        // Not a JSON error, continue processing lines
+                    }
+
                     for (const line of lines) {
                         if (line.startsWith("data: ")) {
                             const data = line.slice(6).trim();
@@ -377,13 +392,15 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
                             try {
                                 response = JSON.parse(data);
                             } catch (e) {
-                                console.warn("Skipping incomplete JSON chunk:", data);
+                                const errorMsg ="' . esc_html__("An error occurred while processing your message. Please try again later.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+                                showAlert("danger", errorMessage);
+                                lockUi(false);
                                 continue;
                             }
 
-                             if (response.status === "failed" || response.error) {
-                                const errorMsg = response?.error?.message || response?.last_error?.message || "' . esc_html__("An error occurred while processing your message.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
-                                showAlert("danger", errorMsg);
+                             if (response.status === "failed" || response.error || (response.error && response.error.message)) {
+                                const errorMsg = response?.error?.message || response?.last_error?.message || "' . esc_html__("An error occurred while processing your message. Please try again later.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
+                                showAlert("danger", errorMessage);
                                 lockUi(false);
                                 return;
                             } else if (response.status === "cancelled" || response.status === "cancelling") {
