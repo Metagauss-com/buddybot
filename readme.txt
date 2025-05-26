@@ -112,6 +112,13 @@ Yes, BuddyBot AI uses the Bootstrap framework for its layout and design, providi
 
 == Changelog == 
 
+= 1.5.0.0: May 19, 2025 =
+* Improvement: Streaming Assistant API Responses
+    - We’ve added streaming support for Assistant API responses. Now, instead of waiting for the entire message to be generated and returned at once, replies are sent in real time as they are being created.
+    - This change makes the responses feel much faster, giving users a smoother and quicker experience.
+    - It’s especially useful for long answers—users will begin to see the response appear as it’s being generated, instead of waiting for the full reply to finish first.
+    - You don’t need to do anything—this update works automatically if you’re using the default Assistant integration.
+
 = 1.4.0.0: May 16, 2025 =
 * New: Visitor Email Collection
 You can now collect email addresses from visitors who interact with your assistant. Use this to send updates, follow up after events, or grow your contact list—without needing any extra tools.
@@ -184,6 +191,13 @@ Instead of creating a new assistant every time, you can now select from your exi
 * Initial release of BuddyBot AI. 
 
 == Upgrade Notice ==
+
+= 1.5.0.0: May 19, 2025 =
+* Improvement: Streaming Assistant API Responses
+    - We’ve added streaming support for Assistant API responses. Now, instead of waiting for the entire message to be generated and returned at once, replies are sent in real time as they are being created.
+    - This change makes the responses feel much faster, giving users a smoother and quicker experience.
+    - It’s especially useful for long answers—users will begin to see the response appear as it’s being generated, instead of waiting for the full reply to finish first.
+    - You don’t need to do anything—this update works automatically if you’re using the default Assistant integration.
 
 = 1.4.0.0: May 16, 2025 =
 * New: Visitor Email Collection
