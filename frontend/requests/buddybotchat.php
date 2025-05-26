@@ -393,14 +393,14 @@ class BuddybotChat extends \BuddyBot\Frontend\Requests\Moroot
                                 response = JSON.parse(data);
                             } catch (e) {
                                 const errorMsg ="' . esc_html__("An error occurred while processing your message. Please try again later.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
-                                showAlert("danger", errorMessage);
+                                showAlert("danger", errorMsg);
                                 lockUi(false);
                                 continue;
                             }
 
                              if (response.status === "failed" || response.error || (response.error && response.error.message)) {
                                 const errorMsg = response?.error?.message || response?.last_error?.message || "' . esc_html__("An error occurred while processing your message. Please try again later.", 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '";
-                                showAlert("danger", errorMessage);
+                                showAlert("danger", errorMsg);
                                 lockUi(false);
                                 return;
                             } else if (response.status === "cancelled" || response.status === "cancelling") {
