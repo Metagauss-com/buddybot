@@ -5,7 +5,7 @@ Tags: AI, chatbot, OpenAI, AI assistant
 Requires at least: 6.2  
 Tested up to: 6.8  
 Requires PHP: 7.3
-Stable tag: 1.4.0.0
+Stable tag: 1.5.0.0
 License: GPLv2 or later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -112,10 +112,17 @@ Yes, BuddyBot AI uses the Bootstrap framework for its layout and design, providi
 
 == Changelog == 
 
-1.4.0.0: May 15, 2025 =
+= 1.5.0.0: May 19, 2025 =
+* Improvement: Streaming Assistant API Responses
+    - We’ve added streaming support for Assistant API responses. Now, instead of waiting for the entire message to be generated and returned at once, replies are sent in real time as they are being created.
+    - This change makes the responses feel much faster, giving users a smoother and quicker experience.
+    - It’s especially useful for long answers—users will begin to see the response appear as it’s being generated, instead of waiting for the full reply to finish first.
+    - You don’t need to do anything—this update works automatically if you’re using the default Assistant integration.
+
+= 1.4.0.0: May 16, 2025 =
 * New: Visitor Email Collection
 You can now collect email addresses from visitors who interact with your assistant. Use this to send updates, follow up after events, or grow your contact list—without needing any extra tools.
-*New: Assistant Selection Option
+* New: Assistant Selection Option
 Instead of creating a new assistant every time, you can now select from your existing ones. It’s a quicker, cleaner way to manage your assistant setup.
 
 = 1.3.7.0: May 14, 2025 =
@@ -185,10 +192,17 @@ Instead of creating a new assistant every time, you can now select from your exi
 
 == Upgrade Notice ==
 
-1.4.0.0: May 15, 2025 =
+= 1.5.0.0: May 19, 2025 =
+* Improvement: Streaming Assistant API Responses
+    - We’ve added streaming support for Assistant API responses. Now, instead of waiting for the entire message to be generated and returned at once, replies are sent in real time as they are being created.
+    - This change makes the responses feel much faster, giving users a smoother and quicker experience.
+    - It’s especially useful for long answers—users will begin to see the response appear as it’s being generated, instead of waiting for the full reply to finish first.
+    - You don’t need to do anything—this update works automatically if you’re using the default Assistant integration.
+
+= 1.4.0.0: May 16, 2025 =
 * New: Visitor Email Collection
 You can now collect email addresses from visitors who interact with your assistant. Use this to send updates, follow up after events, or grow your contact list—without needing any extra tools.
-*New: Assistant Selection Option
+* New: Assistant Selection Option
 Instead of creating a new assistant every time, you can now select from your existing ones. It’s a quicker, cleaner way to manage your assistant setup.
 
 = 1.3.7.0: May 14, 2025 =
