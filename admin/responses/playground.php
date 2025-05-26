@@ -227,7 +227,7 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
     public function buddybotStream()
     {
         $this->checkNonce('buddybot_stream');
-        
+
         $thread_id = sanitize_text_field($_POST['threadId'] ?? '');
         $assistant_id = sanitize_text_field($_POST['assistantId'] ?? '');
 
@@ -260,7 +260,9 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
 
         @ini_set('output_buffering', 'off');
         @ini_set('zlib.output_compression', 'off');
-        @apache_setenv('no-gzip', '1');
+        if (function_exists('apache_setenv')) {
+            @apache_setenv('no-gzip', '1');
+        }
 
         flush();
 
