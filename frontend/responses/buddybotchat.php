@@ -398,7 +398,9 @@ class BuddybotChat extends \BuddyBot\Frontend\Responses\Moroot
 
         @ini_set('output_buffering', 'off');
         @ini_set('zlib.output_compression', 'off');
-        @apache_setenv('no-gzip', '1');
+       if (function_exists('apache_setenv')) {
+            @apache_setenv('no-gzip', '1');
+        }
 
         flush();
 
