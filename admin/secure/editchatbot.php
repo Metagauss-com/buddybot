@@ -181,6 +181,39 @@ final class EditChatBot extends \BuddyBot\Admin\Secure\MoRoot
         return isset($multilingual_support) ? (bool) $multilingual_support : false;
     }
 
+    public function cleanlanguageOption($language)
+    {
+        $supported_languages = [
+            'english', 'spanish', 'french', 'german', 'chinese (simplified)', 'chinese (traditional)',
+            'japanese', 'korean', 'portuguese', 'italian', 'dutch', 'russian', 'arabic', 'hindi',
+            'bengali', 'urdu', 'turkish', 'polish', 'vietnamese', 'thai', 'hebrew', 'swedish',
+            'norwegian', 'danish', 'finnish', 'greek', 'czech', 'hungarian', 'romanian', 'ukrainian',
+            'malay', 'indonesian', 'filipino', 'swahili', 'slovak', 'serbian', 'croatian',
+            'bulgarian', 'lithuanian', 'latvian', 'estonian', 'slovenian', 'persian (farsi)',
+            'punjabi', 'gujarati', 'tamil', 'telugu', 'kannada', 'marathi', 'malayalam',
+            'amharic', 'pashto', 'burmese', 'sinhala', 'khmer', 'lao', 'mongolian', 'nepali'
+        ];
+
+        $language = sanitize_text_field($language);
+        $normalized_language = strtolower($language);
+
+        if (empty($normalized_language)) {
+            $this->errors[] = __('Please enter a language.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            return $language;
+        }
+
+        if (strlen($normalized_language) > 256) {
+            $this->errors[] = __('Language name is too long.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+            return $language;
+        }
+
+        if (!in_array($normalized_language, $supported_languages)) {
+            $this->errors[] = __('Unsupported language selected.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        }
+
+        return $language;
+    }
+
     public function cleanResponseLength($response_length)
     {
         if (!is_numeric($response_length)) {

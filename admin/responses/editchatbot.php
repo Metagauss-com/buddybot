@@ -124,7 +124,12 @@ class EditChatBot extends \BuddyBot\Admin\Responses\MoRoot
             'instructions' => $instructions,
             'tools' => array(
                 array(
-                    'type' => 'file_search'
+                    'type' => 'file_search',
+                    'file_search' => array(
+                        'ranking_options' => array(
+                            'score_threshold' => 0.2
+                        ),
+                    ),
                 )
             ),
             'temperature' => floatval($buddybot_data["assistant_temperature"]),
@@ -133,6 +138,7 @@ class EditChatBot extends \BuddyBot\Admin\Responses\MoRoot
                 'aditional_instructions' => (string) ($buddybot_data["additional_instructions"] ?? ''),
                 'openaisearch_msg' => (string) ($buddybot_data["openaisearch_msg"] ?? ''),
                 'response_length' => (string) ($buddybot_data["response_length"] ?? ''),
+                'language_option' => (string) ($buddybot_data["language_option"] ?? ''),
 
             ),
             'tool_resources' => array(

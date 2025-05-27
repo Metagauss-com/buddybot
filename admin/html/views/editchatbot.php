@@ -106,8 +106,9 @@ class EditChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
             //$this->assistantFallbackBehavior();
             $this->emotionDetection();
             $this->greetingMessage();
-            // $this->multilingualSupport();
-            // $this->openaiResponseLength();
+            $this->multilingualSupport();
+            $this->languageOption();
+            $this->openaiResponseLength();
             // $this->languageOptions();
         echo '</tbody>';
     }
@@ -359,10 +360,23 @@ class EditChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<fieldset>';
         echo '<label for="' . esc_attr($id) . '">';
         echo '<input type="checkbox" name="' . esc_attr($id) . '" id="' . esc_attr($id) . '" value="1">';
-        echo esc_html__(' Enable multilingual support', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        echo esc_html__(' Disable multilingual support', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</label>';
-        echo '<p class="description">' . esc_html__('Enable multilingual support for the assistant to handle conversations in different languages.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
+        echo '<p class="description">' . esc_html__('Disable multilingual support for the assistant to handle conversations in different languages.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
         echo '</fieldset>';
+        echo '</td>';
+        echo '</tr>';
+    }
+
+    private function languageOption()
+    {
+        $id = 'buddybot-languageoption';
+
+        echo '<tr id="buddybot-multilingualsupport-childfieldrow" class="buddybot-conditional-settings"  style="display: none;">';
+        echo '<th scope="row"><label for="' . esc_attr($id) . '">' . esc_html__('Preferred Language (Required)', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</label></th>';
+        echo '<td>';
+        echo '<input name="' . esc_attr($id) . '" type="text" id="' . esc_attr($id) . '" value="" class="regular-text" maxlength="256" placeholder="' . esc_attr__('e.g., English, Spanish etc.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '">';
+        echo '<p class="description">' . esc_html__('csdc', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
         echo '</td>';
         echo '</tr>';
     }
