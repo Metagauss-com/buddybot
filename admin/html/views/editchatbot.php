@@ -152,7 +152,7 @@ class EditChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
          echo '<input type="checkbox" name="' . esc_attr($id) . '" id="' . esc_attr($id) . '" value="1">';
          echo esc_html__('Use Existing Assistant', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
          echo '</label>';
-         echo '<p class="description">' . esc_html__('Enable this option to continue using your previously configured assistant settings and data instead of creating a new one.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
+         echo '<p class="description">' . esc_html__('Enable this option to reuse your existing assistant configuration and data instead of creating a new one.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
          echo '</fieldset>';
          echo '</td>';
          echo '</tr>';
