@@ -348,6 +348,8 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
             // Convert newlines to <br>
             text = text.replace(/\n/g, "<br>");
 
+            text = text.replace(/【.*?†.*?】/g, "");
+
             text = text.replace(/\[[^\]]*†[^\]]*\]/g, "");
 
             return text;
