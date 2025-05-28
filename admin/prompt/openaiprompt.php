@@ -66,6 +66,8 @@ class OpenAiPrompt extends \BuddyBot\Admin\Prompt\MoRoot
         if ($disabled) {
             $prompt .= "- Do not detect or respond in multiple languages." . PHP_EOL;
             $prompt .= "- Always respond strictly in {$language}, regardless of the user's input language." . PHP_EOL;
+            $prompt .= "- If a document or answer is retrieved in a different language, translate it completely and naturally into {$language} before replying. " . PHP_EOL;
+            $prompt .= "- This applies to all messages, including answers, greetings, and fallback messages." . PHP_EOL;
 
         } else {
             $prompt .= "- Always detect the user's input language and respond strictly in the same language. " . PHP_EOL;
@@ -95,7 +97,8 @@ class OpenAiPrompt extends \BuddyBot\Admin\Prompt\MoRoot
             $instructions .= "  1. Search the internal vector store for a specific and directly relevant match." . PHP_EOL;
 
             if (!empty($this->data["multilingual_support"])) {
-                $instructions .= "  3. If no relevant match is found, translate this message naturally into {$language} and reply with the translated version of: \"{$fallback_msg}\"" . PHP_EOL;
+                $instructions .= "3. If no relevant match is found, translate the following fallback message exactly and naturally into {$language} and reply with it, without any change in meaning or tone: \"{$fallback_msg}\"." . PHP_EOL;
+                $instructions .= "- Do not modify, reword, or paraphrase this message. Only translate and use it as-is." . PHP_EOL;
             } else {
 
                 $instructions .= "3. If no relevant match is found, say: \"{$fallback_msg}\" — but always translate this message clearly and naturally into the user's language while keeping the meaning exactly the same." . PHP_EOL;

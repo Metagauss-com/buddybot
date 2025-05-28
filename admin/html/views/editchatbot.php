@@ -152,7 +152,7 @@ class EditChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
          echo '<input type="checkbox" name="' . esc_attr($id) . '" id="' . esc_attr($id) . '" value="1">';
          echo esc_html__('Use Existing Assistant', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
          echo '</label>';
-         echo '<p class="description">' . esc_html__('this is existing assitant description.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
+         echo '<p class="description">' . esc_html__('Enable this option to continue using your previously configured assistant settings and data instead of creating a new one.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
          echo '</fieldset>';
          echo '</td>';
          echo '</tr>';
@@ -362,7 +362,7 @@ class EditChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<input type="checkbox" name="' . esc_attr($id) . '" id="' . esc_attr($id) . '" value="1">';
         echo esc_html__(' Disable multilingual support', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</label>';
-        echo '<p class="description">' . esc_html__('Disable multilingual support for the assistant to handle conversations in different languages.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
+        echo '<p class="description">' . esc_html__('If checked, the assistant will always reply in the language you set below. If unchecked, it will detect and reply in the user\'s input language automatically.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
         echo '</fieldset>';
         echo '</td>';
         echo '</tr>';
@@ -376,7 +376,7 @@ class EditChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<th scope="row"><label for="' . esc_attr($id) . '">' . esc_html__('Preferred Language (Required)', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</label></th>';
         echo '<td>';
         echo '<input name="' . esc_attr($id) . '" type="text" id="' . esc_attr($id) . '" value="" class="regular-text" maxlength="256" placeholder="' . esc_attr__('e.g., English, Spanish etc.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '">';
-        echo '<p class="description">' . esc_html__('csdc', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
+        echo '<p class="description">' . esc_html__('Set your preferred language for responses. Using the same language as your content helps the assistant give more accurate and natural replies.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
         echo '</td>';
         echo '</tr>';
     }
@@ -389,7 +389,7 @@ class EditChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<th scope="row"><label for="' . esc_attr($id) . '">' . esc_html__('OpenAI Words Limit', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</label></th>';
         echo '<td>';
         echo '<input name="' . esc_attr($id) . '" type="number" id="' . esc_attr($id) . '" value="" class="regular-text" placeholder="' . esc_attr__('e.g., 500', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '">';
-        echo '<p class="description">' . esc_html__('Set the maximum number of words for OpenAI responses. Default is 500.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
+        echo '<p class="description">' . esc_html__('Set a maximum word count for OpenAI-generated replies. Useful for keeping responses short and focused. Leave blank to use the default limit of 500 words.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
         echo '</td>';
         echo '</tr>';
     }

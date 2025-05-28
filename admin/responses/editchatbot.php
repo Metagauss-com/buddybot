@@ -110,6 +110,8 @@ class EditChatBot extends \BuddyBot\Admin\Responses\MoRoot
         $buddybot_prompt = new \BuddyBot\Admin\Prompt\OpenAiPrompt();
         $instructions = $buddybot_prompt->getHtml($buddybot_data);
 
+        error_log('BuddyBot Instructions: ' . $instructions);
+
        if (empty($buddybot_data["vectorstore_id"])) {
             $this->response['success'] = false;
             $this->response['message'] = esc_html__('Missing AI Training Knowledgebase ID or AI Training Knowledgebase Not Created.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
@@ -127,7 +129,7 @@ class EditChatBot extends \BuddyBot\Admin\Responses\MoRoot
                     'type' => 'file_search',
                     'file_search' => array(
                         'ranking_options' => array(
-                            'score_threshold' => 0.2
+                            'score_threshold' => 0.1
                         ),
                     ),
                 )
