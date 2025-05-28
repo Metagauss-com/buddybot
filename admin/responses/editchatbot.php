@@ -154,7 +154,7 @@ class EditChatBot extends \BuddyBot\Admin\Responses\MoRoot
 			@ini_set('serialize_precision', '-1'); // Suppress warning if ini_set is blocked
 		}
 		
-		$body = json_encode($data, JSON_PRESERVE_ZERO_FRACTION);
+		$body = wp_json_encode($data, JSON_PRESERVE_ZERO_FRACTION);
 
         $args = [
             'headers' => $headers,
