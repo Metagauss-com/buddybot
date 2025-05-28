@@ -5,7 +5,7 @@ Tags: AI, chatbot, OpenAI, AI assistant
 Requires at least: 6.2  
 Tested up to: 6.8  
 Requires PHP: 7.3
-Stable tag: 1.5.0.0
+Stable tag: 1.6.0.0
 License: GPLv2 or later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -112,6 +112,22 @@ Yes, BuddyBot AI uses the Bootstrap framework for its layout and design, providi
 
 == Changelog == 
 
+= 1.6.0.0: May 28, 2025 =
+* New: Multilingual Assistant Support
+    - Added "Multilingual Support" toggle in the settings.
+    - When unchecked, BuddyBot detects content language and replies accordingly.
+    - When checked, BuddyBot always responds in the predefined preferred language.
+    - This helps generate more accurate and natural replies for multilingual content.
+ 
+* New: OpenAI Response Word Limit
+    - Introduced a setting to limit the number of words in responses.
+    - Allows better control over reply length, whether concise or detailed.
+ 
+* Improvement: Enhanced Prompt Logic
+    - Optimized system prompts for clearer fallback handling and greeting behavior.
+    - Better language adherence and tone matching based on configured settings.
+    - Improved multilingual understanding and response accuracy.
+
 = 1.5.0.0: May 26, 2025 =
 * Improvement: Streaming Assistant API Responses
     - We’ve added streaming support for Assistant API responses. Now, instead of waiting for the entire message to be generated and returned at once, replies are sent in real time as they are being created.
@@ -191,6 +207,22 @@ Instead of creating a new assistant every time, you can now select from your exi
 * Initial release of BuddyBot AI. 
 
 == Upgrade Notice ==
+
+= 1.6.0.0: May 28, 2025 =
+* New: Multilingual Assistant Support
+    - Added "Multilingual Support" toggle in the settings.
+    - When unchecked, BuddyBot detects content language and replies accordingly.
+    - When checked, BuddyBot always responds in the predefined preferred language.
+    - This helps generate more accurate and natural replies for multilingual content.
+ 
+* New: OpenAI Response Word Limit
+    - Introduced a setting to limit the number of words in responses.
+    - Allows better control over reply length, whether concise or detailed.
+ 
+* Improvement: Enhanced Prompt Logic
+    - Optimized system prompts for clearer fallback handling and greeting behavior.
+    - Better language adherence and tone matching based on configured settings.
+    - Improved multilingual understanding and response accuracy.
 
 = 1.5.0.0: May 26, 2025 =
 * Improvement: Streaming Assistant API Responses

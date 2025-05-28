@@ -151,8 +151,9 @@ final class EditChatBot extends \BuddyBot\Admin\Requests\MoRoot
 
                 buddybotData["emotion_detection"] = $("#buddybot-emotiondetection").is(":checked") ? "1" : "0";
                 buddybotData["greeting_message"] = $("#buddybot-greetingmessage").val();
-                // buddybotData["multilingual_support"] = $("#buddybot-multilingualsupport").is(":checked") ? "1" : "0";
-                // buddybotData["response_length"] = $("#buddybot-openai-response-length").val();
+                buddybotData["multilingual_support"] = $("#buddybot-multilingualsupport").is(":checked") ? "1" : "0";
+                buddybotData["language_option"] = $("#buddybot-languageoption").val();
+                buddybotData["response_length"] = $("#buddybot-openai-response-length").val();
             }
 
             buddybotData["assistant_id"] ="' . esc_js($this->assistant_id) . '";
@@ -257,10 +258,15 @@ final class EditChatBot extends \BuddyBot\Admin\Requests\MoRoot
                     $("#buddybot-additionalinstructions").val(assistant.metadata.aditional_instructions);
                     $("#buddybot-openaisearch-msg").val(assistant.metadata.openaisearch_msg);
                     $("#buddybot-openai-response-length").val(assistant.metadata.response_length);
+                    $("#buddybot-languageoption").val(assistant.metadata.language_option);
                 }
 
                 if ($("#buddybot-openaisearch").is(":checked")) {
                     showHide($("#buddybot-openaisearch")[0], "buddybot-openaisearch-childfieldrow", "", "");
+                }
+
+                if ($("#buddybot-multilingualsupport").is(":checked")) {
+                    showHide($("#buddybot-multilingualsupport")[0], "buddybot-multilingualsupport-childfieldrow", "", "");
                 }
             }
         }
@@ -276,6 +282,10 @@ final class EditChatBot extends \BuddyBot\Admin\Requests\MoRoot
 
         $("#buddybot-existing-assistant").on("change", function () {
             showHide(this, "buddybot-existing-assistant-childfieldrow", "", "");
+        });
+
+         $("#buddybot-multilingualsupport").on("change", function () {
+            showHide(this, "buddybot-multilingualsupport-childfieldrow", "", "");
         });
 
         $(document).on("change", "#buddybot-existing-assistant", function() {

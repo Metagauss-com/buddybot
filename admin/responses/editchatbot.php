@@ -110,6 +110,8 @@ class EditChatBot extends \BuddyBot\Admin\Responses\MoRoot
         $buddybot_prompt = new \BuddyBot\Admin\Prompt\OpenAiPrompt();
         $instructions = $buddybot_prompt->getHtml($buddybot_data);
 
+        error_log('BuddyBot Instructions: ' . $instructions);
+
        if (empty($buddybot_data["vectorstore_id"])) {
             $this->response['success'] = false;
             $this->response['message'] = esc_html__('Missing AI Training Knowledgebase ID or AI Training Knowledgebase Not Created.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
@@ -124,7 +126,12 @@ class EditChatBot extends \BuddyBot\Admin\Responses\MoRoot
             'instructions' => $instructions,
             'tools' => array(
                 array(
-                    'type' => 'file_search'
+                    'type' => 'file_search',
+                    'file_search' => array(
+                        'ranking_options' => array(
+                            'score_threshold' => 0.1
+                        ),
+                    ),
                 )
             ),
             'temperature' => floatval($buddybot_data["assistant_temperature"]),
@@ -133,6 +140,7 @@ class EditChatBot extends \BuddyBot\Admin\Responses\MoRoot
                 'aditional_instructions' => (string) ($buddybot_data["additional_instructions"] ?? ''),
                 'openaisearch_msg' => (string) ($buddybot_data["openaisearch_msg"] ?? ''),
                 'response_length' => (string) ($buddybot_data["response_length"] ?? ''),
+                'language_option' => (string) ($buddybot_data["language_option"] ?? ''),
 
             ),
             'tool_resources' => array(
@@ -142,9 +150,15 @@ class EditChatBot extends \BuddyBot\Admin\Responses\MoRoot
             )
         );
 
+        if (function_exists('ini_set')) {
+			@ini_set('serialize_precision', '-1'); // Suppress warning if ini_set is blocked
+		}
+		
+		$body = wp_json_encode($data, JSON_PRESERVE_ZERO_FRACTION);
+
         $args = [
             'headers' => $headers,
-            'body' => wp_json_encode($data),
+            'body' => $body,
             'method' => 'POST'
         ];
 

@@ -158,7 +158,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
                 if (response.success) {
                     updateStatus(messageSent);
                     $("#mgao-playground-new-message-text").val("");
-                    var cleanedHtml = response.html.replace(/【.*?†.*?】/g, "");
+                    var cleanedHtml = parseFormatting(response.html);
                     $("#buddybot-playground-messages-list").append(cleanedHtml);
                     $("#buddybot-playground-first-message-id").val(response.result.id);
                     updateThreadName(message);
@@ -350,6 +350,8 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
 
             text = text.replace(/【.*?†.*?】/g, "");
 
+            text = text.replace(/\[[^\]]*†[^\]]*\]/g, "");
+
             return text;
         }
 
@@ -492,7 +494,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
 
                 if (response.success) {
                     updateStatus(threadMessagesUpdated);
-                    var cleanedHtml = response.html.replace(/【.*?†.*?】/g, "");
+                    var cleanedHtml = parseFormatting(response.html);
                     $("#buddybot-playground-messages-list").append(cleanedHtml);
                     storeThreadInfo(response.result);
                     scrollToBottom(response.result.first_id);
@@ -594,7 +596,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
                 
                 if (response.success) {
                     updateStatus(pastMessagesUpdated);
-                    var cleanedHtml = response.html.replace(/【.*?†.*?】/g, "");
+                    var cleanedHtml = parseFormatting(response.html);
                     $("#buddybot-playground-messages-list").prepend(cleanedHtml);
                     storeThreadInfo(response.result);
                     scrollToTop();
