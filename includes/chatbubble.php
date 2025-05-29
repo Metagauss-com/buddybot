@@ -11,10 +11,10 @@ final class ChatBubble extends \BuddyBot\Admin\MoRoot
         // $this->test();
         echo '<div class="buddybot-row-container buddybot-mt-4 buddybot-p-3 buddybot-bg-lightBlue " style="min-height:60vh;border-radius:20px;" >';
         echo  '<div class="buddybot-row">';
-        echo '<div class="buddybot-box-col-3 buddybot-bg-white buddybot-p-3 " style="border-radius:20px;">';
+        echo '<div class="buddybot-box-col-2 buddybot-bg-white buddybot-p-3 " style="border-radius:20px;">';
         $this->chatBuubbleLeft();
         echo '</div>';
-        echo '<div class="buddybot-box-col-9">';
+        echo '<div class="buddybot-box-col-9 buddybot-mx-auto">';
         $this->chatBuubbleRight();
         echo  '</div>';
         echo  '</div>';
@@ -47,9 +47,9 @@ final class ChatBubble extends \BuddyBot\Admin\MoRoot
             }
             // $date = get_date_from_gmt($thread->created, 'Y-m-d');
 
-            echo '<div class="buddybot-threads-container buddybot-d-flex buddybot-justify-content-between buddybot-align-items-center buddybot-me-3 buddybot-mt-2">';
+            echo '<div class="buddybot-threads-container buddybot-d-flex buddybot-justify-content-between buddybot-align-items-center buddybot-me-3 ">';
             echo '<div class="buddybot-threads-list-item buddybot-d-flex buddybot-align-items-center  buddybot-text-truncate buddybot-me-3" data-buddybot-threadid="' . esc_attr($thread->thread_id) . '" role="button">';
-            echo '<span class="buddybot-threads-icon buddybot-me-3"><svg xmlns="http://www.w3.org/2000/svg" height="16px" viewBox="0 -960 960 960" width="16px" fill="#212529"><path d="M240-400h320v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80ZM80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Zm126-240h594v-480H160v525l46-45Zm-46 0v-480 480Z"/></svg></span>';
+            echo '<span class="buddybot-threads-icon buddybot-me-2"><svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 -960 960 960" width="18px" fill="#212529"><path d="M240-400h320v-80H240v80Zm0-120h480v-80H240v80Zm0-120h480v-80H240v80ZM80-80v-720q0-33 23.5-56.5T160-880h640q33 0 56.5 23.5T880-800v480q0 33-23.5 56.5T800-240H240L80-80Zm126-240h594v-480H160v525l46-45Zm-46 0v-480 480Z"/></svg></span>';
             echo '<div class="buddybot-threads-list-item-text buddybot-text-truncate ">';
             echo esc_html($label);
             echo '</div>'; 
@@ -70,15 +70,20 @@ final class ChatBubble extends \BuddyBot\Admin\MoRoot
 private function chatBuubbleLeft()
 {
     echo '<div class="chat-bubble-left buddybot-cursor-pointer " >';
-    echo '<div class="buddybot-d-flex buddybot-align-items-center buddybot-justify-content-between  ">';
-    echo '<h4>Chat</h4>';
-    echo  '<span><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000"><path d="M120-160v-600q0-33 23.5-56.5T200-840h480q33 0 56.5 23.5T760-760v203q-10-2-20-2.5t-20-.5q-10 0-20 .5t-20 2.5v-203H200v400h283q-2 10-2.5 20t-.5 20q0 10 .5 20t2.5 20H240L120-160Zm160-440h320v-80H280v80Zm0 160h200v-80H280v80Zm400 280v-120H560v-80h120v-120h80v120h120v80H760v120h-80ZM200-360v-400 400Z"/></svg></span>';
+    echo '<div class="buddybot-d-flex buddybot-align-items-center buddybot-justify-content-between buddybot-mt-1 ">';
+    echo '<h4>CHAT A.I+</h4>';
     echo '</div>';
-    echo '<div class="buddybot-thread-list-search-box buddybot-mt-2 buddybot-box-w-100 buddybot-mx-auto">';
-    echo '<input type="text" id="buddybot-thread-list-search-input" class="buddybot-form-control buddybot-input margin-mx-auto buddybot-box-w-100 buddybot-border" placeholder="Search..." />';
+    echo '<div class="buddybot-position-relative buddybot-border-bottom buddybot-pb-3">';
+    echo '<div class="buddybot-search-btn buddybot-thread-list-search-box buddybot-d-flex buddybot-mt-2 buddybot-justify-content-between  buddybot-box-w-100">';
+    echo '<button class="buddybot-btn-primary-chat">+New Chat</button>';
+    echo '<button  class="buddybot-btn-search"><svg xmlns="http://www.w3.org/2000/svg" height="22px" viewBox="0 -960 960 960" width="22px" fill="#1f1f1f#dc3545"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg></button>';
     echo '</div>';
-
-    echo '<div id="buddybot-threads-list" class="buddybot-mt-2 buddybot-overflow-y buddybot-py-3" style="max-height: 50vh;">';
+    // echo '<div class="buddybot-cancel-btn buddybot-d-flex buddybot-justify-content-space-between buddybot-mt-2 buddybot-gap-1">';
+    //  echo '<input type="text" id="buddybot-thread-list-search-input" class="buddybot-form-control  buddybot-input margin-mx-auto buddybot-box-w-100 buddybot-border" placeholder="Search..." />';
+    //  echo '<button class="buddybot-btn-chat-cancel"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#1f1f1f#dc3545"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg></button>';
+    // echo '</div>';
+    echo '</div>';
+    echo '<div id="buddybot-threads-list" class="buddybot-mt-1 buddybot-overflow-y " style="max-height: 70vh;">';
     $this->threadList();
     echo '</div>';
 
@@ -90,7 +95,7 @@ private function chatBuubbleLeft()
 
     private function chatBuubbleRight()
     {
-       echo '<div class="buddybot-d-flex buddybot-flex-column buddybot-align-items-center buddybot-overflow-y buddybot-h-100" style="height: 75vh;">';
+       echo '<div class="buddybot-d-flex buddybot-flex-column buddybot-align-items-center buddybot-overflow-y buddybot-h-100" style="height: 86vh;">';
 
 // Chat container (scrollable area)
 echo '<div id="buddybot-chat-container" class="buddybot-flex-grow-1 buddybot-overflow-auto buddybot-box-w-100 buddybot-p-3" style="max-width: 750px;">';

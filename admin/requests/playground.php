@@ -487,6 +487,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
 
         ';
     }
+   
 
     private function pastMessagesJs()
     {
