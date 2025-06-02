@@ -71,6 +71,9 @@
 .buddybot-border-right{
     border-right: 2px solid #dee2e6!important;
 }
+.buddybot-border-left{
+    border-left: 1px solid #dee2e6!important;
+}
 
 /* border-radius */
 
@@ -192,6 +195,9 @@
     padding-top: 1rem!important;
     padding-bottom:1rem!important;
 }
+.buddybot-p-1{
+    padding: 0.25rem !important;
+}
 
 .buddybot-p-2{
     padding: 0.5rem !important;
@@ -253,6 +259,7 @@
 .buddybot-ps-0 {
     padding-left: 0 !important;
 }
+
 
 /* Gaps */
 
