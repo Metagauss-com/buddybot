@@ -1,120 +1,1061 @@
-#buddybot-single-conversation-user-message{
-    border: solid;
+
+/*---Admin Menu---*/
+
+#adminmenu a.menu-top.toplevel_page_buddybot-chatbot .wp-menu-image.svg{
+        background-size: 26px auto;
 }
 
-#buddybot-chat-conversation-list-header{
-    margin-bottom: 16px;
+/*---Admin Menu Ends---*/
+
+
+/* General CSS---*/
+
+
+.buddybot-d-flex {
+    display: flex !important;
+}
+.buddybot-d-none{
+    display: none!important;
+}
+.buddybot-d-none-flex{
+    display: flex;
+}
+.buddybot-d-flex-direction-row{
+    display: flex!important;
+    flex-direction: row!important;
+}
+.buddybot-flex-direction-column{
+    display: flex!important;
+    flex-direction: column!important;
+}
+.buddybot-justify-content-between {
+    justify-content: space-between !important;
+}
+.buddybot-justify-content-center {
+    justify-content: center !important;
+}
+.buddybot-align-items-center {
+    align-items: center !important;
+}
+.buddybot-justify-content-end{
+    justify-content: flex-end !important;
+}
+.buddybot-align-self-end{
+    align-self: end!important;
+}
+.buddybot-cursor-pointer{
+    cursor: pointer;
 }
 
-.Buddybot-alert {
-    position: relative;
-    display: inline-block;
-    margin-top: 20px;
+
+
+/* position */
+.buddybot-position-relative {
+    position: relative !important;
+}
+.buddybot-position-absolute {
+    position: absolute !important;
 }
 
-/* Popover styling */
-.buddybot-popover {
-    position: absolute;
-    bottom: 24px;
-    left: 92%;
-    transform: translateX(-50%);
-    width: 400px;
-    background: white;
+
+/* borders */
+.buddybot-border{
+    border: 1px solid #dee2e6!important;
+}
+.buddybot-border-top {
+    border-top: 1px solid #dee2e6;
+}
+.buddybot-border-bottom{
+    border-bottom:1px solid #dee2e6;
+}
+.buddybot-border-right{
+    border-right: 2px solid #dee2e6!important;
+}
+.buddybot-border-left{
+    border-left: 1px solid #dee2e6!important;
+}
+
+/* border-radius */
+
+.buddybot-border-radius-50{
+    border-radius: 50%;
+}
+.buddybot-border-radius-20{
+    border-radius: 0px 20px 20px 20px;
+}
+.buddybot-border-radius-5{
+    border-radius:5px;
+}
+
+/* General CSS End---*/
+
+/*---Margins and Padding---*/
+.margin-mx-auto{
+    margin-left: auto!important;
+    margin-right: auto!important;
+}
+.buddybot-mb-0 {
+    margin-bottom: 0 !important;
+}
+
+.buddybot-mb-1 {
+    margin-bottom: 0.25rem !important;
+}
+
+.buddybot-mb-2 {
+    margin-bottom: 0.5rem !important;
+}
+
+.buddybot-mb-3 {
+    margin-bottom: 1rem !important;
+}
+
+.buddybot-mb-4 {
+    margin-bottom: 1.5rem !important;
+}
+
+.buddybot-mb-5 {
+    margin-bottom: 3rem !important;
+}
+
+.buddybot-mt-0 {
+    margin-top: 0 !important;
+}
+.buddybot-mt-1{
+    margin-top: .25rem!important;
+}
+.buddybot-mt-2{
+    margin-top: .5rem!important;
+}
+.buddybot-mt-3{
+    margin-top:1rem!important;
+}
+.buddybot-mt-4{
+    margin-top:1.5rem;
+}
+.buddybot-mt-auto{
+    margin-top: auto!important;
+}
+.buddybot-my-auto{
+    margin-top: auto!important;
+    margin-bottom: auto!important;
+}
+
+.buddybot-ms-0 {
+    margin-left: 0 !important;
+}
+
+.buddybot-ms-1 {
+    margin-left: 0.25rem !important;
+}
+
+.buddybot-ms-2 {
+    margin-left: 0.5rem !important;
+}
+
+.buddybot-ms-3 {
+    margin-left: 1rem !important;
+}
+.buddybot-me-2{
+    margin-right: .5rem!important;
+}
+.buddybot-me-3{
+    margin-right: 1rem!important;
+}
+
+.buddybot-my-0 {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+.buddybot-my-2{
+    margin-top: .5rem!important;
+    margin-bottom: .5rem!important;
+}
+
+.buddybot-py-0 {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.buddybot-py-1 {
+    padding-top: 0.25rem !important;
+    padding-bottom: 0.25rem !important;
+}
+
+.buddybot-py-2 {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+}
+
+.buddybot-py-3{
+    padding-top: 1rem!important;
+    padding-bottom: 1rem!important;
+}
+.buddybot-py-4{
+    padding-top: 1rem!important;
+    padding-bottom:1rem!important;
+}
+.buddybot-p-1{
+    padding: 0.25rem !important;
+}
+
+.buddybot-p-2{
+    padding: 0.5rem !important;
+}
+.buddybot-p-3{
+    padding: 1rem!important;
+}
+.buddybot-p-4{
+    padding: 1rem!important;
+}
+.buddybot-fw-medium {
+    font-weight: 500;
+}
+.buddybot-fw-bold{
+    font-weight: 700;;
+}
+.buddybot-px-2{
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+}
+.buddybot-px-3{
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+}
+
+.buddybot-px-4 {
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+}
+.buddybot-px-5{
+    padding-left: 3rem !important;
+    padding-right: 3rem !important;
+}
+
+.buddybot-pt-0 {
+    padding-top: 0 !important;
+}
+
+.buddybot-pt-1 {
+    padding-top: 0.25rem !important;
+}
+.buddybot-pt-2 {
+    padding-top: 0.5rem !important;
+}
+.buddybot-pt-3 {
+    padding-top: 1rem !important;
+}
+.buddybot-pt-4 {
+    padding-top: 1.5rem !important;
+}
+
+.buddybot-pb-2 {
+    padding-bottom: 0.5rem;
+}
+.buddybot-pb-3{
+    padding-bottom: 1rem!important;
+}
+
+.buddybot-ps-0 {
+    padding-left: 0 !important;
+}
+
+
+/* Gaps */
+
+.buddybot-gap-0 {
+    gap: 0 !important;
+}
+
+.buddybot-gap-1 {
+    gap: 0.25rem !important;
+}
+
+.buddybot-gap-2 {
+    gap: 0.5rem !important;
+}
+
+.buddybot-gap-3 {
+    gap: 1rem !important;
+}
+
+.buddybot-gap-4 {
+    gap: 1.5rem !important;
+}
+
+/* widths */
+
+.buddybot-box-w-100{
+    width: 100%;
+}
+.buddybot-box-w-50{
+    width: 50%!important;
+}
+
+
+
+/* font-sizes */
+.buddybot-text-small {
+    font-size: .875rem !important;
+}
+.buddybot-fs-6{
+    font-size: 1rem !important;
+}
+
+.buddybot-fs-5{
+    font-size: 1.25rem !important;
+}
+
+.buddybot-fs-4{
+    font-size: 1.5rem !important;
+}
+
+.buddybot-fs-3{
+    font-size: 1.75rem !important;
+}
+
+.buddybot-text-dark{
+    opacity: 1;
+    color: #212529 !important;
+}
+/* text color start  */
+
+.buddybot-text-white{
+     color:#fff!important;
+}
+.buddybot-text-muted{
+    color: #6c757d !important;
+}
+.buddybot-text-danger{
+    color: #dc3545 !important;
+}
+.buddybot-text-decoration-none{
+    text-decoration: none!important;
+}
+.buddybot-text-break{
+    word-break: break-word;
+}
+.buddybot-text-align-center{
+    text-align: center!important;
+}
+.buddybot-text-align-right{
+    text-align: right!important;
+}
+.buddybot-text-truncate{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.buddybot-overflow-y{
+    overflow-y:scroll;
+    
+}
+
+/* text color Ends */
+
+/* FONT UTILITIES END */
+
+/* General Welcome Modal Styling */
+.bb-modal-image {
+    flex: 1;
+}
+
+.bb-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.bb-modal-text {
+    flex: 2;
+    padding: 30px;
+}
+
+.bb-modal-title {
+    font-size: 1.7rem;
+    font-weight: 700;
     color: #333;
-    font-size: 13px;
-    padding: 15px;
-    border-radius: 8px;
-    border: 2px solid #f0f0f0; /* Border added */
-    box-shadow: 0 0px 11px 2px rgb(0 0 0 / 7%);
+    margin-bottom: 15px;
+}
+
+.bb-modal-description {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+.bb-modal-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.bb-dismiss-modal {
+    margin-right: 10px;
+}
+
+.bb-get-started {
+    background-color: #000;
+    color: #fff;
+}
+
+/* Welcome Modal Ends */
+
+/* General modal starts */
+.buddybot-modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    z-index: 1050;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
     opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.buddybot-modal.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.buddybot-modal-dialog {
+    position: relative;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(-100px); /* Higher start position */
+    transition: transform 0.5s ease-out;
+}
+
+/* Large Modal */
+.buddybot-modal-dialog.buddybot-modal-lg {
+    max-width: 800px;
+}
+
+/* Extra Large Modal */
+.buddybot-modal-dialog.buddybot-modal-xl {
+    max-width: 1140px;
+}
+
+.buddybot-modal.show .buddybot-modal-dialog {
+    transform: translateY(0);
+}
+
+.buddybot-modal-content {
+    background-color: #fff;
+    border-radius: 0.3rem;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.buddybot-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: none;
+    padding: 1rem;
+}
+
+.buddybot-modal-title {
+    margin: 0;
+    font-size: 1.25rem;
+    /* font-weight: bold; */
+}
+
+.buddybot-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #000;
+    cursor: pointer;
+}
+
+.buddybot-modal-body {
+    padding: 1rem;
+    overflow: auto;
+    max-height: 70vh;
+}
+
+.buddybot-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem;
+    gap: 5px;
+    align-items: baseline;
+}
+
+.buddybot-modal-footer .btn {
+    margin-left: 0.5rem;
+}
+
+.buddybot-close-btn {
+    background: transparent;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.5;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.buddybot-close-btn:hover {
+    opacity: 1;
+}
+
+.buddybot-close-btn svg{
+    width: 26px; /* Matches Bootstrap */
+    height: 26px;
+}
+
+/* General modal ends */
+
+
+/*---Buttons---*/
+
+.buddybot-btn{
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+
+/*---Buttons ends---*/
+
+/* Button color starts */
+.buddybot-btn-danger {
+background-color: #dc3545; 
+color: white;
+border: 1px solid #dc3545;
+padding: 0.375rem 0.75rem;
+font-size: 1rem;
+font-weight: 400;
+text-align: center;
+text-decoration: none;
+display: inline-block;
+border-radius: 0.25rem;
+cursor: pointer;
+transition: background-color 0.2s, border-color 0.2s;
+}
+
+.buddybot-btn-danger:hover {
+background-color: #c82333;
+border-color: #bd2130;
+}
+
+.buddybot-btn-danger:disabled,
+.buddybot-btn-danger[disabled] {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.buddybot-btn-outline-danger {
+    color: #dc3545;
+    border: 1px solid #dc3545;
+    background-color: transparent;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.buddybot-btn-outline-danger:hover {
+    background-color: #dc3545;
+    color: white;
+}
+
+.buddybot-btn-dark {
+background-color: #6c757d;
+color: white;
+border: 1px solid #6c757d;
+padding: 0.375rem 0.75rem;
+font-size: 1rem;
+font-weight: 400;
+text-align: center;
+text-decoration: none;
+display: inline-block;
+border-radius: 0.25rem;
+cursor: pointer;
+transition: background-color 0.2s, border-color 0.2s;
+}
+
+.buddybot-btn-dark:hover {
+background-color: #5a6268;
+border-color: #545b62;
+}
+
+.buddybot-btn-black {
+    background-color: #000;
+    color: white;
+    border: 1px solid #000;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.buddybot-btn-black:hover {
+    background-color: #ffffff;
+    border-color: #222;
+    color: black;
+}
+
+.buddybot-btn-outline-black {
+    color: #000;
+    border: 1px solid #000;
+    background-color: transparent;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
+}
+
+.buddybot-btn-outline-black:hover {
+    background-color: #000;
+    color: white;
+}
+
+.buddybot-btn-light {
+    color: #000;
+    background-color: #f8f9fa;
+    border-color: #f8f9fa;
+}
+
+.buddybot-btn-light:hover{    
+    color: #000;
+    background-color: #f9fafb;
+    border-color: #f9fafb;
+}
+
+.buddybot-btn-dark:disabled,
+.buddybot-btn-dark[disabled] {
+    opacity: 0.5;
+    pointer-events: none;
+}
+.buddybot-btn-secondory{
+  color: #a7aaad!important;
+  background-color: #f6f7f7!important;
+  border: 1px solid #dcdcde!important;
+}
+
+
+.bb-btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    border-radius: 0.2rem;
+}
+/* button color Ends */
+
+/* toast css start  */
+#buddybot-toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    width: auto;
+    max-width: 300px;
+}
+
+.buddybot-toast {
     visibility: hidden;
-    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    padding: 10px 20px;
+    margin: 10px 0;
+    border-radius: 4px;
+    color: white;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: opacity 0.5s ease, transform 0.5s ease, visibility 0s 1s;
 }
 
-
-.buddybot-popover::before {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 8px;
-    border-style: solid;
-    border-color: #f0f0f0 transparent transparent transparent; /* Matches popover border */
+.buddybot-toast-success {
+    background-color: #28a745;
 }
 
-/* Triangle for the top of the popover */
-.buddybot-popover::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 7px;
-    border-style: solid;
-    border-color: white transparent transparent transparent; /* Matches popover background */
+.buddybot-toast-error {
+    background-color: #dc3545;
 }
 
-.buddybot-temp-chat-wrap{
+.buddybot-toast.show {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 0.5s ease, transform 0.5s ease, visibility 0s;
+}
+
+/* toast css Ends */
+
+.buddybot-header-wrap{
     position: relative
 }
 
-#buddybot-single-conversation-wrapper .buddybot-temp-chat-wrap:hover .buddybot-popover {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(-50%) translateY(-5px);
+/*-----List Group---*/
+
+.buddybot-list-group{
+    display: flex;
+    flex-direction: column;
+    padding-left: 0;
+    margin-bottom: 0;
+    border-radius: .25rem;
 }
 
-#buddybot-single-conversation-wrapper{}
-
-.buddybot-temp-chat-wrap svg{
-    width: 18px;
-    margin-left: 4px;
-    }
-
-#buddybot-single-conversation-wrapper .Buddybot-alert{
-    margin: 0px auto;
-    display: inline-flex;
-    width: 100%;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-}
-
-.offcanvas-body {
-    overflow: visible !important;
-}
-
-.buddybot-offcanvas-wrap .offcanvas-header{
-    margin: 0px;
-    padding: 10px 0px 10px 0px;
+.buddybot-list-group .buddybot-list-group-item:first-child{
+    border-top-left-radius: inherit;
+    border-top-right-radius: inherit;
 }
 
 
-.buddybot-offcanvas-wrap .buddybot-offcanvas-body{   
-    padding: 0px;
+
+.buddybot-list-group .buddybot-list-group-item:last-child {
+    border-bottom-right-radius: inherit;
+    border-bottom-left-radius: inherit;
 }
 
-.buddybot-offcanvas-wrap .buddybot-offcanvas-body p{
-    padding-bottom: 0px;
-    margin-bottom: 0px;
-    font-size: 14px;
+.buddybot-list-group .buddybot-list-group-item{
+    position: relative;
+    display: block;
+    padding: .5rem 1rem;
+    color: #212529;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, .125);
+}
+.buddybot-list-group .buddybot-list-group-item+.buddybot-list-group-item {
+    border-top-width: 0;
 }
 
-.buddybot-offcanvas-wrap .offcanvas-title{
+/*-----List group Ends----*/
+
+.buddybot-docs-inner {
+    background: #fff;
+    border: 1px solid #e2e2e2;
+    overflow: hidden;
+    padding: 12px 14px !important;
+}
+
+.buddybot-docs-icon {
+    flex: 0 0 auto;
+    margin-right: 30px;
+    position: relative;
+    bottom: -25px;
+}
+
+.buddybot-docs-content .buddybot-banner-head{
     font-size: 18px;
+    padding-bottom: 6px;
+    font-weight: 500;
+    display: none;
+}
+.buddybot-docs-content .buddybot-banner-text{
+    font-size: 14px;
+
 }
 
-.buddybot-offcanvas-wrap.offcanvas-bottom{
-    height: auto;
+.buddybot-docs-icon svg {
+    width: 70px;
+    height: 70px;
 }
 
-.buddybot-offcanvas-footer{}
-
-.buddybot-frontend-modal{
-    max-width: 100% !important;
+.buddybot-docs-content {
+    flex: 1;
 }
 
-#buddybot-visitor-id-card{
-    width: 600px;
+.buddybot-docs-content h2 {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.buddybot-docs-content p {
+    margin-bottom: 20px;
+    color: #333;
+    line-height: 1.5;
+}
+
+.buddybot-docs-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 6px;
+}
+
+.buddybot-docs-actions .btn {
+    font-size: 16px;
+    padding: 10px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.buddybot-docs-actions .btn.primary {
+    background: #000;
+    color: #fff;
+    border: none;
+}
+
+.buddybot-docs-actions .btn.secondary {
+    background: #fff;
+    color: #000;
+    border: 2px solid #000;
+}
+
+
+.buddybot-docs-actions .button-primary{
+    background-color: #000;
+    border: 1px solid #000;
+    outline: none;
+    box-shadow: none;
+}
+.buddybot-docs-actions .button-primary:hover{
+    background-color: #fff;
+    color: #000;
+
+}
+
+.buddybot-docs-actions .button-primary:focus{
+    background-color: #000;
+    color: #fff;
+    border-color: #000;
+}
+.buddybot-docs-actions .button-primary:active{
+    background-color: #000;
+    color: #fff;
+    border-color: #000;
+}
+
+.buddybot-docs-actions .button-secondary{
+    color: #000;
+    border-color: #000;
+    background: #fff;
+    vertical-align: top;
+}
+
+.buddybot-docs-actions .button-secondary:hover{
+    background: #000;
+    color: #fff;
+    border-color: #000;
+}
+
+/* border */
+.buddybot-border{
+    border: solid 1px #dee2e6!important;
+    
+}
+
+
+/* background color */
+.buddybot-bg-primary{
+    background-color: #0d6efd !important;
+}
+.buddybot-bg-white{
+    background-color: white!important;
+}
+.buddybot-bg-light{
+    background-color: #f8f9fa!important;
+}
+.buddybot-bg-dark{
+    background-color: #212529!important;
+}
+.buddybot-bg-secondary{
+    background-color: #6c757d!important;
+}
+.buddybot-bg-lightBlue{
+    background-color:#f3f6fb;
+}
+
+/* flex-grow */
+.buddybot-flex-grow-1{
+    flex-grow:1;
+}
+
+
+
+/* columns */
+.buddybot-row-container {
+    width: 100%;
+  }
+  
+  .buddybot-row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  [class^="buddybot-box-col-"] {
+    padding:0px 10px;
+    box-sizing: border-box;
+  }
+  
+  .buddybot-box-col-1  { width: 8.33%; }
+  .buddybot-box-col-2  { width: 16.66%; }
+  .buddybot-box-col-3  { width: 25%; }
+  .buddybot-box-col-4  { width: 33.33%; }
+  .buddybot-box-col-5  { width: 41.66%; }
+  .buddybot-box-col-6  { width: 50%; }
+  .buddybot-box-col-7  { width: 58.33%; }
+  .buddybot-box-col-8  { width: 66.66%; }
+  .buddybot-box-col-9  { width: 75%; }
+  .buddybot-box-col-10 { width: 83.33%; }
+  .buddybot-box-col-11 { width: 91.66%; }
+  .buddybot-box-col-12 { width: 100%; }
+
+  body {
+    background: #fff !important;
+}
+
+.buddybot-rotate-icon {
+    animation: icon-rotate 1s infinite linear;
+}
+
+@keyframes icon-rotate {
+    from {transform: rotate(0deg);}
+    to {transform: rotate(360deg);}
+}
+
+#buddybot-playground-assistants-list {
+    width: 250px;
+}
+
+#buddybot-playground-messages-list,
+#buddybot-playground-threads-list{
+    height: calc(100vh - 450px);
+}
+
+#buddybot-playground-threads-list{
+    height: calc(100vh - 234px);
+    min-height: 150px;
+}
+
+.buddybot-threads-container:hover .buddybot-thread-delete{
+    display: block!important;
+}
+.buddybot-thread-delete:hover{
+    transform: scale(1.1);
+    transition: all 0.3s ease;
+}
+.buddybot-threads-container{
+    font-size: 14px;
+    box-sizing: border-box;
+    padding: 8px 8px 8px 8px;
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+  color: #333;
+  text-decoration: none;
+  display: block;
+  line-height: 1.8;
+  overflow: hidden;
+}
+.buddybot-chat-input-wrapper {
+  border-radius: 20px;
+  width : 90%;
+}
+
+#buddybot-chat-input {
+  flex-grow: 1;
+  border: none;
+  background-color: transparent;
+  font-size: 10px;
+  resize: none; /* Prevent manual resizing by the user */
+  overflow: hidden; /* Hide scrollbars initially */
+  min-height: 24px; /* Initial single-line height (adjust as needed) */
+  line-height: 1.5; /* Adjust line height for better readability */
+  outline: none;
+}
+
+#buddybot-chat-input::placeholder {
+  color: #aaa;
+}
+.buddybot-threads-container:hover {
+    background-color:#f3f6fb;
+}
+.buddybot-threads-container.active{
+    background-color: #f3f6fb;
+    font-weight: 500;
+    color: blue;
+}
+.buddybot-threads-container.active .buddybot-threads-icon  svg{
+    fill: rgb(35, 50, 255);
+}
+.buddybot-threads-container.active .buddybot-thread-delete svg{
+    color: red;
+}
+::-webkit-scrollbar {
+  width: 4px;
+}
+.buddybot-overflow-y{
+    margin-right: -15px;
+}
+
+/* Track */
+.buddybot-overflow-y::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 10px #f8f8f8; 
+  border-radius: 10px;
+}
+ 
+/* Handle */
+.buddybot-overflow-y::-webkit-scrollbar-thumb {
+  background: #e7eefa; 
+  border-radius: 10px;
+}
+textarea {
+    padding: 12px 50px 12px 15px; 
+    border-radius: 24px;
+    line-height: 1.5;
+    resize: none;  
+    max-height: 150px;
+  }
+  textarea:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+  } 
+  #buddybot-send-btn {
+    right: 8%;
+    transform: translateY(-50%);
+    border: none;
+    transition: background-color 0.2s ease;
+    transform: rotate(45deg);
+  } 
+.buddybot-flex-column {
+  flex-direction: column;
+}
+.buddybot-btn-new-thread{
+    color: #ffffff;
+    border: 1px solid #5662f6;
+    padding: 5px 12px;
+    font-size: 13px;
+    transition:  0.3s ease;
+}
+.buddybot-btn-new-thread:hover{
+    color: #5662f6;
+    background-color: white!important;
 }

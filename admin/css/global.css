@@ -14,22 +14,86 @@
 .buddybot-d-flex {
     display: flex !important;
 }
-
+.buddybot-d-none{
+    display: none!important;
+}
+.buddybot-d-none-flex{
+    display: flex;
+}
+.buddybot-d-flex-direction-row{
+    display: flex!important;
+    flex-direction: row!important;
+}
+.buddybot-flex-direction-column{
+    display: flex!important;
+    flex-direction: column!important;
+}
 .buddybot-justify-content-between {
     justify-content: space-between !important;
 }
-
-.buddybot-align-items-center {
-    align-items: center !important;
-}
-
 .buddybot-justify-content-center {
     justify-content: center !important;
 }
+.buddybot-align-items-center {
+    align-items: center !important;
+}
+.buddybot-justify-content-end{
+    justify-content: flex-end !important;
+}
+.buddybot-align-self-end{
+    align-self: end!important;
+}
+.buddybot-cursor-pointer{
+    cursor: pointer;
+}
+
+
+
+/* position */
+.buddybot-position-relative {
+    position: relative !important;
+}
+.buddybot-position-absolute {
+    position: absolute !important;
+}
+
+
+/* borders */
+.buddybot-border{
+    border: 1px solid #dee2e6!important;
+}
+.buddybot-border-top {
+    border-top: 1px solid #dee2e6;
+}
+.buddybot-border-bottom{
+    border-bottom:1px solid #dee2e6;
+}
+.buddybot-border-right{
+    border-right: 2px solid #dee2e6!important;
+}
+.buddybot-border-left{
+    border-left: 1px solid #dee2e6!important;
+}
+
+/* border-radius */
+
+.buddybot-border-radius-50{
+    border-radius: 50%;
+}
+.buddybot-border-radius-20{
+    border-radius: 0px 20px 20px 20px;
+}
+.buddybot-border-radius-5{
+    border-radius:5px;
+}
+
 /* General CSS End---*/
 
 /*---Margins and Padding---*/
-
+.margin-mx-auto{
+    margin-left: auto!important;
+    margin-right: auto!important;
+}
 .buddybot-mb-0 {
     margin-bottom: 0 !important;
 }
@@ -57,17 +121,24 @@
 .buddybot-mt-0 {
     margin-top: 0 !important;
 }
-
-.buddybot-mt-1 {
-    margin-top: 0.25rem !important;
+.buddybot-mt-1{
+    margin-top: .25rem!important;
 }
-
-.buddybot-mt-2 {
-    margin-top: 0.5rem !important;
+.buddybot-mt-2{
+    margin-top: .5rem!important;
 }
-
-.buddybot-mt-3 {
-    margin-top: 1rem !important;
+.buddybot-mt-3{
+    margin-top:1rem!important;
+}
+.buddybot-mt-4{
+    margin-top:1.5rem;
+}
+.buddybot-mt-auto{
+    margin-top: auto!important;
+}
+.buddybot-my-auto{
+    margin-top: auto!important;
+    margin-bottom: auto!important;
 }
 
 .buddybot-ms-0 {
@@ -85,14 +156,20 @@
 .buddybot-ms-3 {
     margin-left: 1rem !important;
 }
+.buddybot-me-2{
+    margin-right: .5rem!important;
+}
+.buddybot-me-3{
+    margin-right: 1rem!important;
+}
 
 .buddybot-my-0 {
     margin-top: 0 !important;
     margin-bottom: 0 !important;
 }
-
-.buddybot-p-2{
-    padding: 0.5rem !important;
+.buddybot-my-2{
+    margin-top: .5rem!important;
+    margin-bottom: .5rem!important;
 }
 
 .buddybot-py-0 {
@@ -110,9 +187,49 @@
     padding-bottom: 0.5rem !important;
 }
 
+.buddybot-py-3{
+    padding-top: 1rem!important;
+    padding-bottom: 1rem!important;
+}
+.buddybot-py-4{
+    padding-top: 1rem!important;
+    padding-bottom:1rem!important;
+}
+.buddybot-p-1{
+    padding: 0.25rem !important;
+}
+
+.buddybot-p-2{
+    padding: 0.5rem !important;
+}
+.buddybot-p-3{
+    padding: 1rem!important;
+}
+.buddybot-p-4{
+    padding: 1rem!important;
+}
+.buddybot-fw-medium {
+    font-weight: 500;
+}
+.buddybot-fw-bold{
+    font-weight: 700;;
+}
+.buddybot-px-2{
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+}
+.buddybot-px-3{
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+}
+
 .buddybot-px-4 {
     padding-left: 1.5rem !important;
     padding-right: 1.5rem !important;
+}
+.buddybot-px-5{
+    padding-left: 3rem !important;
+    padding-right: 3rem !important;
 }
 
 .buddybot-pt-0 {
@@ -122,26 +239,29 @@
 .buddybot-pt-1 {
     padding-top: 0.25rem !important;
 }
+.buddybot-pt-2 {
+    padding-top: 0.5rem !important;
+}
+.buddybot-pt-3 {
+    padding-top: 1rem !important;
+}
+.buddybot-pt-4 {
+    padding-top: 1.5rem !important;
+}
 
 .buddybot-pb-2 {
     padding-bottom: 0.5rem;
+}
+.buddybot-pb-3{
+    padding-bottom: 1rem!important;
 }
 
 .buddybot-ps-0 {
     padding-left: 0 !important;
 }
 
-.buddybot-box-w-100{
-    width: 100%;
-}
 
-.buddybot-border-top {
-    border-top: 1px solid #dee2e6;
-}
-
-/*---Margins and Padding Ends---*/
-
-/*---Gaps---*/
+/* Gaps */
 
 .buddybot-gap-0 {
     gap: 0 !important;
@@ -163,60 +283,30 @@
     gap: 1.5rem !important;
 }
 
-/*---Gaps Ends---*/
+/* widths */
 
-/* TEXT UTILITIES */
- 
-.buddybot-text-center {
-    text-align: center !important;
-}   
-
-.buddybot-text-break {
-    word-break: break-word !important;
+.buddybot-box-w-100{
+    width: 100%;
+}
+.buddybot-box-w-50{
+    width: 50%!important;
 }
 
-.buddybot-text-bg-dark {
-    color: #fff !important;
-    background-color: #343a40 !important;
-}
 
-.buddybot-text-danger {
-    color: #dc3545 !important;
-}
 
-.buddybot-text-secondary {
-    color: #6c757d !important;
-}
-
-.buddybot-text-dark{
-    opacity: 1;
-    color: #212529 !important;
-}
-
+/* font-sizes */
 .buddybot-text-small {
-    font-size: .875em !important;
+    font-size: .875rem !important;
+}
+.buddybot-fs-6{
+    font-size: 1rem !important;
 }
 
-/* TEXT UTILITIES END */
-
-/* FONT UTILITIES */
- 
-.buddybot-small {
-    font-size: .875em !important;
+.buddybot-fs-5{
+    font-size: 1.25rem !important;
 }
 
-.buddybot-fw-medium {
-    font-weight: 500;
-}
-
-.buddybot-fw-bold {
-    font-weight: 700;
-}
-.buddybot-fs-1{
-    font-size: 0.75rem !important;
-}
-
-.buddybot-fs-2{
+.buddybot-fs-4{
     font-size: 1.5rem !important;
 }
 
@@ -224,17 +314,44 @@
     font-size: 1.75rem !important;
 }
 
-.buddybot-fs-4{
-    font-size: 1.5rem !important;
+.buddybot-text-dark{
+    opacity: 1;
+    color: #212529 !important;
+}
+/* text color start  */
+
+.buddybot-text-white{
+     color:#fff!important;
+}
+.buddybot-text-muted{
+    color: #6c757d !important;
+}
+.buddybot-text-danger{
+    color: #dc3545 !important;
+}
+.buddybot-text-decoration-none{
+    text-decoration: none!important;
+}
+.buddybot-text-break{
+    word-break: break-word;
+}
+.buddybot-text-align-center{
+    text-align: center!important;
+}
+.buddybot-text-align-right{
+    text-align: right!important;
+}
+.buddybot-text-truncate{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.buddybot-overflow-y{
+    overflow-y: auto
+    
 }
 
-.buddybot-fs-5{
-    font-size: 1.25rem !important;
-}
-
-.buddybot-fs-6{
-    font-size: 1rem !important;
-}
+/* text color Ends */
 
 /* FONT UTILITIES END */
 
@@ -546,6 +663,12 @@ border-color: #545b62;
     opacity: 0.5;
     pointer-events: none;
 }
+.buddybot-btn-secondory{
+  color: #a7aaad!important;
+  background-color: #f6f7f7!important;
+  border: 1px solid #dcdcde!important;
+}
+
 
 .bb-btn-sm {
     padding: 0.25rem 0.5rem;
@@ -625,7 +748,7 @@ border-color: #545b62;
     padding: .5rem 1rem;
     color: #212529;
     text-decoration: none;
-    /* background-color: #fff; */
+    background-color: #fff;
     border: 1px solid rgba(0, 0, 0, .125);
 }
 .buddybot-list-group .buddybot-list-group-item+.buddybot-list-group-item {
@@ -743,3 +866,65 @@ border-color: #545b62;
     color: #fff;
     border-color: #000;
 }
+
+/* border */
+.buddybot-border{
+    border: solid 1px #dee2e6!important;
+    
+}
+
+
+/* background color */
+.buddybot-bg-primary{
+    background-color: #0d6efd !important;
+}
+.buddybot-bg-white{
+    background-color: white!important;
+}
+.buddybot-bg-light{
+    background-color: #f8f9fa!important;
+}
+.buddybot-bg-dark{
+    background-color: #212529!important;
+}
+.buddybot-bg-secondary{
+    background-color: #6c757d!important;
+}
+.buddybot-bg-lightBlue{
+    background-color:#f3f6fb;
+}
+
+/* flex-grow */
+.buddybot-flex-grow-1{
+    flex-grow:1;
+}
+
+
+
+/* columns */
+.buddybot-row-container {
+    width: 100%;
+  }
+  
+  .buddybot-row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  [class^="buddybot-box-col-"] {
+    padding:0px 10px;
+    box-sizing: border-box;
+  }
+  
+  .buddybot-box-col-1  { width: 8.33%; }
+  .buddybot-box-col-2  { width: 16.66%; }
+  .buddybot-box-col-3  { width: 25%; }
+  .buddybot-box-col-4  { width: 33.33%; }
+  .buddybot-box-col-5  { width: 41.66%; }
+  .buddybot-box-col-6  { width: 50%; }
+  .buddybot-box-col-7  { width: 58.33%; }
+  .buddybot-box-col-8  { width: 66.66%; }
+  .buddybot-box-col-9  { width: 75%; }
+  .buddybot-box-col-10 { width: 83.33%; }
+  .buddybot-box-col-11 { width: 91.66%; }
+  .buddybot-box-col-12 { width: 100%; }

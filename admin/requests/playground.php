@@ -17,12 +17,11 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
         $this->storeThreadInfoJs();
         $this->scrollToMessageJs();
         $this->selectThreadJs();
+        $this->previousThreadsJs();
         $this->pastMessagesJs();
-        $this->toggleThreadBtnsJs();
-        $this->toggleDeleteThreadBtnJs();
-        $this->togglePastMessagesBtnJs();
         $this->deleteThreadBtnJs();
         $this->updateThreadNameJs();
+        $this->newThreadJS();
     }
 
     private function setVarsJs()
@@ -57,7 +56,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
         echo '
         function disableMessage(propState = true) {
             $("#mgao-playground-send-message-btn").prop("disabled", propState);
-            $("#mgao-playground-new-message-text").prop("disabled", propState);
+            $("#buddybot-new-message-input").prop("disabled", propState);
         }
         ';
     }
@@ -74,9 +73,9 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
     private function sendMessageBtnJs()
     {
         echo '
-        $("#mgao-playground-send-message-btn").click(sendMessage);
+        $("#buddybot-send-message-btn").click(sendMessage);
         
-        $("#mgao-playground-new-message-text").keypress(function(e) {
+        $("#buddybot-new-message-input").keypress(function(e) {
             let key = e.key;
             if (key === "Enter" && !e.shiftKey) {
                 e.preventDefault();
@@ -85,7 +84,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
         });
 
         function sendMessage() {
-            const message = $("#mgao-playground-new-message-text").val();
+            const message = $("#buddybot-new-message-input").val();
 
             if (message === "") {
                 updateStatus(messageEmpty);
@@ -142,14 +141,12 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
             updateStatus(sendingMessage);
 
             const threadId = $("#mgao-playground-thread-id-input").val();
-            const message = $("#mgao-playground-new-message-text").val();
+            const message = $("#buddybot-new-message-input").val();
 
             const data = {
                 "action": "createMessage",
                 "thread_id": threadId,
                 "message": message,
-                "file_url": $("#buddybot-playground-attachment-url").val(),
-                "file_mime": $("#buddybot-playground-attachment-mime").val(),
                 "nonce": "' . esc_js($nonce) . '"
             };
   
@@ -157,12 +154,12 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
                 response = JSON.parse(response);
                 if (response.success) {
                     updateStatus(messageSent);
-                    $("#mgao-playground-new-message-text").val("");
+                    $("#buddybot-new-message-input").val("");
                     var cleanedHtml = parseFormatting(response.html);
-                    $("#buddybot-playground-messages-list").append(cleanedHtml);
+                    $("#buddybot-chat-container").append(cleanedHtml);
                     $("#buddybot-playground-first-message-id").val(response.result.id);
                     updateThreadName(message);
-                    scrollToBottom(response.result.id);
+                    //scrollToBottom(response.result.id);
                     startStreaming();
                 } else {
                     disableMessage(false);
@@ -333,11 +330,11 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
                     </div>
                 `;
 
-                $("#buddybot-playground-messages-list").append(messageHtml);
+                $("#buddybot-chat-container").append(messageHtml);
 
                 document.querySelector(`#${messageId} .buddybot-response-content`).innerHTML = formattedContent;
 
-                scrollToBottom(messageId);
+               // scrollToBottom(messageId);
             }
         }
 
@@ -473,12 +470,10 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
     {
         $nonce = wp_create_nonce('list_messages');
         echo '
-        function listMessages() {
+        function listMessages(threadId) {
 
             disableMessage();
             updateStatus(gettingThreadMessages);
-
-            const threadId = $("#mgao-playground-thread-id-input").val();
 
             const data = {
                 "action": "listMessages",
@@ -495,15 +490,15 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
                 if (response.success) {
                     updateStatus(threadMessagesUpdated);
                     var cleanedHtml = parseFormatting(response.html);
-                    $("#buddybot-playground-messages-list").append(cleanedHtml);
+                    $("#buddybot-chat-container").append(cleanedHtml);
                     storeThreadInfo(response.result);
-                    scrollToBottom(response.result.first_id);
+                    //scrollToBottom(response.result.first_id);
                 } else {
                     updateStatus(response.message);
                 }
 
                 disableMessage(false);
-                toggleThreadBtns();
+                
             });
         }
         ';
@@ -543,19 +538,108 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
     private function selectThreadJs()
     {
         echo '
-        $("#buddybot-playground-threads-list").on("click", ".buddybot-playground-threads-list-item", function() {
-            
-            const threadId = $(this).attr("data-buddybot-threadid");
-            const highlightClass = "fw-bold text-primary";
-            
-            
-            $("#mgao-playground-tokens-display").html("");
-            $("#buddybot-playground-messages-list").html("");
+        $("#buddybot-threads-list").on("click", ".buddybot-threads-container", function(event) {
+            if ($(event.target).closest(".buddybot-thread-delete").length > 0) {
+                return;
+            }
+
+            if ($(this).hasClass("active")) {
+                return;
+            }
+
+            const threadId = $(this).find(".buddybot-threads-list-item").attr("data-buddybot-threadid");
             $("#mgao-playground-thread-id-input").val(threadId);
-            $(".buddybot-playground-threads-list-item.fw-bold.text-primary").removeClass(highlightClass);
-            $(this).addClass(highlightClass);
+            $(".buddybot-threads-container").removeClass("active");
+            $(".buddybot-thread-delete").addClass("buddybot-d-none");
+        
+            $("#buddybot-chat-container").html("");
+            $(this).closest(".buddybot-threads-container").addClass("active");
+            $(this).closest(".buddybot-threads-container").find(".buddybot-thread-delete").removeClass("buddybot-d-none");
             
-            listMessages();
+            listMessages(threadId);
+        });
+        ';
+    }
+
+    private function previousThreadsJs()
+    {
+        echo '
+        let offset = 10;
+        let typingTimer;
+        let isLoadingThreads = false;
+        let hasMoreThreads = true;
+        let currentsearch = "";
+
+        $("#buddybot-threads-list").on("scroll", function () {
+
+            const scrollTop = $(this).scrollTop();
+            const containerHeight = $(this).innerHeight();
+            const scrollHeight = this.scrollHeight;
+
+            if (scrollTop + containerHeight >= scrollHeight - 10 && !isLoadingThreads) {
+                isLoadingThreads = true;
+                loadThreads(currentsearch);
+            }
+        });
+
+        function loadThreads(search = "") {
+            if (!hasMoreThreads) {
+                return;
+            }
+
+            $("#buddybot-thread-spinner").show();
+
+            const data = {
+                "action": "loadThreads",
+                "offset": offset,
+                "search": search,
+                "nonce": "' . esc_js(wp_create_nonce('load_threads')) . '"
+            };
+
+            $.post(ajaxurl, data, function (response) {
+                response = JSON.parse(response);
+
+                setTimeout(() => {
+                    if (response.success) {
+                        offset += 10;
+                        if (offset == 10) {
+                            $("#buddybot-threads-list").html(response.html);
+                        } else {
+                            $("#buddybot-threads-list").append(response.html);
+                        }
+                        hasMoreThreads = response.has_more;
+                    } else {
+                        updateStatus(response.message);
+                    }
+
+                    isLoadingThreads = false;
+                    $("#buddybot-thread-spinner").hide();
+                }, 2000);
+            });
+        }
+
+        $(document).on("keyup", "#buddybot-thread-list-search-input", function () {
+
+            $("#buddybot-threads-list").html("");
+            $("#buddybot-thread-spinner").show();
+
+            clearTimeout(typingTimer);
+            typingTimer = setTimeout(() => {
+                const query = $(this).val();
+
+                if (query !== currentsearch) {
+                    offset = 0;
+                    hasMoreThreads = true;
+                    currentsearch = query;
+                }
+
+                isLoadingThreads = true;
+                loadThreads(currentsearch);
+            }, 2000);
+        });
+
+        $(document).on("keydown", "#buddybot-thread-list-search-input", function () {
+            clearTimeout(typingTimer);
         });
         ';
     }
@@ -597,7 +681,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
                 if (response.success) {
                     updateStatus(pastMessagesUpdated);
                     var cleanedHtml = parseFormatting(response.html);
-                    $("#buddybot-playground-messages-list").prepend(cleanedHtml);
+                    $("#buddybot-chat-container").prepend(cleanedHtml);
                     storeThreadInfo(response.result);
                     scrollToTop();
                 } else {
@@ -606,48 +690,9 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
 
                 $("#buddybot-playground-past-messages-btn").children("span").removeClass("buddybot-rotate-icon");
                 disableMessage(false);
-                toggleThreadBtns();
+                
             });
           });
-        ';
-    }
-
-    private function toggleThreadBtnsJs()
-    {
-        echo '
-        toggleThreadBtns();
-        function toggleThreadBtns() {
-            toggleDeleteThreadBtn();
-            togglePastMessagesBtn();
-        }
-        ';
-    }
-
-    private function toggleDeleteThreadBtnJs()
-    {
-        echo '
-        function toggleDeleteThreadBtn() {
-            let threadId = $("#mgao-playground-thread-id-input").val();
-            if (threadId === "") {
-                $("#buddybot-playground-delete-thread-btn").css("opacity", 0);
-            } else {
-                $("#buddybot-playground-delete-thread-btn").css("opacity", 100);
-            }
-        }
-        ';
-    }
-
-    private function togglePastMessagesBtnJs()
-    {
-        echo '
-        function togglePastMessagesBtn() {
-            let hasMore = $("#buddybot-playground-has-more-messages").val();
-            if (hasMore === "true") {
-                $("#buddybot-playground-past-messages-btn").css("opacity", 100);
-            } else {
-                $("#buddybot-playground-past-messages-btn").css("opacity", 0);
-            }
-        }
         ';
     }
 
@@ -655,13 +700,21 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
     {
         $nonce = wp_create_nonce('delete_thread');
         echo '
-        $("#buddybot-playground-delete-thread-btn").click(deleteThreadBtn);
+
+        $(".buddybot-thread-delete").click(function () {
+            const threadId = $(this).closest(".buddybot-threads-container").find(".buddybot-threads-list-item").attr("data-buddybot-threadid");
+            $("#mgao-playground-thread-id-input").val(threadId);
+        });
+
+        $("#buddybot-confirm-del-conversation-btn").click(function () {
+            $("#buddybot-del-msg").show();
+            $("#buddybot-confirm-del-conversation-btn").prop("disabled", true);
+            $("#buddybot-cancel-del-conversation-btn").prop("disabled", true);
+            deleteThreadBtn();
+        });
 
         function deleteThreadBtn() {
-            
-            disableMessage(true);
-            updateStatus(deletingThread);
-            $("#buddybot-playground-messages-list").css("opacity", 0.5);
+            $("#buddybot-chat-container").css("opacity", 0.5);
             let threadId = $("#mgao-playground-thread-id-input").val();
             
             if (threadId === "") {
@@ -678,16 +731,19 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
                 response = JSON.parse(response);
                 if (response.success) {
                     $("#mgao-playground-thread-id-input").val("");
-                    $("#buddybot-playground-messages-list").html("");
-                    $("#buddybot-playground-messages-list").css("opacity", 1);
-                    $("div[data-buddybot-threadid=" + threadId + "]").remove();
+                    $("#buddybot-chat-container").html("");
+                    $("#buddybot-chat-container").css("opacity", 1);
+                    $("div[data-buddybot-threadid=\'" + threadId + "\']").closest(".buddybot-threads-container").remove();
+                    $("#buddybot-del-conversation-modal").removeClass("show");
                     updateStatus(threadDeleted);
                 } else {
                     updateStatus(response.message);
                 }
 
-                disableMessage(false);
-                toggleThreadBtns();
+                $("#buddybot-del-msg").hide();
+                $("#buddybot-confirm-del-conversation-btn").prop("disabled", false);
+                $("#buddybot-cancel-del-conversation-btn").prop("disabled", false);
+                
             });
 
         }
@@ -705,8 +761,25 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
                 message = $.trim(message).substring(0, 100);
             }
 
-            $("div[data-buddybot-threadid=" + threadId + "]").text(message);
+            const threadItem = $("div[data-buddybot-threadid=\'" + threadId + "\']");
+            threadItem.find(".buddybot-threads-list-item-text").text(message);
         }
+        ';
+    }
+
+    private function newThreadJS()
+    {
+        echo '
+        $("#buddybot-new-thread-btn").click(function() {
+            $("#buddybot-chat-container").html("");
+            $("#mgao-playground-thread-id-input").val("");
+            $("#buddybot-playground-first-message-id").val("");
+            $("#buddybot-playground-last-message-id").val("");
+            $("#buddybot-playground-has-more-messages").val("false");
+            $(".buddybot-threads-container").removeClass("active");
+            $(".buddybot-thread-delete").addClass("buddybot-d-none");
+            disableMessage(false);
+        });
         ';
     }
 }

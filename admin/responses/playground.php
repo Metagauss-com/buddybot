@@ -303,6 +303,64 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
         exit;
     }
 
+      public function loadThreads()
+    {
+        $this->checkNonce('load_threads');
+    
+        $offset = (isset($_POST['offset']) && !empty($_POST['offset'])) ? absint($_POST['offset']) : 0;
+        $search = (isset($_POST['search']) && !empty($_POST['search'])) ? sanitize_text_field($_POST['search']) : '';
+
+        $response = $this->sql->getThreadsByUserId(0, 10, $offset, $search);
+        //print_r($response);die;
+    
+        if ($response['success']) {
+            $this->response['success'] = true;
+            $this->response['html'] = $this->threadsHtml($response['result']);
+            $this->response['has_more'] = !empty($response['result']);
+
+        } else {
+            $this->response['success'] = false;
+            $this->response['message'] = esc_html__('Unable to load more threads.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        }
+    
+        echo wp_json_encode($this->response);
+        wp_die();
+    }
+
+    private function threadsHtml($threads)
+    {
+        if (empty($threads)) {
+            return '<div class="buddybot-no-threads-message p-2 text-muted small">No More threads available.</div>';
+        }
+
+        $html = '';
+        foreach ($threads as $thread) {
+             $label = $thread->thread_name;
+
+            if (empty($label)) {
+                $label = $thread->thread_id;
+            }
+
+            error_log($thread->thread_name);
+
+           // $date = get_date_from_gmt($thread->created, 'Y-m-d');
+            $html .= '<div class="buddybot-threads-container buddybot-d-flex buddybot-justify-content-between buddybot-align-items-center buddybot-mt-2">';
+            $html .= '<div class="buddybot-threads-list-item buddybot-d-flex buddybot-align-items-center  buddybot-text-truncate buddybot-me-3">';
+            $html .= '<span class="buddybot-threads-icon buddybot-me-3 "><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#1f1f1f"><path d="M323.79-516q15.21 0 25.71-10.29t10.5-25.5q0-15.21-10.29-25.71t-25.5-10.5q-15.21 0-25.71 10.29t-10.5 25.5q0 15.21 10.29 25.71t25.5 10.5Zm156 0q15.21 0 25.71-10.29t10.5-25.5q0-15.21-10.29-25.71t-25.5-10.5q-15.21 0-25.71 10.29t-10.5 25.5q0 15.21 10.29 25.71t25.5 10.5Zm156 0q15.21 0 25.71-10.29t10.5-25.5q0-15.21-10.29-25.71t-25.5-10.5q-15.21 0-25.71 10.29t-10.5 25.5q0 15.21 10.29 25.71t25.5 10.5ZM96-96v-696q0-29.7 21.15-50.85Q138.3-864 168-864h624q29.7 0 50.85 21.15Q864-821.7 864-792v480q0 29.7-21.15 50.85Q821.7-240 792-240H240L96-96Zm114-216h582v-480H168v522l42-42Zm-42 0v-480 480Z"/></svg></span>';
+            $html .= '<div class="buddybot-threads-list-item-text buddybot-text-truncate">';
+            $html .= esc_html($label);
+            $html .= '</div>'; 
+           // $html .=  esc_html($date);    
+            $html .= '</div>';
+            $html .= '<div class="buddybot-thread-delete buddybot-ms-1 buddybot-me-3 buddybot-d-none" style="cursor:pointer" data-modal="buddybot-del-conversation-modal">   
+           <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#dc3545"><path d="M280-120q-33 0-56.5-23.5T200-200v-520h-40v-80h200v-40h240v40h200v80h-40v520q0 33-23.5 56.5T680-120H280Zm400-600H280v520h400v-520ZM360-280h80v-360h-80v360Zm160 0h80v-360h-80v360ZM280-720v520-520Z"/></svg>
+            </div>';
+            $html .= '</div>';
+        }
+
+        return $html;
+    }
+
     public function __construct()
     {
         $this->setAll();
@@ -311,5 +369,6 @@ class Playground extends \BuddyBot\Admin\Responses\MoRoot
         add_action('wp_ajax_listMessages', array($this, 'listMessages'));
         add_action('wp_ajax_deleteThread', array($this, 'deleteThread'));
         add_action('wp_ajax_buddybotStream', array($this, 'buddybotStream'));
+        add_action('wp_ajax_loadThreads', array($this, 'loadThreads'));
     }
 }

@@ -8,7 +8,12 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         $heading = __('Test Area', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         $this->customPageHeading($heading);
-        $this->playgroundContainer();
+        $this->threadOperations();
+        $chatBubble = new \BuddyBot\Includes\ChatBubble();
+        $chatBubble->getHtml($this->sql->getThreadsByUserId(0, 10, 0));
+        
+        $deleteConversation = new \BuddyBot\Admin\Html\CustomModals\DeleteConversation();
+        $deleteConversation->getHtml();
     }
     
     private function playgroundContainer()
@@ -33,15 +38,16 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<h1 class="wp-heading-inline">';
         echo esc_html($heading);
         echo '</h1>';
+        $this->playgroundOptions();
         echo '</div>';
         echo '</div>';
     }
 
     private function playgroundOptions()
     {
-        echo '<div id="buddybot-playground-options-container" class="col-md-12 d-flex border-bottom">';
+        //echo '<div id="buddybot-playground-options-container" class="col-md-12 d-flex border-bottom">';
         
-        echo '<div id="buddybot-playground-options-select-assistant" class="p-3">';
+        //echo '<div id="buddybot-playground-options-select-assistant" class="p-3">';
         echo '<label class="">';
         esc_html_e('Select BuddyBot', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '<label>';
@@ -59,9 +65,9 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
         }
 
         echo '</select>';
-        echo '</div>';
+        // echo '</div>';
 
-        echo '</div>';
+        // echo '</div>';
     }
 
     private function threadsContainer()
@@ -96,13 +102,11 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function threadOperations()
     {
-        echo '<div id="buddybot-playground-thread-operations" class="d-flex justify-content-between p-3">';
-        $this->loadMessagesBtn();
-        $this->tokensDisplay();
+        echo '<div>';
         echo '<input id="buddybot-playground-first-message-id" type="hidden">';
         echo '<input id="buddybot-playground-last-message-id" type="hidden">';
         echo '<input id="buddybot-playground-has-more-messages" type="hidden">';
-        $this->deleteThreadBtn();
+         echo '<input id="mgao-playground-thread-id-input" type="hidden">';
         echo '</div>';
     }
 
