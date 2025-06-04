@@ -1009,24 +1009,24 @@ border-color: #545b62;
 .buddybot-threads-container.active .buddybot-thread-delete svg{
     color: red;
 }
-::-webkit-scrollbar {
+ ::-webkit-scrollbar {
   width: 4px;
 }
 .buddybot-overflow-y{
     margin-right: -15px;
-}
+} 
 
 /* Track */
-.buddybot-overflow-y::-webkit-scrollbar-track {
+ .buddybot-overflow-y::-webkit-scrollbar-track {
   box-shadow: inset 0 0 10px #f8f8f8; 
   border-radius: 10px;
-}
+} 
  
 /* Handle */
 .buddybot-overflow-y::-webkit-scrollbar-thumb {
   background: #e7eefa; 
   border-radius: 10px;
-}
+} 
 textarea {
     padding: 12px 50px 12px 15px; 
     border-radius: 24px;

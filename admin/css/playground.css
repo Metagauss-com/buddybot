@@ -49,6 +49,7 @@ body {
   width : 90%;
 }
 
+
 #buddybot-new-message-input {
   flex-grow: 1;
   border: none;
@@ -69,7 +70,7 @@ body {
 }
 .buddybot-threads-container.active{
     background-color: #f3f6fb;
-    font-weight: 500;
+    font-weight: 400;
     color: blue;
 }
 .buddybot-threads-container.active .buddybot-threads-icon  svg{
@@ -78,6 +79,17 @@ body {
 .buddybot-threads-container.active .buddybot-thread-delete svg{
     color: red;
 }
+ .buddybot-overflow-y::-webkit-scrollbar {
+  width: 4px;
+}
+#buddybot-threads-list .buddybot-overflow-y{
+    margin-right: -15px;
+} 
+
+#buddybot-overflow-y-right-column .buddybot-overflow-y{
+    margin-right: 0px!important;
+    margin-top: 5px;
+} 
 ::-webkit-scrollbar {
   width: 4px;
 }
@@ -93,9 +105,12 @@ body {
  
 /* Handle */
 .buddybot-overflow-y::-webkit-scrollbar-thumb {
-  background: #e7eefa; 
+  background: #cee0fd; 
   border-radius: 10px;
 }
+
+ 
+
 textarea {
     padding: 12px 50px 12px 15px; 
     border-radius: 24px;
@@ -104,27 +119,71 @@ textarea {
     max-height: 150px;
   }
   textarea:focus {
-    border-color: #3b82f6;
+    border-color:#3b82f6;
     box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
   } 
   #buddybot-send-message-btn {
-    right: 8%;
+    right: 11%;
     transform: translateY(-50%);
     border: none;
     transition: background-color 0.2s ease;
     transform: rotate(45deg);
+
   } 
 .buddybot-flex-column {
   flex-direction: column;
-}
-.buddybot-btn-new-thread{
-    color: #ffffff;
-    border: 1px solid #5662f6;
-    padding: 5px 12px;
-    font-size: 13px;
-    transition:  0.3s ease;
 }
 .buddybot-btn-new-thread:hover{
     color: #5662f6;
     background-color: white!important;
 }
+.buddybot-loading-spinner{
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  animation: loaderSpinner 2s infinite linear alternate;
+}
+@keyframes loaderSpinner {
+    0%  {box-shadow: 20px 0 #000, -20px 0 #0002;background: #000 }
+    33% {box-shadow: 20px 0 #000, -20px 0 #0002;background: #0002}
+    66% {box-shadow: 20px 0 #0002,-20px 0 #000; background: #0002}
+    100%{box-shadow: 20px 0 #0002,-20px 0 #000; background: #000 }
+}
+#buddybot-thread-spinner{
+  left: 10%;
+  display: none;
+}
+.buddybot-border-radius-20{
+  border-radius: 20px;
+  
+}
+.buddybot-box-vh-100{
+  height: calc(100vh - 50px);
+}
+#buddybot-threads-list{
+  height: calc(100vh - 200px);
+}
+
+
+
+
+
+.buddybot-flex-column { flex-direction: column; }
+.buddybot-overflow-y { overflow-y: auto; } /* The outer container shouldn't scroll vertically; the chat container should */
+
+.buddybot-flex-grow-1 {
+    flex-grow: 1; 
+   
+}
+
+
+
+
+
+
+
+
+
+
+
+

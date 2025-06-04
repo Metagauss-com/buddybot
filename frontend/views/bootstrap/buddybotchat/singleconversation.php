@@ -68,6 +68,7 @@ trait SingleConversation
         $html .= '<div class="spinner-grow spinner-grow-sm me-1" role="status"><span class="visually-hidden">Loading...</span></div>';
         $html .= '<div class="spinner-grow spinner-grow-sm me-1" role="status"><span class="visually-hidden">Loading...</span></div>';
         $html .= '<div class="spinner-grow spinner-grow-sm" role="status"><span class="visually-hidden">Loading...</span></div>';
+        
 
         $html .= '</div>';
         return $html;

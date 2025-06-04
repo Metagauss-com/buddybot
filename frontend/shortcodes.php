@@ -49,32 +49,32 @@ final class ShortCodes extends \BuddyBot\Frontend\MoRoot
             BUDDYBOT_PLUGIN_VERSION
         );
 
-        // switch ($this->frontend_theme) {
-        //     case 'bootstrap':
-        //         wp_enqueue_style(
-        //             'buddybot-bootstrap-style',
-        //             $this->config->getRootUrl() . 'external/bootstrap/bootstrap.min.css',
-        //             array(),
-        //             '5.3'
-        //         );
-        //         break;
-        // }
+        switch ($this->frontend_theme) {
+            case 'bootstrap':
+                wp_enqueue_style(
+                    'buddybot-bootstrap-style',
+                    $this->config->getRootUrl() . 'external/bootstrap/bootstrap.min.css',
+                    array(),
+                    '5.3'
+                );
+                break;
+        }
     }
 
     private function enqueuePluginScript()
     {
         wp_enqueue_script('jquery');
 
-        // switch ($this->frontend_theme) {
-        //     case 'bootstrap':
-        //         wp_enqueue_script(
-        //             'buddybot-bootstrap-script',
-        //             $this->config->getRootUrl() . 'external/bootstrap/bootstrap.min.js',
-        //             array(),
-        //             '5.3'
-        //         );
-        //         break;
-        // }
+        switch ($this->frontend_theme) {
+            case 'bootstrap':
+                wp_enqueue_script(
+                    'buddybot-bootstrap-script',
+                    $this->config->getRootUrl() . 'external/bootstrap/bootstrap.min.js',
+                    array(),
+                    '5.3'
+                );
+                break;
+        }
     }
 
     private function enqueueViewStyle($file)

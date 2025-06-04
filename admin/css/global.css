@@ -83,6 +83,9 @@
 .buddybot-border-radius-20{
     border-radius: 0px 20px 20px 20px;
 }
+.buddybot-border-radius-20{
+    border-radius: 20px;
+}
 .buddybot-border-radius-5{
     border-radius:5px;
 }
@@ -151,6 +154,9 @@
 
 .buddybot-ms-2 {
     margin-left: 0.5rem !important;
+}
+.buddybot-ms-4{
+    margin-left: 1.5rem !important;
 }
 
 .buddybot-ms-3 {
@@ -347,8 +353,7 @@
     white-space: nowrap;
 }
 .buddybot-overflow-y{
-    overflow-y: auto
-    
+    overflow-y: auto; 
 }
 
 /* text color Ends */
