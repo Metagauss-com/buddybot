@@ -57,6 +57,13 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
         function disableMessage(propState = true) {
             $("#mgao-playground-send-message-btn").prop("disabled", propState);
             $("#buddybot-new-message-input").prop("disabled", propState);
+
+            if (propState) {
+                console.log("Disabling message input and button");
+                $("#buddybot-conversation-spinner").show();
+            } else {
+                $("#buddybot-conversation-spinner").hide();
+            }
         }
         ';
     }
@@ -64,8 +71,16 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
     private function updateStatusJs()
     {
         echo '
-        function updateStatus(text) {
-            $("#buddybot-playground-message-status").children("span").html(text);
+        function updateStatus(text, isError = true) {
+            if (isError) {
+                $("#buddybot-conversation-error").html("<span class=buddybot-text-danger>" + text + "</span>");
+            } else {
+                $("#buddybot-conversation-error").text(text);
+            }
+        }
+
+        function clearStatus() {
+            $("#buddybot-conversation-error").text("");
         }
         ';
     }
@@ -84,6 +99,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
         });
 
         function sendMessage() {
+            clearStatus();
             const message = $("#buddybot-new-message-input").val();
 
             if (message === "") {
@@ -109,7 +125,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
         function createThread() {
             
             disableMessage();
-            updateStatus(creatingThread);
+            clearStatus();
             
             const data = {
                 "action": "createThread",
@@ -119,7 +135,6 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
             $.post(ajaxurl, data, function(response) {
                 response = JSON.parse(response);
                 if (response.success) {
-                    updateStatus(threadCreated);
                     $("#mgao-playground-thread-id-input").val(response.result.id);
                     addMessage();
                 } else {
@@ -138,7 +153,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
         function addMessage() {
 
             disableMessage();
-            updateStatus(sendingMessage);
+            clearStatus();
 
             const threadId = $("#mgao-playground-thread-id-input").val();
             const message = $("#buddybot-new-message-input").val();
@@ -153,13 +168,12 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
             $.post(ajaxurl, data, function(response) {
                 response = JSON.parse(response);
                 if (response.success) {
-                    updateStatus(messageSent);
                     $("#buddybot-new-message-input").val("");
                     var cleanedHtml = parseFormatting(response.html);
                     $("#buddybot-chat-container").append(cleanedHtml);
                     $("#buddybot-playground-first-message-id").val(response.result.id);
                     updateThreadName(message);
-                    //scrollToBottom(response.result.id);
+                    scrollToBottom(response.result.id);
                     startStreaming();
                 } else {
                     disableMessage(false);
@@ -178,7 +192,6 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
         let runCreatedAt = null;
 
         function startStreaming() {
-            updateStatus(gettingResponse);
     
             const threadId = $("#mgao-playground-thread-id-input").val();
             const assistantId = $("#buddybot-playground-assistants-list").val();
@@ -211,7 +224,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
                 if (!response.ok) {
                     const errorDetails = await response.json();
                     const errorMessage = errorDetails?.error?.message || streamError;
-                    updateStatus("<span class=text-danger>" + errorMessage + "</span>");
+                    updateStatus(errorMessage);
                     disableMessage(false);
                     return;
                 }
@@ -234,7 +247,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
                     try {
                         let curlError = JSON.parse(text);
                         if (curlError?.error?.message) {
-                            updateStatus(`<span class="text-danger">${curlError.error.message}</span>`);
+                            updateStatus(curlError.error.message);
                             disableMessage(false);
                             return;
                         }
@@ -246,7 +259,6 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
                         if (line.startsWith("data: ")) {
                             const data = line.slice(6).trim();
                             if (data === "[DONE]") {
-                                updateStatus(responseUpdated);
                                 disableMessage(false);
                                 return;
                             }
@@ -257,18 +269,18 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
                                 response = JSON.parse(data);
                             } catch (e) {
                                 const error = runError;
-                                updateStatus(`<span class="text-danger">${error}</span>`);
+                                updateStatus(error);
                                 disableMessage(false);
                                 continue;
                             }
 
                             if (response.status === "failed" || response.error || (response.error && response.error.message)) {
                                 const errorMsg = response?.error?.message || response?.last_error?.message || runError;
-                                updateStatus("<span class=text-danger>" + errorMsg + "</span>");
+                                updateStatus(errorMsg);
                                 disableMessage(false);
                                 return;
                             } else if (response.status === "cancelled" || response.status === "cancelling") {
-                                updateStatus(runCancelled);
+                                updateStatus(runCancelled, false);
                                 disableMessage(false);
                                 return;
                             }
@@ -286,7 +298,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
                 }
             } catch (error) {
             let errorMessage = error || streamError;
-                updateStatus("<span class=text-danger>" + errorMessage + "</span>");
+                updateStatus(errorMessage);
             }
         }
     
@@ -323,7 +335,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
                         </div>
                         <div>
                             <div class="buddybot-response-content buddybot-p-2 buddybot-bg-light buddybot-chat-border-radius"></div>
-                            <div class="buddybot-text-small buddybot-align-item-end buddybot-text-muted buddybot-mt-2 buddybot-me-2">
+                            <div class="buddybot-text-muted buddybot-text-align-right buddybot-mt-2 buddybot-me-2">
                                 ${formattedDate}
                             </div>
                         </div>
@@ -334,7 +346,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
 
                 document.querySelector(`#${messageId} .buddybot-response-content`).innerHTML = formattedContent;
 
-               // scrollToBottom(messageId);
+               scrollToBottom(messageId);
             }
         }
 
@@ -473,12 +485,13 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
         function listMessages(threadId) {
 
             disableMessage();
-            updateStatus(gettingThreadMessages);
+            clearStatus();
+            isLoadingThreads = true;
 
             const data = {
                 "action": "listMessages",
                 "thread_id": threadId,
-                "limit": 5,
+                "limit": 10,
                 "order": "desc",
                 "nonce": "' . esc_js($nonce) . '"
             };
@@ -488,16 +501,16 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
                 response = JSON.parse(response);
 
                 if (response.success) {
-                    updateStatus(threadMessagesUpdated);
                     var cleanedHtml = parseFormatting(response.html);
                     $("#buddybot-chat-container").append(cleanedHtml);
                     storeThreadInfo(response.result);
-                    //scrollToBottom(response.result.first_id);
+                    scrollToBottom(response.result.first_id);
                 } else {
                     updateStatus(response.message);
                 }
 
                 disableMessage(false);
+                isLoadingThreads = false;
                 
             });
         }
@@ -520,15 +533,15 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
     {
         echo '
         function scrollToBottom(id) {
-            let messageList = $("#buddybot-playground-messages-list");
+            let messageList = $("#buddybot-chat-container");
             
             messageList.animate({
-                scrollTop: messageList[0].scrollHeight // Scroll to the bottom of the message list
+                scrollTop: messageList[0].scrollHeight
             }, 1000); // Duration of the scroll
         }
 
         function scrollToTop() {
-            $("#buddybot-playground-messages-list").animate({
+            $("#buddybot-chat-container").animate({
                 scrollTop: 0
             }, 1000);
         }
@@ -583,6 +596,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
         });
 
         function loadThreads(search = "") {
+            clearStatus();
             if (!hasMoreThreads) {
                 return;
             }
@@ -649,50 +663,58 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
         $nonce = wp_create_nonce('list_messages');
 
         echo '
-        $("#buddybot-playground-past-messages-btn").click(function(){
+        let isLoadingPastMessages = false;
 
-            updateStatus(gettingPastMessages);
-            disableMessage(true);
-            $("#buddybot-playground-past-messages-btn").children("span").addClass("buddybot-rotate-icon");
+        $("#buddybot-chat-container").on("scroll", function () {
+            const scrollTop = $(this).scrollTop();
 
-            const hasMore = $("#buddybot-playground-has-more-messages").val();
+            if (scrollTop === 0 && !isLoadingPastMessages && !isLoadingThreads) {
+                const hasMore = $("#buddybot-playground-has-more-messages").val();
 
-            if (hasMore == false) {
-                return;
+                if (hasMore == "false") return;
+
+                isLoadingPastMessages = true;
+                $("#buddybot-previous-conversation-spinner").show();
+                clearStatus();
+                $("#buddybot-playground-past-messages-btn").children("span").addClass("buddybot-rotate-icon");
+
+                const lastId = $("#buddybot-playground-last-message-id").val();
+                const threadId = $("#mgao-playground-thread-id-input").val();
+
+                const data = {
+                    action: "listMessages",
+                    thread_id: threadId,
+                    limit: 10,
+                    after: lastId,
+                    order: "desc",
+                    nonce: "' . esc_js($nonce) . '"
+                };
+
+                $.post(ajaxurl, data, function (response) {
+                    response = JSON.parse(response);
+
+                    if (response.success) {
+
+                        // Preserve scroll position after prepend
+                        const container = $("#buddybot-chat-container");
+                        const oldScrollHeight = container[0].scrollHeight;
+
+                        const cleanedHtml = parseFormatting(response.html);
+                        container.prepend(cleanedHtml);
+
+                        const newScrollHeight = container[0].scrollHeight;
+                        container.scrollTop(newScrollHeight - oldScrollHeight); // maintain scroll position
+
+                        storeThreadInfo(response.result);
+                    } else {
+                        updateStatus(response.message);
+                    }
+
+                    $("#buddybot-previous-conversation-spinner").hide();
+                    isLoadingPastMessages = false;
+                });
             }
-
-            const firstId = $("#buddybot-playground-first-message-id").val();
-            const lastId = $("#buddybot-playground-last-message-id").val();
-            const threadId = $("#mgao-playground-thread-id-input").val();
-
-            const data = {
-                "action": "listMessages",
-                "thread_id": threadId,
-                "limit": 5,
-                "after": lastId,
-                "order": "desc",
-                "nonce": "' . esc_js($nonce) . '"
-            };
-  
-            $.post(ajaxurl, data, function(response) {
-                
-                response = JSON.parse(response);
-                
-                if (response.success) {
-                    updateStatus(pastMessagesUpdated);
-                    var cleanedHtml = parseFormatting(response.html);
-                    $("#buddybot-chat-container").prepend(cleanedHtml);
-                    storeThreadInfo(response.result);
-                    scrollToTop();
-                } else {
-                    updateStatus(response.message);
-                }
-
-                $("#buddybot-playground-past-messages-btn").children("span").removeClass("buddybot-rotate-icon");
-                disableMessage(false);
-                
-            });
-          });
+        });
         ';
     }
 
@@ -714,6 +736,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
         });
 
         function deleteThreadBtn() {
+            clearStatus();
             $("#buddybot-chat-container").css("opacity", 0.5);
             let threadId = $("#mgao-playground-thread-id-input").val();
             
@@ -735,7 +758,6 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
                     $("#buddybot-chat-container").css("opacity", 1);
                     $("div[data-buddybot-threadid=\'" + threadId + "\']").closest(".buddybot-threads-container").remove();
                     $("#buddybot-del-conversation-modal").removeClass("show");
-                    updateStatus(threadDeleted);
                 } else {
                     updateStatus(response.message);
                 }
@@ -779,6 +801,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
             $(".buddybot-threads-container").removeClass("active");
             $(".buddybot-thread-delete").addClass("buddybot-d-none");
             disableMessage(false);
+            clearStatus();
         });
         ';
     }

@@ -93,7 +93,7 @@ private function chatBuubbleLeft()
     {
       // Parent container for the entire chat interface
 echo '<div id="buddybot-right-container"  class="buddybot-d-flex buddybot-flex-direction-column buddybot-align-items-center buddybot-position-relative buddybot-box-vh-100 buddybot-box-w-100">';
-     echo '<div class="  "  id="" >';
+     echo '<div id="buddybot-previous-conversation-spinner" style="display: none;">';
     echo '<span aria-hidden="true" class="spinner is-active"></span>';
     echo '</div>';
     // Chat container (scrollable area) - THIS IS THE MAIN CONTENT AREA
@@ -104,10 +104,10 @@ echo '<div id="buddybot-right-container"  class="buddybot-d-flex buddybot-flex-d
 
     // Spinner/Error area 
     echo '<div class="buddybot-spinner-error">'; 
-        echo '<div id="buddybot-single-conversation-top-spinners" class="buddybot-d-flex buddybot-justify-content-center" >';
-        echo '<div class="buddybot-loading-spinner  buddybot-border-radius-50" role="status">.</div>';
+        echo '<div id="buddybot-conversation-spinner-container" class="buddybot-d-flex buddybot-justify-content-center" >';
+        echo '<div class="buddybot-loading-spinner buddybot-border-radius-50" role="status" id="buddybot-conversation-spinner" style="display: none;">.</div>';
         echo '</div>';
-        echo '<div class="buddybot-error-message " id="buddybot-message-error"></div>';
+        echo '<div class="buddybot-error-message " id="buddybot-conversation-error"></div>';
     echo '</div>';
 
     // Input area - THIS ALSO NEEDS TO STICK TO THE BOTTOM
