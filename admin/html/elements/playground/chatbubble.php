@@ -47,7 +47,7 @@ class ChatBubble extends \BuddyBot\Admin\Html\Elements\Playground\MoRoot
 
         $html .= '<div>';
 
-        $html .= '<div class=" buddybot-bg-primary buddybot-text-white buddybot-chat-border-radius buddybot-ms-2 buddybot-text-break buddybot-px-3 buddybot-py-2 buddybot-align-self-end buddybot-text-small">';
+        $html .= '<div class=" buddybot-bg-primary buddybot-text-white buddybot-chat-border-radius buddybot-ms-2 buddybot-text-break buddybot-px-3 buddybot-py-2 buddybot-align-self-end buddybot-text-small buddybot-user-message">';
         
         foreach ($this->message->content as $content) {
             
@@ -89,7 +89,7 @@ class ChatBubble extends \BuddyBot\Admin\Html\Elements\Playground\MoRoot
 
         $html .= '<div>';
 
-        $html .= '<div class="buddybot-p-2 buddybot-bg-light buddybot-chat-border-radius">';
+        $html .= '<div class="buddybot-p-2 buddybot-bg-light buddybot-chat-border-radius buddybot-assistant-message">';
         
         foreach ($this->message->content as $content) {
             
@@ -141,8 +141,7 @@ class ChatBubble extends \BuddyBot\Admin\Html\Elements\Playground\MoRoot
             $message_date = __('Yesterday', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
 
-
-        $html = '<div class="buddybot-text-muted buddybot-text-align-right buddybot-mt-2 buddybot-me-2">';
+        $html = '<div class="buddybot-text-muted buddybot-text-align-right buddybot-mt-2 buddybot-me-2 buddybot-message-date">';
         $html .= esc_html($message_date . ', ' . $message_time);
         $html .= '</div>';
         return $html;
