@@ -11,7 +11,7 @@ final class ChatBubble extends \BuddyBot\Admin\MoRoot
         // $this->test();
         echo '<div class="buddybot-row-container buddybot-mt-4 buddybot-p-2 buddybot-bg-lightBlue buddybot-border-radius-20 buddybot-box-w-100"  >';
         echo  '<div class="buddybot-row">';
-        echo '<div class="buddybot-box-col-3 buddybot-bg-white buddybot-p-3 buddybot-border-radius-20 buddybot-box-vh-100" id="buddybot-chat-left-container">';
+        echo '<div class="buddybot-box-col-3 buddybot-bg-white buddybot-p-3 buddybot-border-radius-20 buddybot-box-vh-95" id="buddybot-chat-left-container">';
         $this->chatBuubbleLeft();
         echo '</div>';
         echo '<div class="buddybot-box-col-9 buddybot-mx-auto">';
@@ -92,7 +92,7 @@ private function chatBuubbleLeft()
     private function chatBuubbleRight()
     {
       // Parent container for the entire chat interface
-echo '<div id="buddybot-right-container"  class="buddybot-d-flex buddybot-flex-direction-column buddybot-align-items-center buddybot-position-relative buddybot-box-vh-100 buddybot-box-w-100">';
+echo '<div id="buddybot-right-container"  class="buddybot-d-flex buddybot-flex-direction-column buddybot-align-items-center buddybot-position-relative buddybot-box-vh-95 buddybot-box-w-100">';
      echo '<div id="buddybot-previous-conversation-spinner" style="display: none;">';
     echo '<span aria-hidden="true" class="spinner is-active"></span>';
     echo '</div>';

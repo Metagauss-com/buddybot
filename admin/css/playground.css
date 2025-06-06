@@ -92,7 +92,7 @@ textarea {
   display: none;
 }
 .buddybot-border-radius-20{border-radius: 20px;}
-.buddybot-box-vh-100{height: calc(100vh - 50px);}
+.buddybot-box-vh-95{height: calc(95vh - 50px);}
 #buddybot-threads-list{height: calc(100vh - 200px);}
 #buddybot-left-container .buddybot-overflow-y::-webkit-scrollbar{
   width: 4px;
