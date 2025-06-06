@@ -1,45 +1,26 @@
-body {
-    background: #fff !important;
-}
-
-.buddybot-rotate-icon {
-    animation: icon-rotate 1s infinite linear;
-}
-
+body {background: #fff !important;}
+.buddybot-rotate-icon {animation: icon-rotate 1s infinite linear;}
 @keyframes icon-rotate {
     from {transform: rotate(0deg);}
     to {transform: rotate(360deg);}
 }
-
-#buddybot-playground-assistants-list {
-    width: 250px;
-}
-
-#buddybot-playground-messages-list,
-#buddybot-playground-threads-list{
+#buddybot-playground-assistants-list {width: 250px;}
+#buddybot-playground-messages-list, #buddybot-playground-threads-list{
     height: calc(100vh - 450px);
 }
-
 #buddybot-playground-threads-list{
     height: calc(100vh - 234px);
     min-height: 150px;
 }
-
-.buddybot-threads-container:hover .buddybot-thread-delete{
-    display: block!important;
-}
 .buddybot-thread-delete:hover{
     transform: scale(1.1);
-    transition: all 0.3s ease;
+    transition: all .3s ease-in-out;
 }
 .buddybot-threads-container{
-    font-size: 14px;
     box-sizing: border-box;
-    padding: 8px 8px 8px 8px;
   border-radius: 10px;
   transition: background-color 0.3s ease;
   color: #333;
-  text-decoration: none;
   display: block;
   line-height: 1.8;
   overflow: hidden;
@@ -48,20 +29,14 @@ body {
   border-radius: 20px;
   width : 90%;
 }
-
-
 #buddybot-new-message-input {
-  flex-grow: 1;
-  border: none;
   background-color: transparent;
   font-size: 10px;
-  resize: none; /* Prevent manual resizing by the user */
-  overflow: hidden; /* Hide scrollbars initially */
-  min-height: 24px; /* Initial single-line height (adjust as needed) */
-  line-height: 1.5; /* Adjust line height for better readability */
+  resize: none; 
+  min-height: 24px; 
+  line-height: 1.5;
   outline: none;
 }
-
 #buddybot-new-message-input::placeholder {
   color: #aaa;
 }
@@ -70,7 +45,7 @@ body {
 }
 .buddybot-threads-container.active{
     background-color: #f3f6fb;
-    font-weight: 400;
+    font-weight: 500;
     color: blue;
 }
 .buddybot-threads-container.active .buddybot-threads-icon  svg{
@@ -78,42 +53,10 @@ body {
 }
 .buddybot-threads-container.active .buddybot-thread-delete svg{
     color: red;
-}
- .buddybot-overflow-y::-webkit-scrollbar {
-  width: 4px;
-}
-#buddybot-threads-list .buddybot-overflow-y{
-    margin-right: -15px;
 } 
-
-#buddybot-overflow-y-right-column .buddybot-overflow-y{
-    margin-right: 0px!important;
-    margin-top: 5px;
-} 
-::-webkit-scrollbar {
-  width: 4px;
-}
-.buddybot-overflow-y{
-    margin-right: -15px;
-}
-
-/* Track */
-.buddybot-overflow-y::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 10px #f8f8f8; 
-  border-radius: 10px;
-}
- 
-/* Handle */
-.buddybot-overflow-y::-webkit-scrollbar-thumb {
-  background: #cee0fd; 
-  border-radius: 10px;
-}
-
- 
-
 textarea {
     padding: 12px 50px 12px 15px; 
-    border-radius: 24px;
+    border-radius: 20px;
     line-height: 1.5;
     resize: none;  
     max-height: 150px;
@@ -123,24 +66,19 @@ textarea {
     box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
   } 
   #buddybot-send-message-btn {
-    right: 11%;
+    right: 8%;
     transform: translateY(-50%);
     border: none;
     transition: background-color 0.2s ease;
     transform: rotate(45deg);
-
   } 
-.buddybot-flex-column {
-  flex-direction: column;
-}
 .buddybot-btn-new-thread:hover{
     color: #5662f6;
     background-color: white!important;
 }
 .buddybot-loading-spinner{
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
+  width: 10px;
+  height: 10px;
   animation: loaderSpinner 2s infinite linear alternate;
 }
 @keyframes loaderSpinner {
@@ -153,28 +91,33 @@ textarea {
   left: 10%;
   display: none;
 }
-.buddybot-border-radius-20{
+.buddybot-border-radius-20{border-radius: 20px;}
+.buddybot-box-vh-100{height: calc(100vh - 50px);}
+#buddybot-threads-list{height: calc(100vh - 200px);}
+#buddybot-left-container .buddybot-overflow-y::-webkit-scrollbar{
+  width: 4px;
   border-radius: 20px;
-  
 }
-.buddybot-box-vh-100{
-  height: calc(100vh - 50px);
+ #buddybot-right-container .buddybot-overflow-y::-webkit-scrollbar{
+  width: 4px;
+  border-radius: 20px;
 }
-#buddybot-threads-list{
-  height: calc(100vh - 200px);
+#buddybot-left-container .buddybot-overflow-y::-webkit-scrollbar-thumb{
+  background: #d6e2f7;
+  border-radius: 20px;
+}
+#buddybot-right-container .buddybot-overflow-y::-webkit-scrollbar-thumb{
+  background: #d6e2f7;
+  border-radius: 20px;
+}
+#buddybot-left-container .buddybot-overflow-y{
+  margin-right: -15px!important;
+}
+ #buddybot-right-container .buddybot-overflow-y{
+  margin-right: -8px!important;
 }
 
 
-
-
-
-.buddybot-flex-column { flex-direction: column; }
-.buddybot-overflow-y { overflow-y: auto; } /* The outer container shouldn't scroll vertically; the chat container should */
-
-.buddybot-flex-grow-1 {
-    flex-grow: 1; 
-   
-}
 
 
 

@@ -317,13 +317,13 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
                 let formattedDate = formatDateByWordPress(runCreatedAt, DateFormat, TimeFormat, timezone);
 
                 const messageHtml = `
-                    <div class="buddybot-playground-messages-list-item d-flex justify-content-start my-2" id="${messageId}">
-                        <div class="me-2">
-                            <img width="28" class="rounded-circle" src="${imgUrl}">
+                    <div class="buddybot-playground-messages-list-item buddybot-d-flex buddybot-justify-content-start buddybot-my-2" id="${messageId}">
+                        <div class="buddybot-me-2">
+                            <img width="28" class="buddybot-border-radius-50" src="${imgUrl}">
                         </div>
                         <div>
-                            <div class="buddybot-response-content p-2 bg-light rounded-4 rounded-top-0 rounded-end-4"></div>
-                            <div class="small text-end text-muted mt-2 me-2">
+                            <div class="buddybot-response-content buddybot-p-2 buddybot-bg-light buddybot-chat-border-radius"></div>
+                            <div class="buddybot-text-small buddybot-align-item-end buddybot-text-muted buddybot-mt-2 buddybot-me-2">
                                 ${formattedDate}
                             </div>
                         </div>

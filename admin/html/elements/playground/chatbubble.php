@@ -41,13 +41,13 @@ class ChatBubble extends \BuddyBot\Admin\Html\Elements\Playground\MoRoot
         $args = array('default' => 'retro');
         $img_url = get_avatar_url(get_current_user_id(), $args);
         
-        $html = '<div class="buddybot-playground-messages-list-item d-flex justify-content-end align-items-start my-2 align-self-end" id="' . esc_attr($this->message->id) . '">';
+        $html = '<div class="buddybot-playground-messages-list-item buddybot-d-flex   buddybot-my-4 buddybot-justify-content-end buddybot-align-self-end" id="' . esc_attr($this->message->id) . '">';
 
         $html .= $this->messageImage($img_url);
 
         $html .= '<div>';
 
-        $html .= '<div class="p-2 bg-primary text-white rounded-4 rounded-top-0 rounded-end-4 text-break">';
+        $html .= '<div class=" buddybot-bg-primary buddybot-text-white buddybot-chat-border-radius buddybot-ms-2 buddybot-text-break buddybot-px-3 buddybot-py-2 buddybot-align-self-end buddybot-text-small">';
         
         foreach ($this->message->content as $content) {
             
@@ -81,14 +81,15 @@ class ChatBubble extends \BuddyBot\Admin\Html\Elements\Playground\MoRoot
     protected function assistantMessageHtml()
     {
         $img_url = $this->config->getRootUrl() . 'admin/html/images/third-party/openai/openai-logomark.png';
+
         
-        $html = '<div class="buddybot-playground-messages-list-item d-flex justify-content-start my-2 sss" id="' . esc_attr($this->message->id) . '">';
+        $html = '<div class="buddybot-playground-messages-list-item buddybot-d-flex   buddybot-my-4 sss" id="' . esc_attr($this->message->id) . '">';
 
         $html .= $this->messageImage($img_url);
 
         $html .= '<div>';
 
-        $html .= '<div class="p-2 bg-light rounded-4 rounded-4 rounded-top-0 rounded-end-4">';
+        $html .= '<div class="buddybot-p-2 buddybot-bg-light buddybot-chat-border-radius">';
         
         foreach ($this->message->content as $content) {
             
@@ -114,8 +115,8 @@ class ChatBubble extends \BuddyBot\Admin\Html\Elements\Playground\MoRoot
 
     private function messageImage($img_url)
     {
-        $html = '<div class="me-2">';
-        $html .= '<img width="28" class="rounded-circle" src="' . esc_url($img_url) . '">';
+        $html = '<div class="buddybot-me-2">';
+        $html .= '<img width="28" class=" buddybot-border-radius-50" src="' . esc_url($img_url) . '">';
         $html .= '</div>';
         return $html;
     }
@@ -141,7 +142,7 @@ class ChatBubble extends \BuddyBot\Admin\Html\Elements\Playground\MoRoot
         }
 
 
-        $html = '<div class="small text-end text-muted mt-2 me-2">';
+        $html = '<div class="buddybot-text-muted buddybot-text-align-right buddybot-mt-2 buddybot-me-2">';
         $html .= esc_html($message_date . ', ' . $message_time);
         $html .= '</div>';
         return $html;
@@ -175,19 +176,19 @@ class ChatBubble extends \BuddyBot\Admin\Html\Elements\Playground\MoRoot
 
         $type = pathinfo($output->filename, PATHINFO_EXTENSION);
         
-        $html = '<div class="mt-2 bg-dark bg-opacity-10 p-3 rounded-3 d-flex align-items-center">';
+        $html = '<div class="buddybot-mt-2 buddybot-bg-dark buddybot-p-3  buddybot-d-flex buddybot-align-items-center">';
         
-        $html .= '<div class="me-2">';
+        $html .= '<div class="buddybot-me-2">';
         $html .= '<img src="' . $this->config->getRootUrl() . 'admin/html/images/fileicons/file.png" height="24">';
         $html .= '</div>';
         
-        $html .= '<div class="small">';
+        $html .= '<div class="buddybot-text-small">';
 
-        $html .= '<div class="small fw-bold">';
+        $html .= '<div class="buddybot-text-small buddybot-fw-bold">';
         $html .= $output->filename;
         $html .= '</div>';
 
-        $html .= '<div class="small">';
+        $html .= '<div class="buddybot-text-small">';
         $html .= $this->fileSize($output->bytes);
         $html .= '</div>';
         
@@ -216,7 +217,7 @@ class ChatBubble extends \BuddyBot\Admin\Html\Elements\Playground\MoRoot
     
         $output = wp_remote_retrieve_body($response);
     
-        $html = '<div class="mb-2 bg-secondary bg-opacity-10 p-3 rounded-3">';
+        $html = '<div class="buddybot-mb-2 buddybot-bg-secondary  buddybot-p-3 ">';
         $html .= '<img src="data:image/png;base64,' . base64_encode($output) . '" width="96">';
         $html .= '</div>';
     

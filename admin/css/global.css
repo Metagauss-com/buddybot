@@ -40,6 +40,9 @@
 .buddybot-justify-content-end{
     justify-content: flex-end !important;
 }
+.buddybot-justify-content-start{
+    justify-content: flex-start !important;
+}
 .buddybot-align-self-end{
     align-self: end!important;
 }
@@ -74,18 +77,22 @@
 .buddybot-border-left{
     border-left: 1px solid #dee2e6!important;
 }
+.buddybot-border-none {
+    border: none !important;
+}
 
 /* border-radius */
 
 .buddybot-border-radius-50{
     border-radius: 50%;
 }
-.buddybot-border-radius-20{
+.buddybot-chat-border-radius{
     border-radius: 0px 20px 20px 20px;
 }
 .buddybot-border-radius-20{
-    border-radius: 20px;
+  border-radius: 20px;
 }
+
 .buddybot-border-radius-5{
     border-radius:5px;
 }
@@ -142,6 +149,22 @@
 .buddybot-my-auto{
     margin-top: auto!important;
     margin-bottom: auto!important;
+}
+.buddybot-my-1 {
+    margin-top: 0.25rem !important;
+    margin-bottom: 0.25rem !important;
+}
+.buddybot-my-2 {
+    margin-top: 0.5rem !important;
+    margin-bottom: 0.5rem !important;
+}
+.buddybot-my-3 {
+    margin-top: 1rem !important;
+    margin-bottom: 1rem !important;
+}
+.buddybot-my-4 {
+    margin-top: 1.5rem !important;
+    margin-bottom: 1.5rem !important;
 }
 
 .buddybot-ms-0 {
@@ -346,6 +369,9 @@
 }
 .buddybot-text-align-right{
     text-align: right!important;
+}
+.buddybot-overflow-hidden{
+    overflow: hidden!important
 }
 .buddybot-text-truncate{
     overflow: hidden;
