@@ -41,18 +41,18 @@ body {background: #fff !important;}
   color: #aaa;
 }
 .buddybot-threads-container:hover {
-    background-color:#f3f6fb;
+    background-color:#F1F1F1;
 }
 .buddybot-threads-container.active{
-    background-color: #f3f6fb;
+    background-color:#F1F1F1 ;
     font-weight: 500;
-    color: blue;
+    color: #2271b1;
 }
 .buddybot-threads-container.active .buddybot-threads-icon  svg{
-    fill: rgb(35, 50, 255);
+    fill: #2271b1;
 }
 .buddybot-threads-container.active .buddybot-thread-delete svg{
-    color: red;
+    color: rgb(214, 16, 16);
 } 
 textarea {
     padding: 12px 50px 12px 15px; 
@@ -89,6 +89,7 @@ textarea {
 }
 #buddybot-thread-spinner{
   left: 10%;
+  margin-top: -10px!important;
   display: none;
 }
 .buddybot-border-radius-20{border-radius: 20px;}
@@ -103,11 +104,11 @@ textarea {
   border-radius: 20px;
 }
 #buddybot-left-container .buddybot-overflow-y::-webkit-scrollbar-thumb{
-  background: #d6e2f7;
+  background: #b8b7b7;
   border-radius: 20px;
 }
 #buddybot-right-container .buddybot-overflow-y::-webkit-scrollbar-thumb{
-  background: #d6e2f7;
+  background: #b8b7b7;
   border-radius: 20px;
 }
 #buddybot-left-container .buddybot-overflow-y{

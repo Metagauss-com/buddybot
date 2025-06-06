@@ -924,6 +924,15 @@ border-color: #545b62;
 .buddybot-bg-lightBlue{
     background-color:#f3f6fb;
 }
+.buddybot-bg-light-gray-blue{
+    background-color: #fbfbfb;
+}
+.buddybot-bg-primary-wordpress{
+    background-color: #2271b1;
+}
+.buddybot-bg-light-gray{
+    background-color: #F1F1F1;
+}
 
 /* flex-grow */
 .buddybot-flex-grow-1{

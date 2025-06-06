@@ -47,7 +47,7 @@ class ChatBubble extends \BuddyBot\Admin\Html\Elements\Playground\MoRoot
 
         $html .= '<div>';
 
-        $html .= '<div class=" buddybot-bg-primary buddybot-text-white buddybot-chat-border-radius buddybot-ms-2 buddybot-text-break buddybot-px-3 buddybot-py-2 buddybot-align-self-end buddybot-text-small buddybot-user-message">';
+        $html .= '<div class=" buddybot-text-white buddybot-chat-border-radius buddybot-ms-2 buddybot-bg-primary-wordpress buddybot-text-break buddybot-px-3 buddybot-py-2 buddybot-align-self-end buddybot-text-small buddybot-user-message">';
         
         foreach ($this->message->content as $content) {
             
@@ -89,7 +89,7 @@ class ChatBubble extends \BuddyBot\Admin\Html\Elements\Playground\MoRoot
 
         $html .= '<div>';
 
-        $html .= '<div class="buddybot-p-2 buddybot-bg-light buddybot-chat-border-radius buddybot-assistant-message">';
+        $html .= '<div class="buddybot-p-2 buddybot-bg-light-gray buddybot-chat-border-radius buddybot-assistant-message">';
         
         foreach ($this->message->content as $content) {
             
