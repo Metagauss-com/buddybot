@@ -5,7 +5,7 @@ Tags: AI, chatbot, OpenAI, AI assistant
 Requires at least: 6.2  
 Tested up to: 6.8  
 Requires PHP: 7.3
-Stable tag: 1.6.0.0
+Stable tag: 1.6.1.0
 License: GPLv2 or later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -112,6 +112,15 @@ Yes, BuddyBot AI uses the Bootstrap framework for its layout and design, providi
 
 == Changelog == 
 
+= 1.6.1.0: June 9, 2025 =
+* Fix: Default Response Length Handling
+    - Resolved an issue where leaving the "OpenAI Response Length" field empty resulted in a validation error.
+    - The system now correctly defaults to a response length of 500 when the field is empty.
+
+* Fix: Multilingual Response Length Logic
+    - Fixed logic to ensure the response length setting is only applied after the "Multilingual Support" toggle is evaluated.
+    - Previously, the response limit was incorrectly applied before checking the multilingual setting.
+
 = 1.6.0.0: May 28, 2025 =
 * New: Multilingual Assistant Support
     - Added "Multilingual Support" toggle in the settings.
@@ -207,6 +216,15 @@ Instead of creating a new assistant every time, you can now select from your exi
 * Initial release of BuddyBot AI. 
 
 == Upgrade Notice ==
+
+= 1.6.1.0: June 9, 2025 =
+* Fix: Default Response Length Handling
+    - Resolved an issue where leaving the "OpenAI Response Length" field empty resulted in a validation error.
+    - The system now correctly defaults to a response length of 500 when the field is empty.
+
+* Fix: Multilingual Response Length Logic
+    - Fixed logic to ensure the response length setting is only applied after the "Multilingual Support" toggle is evaluated.
+    - Previously, the response limit was incorrectly applied before checking the multilingual setting.
 
 = 1.6.0.0: May 28, 2025 =
 * New: Multilingual Assistant Support

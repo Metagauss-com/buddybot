@@ -216,6 +216,10 @@ final class EditChatBot extends \BuddyBot\Admin\Secure\MoRoot
 
     public function cleanResponseLength($response_length)
     {
+            if ($response_length === '' || $response_length === null) {
+                $response_length = 500;
+            }
+
         if (!is_numeric($response_length)) {
             $this->errors[] = __('Openai Response Length must be a valid number.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             return;
