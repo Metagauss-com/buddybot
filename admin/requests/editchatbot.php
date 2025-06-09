@@ -152,7 +152,11 @@ final class EditChatBot extends \BuddyBot\Admin\Requests\MoRoot
                 buddybotData["emotion_detection"] = $("#buddybot-emotiondetection").is(":checked") ? "1" : "0";
                 buddybotData["greeting_message"] = $("#buddybot-greetingmessage").val();
                 buddybotData["multilingual_support"] = $("#buddybot-multilingualsupport").is(":checked") ? "1" : "0";
-                buddybotData["language_option"] = $("#buddybot-languageoption").val();
+
+                if (buddybotData["multilingual_support"] === "1") {
+                    buddybotData["language_option"] = $("#buddybot-languageoption").val();
+                }
+                    
                 buddybotData["response_length"] = $("#buddybot-openai-response-length").val();
             }
 
