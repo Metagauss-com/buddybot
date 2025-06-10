@@ -1,4 +1,4 @@
-<div class="px-5">
+<div class="buddybot-px-5">
 
 <?php
 

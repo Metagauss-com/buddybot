@@ -17,3 +17,11 @@ body{
 #buddybot-progressbar-percentage{
     font-size: .7em;
 }
+.progress-bar{
+width: 0%;
+ background-color: #0D6EFD;
+  height: 100%;
+   border-radius: 2px; 
+   transition: width 0.3s ease-in-out;
+}
+

@@ -13,12 +13,13 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function playgroundContainer()
     {
-        echo '<div class="row border small">';
-        
+        echo '<div class=" buddybot-border buddybot-text-small buddybot-row-container buddybot-box-w-100">';
+
         $this->playgroundOptions();
+        echo '<div class="buddybot-row">';
         $this->threadsContainer();
         $this->messagesContainer();
-        
+        echo '</div>'; 
         echo '</div>';
     }
 
@@ -39,13 +40,13 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function playgroundOptions()
     {
-        echo '<div id="buddybot-playground-options-container" class="col-md-12 d-flex border-bottom">';
+        echo '<div id="buddybot-playground-options-container" class="buddybot-col-12 buddybot-d-flex buddybot-border-bottom">';
         
-        echo '<div id="buddybot-playground-options-select-assistant" class="p-3">';
+        echo '<div id="buddybot-playground-options-select-assistant" class="buddybot-p-3">';
         echo '<label class="">';
         esc_html_e('Select BuddyBot', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '<label>';
-        echo '<select id="buddybot-playground-assistants-list" class="form-select ms-2">';
+        echo '<select id="buddybot-playground-assistants-list" class="form-select buddybot-ms-2">';
 
         $models = $this->sql->getModels('chatbot');
         if (!empty($models)) {
@@ -66,27 +67,29 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function threadsContainer()
     {
-        echo '<div id="buddybot-playground-threads-container" class="col-md-2 flex-column border-end bg-light">';
         
-        echo '<div id="buddybot-playground-threads-header" class="fs-6 px-4 py-2">';
+        echo '<div id="buddybot-playground-threads-container" class="buddybot-bg-light buddybot-box-col-2" >';
+        
+        echo '<div id="buddybot-playground-threads-header" class="buddybot-fs-6 buddybot-px-4 buddybot-py-2">';
         esc_html_e('History', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</div>';
 
         $this->threatIdInput();
         $this->runIdInput();
         
-        echo '<div id="buddybot-playground-threads-list" class="px-3">';
+        echo '<div id="buddybot-playground-threads-list" class="buddybot-px-3">';
         echo '<div id="buddybot-playground-threads-list-inner" style="overflow-y: auto; height: 100%;">';
         $this->threadList();
         echo '</div>';
         echo '</div>';
         
         echo '</div>';
+        
     }
 
     private function messagesContainer()
     {
-        echo '<div class="col-md-10 flex-column">';
+        echo '<div class="buddybot-box-col-10" >';
         $this->threadOperations();
         $this->messagesListContainer();
         $this->messagesStatusBar();
@@ -96,7 +99,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function threadOperations()
     {
-        echo '<div id="buddybot-playground-thread-operations" class="d-flex justify-content-between p-3">';
+        echo '<div id="buddybot-playground-thread-operations" class="buddybot-d-flex buddybot-justify-content-between buddybot-p-3">';
         $this->loadMessagesBtn();
         $this->tokensDisplay();
         echo '<input id="buddybot-playground-first-message-id" type="hidden">';
@@ -108,7 +111,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function loadMessagesBtn()
     {
-        echo '<button id="buddybot-playground-past-messages-btn" type="button" class="btn btn-outline-dark btn-sm" style="opacity:0;">';
+        echo '<button id="buddybot-playground-past-messages-btn" type="button" class="buddybot-btn-outline-black  bb-btn-sm" style="opacity:0;">';
         $this->moIcon('cached');
         // esc_html_e('Delete Thread', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</button>';
@@ -116,13 +119,13 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function tokensDisplay()
     {
-        echo '<span id="mgao-playground-tokens-display" class="small text-muted">';
+        echo '<span id="mgao-playground-tokens-display" class="buddybot-text-small  buddybot-text-muted">';
         echo '</span>';
     }
 
     private function deleteThreadBtn()
     {
-        echo '<button id="buddybot-playground-delete-thread-btn" type="button" class="btn btn-outline-danger btn-sm" style="opacity: 0;">';
+        echo '<button id="buddybot-playground-delete-thread-btn" type="button" class="buddybot-btn-outline-danger bb-btn-sm" style="opacity: 0;">';
         $this->moIcon('delete');
         // esc_html_e('Delete Thread', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</button>';
@@ -130,7 +133,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function messagesListContainer()
     {
-        echo '<div id="buddybot-playground-messages-list" class="p-3" style="overflow-y: auto;">';
+        echo '<div id="buddybot-playground-messages-list" class="buddybot-p-3" style="overflow-y: auto;">';
         echo '</div>';
     }
 
@@ -138,7 +141,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
     {
         do_action('buddybot_playground_faqs');
         $badge_url = $this->config->getRootUrl() . 'admin/html/images/third-party/openai/openai-dark-badge.svg';
-        echo '<div class="text-center my-2">';
+        echo '<div class="buddybot-text-align-center buddybot-my-2">';
         echo '<img width="150" src="' . esc_url($badge_url) . '">';
         echo '</div>';
     }
@@ -146,7 +149,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
     private function messagesStatusBar()
     {
         echo '<div class="">';
-        echo '<div id="buddybot-playground-message-status" class="text-center small">';
+        echo '<div id="buddybot-playground-message-status" class="buddybot-text-align-center buddybot-text-small ">';
         $this->statusBarMessage('start-conversation', __('Start new Conversation.', 'buddybot-ai-custom-ai-assistant-and-chat-agent'));
         echo '</div>';
         $this->openAiBadge();
@@ -161,7 +164,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function newMessageContainer()
     {
-        echo '<div class="d-flex align-items-center mt-auto">';
+        echo '<div class="buddybot-d-flex buddybot-align-items-center buddybot-mt-auto buddybot-box-w-100">';
        // $this->attachFileBtn();
         $this->messageTextArea();
         $this->sendMessageBtn();
@@ -171,9 +174,9 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
     private function attachFileBtn()
     {
         wp_enqueue_media();
-        echo '<div class="p-2">';
+        echo '<div class="buddybot-p-2 buddybot-box-w-100">';
         echo '<button id="mgao-playground-message-file-btn" type="button"';
-        echo 'class="btn btn-light border btn-sm rounded-circle p-2">';
+        echo 'class="buddybot-btn-light  border bb-btn-sm  buddybot-p-2">';
         $this->moIcon('attach_file');
         echo '</button>';
         echo '</div>';
@@ -181,11 +184,11 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function messageTextArea()
     {
-        echo '<div class="p-2 flex-fill">';
+        echo '<div class="buddybot-p-2  flex-fill buddybot-box-w-100">';
         
-        echo '<div id="buddybot-playground-attachment-wrapper" class="rounded p-2 mb-2 border small d-flex justify-content-between align-items-center visually-hidden">';
+        echo '<div id="buddybot-playground-attachment-wrapper" class="rounded buddybot-p-2 buddybot-mb-2 buddybot-border buddybot-text-small buddybot-d-flex buddybot-justify-content-between buddybot-align-items-center buddybot-d-none">';
 
-        echo '<div><img id="buddybot-playground-attachment-icon" src="" width="12" class="me-2">';
+        echo '<div><img id="buddybot-playground-attachment-icon" src="" width="12" class="buddybot-me-2">';
         echo '<span id="buddybot-playground-attachment-name"></span></div>';
 
         echo '<div role="button" id="buddybot-playground-remove-attachment-btn">';
@@ -197,7 +200,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
 
         echo '</div>';
 
-        echo '<textarea id="mgao-playground-new-message-text" data-buddybot-threadid="" class="w-100 form-control" rows="4" placeholder="' . esc_attr( esc_html__( 'Type your question or message here...', 'buddybot-ai-custom-ai-assistant-and-chat-agent' ) ) . '">';
+        echo '<textarea id="mgao-playground-new-message-text" data-buddybot-threadid="" class="buddybot-box-w-100 buddybot-bg-light" rows="4" placeholder="' . esc_attr( esc_html__( 'Type your question or message here...', 'buddybot-ai-custom-ai-assistant-and-chat-agent' ) ) . '">';
         echo '</textarea>';
         
         echo '</div>';
@@ -205,9 +208,9 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function sendMessageBtn()
     {
-        echo '<div class="p-2">';
+        echo '<div class="buddybot-p-2">';
         echo '<button id="mgao-playground-send-message-btn" type="button"';
-        echo 'class="btn btn-dark">';
+        echo 'class="buddybot-btn-black">';
         esc_html_e('Send', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         echo '</button>';
         echo '</div>';
@@ -259,7 +262,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
         }
 
         if (empty($response['result'])) {
-            echo '<span class="text-muted">';
+            echo '<span class="buddybot-text-muted">';
             esc_html_e('No previous conversations.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
             echo '</span>';
             return;
@@ -273,7 +276,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
                 $label = $thread->thread_id;
             }
 
-            echo '<div class="buddybot-playground-threads-list-item mb-2 p-2 text-truncate small" data-buddybot-threadid="' . esc_attr($thread->thread_id) . '" role="button">';
+            echo '<div class="buddybot-playground-threads-list-item buddybot-mb-2 buddybot-p-2 buddybot-text-truncate buddybot-text-small" data-buddybot-threadid="' . esc_attr($thread->thread_id) . '" role="button">';
             echo esc_html($label);
             echo '</div>';
         }

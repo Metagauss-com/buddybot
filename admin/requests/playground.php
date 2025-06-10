@@ -244,7 +244,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
                             clearInterval(checkRun);
                             disableMessage(false);
                             updateStatus(
-                                "<span class=text-danger>" +
+                                "<span class=buddybot-text-danger>" +
                                 response.result.last_error.code + ": " +
                                 response.result.last_error.message +
                                 "</span>"
@@ -266,7 +266,7 @@ final class Playground extends \BuddyBot\Admin\Requests\MoRoot
 
                 } else {
                     disableMessage(false);
-                    updateStatus("<span class=text-danger>" + response.message + "</span>");
+                    updateStatus("<span class=buddybot-text-danger>" + response.message + "</span>");
                     clearInterval(checkRun);
                 }
             });

@@ -51,7 +51,7 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
         // //echo '<span class="spinner is-active" style="display:none;" aria-hidden="true"></span>';
 
         echo '<input type="submit" id="' . esc_attr($id) . '" ';
-        echo 'class="page-title-action visually-hidden" " value="' . esc_html($btn_label) . '">';
+        echo 'class="page-title-action visually-hidden buddybot-d-none"  value="' . esc_html($btn_label) . '">';
         echo '<span class="spinner is-active" style="display:none;" aria-hidden="true"></span>';
 
         // Hidden field to store the vector store ID
@@ -69,7 +69,7 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function itemsList()
     {
-        echo '<div class="buddybot-list-group">';
+        echo '<div class="buddybot-list-group buddybot-box-w-50">';
         $this->postsItem();
         $this->commentsItem();
 
@@ -80,14 +80,20 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function ProgressBar()
     {
-        echo '<div class="buddybot-mt-1 buddybot-box-w-50 " id="buddybot-progress-container">';
-        echo '<div class="bb-modal-actions  buddybot-align-items-center" id="buddybot-progress-wrapper">';
-        echo '<div id="buddybot-ProgressBar" class="progress buddybot-flex-grow-1" role="progressbar" aria-label="Success example" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 5px; opacity:0;">';
-        echo '<div class="progress-bar buddybot-bg-primary" style="width: 0%"></div>';
+        echo '<div class="buddybot-mt-1 buddybot-box-w-50" id="buddybot-progress-container">';
+        echo '<div class="bb-modal-actions buddybot-align-items-center" id="buddybot-progress-wrapper" style="display: flex; gap: 10px;">';
+        echo '<div id="buddybot-ProgressBar" class="progress buddybot-flex-grow-1" 
+            role="progressbar" 
+            aria-label="Training Progress" 
+            aria-valuenow="0" 
+            aria-valuemin="0" 
+            aria-valuemax="100" 
+            style="height: 4px; background-color: #E6E6E6; border-radius: 2px; opacity: 0; flex: 1;">';
+        echo '<div class="progress-bar"></div>';
         echo '</div>';
-        echo '<div id="buddybot-progressbar-percentage" style="opacity: 0;">0%</div>';
+        echo '<div id="buddybot-progressbar-percentage" style="opacity: 0; color:rgb(0, 0, 0); font-size: 14px; min-width: 45px;">0%</div>';
         echo '</div>';
-        echo '<p id="buddybot-sync-msgs" class="bb-modal-actions buddybot-align-items-center buddybot-mt-0" style="opacity: 0;">';
+        echo '<p id="buddybot-sync-msgs" class="bb-modal-actions buddybot-align-items-center buddybot-mt-0" style="opacity: 0; margin-top: 8px;">';
         echo '<span id="buddybot-ProgressBar-icon" class="material-symbols-outlined buddybot-fs-6"></span>';
         echo '<span id="buddybot-message" class="buddybot-flex-grow-1">' . esc_html__('Sync processing...', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</span>';
         echo '</p></div>';
@@ -98,7 +104,7 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
         do_action('buddybot_custom_html',$type);
         $file_id = get_option('buddybot-' . $type . '-remote-file-id', '0');
 
-        echo '<div class="buddybot-list-group-item buddybot-box-w-50" ';
+        echo '<div class="buddybot-list-group-item" ';
         echo 'data-buddybot-type="' . esc_attr($type) . '" ';
         echo 'data-buddybot-remote_file_id="' . esc_attr($file_id) . '" ';
         echo '>';
@@ -106,7 +112,7 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<div class="buddybot-d-flex buddybot-box-w-100 buddybot-justify-content-between buddybot-align-items-center">';
 
         echo '<div>';
-        echo '<h5 class="buddybot-mb-1 buddybot-fs-5 ">' . esc_html($heading) . '</h5>';
+        echo '<h5 class="buddybot-mb-1 buddybot-mt-2 buddybot-fs-5 ">' . esc_html($heading) . '</h5>';
         echo '<p class="buddybot-mb-1 buddybot-fw-bold">' . esc_html($text) . '</p>';
         echo '</div>';
 
@@ -125,7 +131,7 @@ final class VectorStore extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function msgArea()
     {
-        echo '<div class="buddybot-text-small small buddybot-text-muted buddybot-box-w-50 buddybot-mt-4 buddybot-d-none" role="group">';
+        echo '<div class="buddybot-text-small  buddybot-text-muted buddybot-box-w-50 buddybot-mt-4 buddybot-d-none" role="group">';
         echo '</div>';
     }
 

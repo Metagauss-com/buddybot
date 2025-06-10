@@ -25,11 +25,13 @@ body{
     max-width: 50%;
 }
 .buddybot-count-btn{
+    font-size: 12px;
     position: absolute;
-        border-radius: 50% !important;
+    border-radius: 50% !important;
     top: -10px !important;
+    right: -7px;
     position: absolute;
-    padding: 0px 5px;
+    padding: 2px 5px;
     color: white;
 }
 .spinner-border{

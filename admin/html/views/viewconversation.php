@@ -27,10 +27,10 @@ class ViewConversation extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function conversationBox()
     {
-        echo '<div class="container-fluid mt-4">';
-        echo '<div class="row justify-content-center">';
-        echo '<div class="col-md-12">';
-        echo '<div class="row border small bg-white">';
+        echo '<div class="buddybot-box-w-100 buddybot-mt-4">';
+        echo '<div class="">';
+        echo '<div class=" buddybot-bg-white buddybot-border-bottom buddybot-py-3 buddybot-px-4 buddybot-border">';
+        echo '<div class=" ">';
         $this->conversationInside();
         $this->messagesListContainer();
         echo '</div>';
@@ -48,7 +48,7 @@ class ViewConversation extends \BuddyBot\Admin\Html\Views\MoRoot
 
         echo '<div class="bb-submit bb-conversation-btns buddybot-d-flex buddybot-align-items-center">';
         echo '<a href="' . admin_url('admin.php?page=buddybot-conversations') . '" ';
-        echo 'class="buddybot-me-3 buddybot-text-decoration-none" role="button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+        echo 'class="buddybot-me-3 buddybot-text-decoration-none buddybot-d-flex buddybot buddybot-align-items-center buddybot-fs-6" role="button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5"/>
 </svg>' . esc_html__('Back', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</a>';
 
@@ -56,7 +56,7 @@ class ViewConversation extends \BuddyBot\Admin\Html\Views\MoRoot
         // echo 'class="button button-primary me-2" role="button">' . esc_html__('Filter', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</a>';
 
         echo '<input type="submit" id="buddybot-conversation-delete-btn" data-modal="buddybot-del-conversation-modal"';
-        echo 'class="buddybot-btn-outline-danger bb-btn-sm" value="' . esc_html__('Delete', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '">';
+        echo 'class="buddybot-btn-outline-danger bb-btn-sm buddybot-ms-1 " value="' . esc_html__('Delete', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '">';
         echo '</div>';
         
         echo '<div>';
@@ -119,9 +119,9 @@ class ViewConversation extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<input id="buddybot-conversation-last-message-id" type="hidden">';
         echo '<input id="buddybot-conversation-has-more-messages" type="hidden">';
         echo '</div>';
-        echo '<div class="container">';
+        echo '<div class="container ">';
         
-        echo '<div class="buddybot-d-flex-direction-row buddybot-align-items-center buddybot-justify-content-between buddybot-border-bottom">';
+        echo '<div class="buddybot-d-flex-direction-row buddybot-align-items-center buddybot-justify-content-between buddybot-border-bottom buddybot-px-3 ">';
 
         // Left section for the heading
         echo '<div class="buddybot-box-w-100 buddybot-border-bottom buddybot-bg-light buddybot-py-3 buddybot-d-none">';
@@ -133,7 +133,7 @@ class ViewConversation extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '</div>';
 
         // Right section for the function or buttons
-        echo '<div class="buddybot-box-w-100 buddybot-d-flex buddybot-align-items-center buddybot-py-4 buddybot-justify-content-between">';
+        echo '<div class="buddybot-box-w-100 buddybot-d-flex buddybot-align-items-center buddybot-pb-3 buddybot-justify-content-between ">';
         $this->conversationBtns();
         echo '</div>';
 
