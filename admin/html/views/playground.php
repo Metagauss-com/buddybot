@@ -13,7 +13,7 @@ class Playground extends \BuddyBot\Admin\Html\Views\MoRoot
     
     private function playgroundContainer()
     {
-        echo '<div class="row border small">';
+        echo '<div class="row border small bg-white m-1">';
         
         $this->playgroundOptions();
         $this->threadsContainer();
