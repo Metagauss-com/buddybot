@@ -259,7 +259,10 @@ final class EditChatBot extends \BuddyBot\Admin\Requests\MoRoot
                 $("#buddybot-multilingualsupport").prop("checked", buddybot.multilingual_support == 1);
             
                 if (assistant.metadata) {
-                    $("#buddybot-additionalinstructions").val(assistant.metadata.aditional_instructions);
+                    const additionalInstructions = buddybot.additional_instructions && buddybot.additional_instructions.trim().length > 0
+                        ? buddybot.additional_instructions
+                        : (assistant.metadata.aditional_instructions || "");
+                    $("#buddybot-additionalinstructions").val(additionalInstructions);
                     $("#buddybot-openaisearch-msg").val(assistant.metadata.openaisearch_msg);
                     $("#buddybot-openai-response-length").val(assistant.metadata.response_length);
                     $("#buddybot-languageoption").val(assistant.metadata.language_option);
