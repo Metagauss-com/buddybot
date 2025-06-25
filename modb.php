@@ -50,6 +50,7 @@ class MoDb
         multilingual_support BOOLEAN NOT NULL DEFAULT 0,
         supported_languages TEXT NULL,
         openai_search BOOLEAN NOT NULL DEFAULT 0,
+        additional_instructions TEXT NULL,
         author mediumint(9),
         created_on TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
         last_editor mediumint(9),
