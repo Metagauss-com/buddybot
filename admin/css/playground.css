@@ -12,6 +12,10 @@ body {background: #fff !important;}
     height: calc(100vh - 234px);
     min-height: 150px;
 }
+.buddybot-threads-container:hover .buddybot-thread-delete{
+    display: block!important;
+}
+
 .buddybot-thread-delete:hover{
     transform: scale(1.1);
     transition: all .3s ease-in-out;
