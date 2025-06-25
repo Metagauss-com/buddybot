@@ -11,8 +11,19 @@ class EditChatBot extends \BuddyBot\Admin\Sql\MoRoot
         $this->table = $this->config->getDbTable('chatbot');
     }
 
+    private function hasAdditionalInstructionsColumn()
+    {
+        global $wpdb;
+        $column = $wpdb->get_results("SHOW COLUMNS FROM {$this->table} LIKE 'additional_instructions'");
+        return !empty($column);
+    }
+
     public function createBuddyBot($buddybot_data)
     {
+        if (!$this->hasAdditionalInstructionsColumn()) {
+            unset($buddybot_data['additional_instructions']);
+        }
+
         $buddybot_data['created_on'] = current_time('mysql', 1);
         $buddybot_data['edited_on'] = current_time('mysql', 1);
         global $wpdb;
@@ -32,6 +43,10 @@ class EditChatBot extends \BuddyBot\Admin\Sql\MoRoot
 
     public function updateBuddyBot($buddybot_data)
     {
+        if (!$this->hasAdditionalInstructionsColumn()) {
+            unset($buddybot_data['additional_instructions']);
+        }
+
         $where = array('id'=> $buddybot_data['id']);
         unset($buddybot_data['id']);
 

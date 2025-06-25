@@ -215,8 +215,8 @@ class EditChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<tr class="buddybot-conditional-settings">';
         echo '<th scope="row"><label for="' . esc_attr($id) . '">' . esc_html__('Additional Instructions', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</label></th>';
         echo '<td>';
-        echo '<textarea name="' . esc_attr($id) . '" id="' . esc_attr($id) . '" class="large-text" rows="5" maxlength="512" placeholder="' . esc_attr__('e.g., Be polite and provide helpful responses regarding events and bookings.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '"></textarea>';
-        echo '<p class="description">' . esc_html__('Provide instructions to guide the assistant\'s behavior (e.g., tone, manner of speech). Maximum 512 characters.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
+        echo '<textarea name="' . esc_attr($id) . '" id="' . esc_attr($id) . '" class="large-text" rows="5" maxlength="64000" placeholder="' . esc_attr__('e.g., Be polite and provide helpful responses regarding events and bookings.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '"></textarea>';
+        echo '<p class="description">' . esc_html__('Provide instructions to guide the assistant\'s behavior (e.g., tone, manner of speech). Maximum 64,000 characters.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
         echo '<a href="javascript:void(0)" id="buddybot-view-sample-btn" data-modal="buddybot-sample-instructions-modal">' . esc_html__('View Sample Instructions', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</a>';
         echo '</td>';
         echo '</tr>';

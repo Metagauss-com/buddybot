@@ -137,7 +137,6 @@ class EditChatBot extends \BuddyBot\Admin\Responses\MoRoot
             'temperature' => floatval($buddybot_data["assistant_temperature"]),
             'top_p' => floatval($buddybot_data["assistant_topp"]),
             'metadata' => array(
-                'aditional_instructions' => (string) ($buddybot_data["additional_instructions"] ?? ''),
                 'openaisearch_msg' => (string) ($buddybot_data["openaisearch_msg"] ?? ''),
                 'response_length' => (string) ($buddybot_data["response_length"] ?? ''),
                 'language_option' => (string) ($buddybot_data["language_option"] ?? ''),
@@ -194,6 +193,7 @@ class EditChatBot extends \BuddyBot\Admin\Responses\MoRoot
             'openai_search' => isset($chatbot_data['openai_search']) ? $chatbot_data['openai_search'] : '',
             'external' => isset($chatbot_data['existing_assistant']) ? $chatbot_data['existing_assistant'] : '',
             'multilingual_support' => isset($chatbot_data['multilingual_support']) ? $chatbot_data['multilingual_support'] : '',
+            'additional_instructions' => isset($chatbot_data['additional_instructions']) ? $chatbot_data['additional_instructions'] : '',
         ];
     }
 
@@ -271,6 +271,13 @@ class EditChatBot extends \BuddyBot\Admin\Responses\MoRoot
         //print_r($this->openai_response_body);die;
         if (is_object($this->openai_response_body) && isset($this->openai_response_body->id)) {
 
+            $openai_metadata = $this->openai_response_body->metadata ?? [];
+            $additional_instructions = '';
+            
+            if (!empty($openai_metadata->additional_instructions)) {
+                $additional_instructions = sanitize_textarea_field($openai_metadata->additional_instructions);
+            }
+
             $buddybot_details = $this->getBuddyBot($buddybot_id);
             
             if($buddybot_details == false) {
@@ -279,6 +286,10 @@ class EditChatBot extends \BuddyBot\Admin\Responses\MoRoot
                 wp_die();
             }
     
+            if (empty($buddybot_details->additional_instructions) && !empty($additional_instructions)) {
+                $buddybot_details->additional_instructions = $additional_instructions;
+            }
+
             $this->response['success'] = true;
             $this->response['result'] = $this->openai_response_body;
             if ($buddybot_details->external == 1) {

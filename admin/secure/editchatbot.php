@@ -86,8 +86,8 @@ final class EditChatBot extends \BuddyBot\Admin\Secure\MoRoot
 
     public function cleanAdditionalInstructions($instructions)
     {
-        if (strlen($instructions) > 32768) {
-            $this->errors[] = __('Additional Instructions cannot exceed 32,768 characters.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
+        if (strlen($instructions) > 64000) {
+            $this->errors[] = __('Additional Instructions cannot exceed 64,000 characters.', 'buddybot-ai-custom-ai-assistant-and-chat-agent');
         }
 
         return sanitize_textarea_field($instructions);
