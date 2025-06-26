@@ -112,7 +112,7 @@ Yes, BuddyBot AI uses the Bootstrap framework for its layout and design, providi
 
 == Changelog == 
 
-= 1.6.3.0: June 25, 2025 =
+= 1.6.3.0: June 26, 2025 =
 * Improved: Additional Instructions Handling  
   - Added support for longer additional instructions (up to 6,400 characters).  
   - Removed the additional instructions field from the assistant metadata to prevent issues with OpenAI limits.  
@@ -226,7 +226,7 @@ Instead of creating a new assistant every time, you can now select from your exi
 
 == Upgrade Notice ==
 
-= 1.6.3.0: June 25, 2025 =
+= 1.6.3.0: June 26, 2025 =
 * Improved: Additional Instructions Handling  
   - Added support for longer additional instructions (up to 6,400 characters).  
   - Removed the additional instructions field from the assistant metadata to prevent issues with OpenAI limits.  
