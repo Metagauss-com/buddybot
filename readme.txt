@@ -5,7 +5,7 @@ Tags: AI, chatbot, OpenAI, AI assistant
 Requires at least: 6.2  
 Tested up to: 6.8  
 Requires PHP: 7.3
-Stable tag: 1.6.3.0
+Stable tag: 1.6.4.0
 License: GPLv2 or later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -111,6 +111,12 @@ Yes, BuddyBot AI uses the Bootstrap framework for its layout and design, providi
 
 
 == Changelog == 
+
+= 1.6.4.0: July 10, 2025 =
+* New: Slider Design Integration  
+  - Introduced a visually improved slider layout for better user engagement.  
+  - Enhanced frontend styling and responsiveness for slider elements.  
+  - Ensures consistent design across all supported themes and devices.
 
 = 1.6.3.0: June 26, 2025 =
 * Improved: Additional Instructions Handling  
@@ -225,6 +231,12 @@ Instead of creating a new assistant every time, you can now select from your exi
 * Initial release of BuddyBot AI. 
 
 == Upgrade Notice ==
+
+= 1.6.4.0: July 10, 2025 =
+* New: Slider Design Integration  
+  - Introduced a visually improved slider layout for better user engagement.  
+  - Enhanced frontend styling and responsiveness for slider elements.  
+  - Ensures consistent design across all supported themes and devices.
 
 = 1.6.3.0: June 26, 2025 =
 * Improved: Additional Instructions Handling  
