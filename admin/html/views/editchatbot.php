@@ -231,8 +231,10 @@ class EditChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<tr class="buddybot-conditional-settings">';
         echo '<th scope="row">' . esc_html__('Response Creativity', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</th>';
         echo '<td>';
+        echo '<div class="buddybot-range-slider buddybot-d-flex">';
         echo '<input type="range" name="'. esc_attr($id) .'" id="'. esc_attr($id . '-range') .'" min="0.0" max="2.0" step="0.1" style="width:350px" value="' . esc_attr($default_value) . '" class="buddybot-item-field">';
         echo '<span id="'. esc_attr($id . '-value') . '" class="temperature-range-value">' . esc_html($default_value) . '</span>';
+        echo '</div>';
         echo '<p class="description">' . esc_html__('Adjusts the randomness of responses. Lower values provide more accurate answers, higher values make it more creative.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
         echo '</td>';
         echo '</tr>';
@@ -246,8 +248,10 @@ class EditChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
         echo '<tr class="buddybot-conditional-settings">';
         echo '<th scope="row">' . esc_html__('Response Diversity', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</th>';
         echo '<td>';
+        echo '<div class="buddybot-range-slider buddybot-d-flex">';
         echo '<input type="range" name="'. esc_attr($id) .'" id="'. esc_attr($id . '-range') .'" min="0.0" max="1.0" step="0.1" style="width:350px" value="' . esc_attr($default_value) . '" class="buddybot-item-field">';
-        echo '<span id="'. esc_attr($id . '-value') . '">' . esc_html($default_value) . '</span>';
+        echo '<span id="'. esc_attr($id . '-value') . '" class="buddybot-assistanttopp-value">' . esc_html($default_value) . '</span>';
+        echo '</div>';
         echo '<p class="description">' . esc_html__('Adjusts response diversity. Lower values make responses more focused, higher values increase variation.', 'buddybot-ai-custom-ai-assistant-and-chat-agent') . '</p>';
         echo '</td>';
         echo '</tr>';
