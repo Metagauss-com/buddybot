@@ -112,7 +112,7 @@ Yes, BuddyBot AI uses the Bootstrap framework for its layout and design, providi
 
 == Changelog == 
 
-= 1.6.4.0: July 10, 2025 =
+= 1.6.4.0: July 12, 2025 =
 * New: Slider Design Integration  
   - Introduced a visually improved slider layout for better user engagement.  
   - Enhanced frontend styling and responsiveness for slider elements.  
@@ -232,7 +232,7 @@ Instead of creating a new assistant every time, you can now select from your exi
 
 == Upgrade Notice ==
 
-= 1.6.4.0: July 10, 2025 =
+= 1.6.4.0: July 12, 2025 =
 * New: Slider Design Integration  
   - Introduced a visually improved slider layout for better user engagement.  
   - Enhanced frontend styling and responsiveness for slider elements.  
