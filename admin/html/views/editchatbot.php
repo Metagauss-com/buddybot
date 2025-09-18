@@ -242,7 +242,7 @@ class EditChatBot extends \BuddyBot\Admin\Html\Views\MoRoot
 
     private function assistantTopP()
     {
-        $default_value = 1;
+        $default_value = 0.5;
         $id = 'buddybot-assistanttopp';
     
         echo '<tr class="buddybot-conditional-settings">';
