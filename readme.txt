@@ -5,7 +5,7 @@ Tags: AI, chatbot, OpenAI, AI assistant
 Requires at least: 6.2  
 Tested up to: 6.8  
 Requires PHP: 7.3
-Stable tag: 1.6.4.0
+Stable tag: 1.6.5.0
 License: GPLv2 or later  
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -111,6 +111,15 @@ Yes, BuddyBot AI uses the Bootstrap framework for its layout and design, providi
 
 
 == Changelog == 
+
+= 1.6.5.0: September 18, 2025 =
+* Fixed: Image Optimization  
+  - Reduced the size of the Cookie Consent form image for faster load times.  
+  - Optimized the Chatbot image in the chat area to improve performance and responsiveness.  
+ 
+* Fixed: Default TopP Slider Value  
+  - Corrected the default TopP slider setting to 0.5.  
+  - Ensures consistent behavior across all new installations.  
 
 = 1.6.4.0: July 12, 2025 =
 * New: Slider Design Integration  
@@ -231,6 +240,15 @@ Instead of creating a new assistant every time, you can now select from your exi
 * Initial release of BuddyBot AI. 
 
 == Upgrade Notice ==
+
+= 1.6.5.0: September 18, 2025 =
+* Fixed: Image Optimization  
+  - Reduced the size of the Cookie Consent form image for faster load times.  
+  - Optimized the Chatbot image in the chat area to improve performance and responsiveness.  
+ 
+* Fixed: Default TopP Slider Value  
+  - Corrected the default TopP slider setting to 0.5.  
+  - Ensures consistent behavior across all new installations.  
 
 = 1.6.4.0: July 12, 2025 =
 * New: Slider Design Integration  
